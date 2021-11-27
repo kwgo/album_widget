@@ -1,6 +1,7 @@
 package com.jchip.album.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,8 @@ public class AbstractActivity extends AppCompatActivity {
         super.onCreate(bundle);
         if (bundle != null) {
             this.albumModel = (AlbumModel) bundle.getSerializable(ALBUM_MODEL);
+        } else {
+            this.albumModel = new AlbumModel();
         }
     }
 
@@ -51,6 +54,15 @@ public class AbstractActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         intent.putExtra(ALBUM_MODEL, this.albumModel);
         this.startActivity(intent);
+    }
+
+    public boolean isPortrait() {
+        int orientation = this.getResources().getConfiguration().orientation;
+        return orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    public boolean isLandscape() {
+        return !this.isPortrait();
     }
 
 
