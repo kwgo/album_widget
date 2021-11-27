@@ -7,5 +7,6 @@
     tools:context=".MainActivity">
 
     <include layout="@layout/layer_album"/>
+    <include layout="@layout/layer_photo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
