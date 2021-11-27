@@ -1,4 +1,6 @@
 package com.jchip.album.model;
 
-public class AlbumModel {
+import java.io.Serializable;
+
+public class AlbumModel implements Serializable {
 }
