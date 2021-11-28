@@ -5,5 +5,14 @@
         <item>New photo album #</item>
     </string-array>
 
+
+    <string name="rz_album_dia_read_description">(Enter something that u want)</string>
+    <string name="rz_album_dia_read_message">(Enter something that u want)</string>
+    <string name="rz_album_dia_camera_description">(Enter something that u want)</string>
+    <string name="rz_album_dia_camera_message">(Enter something that u want)</string>
+    <string name="rz_album_dia_ok">(Enter something that u want)</string>
+    <string name="rz_album_dia_cancel">(Enter something that u want)</string>
+
+
 </resources>
 
