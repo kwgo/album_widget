@@ -11,4 +11,9 @@ public class FrameActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layer_frame);
     }
+
+    @Override
+    public void initContentView() {
+
+    }
 }

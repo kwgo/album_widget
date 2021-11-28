@@ -11,4 +11,9 @@ public class FontActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layer_font);
     }
+
+    @Override
+    public void initContentView() {
+
+    }
 }

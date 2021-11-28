@@ -8,7 +8,7 @@
     tools:context=".ActivityAlbum">
 
 
-    <com.jchip.album.view.CustomAutoCompleteView
+    <com.jchip.album.SpinnerAlbum
         android:id="@+id/album_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

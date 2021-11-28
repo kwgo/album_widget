@@ -13,4 +13,7 @@ public class ActivitySplash extends AbstractActivity {
         this.finish();
     }
 
+    @Override
+    public void initContentView() {
+    }
 }

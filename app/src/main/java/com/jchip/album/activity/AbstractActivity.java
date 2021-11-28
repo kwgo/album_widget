@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jchip.album.ActivityAlbum;
@@ -12,7 +13,7 @@ import com.jchip.album.ActivityFrame;
 import com.jchip.album.ActivityPhoto;
 import com.jchip.album.model.AlbumModel;
 
-public class AbstractActivity extends AppCompatActivity {
+public abstract class AbstractActivity extends AppCompatActivity {
     public static final String ALBUM_MODEL = "albumModel";
 
     public static final String ALBUM_LAYER = "albumLayer";
@@ -31,6 +32,14 @@ public class AbstractActivity extends AppCompatActivity {
             this.albumModel = new AlbumModel();
         }
     }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        this.initContentView();
+    }
+
+    public abstract void initContentView();
 
     public void openLayer(String layer) {
         switch (layer) {

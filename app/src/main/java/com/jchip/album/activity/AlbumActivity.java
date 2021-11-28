@@ -12,12 +12,20 @@ import com.jchip.album.data.MyObject;
 import com.jchip.album.view.AutocompleteCustomArrayAdapter;
 import com.jchip.album.view.CustomAutoCompleteView;
 
-public class AlbumActivity extends AbstractActivity {
+
+
+public class AlbumActivity extends PhotoActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.album_layer);
+        super.setContentView(R.layout.album_layer);
+    }
+
+    @Override
+    public void initContentView() {
+        super.initContentView();
+
 
 //
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -43,26 +51,26 @@ public class AlbumActivity extends AbstractActivity {
 
         });
 
-        myAutoComplete.setOnTouchListener(new View.OnTouchListener(){
+        myAutoComplete.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event){
+            public boolean onTouch(View v, MotionEvent event) {
                 myAutoComplete.showDropDown();
                 return false;
             }
         });
 
         // add the listener so it will tries to suggest while the user types
-       // myAutoComplete.addTextChangedListener(new CustomAutoCompleteTextChangedListener(this));
+        // myAutoComplete.addTextChangedListener(new CustomAutoCompleteTextChangedListener(this));
 
         // ObjectItemData has no value at first
-        MyObject[] ObjectItemData = new MyObject[] { new MyObject("aaa"),  new MyObject("bbb"), new MyObject("vvv")   };
+        MyObject[] ObjectItemData = new MyObject[]{new MyObject("aaa"), new MyObject("bbb"), new MyObject("vvv")};
 
         // set the custom ArrayAdapter
         AutocompleteCustomArrayAdapter myAdapter = new AutocompleteCustomArrayAdapter(this, R.layout.album_spinner_item, ObjectItemData);
         myAutoComplete.setAdapter(myAdapter);
     }
 
-    private static final String[] COUNTRIES = new String[] {
+    private static final String[] COUNTRIES = new String[]{
             "Belgium", "France", "Italy", "Germany", "Spain"
     };
 }
