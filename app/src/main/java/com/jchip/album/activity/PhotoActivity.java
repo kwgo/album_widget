@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,24 +57,27 @@ public class PhotoActivity extends AbstractActivity {
  * @param showGif               : (choose)   (default:true)
  * @param start                 : (required)
  */
-        RZAlbum.ofAppName("RZAlbum").start(this, REQUEST_RZALBUM);
+    //    RZAlbum.ofAppName("RZAlbum").start(this, REQUEST_RZALBUM);
         /**
          * Or Like this
          */
-        RZAlbum.ofAppName("RZAlbum")
-                .setLimitCount(2)
+        RZAlbum.ofAppName("RZ - Album")
+                .setLimitCount(12)
                 .setSpanCount(3)
                 .setStatusBarColor(Color.parseColor("#AD1457"))
                 .setToolBarColor(Color.parseColor("#D81B60"))
                 .setToolBarTitle("Album")
-            //    .setPickColor(Color.argb(255, 153, 51, 255))
+                .setPickerColor(0x000000)
+                //.setPickerColor(18);
+                //.setPickColor(Color.argb(255, 153, 51, 255))
                 //.setDialogIcon(R.drawable.ic_bird_shape_30_3dp)
                 .setDialogIcon(R.drawable.album_button)
+
                 //    .setPreviewOrientation(RZAlbum.ORIENTATION_PORTRATI)
                 .setAllFolderName("Photos")
-                .showCamera(false)
+                .showCamera(true)
                 .showGif(false)
-                .start(this, REQUEST_RZALBUM);
+                .start(this, RZALBUM_REQUESTCODE);
 
 //        int selectedMode = PhotoPickerActivity.MODE_MULTI;
 //        boolean showCamera = true;
@@ -98,17 +102,19 @@ public class PhotoActivity extends AbstractActivity {
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == RESULT_OK) {
-//            switch (requestCode) {
-//                case RZALBUM_REQUESTCODE:
-//                    List<AlbumPhoto> paths = RZAlbum.parseResult(data);
-//                    Log.d("RZAlbum", "Photos:" + paths);
-//                    break;
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Log.d("RZAlbum", "requestCode:::::::::::::::" + requestCode);
+            switch (requestCode) {
+                case RZALBUM_REQUESTCODE:
+                    List<AlbumPhoto> paths = RZAlbum.parseResult(data);
+                    Log.d("RZAlbum", "Photos:" + paths);
+                    break;
+            }
+        }
+    }
 
 
     // Storage Permissions
