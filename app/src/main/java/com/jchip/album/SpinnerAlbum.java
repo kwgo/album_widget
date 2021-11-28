@@ -3,9 +3,9 @@ package com.jchip.album;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.jchip.album.view.AlbumSpinner;
+import com.jchip.album.view.CustomAutoCompleteView;
 
-public class SpinnerAlbum extends AlbumSpinner {
+public class SpinnerAlbum extends CustomAutoCompleteView {
     public SpinnerAlbum(Context context) {
         super(context);
     }

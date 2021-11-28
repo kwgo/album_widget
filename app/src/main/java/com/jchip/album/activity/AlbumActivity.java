@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,7 +58,7 @@ public class AlbumActivity extends AbstractActivity {
         MyObject[] ObjectItemData = new MyObject[] { new MyObject("aaa"),  new MyObject("bbb"), new MyObject("vvv")   };
 
         // set the custom ArrayAdapter
-        AutocompleteCustomArrayAdapter myAdapter = new AutocompleteCustomArrayAdapter(this, R.layout.list_view_row, ObjectItemData);
+        AutocompleteCustomArrayAdapter myAdapter = new AutocompleteCustomArrayAdapter(this, R.layout.album_spinner_item, ObjectItemData);
         myAutoComplete.setAdapter(myAdapter);
     }
 

@@ -15,7 +15,6 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="top" />
 
-
     <ImageView
         android:id="@+id/photo_image"
         android:layout_width="match_parent"
