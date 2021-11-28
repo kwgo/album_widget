@@ -6,13 +6,19 @@
     tools:context=".ActivityAlbum">
 
 
-    <TextView
+    <com.jchip.album.view.CustomAutoCompleteView
         android:id="@+id/album_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:popupBackground="@android:color/transparent"
+
         android:text="Hello.."
+
+android:singleLine="true"
+        android:completionThreshold="1"
         android:textColor="@android:color/white" />
 
     <ImageView
