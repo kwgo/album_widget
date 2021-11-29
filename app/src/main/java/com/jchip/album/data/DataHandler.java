@@ -6,143 +6,116 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-public class DataHandler extends SQLiteOpenHelper {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    // for our logs
-    public static final String TAG = "DatabaseHandler.java";
+public abstract class DataHandler extends SQLiteOpenHelper {
 
-    // database version
-    private static final int DATABASE_VERSION = 5;
-
+    protected static final int DATABASE_VERSION = 1;
     // database name
-    protected static final String DATABASE_NAME = "NinjaDatabase2";
+    protected static final String DATABASE_NAME = "album";
 
     // table details
-    public String tableName = "locations";
-    public String fieldObjectId = "id";
-    public String fieldObjectName = "name";
+    protected String tableName;
+    protected String idFieldName;
 
     // constructor
-    public DataHandler(Context context) {
+    protected DataHandler(Context context, String tableName, String idFieldName) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    // creating table
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-        String sql = "";
-
-        sql += "CREATE TABLE " + tableName;
-        sql += " ( ";
-        sql += fieldObjectId + " INTEGER PRIMARY KEY AUTOINCREMENT, ";
-        sql += fieldObjectName + " TEXT ";
-        sql += " ) ";
-
-        db.execSQL(sql);
-
+        this.tableName = tableName;
+        this.idFieldName = idFieldName;
     }
 
 
-    // When upgrading the database, it will drop the current table and recreate.
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        String sql = "DROP TABLE IF EXISTS " + tableName;
-        db.execSQL(sql);
-
-        onCreate(db);
-    }
-
-
-    // create new record
-    // @param myObj contains details to be added as single row.
-    public boolean create(MyObject myObj) {
-
-        boolean createSuccessful = false;
-
-        if(!checkIfExists(myObj.objectName)){
-
-            SQLiteDatabase db = this.getWritableDatabase();
-
-            ContentValues values = new ContentValues();
-            values.put(fieldObjectName, myObj.objectName);
-            createSuccessful = db.insert(tableName, null, values) > 0;
-
-            db.close();
-
-            if(createSuccessful){
-                Log.e(TAG, myObj.objectName + " created.");
-            }
-        }
-
-        return createSuccessful;
-    }
-
-    // check if a record exists so it won't insert the next time you run this code
-    public boolean checkIfExists(String objectName){
-
-        boolean recordExists = false;
-
+    protected long insert(ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + fieldObjectId + " FROM " + tableName + " WHERE " + fieldObjectName + " = '" + objectName + "'", null);
-
-        if(cursor!=null) {
-
-            if(cursor.getCount()>0) {
-                recordExists = true;
-            }
-        }
-
-        cursor.close();
+        long id = db.insert(tableName, null, contentValues);
         db.close();
-
-        return recordExists;
+        return id;
     }
 
-    // Read records related to the search term
-    public MyObject[] read(String searchTerm) {
-
-        // select query
-        String sql = "";
-        sql += "SELECT * FROM " + tableName;
-        sql += " WHERE " + fieldObjectName + " LIKE '%" + searchTerm + "%'";
-        sql += " ORDER BY " + fieldObjectId + " DESC";
-        sql += " LIMIT 0,5";
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // execute the query
+    protected List<Map<String, Object>> query(String sql) {
+        List<Map<String, Object>> data = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
-
-        int recCount = cursor.getCount();
-
-        MyObject[] ObjectItemData = new MyObject[recCount];
-        int x = 0;
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                //int columnIndex = cursor.getColumnIndex(fieldObjectName);
-                String objectName = cursor.getString(cursor.getColumnIndex(fieldObjectName));
-                Log.e(TAG, "objectName: " + objectName);
-
-                MyObject myObject = new MyObject(objectName);
-
-                ObjectItemData[x] = myObject;
-
-                x++;
-
-            } while (cursor.moveToNext());
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Map<String, Object> rowData = new HashMap<>();
+                for (int column = 0; column < cursor.getColumnCount(); column++) {
+                    switch (cursor.getType(column)) {
+                        case Cursor.FIELD_TYPE_INTEGER:
+                            rowData.put(cursor.getColumnName(column), cursor.getInt(column));
+                            break;
+                        case Cursor.FIELD_TYPE_STRING:
+                            rowData.put(cursor.getColumnName(column), cursor.getString(column));
+                            break;
+                    }
+                }
+                data.add(rowData);
+            }
         }
-
         cursor.close();
         db.close();
+        return data;
+    }
 
-        return ObjectItemData;
+    protected Map<String, Object> query(ContentValues contentValues) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Map<String, Object> rowData = new HashMap<>();
+        Cursor cursor = db.query(tableName, null, "id=?", new String[]{contentValues.getAsString(idFieldName)}, null, null, null);
+        if (cursor.moveToFirst()) {
+            for (int column = 0; column < cursor.getColumnCount(); column++) {
+                switch (cursor.getType(column)) {
+                    case Cursor.FIELD_TYPE_INTEGER:
+                        rowData.put(cursor.getColumnName(column), cursor.getInt(column));
+                        break;
+                    case Cursor.FIELD_TYPE_STRING:
+                        rowData.put(cursor.getColumnName(column), cursor.getString(column));
+                        break;
+                }
+            }
+        }
+        cursor.close();
+        db.close();
+        return rowData;
+    }
 
+    protected boolean update(ContentValues contentValues) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.update(tableName, contentValues, "id=?", new String[]{contentValues.getAsString(idFieldName)});
+        db.close();
+        return result > 0;
+    }
+
+    protected boolean delete(ContentValues contentValues) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(tableName, "id=?", new String[]{contentValues.getAsString(idFieldName)});
+        db.close();
+        return result > 0;
+    }
+
+    protected void createTable(SQLiteDatabase db, ContentValues contentValues) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("CREATE TABLE ").append(tableName);
+        sql.append("( ");
+        int column = 0;
+        for (String columnName : contentValues.keySet()) {
+            sql.append(columnName).append(contentValues.getAsString(columnName));
+            if (column++ < contentValues.size() - 1) {
+                sql.append(",");
+            }
+        }
+        sql.append(" )");
+        db.execSQL(sql.toString());
+        //db.close();
+    }
+
+    protected void dropTable(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + tableName);
+        //db.close();
     }
 
 }
