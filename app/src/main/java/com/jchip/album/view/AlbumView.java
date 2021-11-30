@@ -35,6 +35,7 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
         });
         this.setOnTouchListener((view, motionEvent) -> {
             AlbumView.this.showDropDown();
+            Log.d("",""+ AlbumView.this.getListSelection());
             return false;
         });
     }
@@ -52,9 +53,7 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
     // this is how to disable AutoCompleteTextView filter
     @Override
     protected void performFiltering(final CharSequence text, final int keyCode) {
-        String filterText = "";
-        Log.d("", "performFiltering ====performFiltering==performFiltering ed=============");
-        super.performFiltering(filterText, keyCode);
+        super.performFiltering("", keyCode);
     }
 
     @Override
@@ -72,6 +71,4 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
 //            performFiltering(getText(), 0);
 //        }
 //    }
-
-
 }

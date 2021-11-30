@@ -1,9 +1,11 @@
 package com.jchip.album.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.jchip.album.R;
 import com.jchip.album.data.AlbumData;
+import com.jchip.album.data.AlbumDataHandler;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.AlbumViewAdapter;
 
@@ -26,19 +28,21 @@ public class AlbumActivity extends PhotoActivity {
 
         AlbumView albumView = (AlbumView) findViewById(R.id.album_name);
 
-        List<AlbumData> albums = this.albumDataHandler.queryAll();
-        String defaultAlbumName = this.getString(R.string.default_album_name);
-        AlbumData album = new AlbumData(defaultAlbumName + (albums.size() + 1));
+        List<AlbumData> albums = AlbumDataHandler.getInstance(this).queryAlbums();
+        String albumName = this.getString(R.string.default_album_name) + (albums.size() + 1);
+        AlbumData album = new AlbumData(albumName);
         albums.add(0, album);
-
-        AlbumViewAdapter viewAdapter = new AlbumViewAdapter(this, R.layout.album_spinner_item, albums);
-        albumView.setAdapter(viewAdapter);
-
-        //albumView.setListSelection(0);
-        albumView.setText(defaultAlbumName, false);
-        albumView.setOnItemClickListener((position) -> this.setAlbumPhotos(albums.get(position)));
-
         this.setAlbumPhotos(album);
+
+        albumView.setAdapter(new AlbumViewAdapter(this, albums));
+        albumView.setListSelection(0);
+        albumView.setText(albumName, false);
+        albumView.setOnItemClickListener((position) -> {
+            AlbumData albumData = albums.get(position);
+            albumData.setAlbumName(albumView.getText().toString());
+            Log.d("", "select text ==== " + albumView.getText().toString());
+            this.setAlbumPhotos(albumData);
+        });
     }
 
 }

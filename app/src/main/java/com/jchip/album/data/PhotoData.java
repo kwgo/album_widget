@@ -1,6 +1,11 @@
 package com.jchip.album.data;
 
 public class PhotoData {
+    public static final String tableName = "photo";
+    public static final String fieldPhotoId = "id";
+    public static final String fieldAlbumId = "albumId";
+    public static final String fieldPhotoPath = "path";
+
     private int photoId;
     private int albumId;
     private String photoPath;

@@ -5,14 +5,20 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
+
+import com.jchip.album.R;
+import com.rayzhang.android.rzalbum.RZAlbum;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class AlbumHelper {
+    public static final int ALBUM_REQUEST_CODE = 1;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -51,5 +57,41 @@ public class AlbumHelper {
             // a file read error!
         }
         return null;
+    }
+
+    public static void selectPhotos(Activity activity) {
+        Log.d("", "selectPhotos ==============================");
+        /**
+         * @param ofAppName             : (required)
+         * @param setLimitCount         : (choose)   (default:5)
+         * @param setSpanCount          : (choose)   (default:3)
+         * @param setStatusBarColor     : (choose)   (default:#ff673ab7)
+         * @param setToolBarColor       : (choose)   (default:#ff673ab7)
+         * @param setToolBarTitle       : (choose)   (default:RZAlbum)
+         * @param setPickColor          : (choose)   (default:#ffffc107)
+         * @param setPreviewOrientation : (choose)   (default:ORIENTATION_AUTO)
+         * @param setAllFolderName      : (choose)   (default:All Photos)
+         * @param setDialogIcon         : (choose)   (default:none)
+         * @param showCamera            : (choose)   (default:true)
+         * @param showGif               : (choose)   (default:true)
+         * @param start                 : (required)
+         */
+        RZAlbum.ofAppName("RZ - Album")
+                .setLimitCount(12)
+                .setSpanCount(3)
+                .setStatusBarColor(Color.parseColor("#AD1457"))
+                .setToolBarColor(Color.parseColor("#D81B60"))
+                .setToolBarTitle("Album")
+                .setPickerColor(0x000000)
+                //.setPickerColor(18);
+                //.setPickColor(Color.argb(255, 153, 51, 255))
+                //.setDialogIcon(R.drawable.ic_bird_shape_30_3dp)
+                .setDialogIcon(R.drawable.album_button)
+
+                //    .setPreviewOrientation(RZAlbum.ORIENTATION_PORTRATI)
+                .setAllFolderName("Photos")
+                .showCamera(true)
+                .showGif(false)
+                .start(activity, ALBUM_REQUEST_CODE);
     }
 }

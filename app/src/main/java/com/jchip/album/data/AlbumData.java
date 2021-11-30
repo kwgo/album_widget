@@ -1,6 +1,9 @@
 package com.jchip.album.data;
 
 public class AlbumData {
+    public static final String tableName = "album";
+    public static final String fieldAlbumId = "id";
+    public static final String fieldAlbumName = "name";
 
     private int albumId;
     private String albumName;

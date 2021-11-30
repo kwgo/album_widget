@@ -15,25 +15,52 @@ import java.util.Map;
 
 public abstract class DataHandler extends SQLiteOpenHelper {
 
-    protected static final int DATABASE_VERSION = 1;
+    protected static final int DATABASE_VERSION = 4;
     // database name
     protected static final String DATABASE_NAME = "album";
 
     // table details
-    protected String tableName;
-    protected String idFieldName;
+    //protected String tableName;
+    protected String FIELD_ID = "id";
 
-    // constructor
-    protected DataHandler(Context context, String tableName, String idFieldName) {
+    /**
+     * Constructor should be private to prevent direct instantiation.
+     * Make a call to the static method "getInstance()" instead.
+     */
+    protected DataHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.tableName = tableName;
-        this.idFieldName = idFieldName;
     }
 
-    protected int insert(ContentValues contentValues) {
+    // Called when the database connection is being configured.
+    // Configure database settings for things like foreign key support, write-ahead logging, etc.
+    // @Override
+    // public void onConfigure(SQLiteDatabase db) {
+    //     super.onConfigure(db);
+    //    db.setForeignKeyConstraintsEnabled(true);
+    //}
+
+    // creating table
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        Log.d("", "onCreate +++++++++++++++++++++++++++");
+        this.createAlbumTable(db);
+        this.createPhotoTable(db);
+    }
+
+    // When upgrading the database, it will drop the current table and recreate.
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d("", "onUpgrade +++++++++++++++++++++++++++");
+        this.dropAlbumTable(db);
+        this.dropPhotoTable(db);
+        this.onCreate(db);
+    }
+
+
+    protected int insert(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
         int id = (int) db.insert(tableName, null, contentValues);
-        db.close();
+        // db.close();
         return id;
     }
 
@@ -58,14 +85,14 @@ public abstract class DataHandler extends SQLiteOpenHelper {
             }
         }
         cursor.close();
-        db.close();
+        // db.close();
         return data;
     }
 
-    protected Map<String, Object> query(ContentValues contentValues) {
+    protected Map<String, Object> query(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getReadableDatabase();
         Map<String, Object> rowData = new HashMap<>();
-        Cursor cursor = db.query(tableName, null, "id=?", new String[]{contentValues.getAsString(idFieldName)}, null, null, null);
+        Cursor cursor = db.query(tableName, null, "id=?", new String[]{contentValues.getAsString(FIELD_ID)}, null, null, null);
         if (cursor.moveToFirst()) {
             for (int column = 0; column < cursor.getColumnCount(); column++) {
                 switch (cursor.getType(column)) {
@@ -79,25 +106,25 @@ public abstract class DataHandler extends SQLiteOpenHelper {
             }
         }
         cursor.close();
-        db.close();
+        // db.close();
         return rowData;
     }
 
-    protected boolean update(ContentValues contentValues) {
+    protected boolean update(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.update(tableName, contentValues, "id=?", new String[]{contentValues.getAsString(idFieldName)});
-        db.close();
+        int result = db.update(tableName, contentValues, "id=?", new String[]{contentValues.getAsString(FIELD_ID)});
+        // db.close();
         return result > 0;
     }
 
-    protected boolean delete(ContentValues contentValues) {
+    protected boolean delete(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(tableName, "id=?", new String[]{contentValues.getAsString(idFieldName)});
-        db.close();
+        int result = db.delete(tableName, "id=?", new String[]{contentValues.getAsString(FIELD_ID)});
+        // db.close();
         return result > 0;
     }
 
-    protected void createTable(SQLiteDatabase db, ContentValues contentValues) {
+    protected void createTable(SQLiteDatabase db, String tableName, ContentValues contentValues) {
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE ").append(tableName);
         sql.append(" (");
@@ -111,12 +138,38 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         sql.append(")");
         Log.d("", "creating table SQL: " + sql.toString());
         db.execSQL(sql.toString());
-        //db.close();
+        //// db.close();
     }
 
-    protected void dropTable(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " + tableName);
-        //db.close();
+    public void createAlbumTable(SQLiteDatabase db) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AlbumData.fieldAlbumId, "INTEGER PRIMARY KEY AUTOINCREMENT");
+        contentValues.put(AlbumData.fieldAlbumName, "TEXT");
+        this.createTable(db, AlbumData.tableName, contentValues);
+    }
+
+    public void createPhotoTable(SQLiteDatabase db) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PhotoData.fieldPhotoId, "INTEGER PRIMARY KEY AUTOINCREMENT");
+        contentValues.put(PhotoData.fieldAlbumId, "INT");
+        contentValues.put(PhotoData.fieldPhotoPath, "TEXT");
+        this.createTable(db, PhotoData.tableName, contentValues);
+    }
+
+    protected void dropAlbumTable(SQLiteDatabase db) {
+        this.dropTable(db, AlbumData.tableName);
+    }
+
+    protected void dropPhotoTable(SQLiteDatabase db) {
+        this.dropTable(db, PhotoData.tableName);
+    }
+
+    protected void dropTable(SQLiteDatabase db, String tableName) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("DROP TABLE IF EXISTS ").append(tableName);
+        Log.d("", "drop table SQL: " + sql.toString());
+        db.execSQL(sql.toString());
+        //// db.close();
     }
 
 }

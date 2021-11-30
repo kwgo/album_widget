@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Album</string>
 
-    <string name="default_album_name">>New photo album #</string>
+    <string name="default_album_name">Photo album #</string>
 
     <string-array name="album_list">
         <item>New photo album #</item>
