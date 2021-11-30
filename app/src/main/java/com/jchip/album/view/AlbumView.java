@@ -1,27 +1,48 @@
 package com.jchip.album.view;
+
 import android.content.Context;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.AutoCompleteTextView;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
-public class CustomAutoCompleteView extends AppCompatAutoCompleteTextView {
-
-    public CustomAutoCompleteView(Context context) {
+public class AlbumView extends AppCompatAutoCompleteTextView {
+    public AlbumView(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
+        this.initListeners();
     }
 
-    public CustomAutoCompleteView(Context context, AttributeSet attrs) {
+    public AlbumView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
+        this.initListeners();
     }
 
-    public CustomAutoCompleteView(Context context, AttributeSet attrs, int defStyle) {
+    public AlbumView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        // TODO Auto-generated constructor stub
+        this.initListeners();
+    }
+
+    private void initListeners() {
+        this.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                TextView textView = (TextView) ((RelativeLayout) view).getChildAt(0);
+                AlbumView.this.setText(textView.getText().toString());
+            }
+        });
+
+        this.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                AlbumView.this.showDropDown();
+                return false;
+            }
+        });
     }
 
     // this is how to disable AutoCompleteTextView filter
@@ -31,7 +52,6 @@ public class CustomAutoCompleteView extends AppCompatAutoCompleteTextView {
         Log.d("", "performFiltering ====performFiltering==performFiltering ed=============");
         super.performFiltering(filterText, keyCode);
     }
-
 
     @Override
     public boolean enoughToFilter() {
@@ -48,5 +68,6 @@ public class CustomAutoCompleteView extends AppCompatAutoCompleteTextView {
 //            performFiltering(getText(), 0);
 //        }
 //    }
+
 
 }

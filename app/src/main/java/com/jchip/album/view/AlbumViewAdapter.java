@@ -3,7 +3,6 @@ package com.jchip.album.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,59 +10,47 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.jchip.album.R;
-import com.jchip.album.data.MyObject;
+import com.jchip.album.data.AlbumData;
 
-public class AutocompleteCustomArrayAdapter extends ArrayAdapter<MyObject> {
+public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
 
-    final String TAG = "AutocompleteCustomArrayAdapter.java";
+    private Context context;
+    private int layoutResourceId;
+    private AlbumData[] albums = null;
 
-    Context mContext;
-    int layoutResourceId;
-    MyObject data[] = null;
-
-    public AutocompleteCustomArrayAdapter(Context mContext, int layoutResourceId, MyObject[] data) {
-
-        super(mContext, layoutResourceId, data);
-
+    public AlbumViewAdapter(Context context, int layoutResourceId, AlbumData[] albums) {
+        super(context, layoutResourceId, albums);
+        this.context = context;
         this.layoutResourceId = layoutResourceId;
-        this.mContext = mContext;
-        this.data = data;
+        this.albums = albums;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        try{
-
+        try {
             /*
              * The convertView argument is essentially a "ScrapView" as described is Lucas post
              * http://lucasr.org/2012/04/05/performance-tips-for-androids-listview/
              * It will have a non-null value when ListView is asking you recycle the row layout.
              * So, when convertView is not null, you should simply update its contents instead of inflating a new row layout.
              */
-            if(convertView==null){
+            if (convertView == null) {
                 // inflate the layout
-                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
                 convertView = inflater.inflate(layoutResourceId, parent, false);
             }
-
             // object item based on the position
-            MyObject objectItem = data[position];
-
+            AlbumData album = albums[position];
             // get the TextView and then set the text (item name) and tag (item ID) values
             TextView textViewItem = (TextView) convertView.findViewById(R.id.textViewItem);
-            textViewItem.setText(objectItem.objectName);
-
+            textViewItem.setText(album.getAlbumName());
             // in case you want to add some style, you can do something like:
-           // textViewItem.setBackgroundColor(Color.CYAN);
-
+            // textViewItem.setBackgroundColor(Color.CYAN);
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return convertView;
-
     }
 }

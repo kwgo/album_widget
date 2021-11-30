@@ -1,17 +1,11 @@
 package com.jchip.album.activity;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.jchip.album.R;
-import com.jchip.album.data.MyObject;
-import com.jchip.album.view.AutocompleteCustomArrayAdapter;
-import com.jchip.album.view.CustomAutoCompleteView;
-
+import com.jchip.album.data.AlbumData;
+import com.jchip.album.view.AlbumView;
+import com.jchip.album.view.AlbumViewAdapter;
 
 
 public class AlbumActivity extends PhotoActivity {
@@ -36,41 +30,34 @@ public class AlbumActivity extends PhotoActivity {
 
 
         // autocompletetextview is in activity_main.xml
-        CustomAutoCompleteView myAutoComplete = (CustomAutoCompleteView) findViewById(R.id.album_name);
+        AlbumView albumView = (AlbumView) findViewById(R.id.album_name);
 
-        myAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
-
-                RelativeLayout rl = (RelativeLayout) arg1;
-                TextView tv = (TextView) rl.getChildAt(0);
-                myAutoComplete.setText(tv.getText().toString());
-
-            }
-
-        });
-
-        myAutoComplete.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                myAutoComplete.showDropDown();
-                return false;
-            }
-        });
+//        albumView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+//                TextView textView = (TextView) ((RelativeLayout) view).getChildAt(0);
+//                albumView.setText(textView.getText().toString());
+//            }
+//        });
+//
+//        albumView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                albumView.showDropDown();
+//                return false;
+//            }
+//        });
 
         // add the listener so it will tries to suggest while the user types
-        // myAutoComplete.addTextChangedListener(new CustomAutoCompleteTextChangedListener(this));
+        // albumView.addTextChangedListener(new CustomAutoCompleteTextChangedListener(this));
 
         // ObjectItemData has no value at first
-        MyObject[] ObjectItemData = new MyObject[]{new MyObject("aaa"), new MyObject("bbb"), new MyObject("vvv")};
+        //   MyObject[] ObjectItemData = new MyObject[]{new MyObject("aaa"), new MyObject("bbb"), new MyObject("vvv")};
+        AlbumData[] albums = new AlbumData[]{new AlbumData("aaa"), new AlbumData("bbb"), new AlbumData("vvv")};
 
         // set the custom ArrayAdapter
-        AutocompleteCustomArrayAdapter myAdapter = new AutocompleteCustomArrayAdapter(this, R.layout.album_spinner_item, ObjectItemData);
-        myAutoComplete.setAdapter(myAdapter);
+        AlbumViewAdapter viewAdapter = new AlbumViewAdapter(this, R.layout.album_spinner_item, albums);
+        albumView.setAdapter(viewAdapter);
     }
 
-    private static final String[] COUNTRIES = new String[]{
-            "Belgium", "France", "Italy", "Germany", "Spain"
-    };
 }

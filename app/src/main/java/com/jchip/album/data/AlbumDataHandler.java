@@ -46,7 +46,7 @@ public class AlbumDataHandler extends DataHandler {
     // Read records related to the search term
     public List<AlbumData> queryAll() {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT * FROM ").append(tableName);
+        sql.append(" SELECT * FROM ").append(tableName);
         sql.append(" ORDER BY ").append(fieldAlbumId).append(" DESC");
         List<Map<String, Object>> data = this.query(sql.toString());
 
