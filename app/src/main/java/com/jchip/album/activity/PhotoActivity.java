@@ -106,12 +106,12 @@ public class PhotoActivity extends AbstractActivity {
                     Log.d("", " for loop photo ====");
                     if (!this.photos.contains(photo)) {
                         Log.d("", " save  photo ====" + photo.getPhotoPath());
-                        this.photos.add(AlbumDataHandler.getInstance(this).createPhoto(photo));
+                        this.photos.add(this.photo = AlbumDataHandler.getInstance(this).createPhoto(photo));
                         Log.d("", " saved  photo  id====" + photo.getPhotoId());
                     }
                 }
-                Log.d("", " set  photo  id====" + photo.getPhotoId());
-                if (this.photo == null && !this.photos.isEmpty()) {
+                Log.d("", " set  photo  id====" + this.photo.getPhotoId());
+                if (this.photo != null && !this.photos.isEmpty()) {
                     this.setAlbumPhoto(this.photo = this.photos.get(0));
                     Log.d("RZAlbum", "full view set  photo  id====" + photo.getPhotoId());
                 }

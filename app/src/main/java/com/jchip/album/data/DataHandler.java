@@ -15,12 +15,12 @@ import java.util.Map;
 
 public abstract class DataHandler extends SQLiteOpenHelper {
 
-    protected static final int DATABASE_VERSION = 4;
+    // database version
+    protected static final int DATABASE_VERSION = 7;
     // database name
     protected static final String DATABASE_NAME = "album";
 
-    // table details
-    //protected String tableName;
+    // all table id field
     protected String FIELD_ID = "id";
 
     /**
