@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,15 +100,16 @@ public abstract class DataHandler extends SQLiteOpenHelper {
     protected void createTable(SQLiteDatabase db, ContentValues contentValues) {
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE ").append(tableName);
-        sql.append("( ");
+        sql.append(" (");
         int column = 0;
         for (String columnName : contentValues.keySet()) {
-            sql.append(columnName).append(contentValues.getAsString(columnName));
+            sql.append(columnName).append(" ").append(contentValues.getAsString(columnName));
             if (column++ < contentValues.size() - 1) {
-                sql.append(",");
+                sql.append(", ");
             }
         }
-        sql.append(" )");
+        sql.append(")");
+        Log.d("", "creating table SQL: " + sql.toString());
         db.execSQL(sql.toString());
         //db.close();
     }

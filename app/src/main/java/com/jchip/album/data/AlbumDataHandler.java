@@ -23,8 +23,8 @@ public class AlbumDataHandler extends DataHandler {
     @Override
     public void onCreate(SQLiteDatabase db) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(fieldAlbumId, " INTEGER PRIMARY KEY AUTOINCREMENT ");
-        contentValues.put(fieldAlbumName, " TEXT ");
+        contentValues.put(fieldAlbumId, "INTEGER PRIMARY KEY AUTOINCREMENT");
+        contentValues.put(fieldAlbumName, "TEXT");
         this.createTable(db, contentValues);
     }
 

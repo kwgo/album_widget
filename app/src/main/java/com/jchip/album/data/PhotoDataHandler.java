@@ -24,9 +24,9 @@ public class PhotoDataHandler extends DataHandler {
     @Override
     public void onCreate(SQLiteDatabase db) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(fieldPhotoId, " INTEGER PRIMARY KEY AUTOINCREMENT ");
-        contentValues.put(fieldAlbumId, " INT ");
-        contentValues.put(fieldPhotoPath, " TEXT ");
+        contentValues.put(fieldPhotoId, "INTEGER PRIMARY KEY AUTOINCREMENT");
+        contentValues.put(fieldAlbumId, "INT");
+        contentValues.put(fieldPhotoPath, "TEXT");
         this.createTable(db, contentValues);
     }
 
