@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
+import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.AlbumDataHandler;
 import com.jchip.album.data.PhotoData;
@@ -27,6 +28,8 @@ public class PhotoActivity extends AbstractActivity {
         super.initContentView();
 
         this.albumPhotoView = this.findViewById(R.id.album_photo);
+
+        GestureHelper.setViewGesture(this.albumPhotoView, () -> slipPhoto(+1), () -> slipPhoto(-1));
 
         this.findViewById(R.id.album_photo_add).setOnClickListener((e) -> onSelectPhotos());
     }
@@ -84,6 +87,18 @@ public class PhotoActivity extends AbstractActivity {
         } else {
             this.albumPhotoView.setImageBitmap(null);
         }
+    }
+
+    protected boolean slipPhoto(int offset) {
+        if (this.photo != null) {
+            int postion = this.photos.indexOf(this.photo);
+            postion += offset;
+            if (postion >= 0 && postion < this.photos.size()) {
+                this.setAlbumPhoto(this.photos.get(postion));
+                return true;
+            }
+        }
+        return false;
     }
 
     private void handleSelectedPhotos(List<AlbumPhoto> albumPhotos) {

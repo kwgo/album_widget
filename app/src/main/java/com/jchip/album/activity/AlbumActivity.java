@@ -51,11 +51,10 @@ public class AlbumActivity extends PhotoActivity {
             albumView.clearFocus();
             Log.d("", "setOnItemClickListener  setOnItemClickListener setOnItemClickListener");
 
-            AlbumActivity.this.album = AlbumActivity.this.albums.get(position);
+
+            this.setAlbumPhotos(AlbumActivity.this.album = AlbumActivity.this.albums.get(position));
             //AlbumActivity.this.album.setAlbumName(albumView.getText().toString());
             Log.d("", "select text ==== " + albumView.getText().toString());
-            this.setAlbumPhotos(AlbumActivity.this.album);
         });
     }
-
 }
