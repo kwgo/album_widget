@@ -67,9 +67,6 @@ public class PhotoActivity extends AbstractActivity {
 
     public void setAlbumPhotos(AlbumData album) {
         Log.d("AlbumData", "AlbumData====" + album);
-
-        this.album = album;
-
         if (album.getAlbumId() > 0) {
             this.photos = AlbumDataHandler.getInstance(this).queryPhotos(album.getAlbumId());
             this.setAlbumPhoto(this.photos.isEmpty() ? null : this.photos.get(0));
@@ -90,30 +87,22 @@ public class PhotoActivity extends AbstractActivity {
     }
 
     private void handleSelectedPhotos(List<AlbumPhoto> albumPhotos) {
-        Log.d("", "albumPhotos size:::::::::::::::" + albumPhotos.size());
-        Log.d("", "this.album================" + this.album);
         if (this.album != null) {
             if (this.album.getAlbumId() <= 0) {
-                Log.d("", "add new  album:::::::::::::::");
                 this.album = AlbumDataHandler.getInstance(this).createAlbum(this.album);
             }
             int albumId = this.album.getAlbumId();
             Log.d("", " new  album id :::::::::::::::" + albumId);
             if (albumId > 0) {
-                Log.d("", " new  album created :::::::::::::::" + albumId);
                 for (AlbumPhoto albumPhoto : albumPhotos) {
                     PhotoData photo = new PhotoData(albumId, albumPhoto.getPhotoPath());
-                    Log.d("", " for loop photo ====");
                     if (!this.photos.contains(photo)) {
-                        Log.d("", " save  photo ====" + photo.getPhotoPath());
-                        this.photos.add(this.photo = AlbumDataHandler.getInstance(this).createPhoto(photo));
+                        this.photos.add(photo = AlbumDataHandler.getInstance(this).createPhoto(photo));
                         Log.d("", " saved  photo  id====" + photo.getPhotoId());
+                        if (this.photo == null) {
+                            this.setAlbumPhoto(this.photo = photo);
+                        }
                     }
-                }
-                Log.d("", " set  photo  id====" + this.photo.getPhotoId());
-                if (this.photo != null && !this.photos.isEmpty()) {
-                    this.setAlbumPhoto(this.photo = this.photos.get(0));
-                    Log.d("RZAlbum", "full view set  photo  id====" + photo.getPhotoId());
                 }
             }
         }

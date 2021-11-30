@@ -42,7 +42,6 @@ public abstract class DataHandler extends SQLiteOpenHelper {
     // creating table
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("", "onCreate +++++++++++++++++++++++++++");
         this.createAlbumTable(db);
         this.createPhotoTable(db);
     }
@@ -50,7 +49,6 @@ public abstract class DataHandler extends SQLiteOpenHelper {
     // When upgrading the database, it will drop the current table and recreate.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("", "onUpgrade +++++++++++++++++++++++++++");
         this.dropAlbumTable(db);
         this.dropPhotoTable(db);
         this.onCreate(db);
@@ -60,7 +58,6 @@ public abstract class DataHandler extends SQLiteOpenHelper {
     protected int insert(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
         int id = (int) db.insert(tableName, null, contentValues);
-        // db.close();
         return id;
     }
 
@@ -85,7 +82,6 @@ public abstract class DataHandler extends SQLiteOpenHelper {
             }
         }
         cursor.close();
-        // db.close();
         return data;
     }
 
@@ -106,21 +102,18 @@ public abstract class DataHandler extends SQLiteOpenHelper {
             }
         }
         cursor.close();
-        // db.close();
         return rowData;
     }
 
     protected boolean update(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.update(tableName, contentValues, "id=?", new String[]{contentValues.getAsString(FIELD_ID)});
-        // db.close();
         return result > 0;
     }
 
     protected boolean delete(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(tableName, "id=?", new String[]{contentValues.getAsString(FIELD_ID)});
-        // db.close();
         return result > 0;
     }
 
@@ -138,7 +131,6 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         sql.append(")");
         Log.d("", "creating table SQL: " + sql.toString());
         db.execSQL(sql.toString());
-        //// db.close();
     }
 
     public void createAlbumTable(SQLiteDatabase db) {
@@ -169,7 +161,5 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         sql.append("DROP TABLE IF EXISTS ").append(tableName);
         Log.d("", "drop table SQL: " + sql.toString());
         db.execSQL(sql.toString());
-        //// db.close();
     }
-
 }

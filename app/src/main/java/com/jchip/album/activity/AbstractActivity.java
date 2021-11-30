@@ -30,6 +30,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     protected AlbumData album;
     protected PhotoData photo;
+
+    protected List<AlbumData> albums = new ArrayList<>();
     protected List<PhotoData> photos = new ArrayList<>();
 
     @Override
