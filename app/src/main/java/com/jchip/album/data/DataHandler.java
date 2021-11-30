@@ -29,9 +29,9 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         this.idFieldName = idFieldName;
     }
 
-    protected long insert(ContentValues contentValues) {
+    protected int insert(ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long id = db.insert(tableName, null, contentValues);
+        int id = (int) db.insert(tableName, null, contentValues);
         db.close();
         return id;
     }

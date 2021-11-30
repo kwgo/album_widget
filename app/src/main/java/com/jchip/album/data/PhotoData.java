@@ -3,10 +3,15 @@ package com.jchip.album.data;
 public class PhotoData {
     private int photoId;
     private int albumId;
-    private String photoUri;
+    private String photoPath;
 
 
     public PhotoData() {
+    }
+
+    public PhotoData(int albumId, String photoPath) {
+        this.albumId = albumId;
+        this.photoPath = photoPath;
     }
 
     public int getPhotoId() {
@@ -25,11 +30,19 @@ public class PhotoData {
         this.albumId = albumId;
     }
 
-    public String getPhotoUri() {
-        return photoUri;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
-    public void setPhotoUri(String photoUri) {
-        this.photoUri = photoUri;
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
+    @Override
+    public boolean equals(Object photo) {
+        if (photo != null) {
+            return this.photoPath != null && this.photoPath.equals(((PhotoData) photo).getPhotoPath());
+        }
+        return false;
     }
 }

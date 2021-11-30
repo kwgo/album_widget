@@ -14,7 +14,7 @@ public class PhotoDataHandler extends DataHandler {
     public static final String tableName = "photo";
     public static final String fieldPhotoId = "id";
     public static final String fieldAlbumId = "albumId";
-    public static final String fieldPhotoUri = "uri";
+    public static final String fieldPhotoPath = "path";
 
     public PhotoDataHandler(Context context) {
         super(context, tableName, fieldPhotoId);
@@ -26,7 +26,7 @@ public class PhotoDataHandler extends DataHandler {
         ContentValues contentValues = new ContentValues();
         contentValues.put(fieldPhotoId, " INTEGER PRIMARY KEY AUTOINCREMENT ");
         contentValues.put(fieldAlbumId, " INT ");
-        contentValues.put(fieldPhotoUri, " TEXT ");
+        contentValues.put(fieldPhotoPath, " TEXT ");
         this.createTable(db, contentValues);
     }
 
@@ -39,11 +39,12 @@ public class PhotoDataHandler extends DataHandler {
 
     // create new record
     // @param albumData contains details to be added as single row.
-    public long insert(PhotoData photoData) {
+    public PhotoData insert(PhotoData photoData) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(fieldAlbumId, photoData.getAlbumId());
-        contentValues.put(fieldPhotoUri, photoData.getPhotoUri());
-        return this.insert(contentValues);
+        contentValues.put(fieldPhotoPath, photoData.getPhotoPath());
+        photoData.setPhotoId(this.insert(contentValues));
+        return photoData;
     }
 
     // Read records related to the search term
@@ -59,7 +60,7 @@ public class PhotoDataHandler extends DataHandler {
             PhotoData photo = new PhotoData();
             photo.setPhotoId((Integer) rowData.get(fieldPhotoId));
             photo.setAlbumId((Integer) rowData.get(fieldAlbumId));
-            photo.setPhotoUri((String) rowData.get(fieldPhotoUri));
+            photo.setPhotoPath((String) rowData.get(fieldPhotoPath));
             photos.add(photo);
         }
         return photos;

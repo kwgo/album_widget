@@ -3,9 +3,6 @@ package com.jchip.album.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,21 +25,28 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
     }
 
     private void initListeners() {
-        this.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                TextView textView = (TextView) ((RelativeLayout) view).getChildAt(0);
-                AlbumView.this.setText(textView.getText().toString());
-            }
-        });
+        this.setOnItemClickListener((adapterView, view, position, id) -> {
+            TextView textView = (TextView) ((RelativeLayout) view).getChildAt(0);
+            AlbumView.this.setText(textView.getText().toString());
 
-        this.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                AlbumView.this.showDropDown();
-                return false;
+            if (AlbumView.this.onItemClickListener != null) {
+                AlbumView.this.onItemClickListener.onItemClick(position);
             }
         });
+        this.setOnTouchListener((view, motionEvent) -> {
+            AlbumView.this.showDropDown();
+            return false;
+        });
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
     // this is how to disable AutoCompleteTextView filter

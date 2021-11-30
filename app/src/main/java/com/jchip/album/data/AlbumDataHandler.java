@@ -37,10 +37,12 @@ public class AlbumDataHandler extends DataHandler {
 
     // create new record
     // @param albumData contains details to be added as single row.
-    public long insert(AlbumData albumData) {
+    public AlbumData insert(AlbumData albumData) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(fieldAlbumName, albumData.getAlbumName());
-        return this.insert(contentValues);
+        int id = this.insert(contentValues);
+        albumData.setAlbumId(id);
+        return albumData;
     }
 
     // Read records related to the search term

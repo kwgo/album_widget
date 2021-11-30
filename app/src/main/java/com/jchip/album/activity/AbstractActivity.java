@@ -11,7 +11,14 @@ import com.jchip.album.ActivityAlbum;
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
 import com.jchip.album.ActivityPhoto;
+import com.jchip.album.data.AlbumData;
+import com.jchip.album.data.AlbumDataHandler;
+import com.jchip.album.data.PhotoData;
+import com.jchip.album.data.PhotoDataHandler;
 import com.jchip.album.model.AlbumModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractActivity extends AppCompatActivity {
     public static final String ALBUM_MODEL = "albumModel";
@@ -22,6 +29,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
     public static final String FONT_LAYER = "fontLayer";
 
     private AlbumModel albumModel;
+
+    protected AlbumDataHandler albumDataHandler;
+    protected PhotoDataHandler photoDataHandler;
+
+    protected AlbumData album;
+    protected PhotoData photo;
+    protected List<PhotoData> photos =  new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -39,7 +53,15 @@ public abstract class AbstractActivity extends AppCompatActivity {
         this.initContentView();
     }
 
-    public abstract void initContentView();
+    public void initContentView() {
+        if (this.albumDataHandler == null) {
+            this.albumDataHandler = new AlbumDataHandler(this);
+        }
+
+        if (this.photoDataHandler == null) {
+            this.photoDataHandler = new PhotoDataHandler(this);
+        }
+    }
 
     public void openLayer(String layer) {
         switch (layer) {

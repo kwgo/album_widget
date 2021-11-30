@@ -12,16 +12,18 @@ import android.widget.TextView;
 import com.jchip.album.R;
 import com.jchip.album.data.AlbumData;
 
+import java.util.List;
+
 public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
 
     private Context context;
-    private int layoutResourceId;
-    private AlbumData[] albums = null;
+    private int layoutId;
+    private List<AlbumData> albums;
 
-    public AlbumViewAdapter(Context context, int layoutResourceId, AlbumData[] albums) {
-        super(context, layoutResourceId, albums);
+    public AlbumViewAdapter(Context context, int layoutId, List<AlbumData> albums) {
+        super(context, layoutId, albums);
         this.context = context;
-        this.layoutResourceId = layoutResourceId;
+        this.layoutId = layoutId;
         this.albums = albums;
     }
 
@@ -37,10 +39,10 @@ public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
             if (convertView == null) {
                 // inflate the layout
                 LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                convertView = inflater.inflate(layoutResourceId, parent, false);
+                convertView = inflater.inflate(layoutId, parent, false);
             }
             // object item based on the position
-            AlbumData album = albums[position];
+            AlbumData album = albums.get(position);
             // get the TextView and then set the text (item name) and tag (item ID) values
             TextView textViewItem = (TextView) convertView.findViewById(R.id.textViewItem);
             textViewItem.setText(album.getAlbumName());

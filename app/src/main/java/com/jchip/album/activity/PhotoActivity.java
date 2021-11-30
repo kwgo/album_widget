@@ -1,31 +1,33 @@
 package com.jchip.album.activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.View;
-
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+import android.widget.ImageView;
 
 import com.jchip.album.R;
+import com.jchip.album.common.AlbumHelper;
+import com.jchip.album.data.AlbumData;
+import com.jchip.album.data.PhotoData;
 import com.rayzhang.android.rzalbum.RZAlbum;
 import com.rayzhang.android.rzalbum.model.AlbumPhoto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class PhotoActivity extends AbstractActivity {
-    private static final int REQUEST_RZALBUM = 2;
-    private static final int RZALBUM_REQUESTCODE = 1;
+    private static final int ALBUM_REQUEST_CODE = 1;
 
+    private ImageView albumPhotoView;
 
     @Override
     public void initContentView() {
+        super.initContentView();
+
+        this.albumPhotoView = this.findViewById(R.id.album_photo);
+
         this.findViewById(R.id.album_photo_add).setOnClickListener((e) -> onSelectPhotos());
     }
 
@@ -38,28 +40,24 @@ public class PhotoActivity extends AbstractActivity {
 ////            view.setRotation(90);
 ////        }
 //    }
+
+
     private void onSelectPhotos() {
         Log.d("", "onSelectPhotos ==============================");
-
-    //    verifyStoragePermissions(this);
-/**
- * @param ofAppName             : (required)
- * @param setLimitCount         : (choose)   (default:5)
- * @param setSpanCount          : (choose)   (default:3)
- * @param setStatusBarColor     : (choose)   (default:#ff673ab7)
- * @param setToolBarColor       : (choose)   (default:#ff673ab7)
- * @param setToolBarTitle       : (choose)   (default:RZAlbum)
- * @param setPickColor          : (choose)   (default:#ffffc107)
- * @param setPreviewOrientation : (choose)   (default:ORIENTATION_AUTO)
- * @param setAllFolderName      : (choose)   (default:All Photos)
- * @param setDialogIcon         : (choose)   (default:none)
- * @param showCamera            : (choose)   (default:true)
- * @param showGif               : (choose)   (default:true)
- * @param start                 : (required)
- */
-    //    RZAlbum.ofAppName("RZAlbum").start(this, REQUEST_RZALBUM);
         /**
-         * Or Like this
+         * @param ofAppName             : (required)
+         * @param setLimitCount         : (choose)   (default:5)
+         * @param setSpanCount          : (choose)   (default:3)
+         * @param setStatusBarColor     : (choose)   (default:#ff673ab7)
+         * @param setToolBarColor       : (choose)   (default:#ff673ab7)
+         * @param setToolBarTitle       : (choose)   (default:RZAlbum)
+         * @param setPickColor          : (choose)   (default:#ffffc107)
+         * @param setPreviewOrientation : (choose)   (default:ORIENTATION_AUTO)
+         * @param setAllFolderName      : (choose)   (default:All Photos)
+         * @param setDialogIcon         : (choose)   (default:none)
+         * @param showCamera            : (choose)   (default:true)
+         * @param showGif               : (choose)   (default:true)
+         * @param start                 : (required)
          */
         RZAlbum.ofAppName("RZ - Album")
                 .setLimitCount(12)
@@ -77,29 +75,7 @@ public class PhotoActivity extends AbstractActivity {
                 .setAllFolderName("Photos")
                 .showCamera(true)
                 .showGif(false)
-                .start(this, RZALBUM_REQUESTCODE);
-
-//        int selectedMode = PhotoPickerActivity.MODE_MULTI;
-//        boolean showCamera = true;
-//        int maxNum = PhotoPickerActivity.DEFAULT_NUM;
-//
-//        Intent intent = new Intent(this, PhotoPickerActivity.class);
-//        intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, showCamera);
-//        intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, selectedMode);
-//        intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, maxNum);
-//        startActivityForResult(intent, PICK_PHOTO);
-
-//        registerForActivityResult(
-//                new ActivityResultContracts.StartActivityForResult(),
-//                result -> {
-//                    Log.d("","result comming ...................");
-//                    if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
-//                        Intent data = result.getData();
-//                        // ...
-//                    }
-//                }
-//        ).launch(intent);
-
+                .start(this, ALBUM_REQUEST_CODE);
     }
 
     @Override
@@ -108,41 +84,62 @@ public class PhotoActivity extends AbstractActivity {
         if (resultCode == RESULT_OK) {
             Log.d("RZAlbum", "requestCode:::::::::::::::" + requestCode);
             switch (requestCode) {
-                case RZALBUM_REQUESTCODE:
-                    List<AlbumPhoto> paths = RZAlbum.parseResult(data);
-                    Log.d("RZAlbum", "Photos:" + paths);
+                case ALBUM_REQUEST_CODE:
+                    List<AlbumPhoto> albumPhotos = RZAlbum.parseResult(data);
+                    Log.d("RZAlbum", "albumPhotos size:::::::::::::::" + albumPhotos.size());
+                    if (albumPhotos != null && !albumPhotos.isEmpty()) {
+                        if (this.album != null) {
+                            if (this.album.getAlbumId() <= 0) {
+                                Log.d("RZAlbum", "add new  album:::::::::::::::"  );
+                                this.album = this.albumDataHandler.insert(this.album);
+                            }
+                            int albumId = this.album.getAlbumId();
+                            Log.d("RZAlbum", " new  album id :::::::::::::::" +albumId );
+                            if (albumId > 0) {
+                                Log.d("RZAlbum", " new  album created :::::::::::::::" +albumId );
+                                for (AlbumPhoto albumPhoto : albumPhotos) {
+                                    PhotoData photo = new PhotoData(albumId, albumPhoto.getPhotoPath());
+                                    Log.d("RZAlbum", " for loop photo ====" );
+                                    if (!this.photos.contains(photo)) {
+                                        Log.d("RZAlbum", " save  photo ====" + photo.getPhotoPath());
+                                        photo = this.photoDataHandler.insert(photo);
+                                        Log.d("RZAlbum", " saved  photo  id====" + photo.getPhotoId());
+                                        this.photos.add(photo);
+                                    }
+                                }
+                                if (this.photo == null && !this.photos.isEmpty()) {
+                                    this.photo = this.photos.get(0);
+                                    this.setAlbumPhoto(this.photo);
+                                }
+                            }
+                        }
+                    }
                     break;
             }
         }
     }
 
+    public void setAlbumPhotos(AlbumData album) {
+        Log.d("AlbumData", "AlbumData====" + album);
 
-    // Storage Permissions
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-    };
+        this.album = album;
 
-    /**
-     * Checks if the app has permission to write to device storage
-     *
-     * If the app does not has permission then the user will be prompted to grant permissions
-     *
-     * @param activity
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (album.getAlbumId() > 0) {
+            this.photos = this.photoDataHandler.queryAll(album.getAlbumId());
+            this.setAlbumPhoto(this.photos.isEmpty() ? null : this.photos.get(0));
+        } else {
+            this.photos = new ArrayList<>();
+            this.setAlbumPhoto(null);
+        }
+    }
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
+    public void setAlbumPhoto(PhotoData photo) {
+        this.photo = photo;
+        if (photo != null) {
+            Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
+            this.albumPhotoView.setImageBitmap(bitmap);
+        } else {
+            this.albumPhotoView.setImageBitmap(null);
         }
     }
 }
