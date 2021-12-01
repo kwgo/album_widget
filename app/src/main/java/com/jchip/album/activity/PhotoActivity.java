@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PhotoActivity extends AbstractActivity {
+public class PhotoActivity extends LayerActivity {
 
 
     private ImageView albumPhotoView;

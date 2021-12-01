@@ -34,6 +34,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/album_name" />
 
+    <TextView
+        android:id="@+id/album_font"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/album_photo_font"
+        android:scaleType="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/album_photo_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/album_name" />
+
+    <ImageView
+        android:id="@+id/album_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/album_photo_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/album_name" />
+
 
     <ImageView
         android:id="@+id/album_setting"
@@ -41,12 +64,12 @@
         android:layout_height="36dp"
         android:src="@drawable/album_button1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/album_font"
+        app:layout_constraintEnd_toStartOf="@+id/album_font_edit"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/album_font"
+        android:id="@+id/album_font_edit"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:src="@drawable/album_button1"

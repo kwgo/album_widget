@@ -9,7 +9,8 @@ public class ActivitySplash extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.openLayer(PHOTO_LAYER);
-        this.openLayer(ALBUM_LAYER);
+       // this.openLayer(ALBUM_LAYER);
+        this.startActivity(ActivityAlbum.class);
         this.finish();
     }
 
