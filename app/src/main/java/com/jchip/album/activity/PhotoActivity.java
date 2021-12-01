@@ -63,7 +63,7 @@ public class PhotoActivity extends LayerActivity {
                     if (!this.isEmpty(albumPhotos)) {
                         this.handleSelectedPhotos(albumPhotos);
                     }
-                    this.setLayer(this.isEmpty(this.photos) ? LAYER_ALBUM : LAYER_PHOTO);
+                    this.setLayer(LAYER_PHOTO, LAYER_ALBUM, !this.isEmpty(this.photos));
                     break;
             }
         }
@@ -78,7 +78,7 @@ public class PhotoActivity extends LayerActivity {
             this.photos = new ArrayList<>();
             this.setAlbumPhoto(null);
         }
-        this.setLayer(this.isEmpty(this.photos) ? LAYER_ALBUM : LAYER_PHOTO);
+        this.setLayer(LAYER_PHOTO, LAYER_ALBUM, !this.isEmpty(this.photos));
     }
 
     public void setAlbumPhoto(PhotoData photo) {

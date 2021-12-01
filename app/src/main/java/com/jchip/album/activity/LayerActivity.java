@@ -1,5 +1,6 @@
 package com.jchip.album.activity;
 
+import android.util.Log;
 import android.view.View;
 
 import com.jchip.album.R;
@@ -11,66 +12,71 @@ public class LayerActivity extends AbstractActivity {
     protected static final String LAYER_FRAME = "layerFrame";
     protected static final String LAYER_FONT = "layerFont";
 
-    private View albumNameView;
-    private View albumPhotoView;
-    private View albumFontView;
-    private View albumFrameView;
+    protected View albumNameView;
+    protected View albumPhotoView;
+    protected View albumFontView;
+    protected View albumFrameView;
 
+    protected View settingButton;
+    protected View fontEditButton;
+    protected View frameAddButton;
+    protected View photoAddButton;
 
-    private View settingView;
-    private View fontEditView;
-    private View photoAddView;
+    private String currentLayer;
 
     @Override
     public void initContentView() {
-        albumNameView = this.findViewById(R.id.album_name);
-        albumPhotoView = this.findViewById(R.id.album_photo);
-        albumFontView = this.findViewById(R.id.album_font);
-        albumFrameView = this.findViewById(R.id.album_frame);
+        this.albumNameView = this.findViewById(R.id.album_name);
+        this.albumPhotoView = this.findViewById(R.id.album_photo);
+        this.albumFontView = this.findViewById(R.id.album_font);
+        this.albumFrameView = this.findViewById(R.id.album_frame);
 
         // button views
-        settingView = this.findViewById(R.id.album_setting);
-        fontEditView = this.findViewById(R.id.album_font_edit);
-        photoAddView = this.findViewById(R.id.album_photo_add);
+        this.photoAddButton = this.findViewById(R.id.album_photo_add);
+        this.frameAddButton = this.findViewById(R.id.album_frame_add);
+        this.fontEditButton = this.findViewById(R.id.album_font_edit);
+        this.settingButton = this.findViewById(R.id.album_setting);
+
+        this.fontEditButton.setOnClickListener((v) -> this.toggleLayer(LAYER_FONT, LAYER_PHOTO));
+        this.frameAddButton.setOnClickListener((v) -> this.toggleLayer(LAYER_FRAME, LAYER_PHOTO));
+    }
+
+    public void toggleLayer(String layer, String preLayer) {
+        this.setLayer(layer, preLayer, !layer.equals(this.currentLayer));
+    }
+
+    public void setLayer(String layer, String preLayer, boolean apply) {
+        this.setLayer(apply ? layer : preLayer);
     }
 
     public void setLayer(String layer) {
+        //this.previousLayer = this.currentLayer;
+        this.currentLayer = layer;
+        Log.d("", "current layer:" + currentLayer);
+
+        this.setVisibility(albumNameView, true, false);
+        this.setVisibility(albumPhotoView, true, false);
+        this.setVisibility(albumFontView, false, false);
+        this.setVisibility(albumFrameView, false, false);
+
+
+        this.setVisibility(settingButton, true, false);
+        this.setVisibility(fontEditButton, true, false);
+        this.setVisibility(frameAddButton, true, false);
+        this.setVisibility(photoAddButton, true, false);
+
         switch (layer) {
             case LAYER_ALBUM:
-                this.setVisibility(albumNameView, true, false);
-                this.setVisibility(albumPhotoView, true, false);
-                this.setVisibility(albumFontView, false, false);
-                this.setVisibility(albumFrameView, false, false);
-                this.setVisibility(settingView, false, false);
-                this.setVisibility(fontEditView, false, false);
-                this.setVisibility(photoAddView, true, false);
+                this.setVisibility(fontEditButton, false, false);
+                this.setVisibility(frameAddButton, false, false);
                 break;
             case LAYER_PHOTO:
-                this.setVisibility(albumNameView, true, false);
-                this.setVisibility(albumPhotoView, true, false);
-                this.setVisibility(albumFontView, true, false);
-                this.setVisibility(albumFrameView, false, false);
-                this.setVisibility(settingView, false, false);
-                this.setVisibility(fontEditView, true, false);
-                this.setVisibility(photoAddView, true, false);
-                break;
-            case LAYER_FRAME:
-                this.setVisibility(albumNameView, true, false);
-                this.setVisibility(albumPhotoView, true, false);
-                this.setVisibility(albumFontView, false, false);
-                this.setVisibility(albumFrameView, true, false);
-                this.setVisibility(settingView, true, false);
-                this.setVisibility(fontEditView, false, false);
-                this.setVisibility(photoAddView, true, false);
                 break;
             case LAYER_FONT:
-                this.setVisibility(albumNameView, true, false);
-                this.setVisibility(albumPhotoView, true, false);
-                this.setVisibility(albumFontView, false, false);
+                this.setVisibility(albumFontView, true, false);
+                break;
+            case LAYER_FRAME:
                 this.setVisibility(albumFrameView, true, false);
-                this.setVisibility(settingView, false, false);
-                this.setVisibility(fontEditView, true, false);
-                this.setVisibility(photoAddView, false, false);
                 break;
         }
     }

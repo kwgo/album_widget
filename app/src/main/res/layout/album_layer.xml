@@ -52,6 +52,7 @@
         android:layout_height="0dp"
         android:scaleType="center"
         android:visibility="gone"
+        android:src="@drawable/album_frame"
         app:layout_constraintBottom_toTopOf="@+id/album_photo_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,8 +75,17 @@
         android:layout_height="36dp"
         android:src="@drawable/album_button1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/album_photo_add"
+        app:layout_constraintEnd_toStartOf="@+id/album_frame_add"
         app:layout_constraintStart_toEndOf="@+id/album_setting" />
+
+    <ImageView
+        android:id="@+id/album_frame_add"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/album_button1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/album_photo_add"
+        app:layout_constraintStart_toEndOf="@+id/album_font_edit" />
 
 
     <ImageView
