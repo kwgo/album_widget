@@ -1,6 +1,6 @@
 package com.jchip.album.data;
 
-public class PhotoData {
+public class PhotoData extends AbstractData {
     public static final String tableName = "photo";
     public static final String fieldPhotoId = "id";
     public static final String fieldAlbumId = "albumId";
@@ -10,13 +10,16 @@ public class PhotoData {
     private int albumId;
     private String photoPath;
 
-
     public PhotoData() {
     }
 
     public PhotoData(int albumId, String photoPath) {
         this.albumId = albumId;
         this.photoPath = photoPath;
+    }
+
+    public boolean isSaved() {
+        return photoId > 0;
     }
 
     public int getPhotoId() {

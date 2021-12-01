@@ -23,6 +23,8 @@ public class AlbumActivity extends PhotoActivity {
     public void initContentView() {
         super.initContentView();
 
+        this.setLayer(LAYER_ALBUM);
+
         AlbumView albumView = (AlbumView) findViewById(R.id.album_name);
 
         this.albums = AlbumDataHandler.getInstance(this).queryAlbums();
@@ -39,22 +41,23 @@ public class AlbumActivity extends PhotoActivity {
             Log.d("", "focused focused focused focused focused");
             if (!focused && AlbumActivity.this.album != null) {
                 String albumText = albumView.getText().toString();
-                if (albumText != null && !albumText.trim().isEmpty()) {
-                    AlbumActivity.this.album.setAlbumName(albumText.trim());
-                } else {
+                if (this.isEmpty(albumText)) {
                     albumView.setText(AlbumActivity.this.album.getAlbumName(), false);
+                } else {
+                    AlbumActivity.this.album.setAlbumName(albumText.trim());
                 }
             }
         });
 
         albumView.setOnItemClickListener((adapterView, view, position, id) -> {
             albumView.clearFocus();
-            Log.d("", "setOnItemClickListener  setOnItemClickListener setOnItemClickListener");
 
+            Log.d("", "setOnItemClickListener  setOnItemClickListener setOnItemClickListener");
 
             this.setAlbumPhotos(AlbumActivity.this.album = AlbumActivity.this.albums.get(position));
             //AlbumActivity.this.album.setAlbumName(albumView.getText().toString());
             Log.d("", "select text ==== " + albumView.getText().toString());
+
         });
     }
 }

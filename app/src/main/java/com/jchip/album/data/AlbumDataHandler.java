@@ -35,6 +35,25 @@ public class AlbumDataHandler extends DataHandler {
         return albumData;
     }
 
+
+    // update exist album
+    public AlbumData updateAlbum(AlbumData albumData) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AlbumData.fieldAlbumId, albumData.getAlbumId());
+        contentValues.put(AlbumData.fieldAlbumName, albumData.getAlbumName());
+        this.update(AlbumData.tableName, contentValues);
+        return albumData;
+    }
+
+    // save new record
+    public AlbumData saveAlbum(AlbumData albumData) {
+        if (albumData.isSaved()) {
+            return this.updateAlbum(albumData);
+        } else {
+            return this.createAlbum(albumData);
+        }
+    }
+
     // Read records related to the album
     public List<AlbumData> queryAlbums() {
         StringBuilder sql = new StringBuilder();

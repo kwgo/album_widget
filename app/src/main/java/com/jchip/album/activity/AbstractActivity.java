@@ -3,10 +3,12 @@ package com.jchip.album.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jchip.album.data.AbstractData;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.model.AlbumModel;
@@ -48,6 +50,22 @@ public abstract class AbstractActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         intent.putExtra(ALBUM_MODEL, this.albumModel);
         this.startActivity(intent);
+    }
+
+    public void setVisibility(View view, boolean show, boolean gone) {
+        view.setVisibility(show ? View.VISIBLE : gone ? View.GONE : View.INVISIBLE);
+    }
+
+    public boolean isEmpty(List<?> list) {
+        return list == null || list.isEmpty();
+    }
+
+    public boolean isEmpty(String text) {
+        return text == null || text.trim().isEmpty();
+    }
+
+    public boolean isEmpty(AbstractData data) {
+        return data == null;
     }
 
     public boolean isPortrait() {

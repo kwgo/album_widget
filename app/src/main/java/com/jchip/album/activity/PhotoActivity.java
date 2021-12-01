@@ -60,9 +60,10 @@ public class PhotoActivity extends LayerActivity {
                 case AlbumHelper.ALBUM_REQUEST_CODE:
                     List<AlbumPhoto> albumPhotos = RZAlbum.parseResult(data);
                     Log.d("", "albumPhotos size:::::::::::::::" + albumPhotos.size());
-                    if (albumPhotos != null && !albumPhotos.isEmpty()) {
+                    if (!this.isEmpty(albumPhotos)) {
                         this.handleSelectedPhotos(albumPhotos);
                     }
+                    this.setLayer(this.isEmpty(this.photos) ? LAYER_ALBUM : LAYER_PHOTO);
                     break;
             }
         }
@@ -70,18 +71,19 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhotos(AlbumData album) {
         Log.d("AlbumData", "AlbumData====" + album);
-        if (album.getAlbumId() > 0) {
+        if (album.isSaved()) {
             this.photos = AlbumDataHandler.getInstance(this).queryPhotos(album.getAlbumId());
             this.setAlbumPhoto(this.photos.isEmpty() ? null : this.photos.get(0));
         } else {
             this.photos = new ArrayList<>();
             this.setAlbumPhoto(null);
         }
+        this.setLayer(this.isEmpty(this.photos) ? LAYER_ALBUM : LAYER_PHOTO);
     }
 
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
-        if (photo != null) {
+        if (!this.isEmpty(photo)) {
             Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
             this.albumPhotoView.setImageBitmap(bitmap);
         } else {
@@ -90,7 +92,7 @@ public class PhotoActivity extends LayerActivity {
     }
 
     protected boolean slipPhoto(int offset) {
-        if (this.photo != null) {
+        if (!this.isEmpty(this.photo) && !this.isEmpty(this.photos)) {
             int postion = this.photos.indexOf(this.photo);
             postion += offset;
             if (postion >= 0 && postion < this.photos.size()) {
@@ -102,21 +104,17 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void handleSelectedPhotos(List<AlbumPhoto> albumPhotos) {
-        if (this.album != null) {
-            if (this.album.getAlbumId() <= 0) {
-                this.album = AlbumDataHandler.getInstance(this).createAlbum(this.album);
-            }
-            int albumId = this.album.getAlbumId();
-            Log.d("", " new  album id :::::::::::::::" + albumId);
-            if (albumId > 0) {
+        if (!this.isEmpty(this.album)) {
+            this.album = AlbumDataHandler.getInstance(this).saveAlbum(this.album);
+            if (this.album.isSaved()) {
+                int albumId = this.album.getAlbumId();
+                Log.d("", " new  album id :::::::::::::::" + albumId);
                 for (AlbumPhoto albumPhoto : albumPhotos) {
                     PhotoData photo = new PhotoData(albumId, albumPhoto.getPhotoPath());
                     if (!this.photos.contains(photo)) {
                         this.photos.add(photo = AlbumDataHandler.getInstance(this).createPhoto(photo));
                         Log.d("", " saved  photo  id====" + photo.getPhotoId());
-                        if (this.photo == null) {
-                            this.setAlbumPhoto(this.photo = photo);
-                        }
+                        this.setAlbumPhoto(this.photo = this.isEmpty(this.photo) ? photo : this.photo);
                     }
                 }
             }

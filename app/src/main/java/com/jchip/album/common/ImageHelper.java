@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -191,5 +192,54 @@ public class ImageHelper {
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return roundBitmap;
+    }
+
+
+    public static Bitmap getBitmapWithTransparentBG(Bitmap srcBitmap, int bgColor) {
+        Bitmap result = srcBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        int nWidth = result.getWidth();
+        int nHeight = result.getHeight();
+        for (int y = 0; y < nHeight; ++y)
+            for (int x = 0; x < nWidth; ++x) {
+                int nPixelColor = result.getPixel(x, y);
+                if (nPixelColor == bgColor)
+                    result.setPixel(x, y, Color.TRANSPARENT);
+            }
+        return result;
+    }
+
+    public static Bitmap getBitmapWithTransparentBG2(Context context, Bitmap srcBitmap, int bgColor) {
+
+        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(
+                context.getResources().getColor(R.color.black),
+                PorterDuff.Mode.MULTIPLY
+        );
+        //imgView.getDrawable().setColorFilter(porterDuffColorFilter);
+        // imgView.setBackgroundColor(Color.TRANSPARENT);
+        return null;
+    }
+
+    //使图片透明的方法
+    public Bitmap makeTheImageTransparent(Bitmap bitmap) {
+        bitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_4444);
+        bitmap.eraseColor(Color.TRANSPARENT);
+        return bitmap;
+    }
+
+    public Bitmap transparentImage(Bitmap bmp) {
+        //int m_ImageWidth, m_ImageHeigth;
+        int m_ImageWidth = bmp.getWidth();
+        int m_ImageHeigth = bmp.getHeight();
+        int[] m_BmpPixel = new int[m_ImageWidth * m_ImageHeigth];
+        bmp.getPixels(m_BmpPixel, 0, m_ImageWidth, 0, 0, m_ImageWidth,
+                m_ImageHeigth);
+        for (int i = 0; i < m_ImageWidth * m_ImageHeigth; i++) {
+            if ((m_BmpPixel[i] & 0x00ffffff) == 0x00ff0000) {
+                m_BmpPixel[i] = 0x00000000;
+            }
+        }
+        bmp.setPixels(m_BmpPixel, 0, m_ImageWidth, 0, 0, m_ImageWidth,
+                m_ImageHeigth);
+        return bmp;
     }
 }
