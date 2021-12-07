@@ -242,4 +242,16 @@ public class ImageHelper {
                 m_ImageHeigth);
         return bmp;
     }
+
+    public void doMatrix() {
+        //imageView.setScaleType(ImageView.ScaleType.MATRIX);  //设置为矩阵模式
+
+        Matrix matrix = new Matrix();           //创建一个单位矩阵
+        matrix.setTranslate(100, 100);          //平移x和y各100单位
+        matrix.preRotate(30);                   //顺时针旋转30度
+        //imageView.setImageMatrix(matrix);
+
+        //Draw9Patch.jar
+
+    }
 }

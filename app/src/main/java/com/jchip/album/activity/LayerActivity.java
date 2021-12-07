@@ -1,5 +1,6 @@
 package com.jchip.album.activity;
 
+import android.graphics.Matrix;
 import android.util.Log;
 import android.view.View;
 
@@ -79,6 +80,7 @@ public class LayerActivity extends AbstractActivity {
                 this.setVisibility(albumFrameView, true, false);
                 break;
         }
+
     }
 
 

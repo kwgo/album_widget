@@ -22,24 +22,90 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/album_photo_fit_center"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="6dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="0dp"
+
+        app:layout_constraintEnd_toStartOf="@+id/album_photo_fit"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/album_name" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/album_photo_fit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="6dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/album_photo_center"
+        app:layout_constraintStart_toEndOf="@+id/album_photo_fit_center"
+        app:layout_constraintTop_toBottomOf="@+id/album_name" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/album_photo_center"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="6dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/album_photo_delete"
+        app:layout_constraintStart_toEndOf="@+id/album_photo_fit"
+        app:layout_constraintTop_toBottomOf="@+id/album_name" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/album_photo_delete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="6dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/album_name" />
 
     <ImageView
         android:id="@+id/album_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
         android:src="@drawable/album_photo"
         app:layout_constraintBottom_toTopOf="@+id/album_photo_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/album_name" />
+        app:layout_constraintTop_toBottomOf="@+id/album_photo_delete" />
 
-    <TextView
+    <EditText
         android:id="@+id/album_font"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/album_photo_font"
-        android:scaleType="center"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/album_photo_add"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,50 +116,81 @@
         android:id="@+id/album_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="center"
-        android:visibility="gone"
+        android:scaleType="fitXY"
         android:src="@drawable/album_frame"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/album_photo_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/album_name" />
 
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/album_setting"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/album_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="6dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="0dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/album_font_edit"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/album_font_edit"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/album_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="6dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/album_frame_add"
         app:layout_constraintStart_toEndOf="@+id/album_setting" />
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/album_frame_add"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/album_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="6dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/album_photo_add"
         app:layout_constraintStart_toEndOf="@+id/album_font_edit" />
 
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/album_photo_add"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/album_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="@null"
+        android:elevation="16dp"
+        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:translationZ="12dp"
+        app:borderWidth="5dp"
+        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
