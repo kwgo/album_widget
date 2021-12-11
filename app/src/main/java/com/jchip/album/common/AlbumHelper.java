@@ -86,7 +86,7 @@ public class AlbumHelper {
                 //.setPickerColor(18);
                 //.setPickColor(Color.argb(255, 153, 51, 255))
                 //.setDialogIcon(R.drawable.ic_bird_shape_30_3dp)
-                .setDialogIcon(R.drawable.album_button)
+                .setDialogIcon(R.drawable.album_icon)
 
                 //    .setPreviewOrientation(RZAlbum.ORIENTATION_PORTRATI)
                 .setAllFolderName("Photos")

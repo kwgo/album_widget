@@ -20,7 +20,7 @@ public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
     private List<AlbumData> albums;
 
     public AlbumViewAdapter(Context context, List<AlbumData> albums) {
-        super(context, R.layout.album_picker_item, albums);
+        super(context, R.layout.album_name_item, albums);
         this.context = context;
         this.albums = albums;
     }
@@ -31,7 +31,7 @@ public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
             // So, when convertView is not null, you should simply update its contents instead of inflating a new row layout.
             if (convertView == null) {
                 LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                convertView = inflater.inflate(R.layout.album_picker_item, parent, false);
+                convertView = inflater.inflate(R.layout.album_name_item, parent, false);
             }
             // object item based on the position
             AlbumData album = albums.get(position);

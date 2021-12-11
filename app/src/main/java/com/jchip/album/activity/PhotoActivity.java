@@ -86,8 +86,11 @@ public class PhotoActivity extends LayerActivity {
         if (!this.isEmpty(photo)) {
             Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
             this.albumPhotoView.setImageBitmap(bitmap);
+            //BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+            //this.albumPhotoView.setBackground(drawable);
         } else {
             this.albumPhotoView.setImageBitmap(null);
+            //this.albumPhotoView.setBackground(null);
         }
     }
 

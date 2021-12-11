@@ -48,7 +48,7 @@ public class ImageHelper {
     public static Bitmap resize(Context context, int faceWidth, Bitmap srcImg) throws IOException {
 
         //Decode *.png file to Bitmap
-        Bitmap Bitmap_temp = BitmapFactory.decodeResource(context.getResources(), R.drawable.album_button);
+        Bitmap Bitmap_temp = BitmapFactory.decodeResource(context.getResources(), R.drawable.album_icon);
         Bitmap Bitmap_final = Bitmap_temp.copy(android.graphics.Bitmap.Config.ARGB_8888, true);
 
         //Get Pixel and change color if pixel color match
