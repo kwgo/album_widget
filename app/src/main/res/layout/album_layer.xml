@@ -9,6 +9,13 @@
     android:orientation="vertical"
     tools:context=".ActivityAlbum">
 
+    <Space
+        android:id="@+id/album_name_popup"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_gravity="end"
+        android:gravity="end" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,10 +26,11 @@
         android:gravity="center">
 
         <com.jchip.album.ViewAlbum
-            android:id="@+id/album_name"
+            android:id="@+id/album_name_text"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:alpha="0.75"
             android:background="@drawable/album_name_control"
             android:completionThreshold="1"
             android:popupBackground="@drawable/album_name_dropdown"
@@ -30,27 +38,37 @@
             android:textColor="@android:color/white" />
 
         <ImageButton
+            android:id="@+id/album_name_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="0dp"
+            android:alpha="0.75"
             android:background="@android:color/transparent"
             android:contentDescription="@null"
             android:src="@drawable/album_name_dots_light" />
 
     </RelativeLayout>
 
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/album_photo_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="start|center_vertical"
-            android:layout_margin="16dp"
+            android:id="@+id/photo_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@null"
             android:elevation="6dp"
@@ -59,39 +77,41 @@
             app:borderWidth="1dp"
             app:fabSize="mini" />
 
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/album_photo_fit"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_margin="16dp"
+            android:id="@+id/photo_fit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@null"
-            android:elevation="6dp"
-            android:gravity="end|center_vertical"
+            android:elevation="16dp"
             android:src="@drawable/photo_fit"
             android:translationZ="12dp"
             app:borderWidth="1dp"
-            app:fabSize="mini" />
-    </LinearLayout>
+            app:fabSize="mini"
+            app:rippleColor="#ff0000" />
 
+    </FrameLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/album_photo"
+            android:id="@+id/photo_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:background="@drawable/album_photo_image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/album_photo" />
+            android:cropToPadding="true"
+            android:padding="1dp"
+            android:scaleType="centerCrop" />
 
         <EditText
-            android:id="@+id/album_font"
+            android:id="@+id/photo_font"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/album_photo_font"
@@ -100,44 +120,44 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/album_frame"
+            android:id="@+id/photo_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/album_frame"
             android:visibility="gone" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:gravity="center"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="10dp"
+        android:columnCount="4"
         android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/album_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:layout_margin="16dp"
-            android:layout_weight="0.25"
             android:backgroundTint="@android:color/white"
             android:contentDescription="@null"
             android:elevation="6dp"
+            android:gravity="start"
             android:src="@drawable/photo_setting"
             android:translationZ="12dp"
             app:borderWidth="5dp" />
-
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/album_font_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_weight="0.25"
             android:backgroundTint="@android:color/white"
             android:contentDescription="@null"
             android:elevation="6dp"
@@ -150,7 +170,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_weight="0.25"
             android:backgroundTint="@android:color/white"
             android:contentDescription="@null"
             android:elevation="6dp"
@@ -162,16 +181,15 @@
             android:id="@+id/album_photo_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:layout_margin="16dp"
-            android:layout_weight="0.25"
             android:backgroundTint="@android:color/white"
             android:contentDescription="@null"
             android:elevation="16dp"
+            android:gravity="end"
             android:src="@drawable/photo_add"
             android:translationZ="12dp"
             app:borderWidth="5dp"
             app:rippleColor="#ff0000" />
 
-    </LinearLayout>
+    </GridLayout>
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.jchip.album.activity;
 
-import android.graphics.Matrix;
 import android.util.Log;
 import android.view.View;
 
@@ -27,10 +26,10 @@ public class LayerActivity extends AbstractActivity {
 
     @Override
     public void initContentView() {
-        this.albumNameView = this.findViewById(R.id.album_name);
-        this.albumPhotoView = this.findViewById(R.id.album_photo);
-        this.albumFontView = this.findViewById(R.id.album_font);
-        this.albumFrameView = this.findViewById(R.id.album_frame);
+        this.albumNameView = this.findViewById(R.id.album_name_text);
+        this.albumPhotoView = this.findViewById(R.id.photo_image);
+        this.albumFontView = this.findViewById(R.id.photo_font);
+        this.albumFrameView = this.findViewById(R.id.photo_frame);
 
         // button views
         this.photoAddButton = this.findViewById(R.id.album_photo_add);

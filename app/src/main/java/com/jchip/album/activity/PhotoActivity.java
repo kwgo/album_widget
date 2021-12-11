@@ -27,7 +27,7 @@ public class PhotoActivity extends LayerActivity {
     public void initContentView() {
         super.initContentView();
 
-        this.albumPhotoView = this.findViewById(R.id.album_photo);
+        this.albumPhotoView = this.findViewById(R.id.photo_image);
 
         GestureHelper.setViewGesture(this.albumPhotoView, () -> slipPhoto(+1), () -> slipPhoto(-1));
 

@@ -15,7 +15,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/appTheme"
+        android:theme="@style/app_theme"
         tools:replace="android:label">
 
         <activity android:name=".ActivitySplash">
@@ -27,16 +27,16 @@
 
         <activity
             android:name=".ActivityAlbum"
-            android:theme="@style/appTheme" />
+            android:theme="@style/app_theme" />
         <activity
             android:name=".ActivityPhoto"
-            android:theme="@style/layerTheme" />
+            android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivityFrame"
-            android:theme="@style/layerTheme" />
+            android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivityFont"
-            android:theme="@style/layerTheme" />
+            android:theme="@style/layer_theme" />
 
     </application>
 
