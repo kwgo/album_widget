@@ -27,7 +27,7 @@
 
         <activity
             android:name=".ActivityAlbum"
-            android:theme="@style/layerTheme" />
+            android:theme="@style/appTheme" />
         <activity
             android:name=".ActivityPhoto"
             android:theme="@style/layerTheme" />

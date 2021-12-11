@@ -12,33 +12,26 @@
     <com.jchip.album.ViewAlbum
         android:id="@+id/album_name"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:layout_height="40dp"
+        android:background="@drawable/album_name_control"
         android:completionThreshold="1"
-        android:popupBackground="@android:color/transparent"
+        android:popupBackground="@drawable/album_name_dropdown"
         android:singleLine="true"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/album_photo_fit_center"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:backgroundTint="@android:color/white"
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/album_name_dots_light"
         android:contentDescription="@null"
-        android:elevation="6dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
-        android:translationZ="12dp"
-        app:borderWidth="0dp"
+        android:onClick="showPopup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        app:layout_constraintEnd_toStartOf="@+id/album_photo_fit"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/album_name" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/album_photo_fit"
@@ -46,32 +39,15 @@
         android:layout_height="40dp"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:backgroundTint="@android:color/white"
+        android:backgroundTint="@android:color/transparent"
         android:contentDescription="@null"
         android:elevation="6dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:src="@drawable/photo_fit"
         android:translationZ="12dp"
-        app:borderWidth="0dp"
-        app:layout_constraintEnd_toStartOf="@+id/album_photo_center"
-        app:layout_constraintStart_toEndOf="@+id/album_photo_fit_center"
+        app:borderWidth="1dp"
+        app:fabSize="mini"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/album_name" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/album_photo_center"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:backgroundTint="@android:color/white"
-        android:contentDescription="@null"
-        android:elevation="6dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
-        android:translationZ="12dp"
-        app:borderWidth="0dp"
-        app:layout_constraintEnd_toStartOf="@+id/album_photo_delete"
-        app:layout_constraintStart_toEndOf="@+id/album_photo_fit"
-        app:layout_constraintTop_toBottomOf="@+id/album_name" />
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/album_photo_delete"
@@ -79,14 +55,17 @@
         android:layout_height="40dp"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:backgroundTint="@android:color/white"
+        android:backgroundTint="@android:color/transparent"
         android:contentDescription="@null"
         android:elevation="6dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:src="@drawable/photo_delete"
         android:translationZ="12dp"
-        app:borderWidth="0dp"
+        app:borderWidth="1dp"
+        app:fabSize="mini"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/album_name" />
+    />
+
 
     <ImageView
         android:id="@+id/album_photo"
@@ -134,10 +113,9 @@
         android:backgroundTint="@android:color/white"
         android:contentDescription="@null"
         android:elevation="6dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:src="@drawable/photo_setting"
         android:translationZ="12dp"
-        app:borderWidth="0dp"
-
+        app:borderWidth="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/album_font_edit"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -152,7 +130,7 @@
         android:backgroundTint="@android:color/white"
         android:contentDescription="@null"
         android:elevation="6dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:src="@drawable/photo_font"
         android:translationZ="12dp"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -168,7 +146,7 @@
         android:backgroundTint="@android:color/white"
         android:contentDescription="@null"
         android:elevation="6dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:src="@drawable/photo_frame"
         android:translationZ="12dp"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -185,12 +163,12 @@
         android:backgroundTint="@android:color/white"
         android:contentDescription="@null"
         android:elevation="16dp"
-        android:src="@drawable/rz_fab_folder_25_3dp"
+        android:src="@drawable/photo_add"
         android:translationZ="12dp"
         app:borderWidth="5dp"
-        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="#ff0000" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

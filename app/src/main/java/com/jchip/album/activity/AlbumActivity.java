@@ -2,6 +2,12 @@ package com.jchip.album.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.appcompat.widget.PopupMenu;
 
 import com.jchip.album.R;
 import com.jchip.album.data.AlbumData;
@@ -60,4 +66,53 @@ public class AlbumActivity extends PhotoActivity {
 
         });
     }
+
+        public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v, Gravity.END);
+        //    popupWindow.showAsDropDown(View anchor, int xoff, int yoff, int gravity) l
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.album_name_menu, popup.getMenu());
+        popup.show();
+    }
+
+//    @Override
+    //implements PopupMenu.OnMenuItemClickListener {
+//    public boolean onMenuItemClick(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.archive:
+//                archive(item);
+//                return true;
+//            case R.id.delete:
+//                delete(item);
+//                return true;
+//            default:
+//                return false;
+//        }
+//    }
+//public void show(Activity activity, float x, float y)
+//{
+//    final ViewGroup root = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+//
+//    final View view = new View(context);
+//    view.setLayoutParams(new ViewGroup.LayoutParams(1, 1));
+//    view.setBackgroundColor(Color.TRANSPARENT);
+//
+//    root.addView(view);
+//
+//    view.setX(x);
+//    view.setY(y);
+//
+//    PopupMenu popupMenu = new PopupMenu(context, view, Gravity.CENTER);
+//
+//    popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener()
+//    {
+//        @Override
+//        public void onDismiss(PopupMenu menu)
+//        {
+//            root.removeView(view);
+//        }
+//    });
+//
+//    popupMenu.show();
+//}
 }

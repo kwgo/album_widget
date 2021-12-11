@@ -7,10 +7,10 @@
         android:id="@+id/textViewItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Item name here..."
+        android:layout_centerInParent="true"
+        android:text=""
         android:textColor="@color/teal_200"
         android:background="@android:color/transparent"
-        android:textSize="15dp" />
+        android:textSize="25dp" />
 
 </RelativeLayout>
