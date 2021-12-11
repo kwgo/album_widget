@@ -11,8 +11,8 @@
 
     <Space
         android:id="@+id/album_name_popup"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_gravity="end"
         android:gravity="end" />
 
@@ -95,10 +95,15 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/photo_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="center">
+
+    <FrameLayout
+        android:id="@+id/photo_frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/frame_0"
         android:gravity="center">
 
@@ -119,6 +124,15 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:visibility="visible" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/photo_frame_corver"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+    </FrameLayout>
 
     </FrameLayout>
 

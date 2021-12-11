@@ -32,7 +32,7 @@ public class LayerActivity extends AbstractActivity {
         this.albumNameView = this.findViewById(R.id.album_name_text);
         this.albumPhotoView = this.findViewById(R.id.photo_image);
         this.albumFontView = this.findViewById(R.id.photo_font);
-        this.albumFrameView = this.findViewById(R.id.photo_frame);
+        this.albumFrameView = this.findViewById(R.id.photo_frame_container);
 
         // button views
         this.photoAddButton = this.findViewById(R.id.photo_add);
@@ -54,11 +54,12 @@ public class LayerActivity extends AbstractActivity {
 
     public void onFrameChange(Intent intent) {
         Log.d("", "call back =========" + "onFrameChange");
-        if(intent != null) {
+        if (intent != null) {
             int frameResourceId = intent.getIntExtra(FRAME_RESOURCE, -1);
             Log.d("", "frameResourceId=========" + frameResourceId);
 
-            this.findViewById(R.id.photo_frame).setBackgroundResource(frameResourceId);
+            this.findViewById(R.id.photo_frame_container).setBackgroundResource(frameResourceId);
+            this.findViewById(R.id.photo_frame_corver).setBackgroundResource(frameResourceId);
         }
     }
 
