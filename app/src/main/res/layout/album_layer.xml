@@ -95,6 +95,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/photo_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -117,15 +118,7 @@
 
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/photo_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/album_frame"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </FrameLayout>
 
@@ -154,7 +147,7 @@
             app:borderWidth="5dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/album_font_edit"
+            android:id="@+id/font_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -166,7 +159,7 @@
             app:borderWidth="0dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/album_frame_add"
+            android:id="@+id/frame_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -178,7 +171,7 @@
             app:borderWidth="0dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/album_photo_add"
+            android:id="@+id/photo_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"

@@ -3,6 +3,7 @@ package com.jchip.album.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.jchip.album.R;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class PhotoActivity extends LayerActivity {
 
-
+    private int scaleTypeIndex = 0;
     private ImageView albumPhotoView;
 
     @Override
@@ -31,8 +32,19 @@ public class PhotoActivity extends LayerActivity {
 
         GestureHelper.setViewGesture(this.albumPhotoView, () -> slipPhoto(+1), () -> slipPhoto(-1));
 
-        this.findViewById(R.id.album_photo_add).setOnClickListener((e) -> onSelectPhotos());
+        this.findViewById(R.id.photo_add).setOnClickListener((e) -> onSelectPhotos());
+
+        this.findViewById(R.id.photo_fit).setOnClickListener((v) -> this.fitPhoto(v));
+
     }
+
+    public void fitPhoto(View v) {
+        ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.FIT_XY};
+        this.scaleTypeIndex = ++this.scaleTypeIndex % scaleTypies.length;
+        ((ImageView) findViewById(R.id.photo_image)).setScaleType(scaleTypies[this.scaleTypeIndex]);
+        //((ImageView) findViewById(R.id.photo_image)).setRotation(90);
+    }
+
 
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +95,9 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
+        Log.d("AlbumPhoto", "PhotoData====" + photo);
         if (!this.isEmpty(photo)) {
+            Log.d("AlbumPhoto", "PhotoPath====" + photo.getPhotoPath());
             Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
             this.albumPhotoView.setImageBitmap(bitmap);
             //BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);

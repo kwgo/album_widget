@@ -1,10 +1,14 @@
 package com.jchip.album.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +22,7 @@ import java.util.List;
 
 public abstract class AbstractActivity extends AppCompatActivity {
     public static final String ALBUM_MODEL = "albumModel";
+    public static final String FRAME_RESOURCE = "frameResource";
 
     private AlbumModel albumModel;
 
@@ -27,6 +32,9 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected List<AlbumData> albums = new ArrayList<>();
     protected List<PhotoData> photos = new ArrayList<>();
 
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private ActivityCallBack activityCallBack;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -35,6 +43,17 @@ public abstract class AbstractActivity extends AppCompatActivity {
         } else {
             this.albumModel = new AlbumModel();
         }
+
+        this.activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (activityCallBack != null) {
+                            activityCallBack.call(data);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -47,9 +66,17 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void startActivity(Class<?> clazz) {
+        this.startActivity(new Intent(this, clazz));
+    }
+
+    public void startActivity(Class<?> clazz, ActivityCallBack activityCallBack) {
+        Log.d("activityCallBack","activityCallBack="+activityCallBack);
+        this.activityCallBack = activityCallBack;
+        Log.d("activityCallBack","activityCallBack===00000000="+activityCallBack);
         Intent intent = new Intent(this, clazz);
-        intent.putExtra(ALBUM_MODEL, this.albumModel);
-        this.startActivity(intent);
+        Log.d("activityCallBack","999999999999999999999999");
+        this.activityResultLauncher.launch(intent);
+        Log.d("activityCallBack","88888888888888888888888888");
     }
 
     public void setVisibility(View view, boolean show, boolean gone) {
@@ -77,5 +104,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return !this.isPortrait();
     }
 
-
+    public interface ActivityCallBack {
+        public void call(Intent intent);
+    }
 }

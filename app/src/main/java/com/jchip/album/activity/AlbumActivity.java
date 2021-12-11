@@ -1,7 +1,6 @@
 package com.jchip.album.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +8,6 @@ import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
 import androidx.appcompat.widget.PopupMenu;
 
@@ -21,9 +18,6 @@ import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.AlbumViewAdapter;
 
 public class AlbumActivity extends PhotoActivity {
-
-    private ScaleType[] scaleTypies = new ScaleType[]{ScaleType.CENTER_CROP, ScaleType.FIT_CENTER, ScaleType.FIT_XY};
-    private int scaleTypeIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +67,7 @@ public class AlbumActivity extends PhotoActivity {
         });
 
         findViewById(R.id.album_name_menu).setOnClickListener((v) -> this.showMenu(v));
-        findViewById(R.id.photo_fit).setOnClickListener((v) -> this.fitPhoto(v));
 
-    }
-
-    public void fitPhoto(View v) {
-        this.scaleTypeIndex = ++this.scaleTypeIndex % this.scaleTypies.length;
-        ((ImageView) findViewById(R.id.photo_image)).setScaleType(this.scaleTypies[this.scaleTypeIndex]);
     }
 
     public void showMenu(View v) {
@@ -112,10 +100,10 @@ public class AlbumActivity extends PhotoActivity {
         view.setBackgroundColor(Color.TRANSPARENT);
 
         root.addView(view);
-float x=0; float y=0;
+        float x = 0;
+        float y = 0;
         view.setX(x);
         view.setY(y);
-
 
 
         PopupMenu popupMenu = new PopupMenu(context, view, Gravity.CENTER);
