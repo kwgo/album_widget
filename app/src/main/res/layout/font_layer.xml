@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="20dp"
     android:orientation="horizontal"
     tools:context=".ActivityFrame">
 
@@ -23,18 +22,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/font_text"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:alpha="0.70"
-                android:background="@drawable/album_name_control"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/font_sample"
-                android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -43,14 +30,14 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <ImageView
                         android:id="@+id/font_image"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
                         android:adjustViewBounds="true"
-                        android:padding="1dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/frame_0" />
 
@@ -58,146 +45,113 @@
                         android:id="@+id/font_sample"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="2dp"
                         android:singleLine="true"
                         android:text="@string/font_sample"
-                        android:textColor="@color/white"  />
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
 
                 </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@android:color/background_light"
                     android:orientation="vertical">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/font_type"
+                        style="@style/mini_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:backgroundTint="@android:color/transparent"
-                        android:contentDescription="@null"
-                        android:elevation="16dp"
-                        android:src="@drawable/photo_fit"
-                        android:translationZ="12dp"
-                        app:borderWidth="1dp"
-                        app:fabSize="mini"
-                        app:rippleColor="#ff0000" />
+                        android:src="@drawable/photo_fit" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/font_location"
+                        style="@style/mini_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:backgroundTint="@android:color/transparent"
-                        android:contentDescription="@null"
-                        android:elevation="16dp"
-                        android:src="@drawable/photo_fit"
-                        android:translationZ="12dp"
-                        app:borderWidth="1dp"
-                        app:fabSize="mini"
-                        app:rippleColor="#ff0000" />
+                        android:src="@drawable/photo_fit" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/font_size_in"
+                        style="@style/mini_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:backgroundTint="@android:color/transparent"
-                        android:contentDescription="@null"
-                        android:elevation="16dp"
-                        android:src="@drawable/photo_fit"
-                        android:translationZ="12dp"
-                        app:borderWidth="1dp"
-                        app:fabSize="mini"
-                        app:rippleColor="#ff0000" />
+                        android:src="@drawable/photo_fit" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/font_size_out"
+                        style="@style/mini_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:backgroundTint="@android:color/transparent"
-                        android:contentDescription="@null"
-                        android:elevation="16dp"
-                        android:src="@drawable/photo_fit"
-                        android:translationZ="12dp"
-                        app:borderWidth="1dp"
-                        app:fabSize="mini"
-                        app:rippleColor="#ff0000" />
+                        android:src="@drawable/photo_fit" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
+            <EditText
+                android:id="@+id/font_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="20dp"
+                android:alpha="0.70"
+                android:background="@drawable/font_text"
+                android:singleLine="true"
+                android:text="@string/font_sample"
+                android:textColor="@android:color/white" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="A"
-                    android:textColor="@android:color/white" />
-
-                <SeekBar
-                    android:id="@+id/font_color_a"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="R" />
+                android:orientation="vertical">
 
                 <SeekBar
                     android:id="@+id/font_color_r"
+                    style="@style/font_seeker"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:saveEnabled="false" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="G" />
+                    android:layout_height="40dp"
+                    android:progressTint="#FF0000"
+                    android:saveEnabled="false"
+                    android:thumbTint="#FF0000" />
 
                 <SeekBar
                     android:id="@+id/font_color_g"
+                    style="@style/font_seeker"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="B" />
+                    android:layout_height="40dp"
+                    android:progressTint="#00FF00"
+                    android:thumbTint="#00FF00" />
 
                 <SeekBar
                     android:id="@+id/font_color_b"
+                    style="@style/font_seeker"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="40dp"
+                    android:progressTint="#0000FF"
+                    android:thumbTint="#0000FF" />
+
+                <SeekBar
+                    android:id="@+id/font_color_a"
+                    style="@style/font_seeker"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:progressTint="#88FFFFFF"
+                    android:thumbTint="#88FFFFFF" />
 
             </LinearLayout>
 
