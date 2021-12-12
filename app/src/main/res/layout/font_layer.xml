@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="horizontal"
+    tools:context=".ActivityFrame">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/font_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:alpha="0.70"
+                android:background="@drawable/album_name_control"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/font_sample"
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/font_image"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:adjustViewBounds="true"
+                        android:padding="1dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/frame_0" />
+
+                    <TextView
+                        android:id="@+id/font_sample"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/font_sample"
+                        android:textColor="@color/white"  />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/font_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:backgroundTint="@android:color/transparent"
+                        android:contentDescription="@null"
+                        android:elevation="16dp"
+                        android:src="@drawable/photo_fit"
+                        android:translationZ="12dp"
+                        app:borderWidth="1dp"
+                        app:fabSize="mini"
+                        app:rippleColor="#ff0000" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/font_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:backgroundTint="@android:color/transparent"
+                        android:contentDescription="@null"
+                        android:elevation="16dp"
+                        android:src="@drawable/photo_fit"
+                        android:translationZ="12dp"
+                        app:borderWidth="1dp"
+                        app:fabSize="mini"
+                        app:rippleColor="#ff0000" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/font_size_in"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:backgroundTint="@android:color/transparent"
+                        android:contentDescription="@null"
+                        android:elevation="16dp"
+                        android:src="@drawable/photo_fit"
+                        android:translationZ="12dp"
+                        app:borderWidth="1dp"
+                        app:fabSize="mini"
+                        app:rippleColor="#ff0000" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/font_size_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:backgroundTint="@android:color/transparent"
+                        android:contentDescription="@null"
+                        android:elevation="16dp"
+                        android:src="@drawable/photo_fit"
+                        android:translationZ="12dp"
+                        app:borderWidth="1dp"
+                        app:fabSize="mini"
+                        app:rippleColor="#ff0000" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    android:textColor="@android:color/white" />
+
+                <SeekBar
+                    android:id="@+id/font_color_a"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="R" />
+
+                <SeekBar
+                    android:id="@+id/font_color_r"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:saveEnabled="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="G" />
+
+                <SeekBar
+                    android:id="@+id/font_color_g"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B" />
+
+                <SeekBar
+                    android:id="@+id/font_color_b"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

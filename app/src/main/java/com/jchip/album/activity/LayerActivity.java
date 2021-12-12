@@ -45,11 +45,11 @@ public class LayerActivity extends AbstractActivity {
     }
 
     public void onFontSetting() {
-        this.startActivity(ActivityFont.class);
+        this.startActivity(ActivityFont.class, (intent) -> onFrameChange(intent));
     }
 
     public void onFrameSelect() {
-        this.startActivity(ActivityFrame.class, (intent) -> onFrameChange(intent));
+        this.startActivity(ActivityFrame.class, (intent) -> onFontChange(intent));
     }
 
     public void onFrameChange(Intent intent) {
@@ -60,6 +60,13 @@ public class LayerActivity extends AbstractActivity {
 
             this.findViewById(R.id.photo_frame_container).setBackgroundResource(frameResourceId);
             this.findViewById(R.id.photo_frame_corver).setBackgroundResource(frameResourceId);
+        }
+    }
+
+    public void onFontChange(Intent intent) {
+        Log.d("", "call back =========" + "onFontChange");
+        if (intent != null) {
+
         }
     }
 

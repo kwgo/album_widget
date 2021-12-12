@@ -7,7 +7,7 @@
     </style>
 
     <style name="layer_theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/holo_blue_dark</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <!--
@@ -18,4 +18,17 @@
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:textSize">20dp</item>
     </style>
+
+    <style name="mini_button">
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:elevation">16dp</item>
+        <item name="android:src">@drawable/photo_fit</item>
+        <item name="android:translationZ">12dp</item>
+        <item name="borderWidth">1dp</item>
+        <item name="fabSize">mini</item>
+        <item name="rippleColor">#ff0000</item>
+    </style>
+
+
 </resources>

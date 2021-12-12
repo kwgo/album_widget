@@ -9,7 +9,7 @@ public class FontActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layer_font);
+        setContentView(R.layout.font_layer);
     }
 
     @Override
