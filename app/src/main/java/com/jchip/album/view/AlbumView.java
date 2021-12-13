@@ -2,6 +2,7 @@ package com.jchip.album.view;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -40,7 +41,9 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
     // this is how to disable AutoCompleteTextView filter
     @Override
     protected void performFiltering(final CharSequence text, final int keyCode) {
-        super.performFiltering("", keyCode);
+        if (!this.editable) {
+            super.performFiltering("", keyCode);
+        }
     }
 
 //    @Override
@@ -52,17 +55,21 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
         Log.d("", "onFocusChanged ============onFocusChanged===============");
-        AlbumView.this.setCursorVisible(focused);
+        this.setCursorVisible(focused);
+        this.setSelection(this.getText().length());
         if (!focused) {
-            InputMethodManager manager = (InputMethodManager) AlbumView.this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            this.setEnabled(false);
+            InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(AlbumView.this.getWindowToken(), 0);
+        } else {
+            InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
         }
     }
 
     @Override
     public void onEditorAction(int actionCode) {
         super.onEditorAction(actionCode);
-        Log.d("", "onEditorAction actionId ====================================" + actionCode);
         if (actionCode == EditorInfo.IME_ACTION_DONE || actionCode == EditorInfo.IME_ACTION_SEARCH || actionCode == EditorInfo.IME_ACTION_GO || actionCode == EditorInfo.IME_ACTION_NEXT || actionCode == EditorInfo.IME_NULL) {
             this.clearFocus();
         }
@@ -70,9 +77,24 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        this.showDropDown();
-        Log.d("", "AlbumView.this.getListSelection()===" + AlbumView.this.getListSelection());
+        if (!this.editable) {
+            this.showDropDown();
+        }
         return super.onTouchEvent(motionEvent);
     }
 
+    private boolean editable = true;
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        new Handler().postDelayed(() -> {
+           // clearFocus();
+            this.editable = enabled;
+            if (enabled) {
+                requestFocus();
+            }
+            this.setCursorVisible(enabled);
+        }, 100);
+    }
 }

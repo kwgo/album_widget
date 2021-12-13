@@ -2,6 +2,7 @@
     <string name="app_name">Album</string>
 
     <string name="default_album_name">Photo album #</string>
+    <string name="album_alert_delete">Are you sure you want to delete?</string>
 
     <string name="font_sample">Sample text</string>
 

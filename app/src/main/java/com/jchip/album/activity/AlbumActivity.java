@@ -1,15 +1,14 @@
 package com.jchip.album.activity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
@@ -20,6 +19,7 @@ import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.AlbumViewAdapter;
 
 public class AlbumActivity extends PhotoActivity {
+    private AlbumView albumView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class AlbumActivity extends PhotoActivity {
 
         this.setLayer(LAYER_ALBUM);
 
-        AlbumView albumView = (AlbumView) findViewById(R.id.album_name_text);
+        this.albumView = (AlbumView) findViewById(R.id.album_name_text);
 
         this.albums = AlbumDataHandler.getInstance(this).queryAlbums();
         String albumName = this.getString(R.string.default_album_name) + (this.albums.size() + 1);
@@ -41,11 +41,12 @@ public class AlbumActivity extends PhotoActivity {
         this.albums.add(0, album);
         this.setAlbumPhotos(album);
 
-        albumView.setAdapter(new AlbumViewAdapter(this, this.albums));
-        albumView.setListSelection(0);
-        albumView.setText(albumName, false);
+        this.albumView.setAdapter(new AlbumViewAdapter(this, this.albums));
+        this.albumView.setListSelection(0);
+        this.albumView.setText(albumName, false);
+        this.albumView.setEnabled(false);
 
-        albumView.setOnFocusChangeListener((view, focused) -> {
+        this.albumView.setOnFocusChangeListener((view, focused) -> {
             Log.d("", "focused focused focused focused focused");
             if (!focused && AlbumActivity.this.album != null) {
                 String albumText = albumView.getText().toString();
@@ -57,8 +58,8 @@ public class AlbumActivity extends PhotoActivity {
             }
         });
 
-        albumView.setOnItemClickListener((adapterView, view, position, id) -> {
-            albumView.clearFocus();
+        this.albumView.setOnItemClickListener((adapterView, view, position, id) -> {
+            this.albumView.clearFocus();
 
             Log.d("", "setOnItemClickListener  setOnItemClickListener setOnItemClickListener");
 
@@ -74,52 +75,29 @@ public class AlbumActivity extends PhotoActivity {
 
     public void showMenu(View view) {
         Context wrapper = new ContextThemeWrapper(this, R.style.album_name_menu);
-        PopupMenu popup = new PopupMenu(wrapper, view);
-
-        //PopupMenu popup = new PopupMenu(this, view, Gravity.END);
-        //    popupWindow.showAsDropDown(View anchor, int xoff, int yoff, int gravity) l
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.album_name_menu, popup.getMenu());
-        popup.show();
-    }
-
-    //    @Override
-    //implements PopupMenu.OnMenuItemClickListener {
-//    public boolean onMenuItemClick(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.archive:
-//                archive(item);
-//                return true;
-//            case R.id.delete:
-//                delete(item);
-//                return true;
-//            default:
-//                return false;
-//        }
-//    }
-    public void showMenu0(Activity context) {
-        final ViewGroup root = (ViewGroup) context.findViewById(android.R.id.content);
-
-        final View view = new View(context);
-        view.setLayoutParams(new ViewGroup.LayoutParams(1, 1));
-        view.setBackgroundColor(Color.TRANSPARENT);
-
-        root.addView(view);
-        float x = 0;
-        float y = 0;
-        view.setX(x);
-        view.setY(y);
-
-
-        PopupMenu popupMenu = new PopupMenu(context, view, Gravity.CENTER);
-
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+        PopupMenu popupMenu = new PopupMenu(wrapper, view);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public void onDismiss(PopupMenu menu) {
-                root.removeView(view);
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.album_name_edit) {
+                    albumView.setEnabled(true);
+                } else if (item.getItemId() == R.id.album_name_delete) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AlbumActivity.this);
+                    alert.setTitle(R.string.app_name);
+                    alert.setMessage(R.string.album_alert_delete);
+                    //.setNegativeButton(android.R.string.no, null)
+                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+                return true;
             }
         });
-
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.album_name_menu, popupMenu.getMenu());
         popupMenu.show();
     }
 }
