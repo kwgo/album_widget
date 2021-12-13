@@ -63,8 +63,9 @@
                         style="@style/mini_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
                         android:layout_gravity="end"
-                        android:src="@drawable/photo_fit" />
+                        android:src="@drawable/font_type" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/font_location"
@@ -72,7 +73,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:src="@drawable/photo_fit" />
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="3dp"
+                        android:src="@drawable/font_location" />
 
                     <Space
                         android:layout_width="wrap_content"
@@ -80,20 +85,25 @@
                         android:layout_weight="1" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/font_size_in"
+                        android:id="@+id/font_size_plus"
                         style="@style/mini_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:src="@drawable/photo_fit" />
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="3dp"
+                        android:src="@drawable/font_size_plus" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/font_size_out"
+                        android:id="@+id/font_size_minus"
                         style="@style/mini_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:src="@drawable/photo_fit" />
+                        android:layout_marginBottom="1dp"
+                        android:src="@drawable/font_size_minus" />
 
                 </LinearLayout>
 
@@ -110,10 +120,11 @@
                 android:layout_marginBottom="20dp"
                 android:alpha="0.70"
                 android:background="@drawable/font_text"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:singleLine="true"
                 android:text="@string/font_sample"
                 android:textColor="@android:color/white" />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
