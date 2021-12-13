@@ -16,6 +16,16 @@
         <item name="android:textSize">20dp</item>
     </style>
 
+    <style name="album_name_menu">
+        <item name="android:textColor">#B1FFFFFF</item>
+        <item name="popupMenuStyle">@style/album_name_menu_popup</item>
+    </style>
+
+    <style name="album_name_menu_popup">
+
+        <item name="android:popupBackground">@drawable/album_name_dropdown</item>
+    </style>
+
     <style name="mini_button">
         <item name="android:backgroundTint">@android:color/transparent</item>
         <item name="android:contentDescription">@null</item>

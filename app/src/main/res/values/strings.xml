@@ -3,10 +3,7 @@
 
     <string name="default_album_name">Photo album #</string>
 
-    <string-array name="album_list">
-        <item>New photo album #</item>
-    </string-array>
-    <string name="font_sample">Font Sample</string>
+    <string name="font_sample">Sample text</string>
 
 
     <string name="rz_album_dia_read_description">(Enter something that u want)</string>

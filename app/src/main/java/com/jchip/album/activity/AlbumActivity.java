@@ -1,6 +1,7 @@
 package com.jchip.album.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.jchip.album.R;
@@ -70,8 +72,11 @@ public class AlbumActivity extends PhotoActivity {
 
     }
 
-    public void showMenu(View v) {
-        PopupMenu popup = new PopupMenu(this, v, Gravity.END);
+    public void showMenu(View view) {
+        Context wrapper = new ContextThemeWrapper(this, R.style.album_name_menu);
+        PopupMenu popup = new PopupMenu(wrapper, view);
+
+        //PopupMenu popup = new PopupMenu(this, view, Gravity.END);
         //    popupWindow.showAsDropDown(View anchor, int xoff, int yoff, int gravity) l
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.album_name_menu, popup.getMenu());
