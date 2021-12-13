@@ -122,7 +122,7 @@
 
                 <SeekBar
                     android:id="@+id/font_color_r"
-                    style="@style/font_seeker"
+                    style="@style/font_color_seeker"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:progressTint="#FF0000"
@@ -131,7 +131,7 @@
 
                 <SeekBar
                     android:id="@+id/font_color_g"
-                    style="@style/font_seeker"
+                    style="@style/font_color_seeker"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:progressTint="#00FF00"
@@ -139,7 +139,7 @@
 
                 <SeekBar
                     android:id="@+id/font_color_b"
-                    style="@style/font_seeker"
+                    style="@style/font_color_seeker"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:progressTint="#0000FF"
@@ -147,11 +147,11 @@
 
                 <SeekBar
                     android:id="@+id/font_color_a"
-                    style="@style/font_seeker"
+                    style="@style/font_color_seeker"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:progressTint="#88FFFFFF"
-                    android:thumbTint="#88FFFFFF" />
+                    android:progressTint="#BBFFFFFF"
+                    android:thumbTint="#BBFFFFFF" />
 
             </LinearLayout>
 

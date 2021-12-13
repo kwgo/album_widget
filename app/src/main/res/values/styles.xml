@@ -17,10 +17,6 @@
     </style>
 
     <style name="mini_button">
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
         <item name="android:backgroundTint">@android:color/transparent</item>
         <item name="android:contentDescription">@null</item>
         <item name="android:elevation">16dp</item>
@@ -30,11 +26,15 @@
         <item name="rippleColor">#ff0000</item>
     </style>
 
-    <style name="font_lable">
-        <item name="android:alpha">0.70</item>
-        <item name="android:textColor">@android:color/white</item>
+    <style name="normal_button">
+        <item name="android:backgroundTint">@android:color/white</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:elevation">6dp</item>
+        <item name="android:translationZ">12dp</item>
+        <item name="borderWidth">5dp</item>
     </style>
-    <style name="font_seeker">
+
+    <style name="font_color_seeker">
         <item name="android:alpha">0.70</item>
         <item name="android:color">@android:color/white</item>
     </style>

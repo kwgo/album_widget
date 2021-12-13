@@ -59,7 +59,7 @@ public class LayerActivity extends AbstractActivity {
             Log.d("", "frameResourceId=========" + frameResourceId);
 
             this.findViewById(R.id.photo_frame_container).setBackgroundResource(frameResourceId);
-            this.findViewById(R.id.photo_frame_corver).setBackgroundResource(frameResourceId);
+            this.findViewById(R.id.photo_frame_cover).setBackgroundResource(frameResourceId);
         }
     }
 
