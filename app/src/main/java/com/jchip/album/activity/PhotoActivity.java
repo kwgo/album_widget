@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.GestureHelper;
+import com.jchip.album.common.ImageHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.AlbumDataHandler;
 import com.jchip.album.data.PhotoData;
@@ -22,6 +23,8 @@ import java.util.List;
 public class PhotoActivity extends LayerActivity {
 
     private int scaleTypeIndex = 0;
+    private int rotationIndex = 0;
+    private int flipIndex = 0;
     private ImageView albumPhotoView;
 
     @Override
@@ -30,32 +33,24 @@ public class PhotoActivity extends LayerActivity {
 
         this.albumPhotoView = this.findViewById(R.id.photo_image);
 
-        GestureHelper.setViewGesture(this.albumPhotoView, () -> slipPhoto(+1), () -> slipPhoto(-1));
+        GestureHelper.setViewGesture(this.albumPhotoView, () -> onSlipPhoto(+1), () -> onSlipPhoto(-1));
 
         this.findViewById(R.id.photo_add).setOnClickListener((e) -> onSelectPhotos());
 
-        this.findViewById(R.id.photo_fit).setOnClickListener((v) -> this.fitPhoto(v));
-
+        this.findViewById(R.id.photo_fit).setOnClickListener((v) -> this.onFitPhoto(v));
+        this.findViewById(R.id.photo_rotation).setOnClickListener((v) -> this.onRotatePhoto());
+        this.findViewById(R.id.photo_flip).setOnClickListener((v) -> this.onFlipPhoto());
+        this.findViewById(R.id.photo_delete).setOnClickListener((v) -> this. alertDeletion(() -> onDeletePhoto()));
+        this.findViewById(R.id.photo_left).setOnClickListener((v) -> this.onSlipPhoto(-1));
+        this.findViewById(R.id.photo_right).setOnClickListener((v) -> this.onSlipPhoto(+1));
     }
 
-    public void fitPhoto(View v) {
+    public void onFitPhoto(View v) {
         ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.FIT_XY};
         this.scaleTypeIndex = ++this.scaleTypeIndex % scaleTypies.length;
         ((ImageView) findViewById(R.id.photo_image)).setScaleType(scaleTypies[this.scaleTypeIndex]);
         //((ImageView) findViewById(R.id.photo_image)).setRotation(90);
     }
-
-
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.layer_photo);
-////        if (this.isLandscape()) {
-////            View view = this.findViewById(R.id.album_photo_view);
-////            view.setRotation(90);
-////        }
-//    }
-
 
     private void onSelectPhotos() {
         Log.d("", "onSelectPhotos ==============================");
@@ -102,13 +97,20 @@ public class PhotoActivity extends LayerActivity {
             this.albumPhotoView.setImageBitmap(bitmap);
             //BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
             //this.albumPhotoView.setBackground(drawable);
+            this.flipIndex = 0;
+            this.rotationIndex = 0;
+
         } else {
             this.albumPhotoView.setImageBitmap(null);
             //this.albumPhotoView.setBackground(null);
         }
     }
 
-    protected boolean slipPhoto(int offset) {
+    protected void onDeletePhoto() {
+        this.adjustPhoto();
+    }
+
+    protected boolean onSlipPhoto(int offset) {
         if (!this.isEmpty(this.photo) && !this.isEmpty(this.photos)) {
             int postion = this.photos.indexOf(this.photo);
             postion += offset;
@@ -118,6 +120,22 @@ public class PhotoActivity extends LayerActivity {
             }
         }
         return false;
+    }
+
+    protected void onFlipPhoto() {
+        this.flipIndex = (this.flipIndex + 1) % 2;
+        this.adjustPhoto();
+    }
+
+    protected void onRotatePhoto() {
+        this.rotationIndex = (this.rotationIndex + 1) % 4;
+        this.adjustPhoto();
+    }
+
+    protected void adjustPhoto() {
+        Bitmap bitmap = AlbumHelper.loadBitmap(this.photo.getPhotoPath());
+        bitmap = ImageHelper.convertBitmap(bitmap, this.rotationIndex, this.flipIndex);
+        this.albumPhotoView.setImageBitmap(bitmap);
     }
 
     private void handleSelectedPhotos(List<AlbumPhoto> albumPhotos) {

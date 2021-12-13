@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.jchip.album.R;
@@ -19,6 +20,22 @@ import com.jchip.album.R;
 import java.io.IOException;
 
 public class ImageHelper {
+    public static Bitmap convertBitmap(Context context, int sourceId, int rotation, int flip) {
+        return convertBitmap(BitmapFactory.decodeResource(context.getResources(), sourceId), rotation, flip);
+    }
+
+    public static Bitmap convertBitmap(Bitmap bitmap, int rotation, int flip) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Log.d("", "image width=" + width);
+        Log.d("", "image height=" + height);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(rotation * 90);
+        matrix.postScale(flip == 0 ? 1 : -1, 1, width, height);
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+    }
+
+
     private Bitmap bmp;
     private Canvas canvas;
     private Paint paint;

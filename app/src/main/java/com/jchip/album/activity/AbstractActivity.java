@@ -1,6 +1,8 @@
 package com.jchip.album.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,8 +12,10 @@ import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jchip.album.R;
 import com.jchip.album.data.AbstractData;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
@@ -70,17 +74,31 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void startActivity(Class<?> clazz, ActivityCallBack activityCallBack) {
-        Log.d("activityCallBack","activityCallBack="+activityCallBack);
+        Log.d("activityCallBack", "activityCallBack=" + activityCallBack);
         this.activityCallBack = activityCallBack;
-        Log.d("activityCallBack","activityCallBack===00000000="+activityCallBack);
+        Log.d("activityCallBack", "activityCallBack===00000000=" + activityCallBack);
         Intent intent = new Intent(this, clazz);
-        Log.d("activityCallBack","999999999999999999999999");
+        Log.d("activityCallBack", "999999999999999999999999");
         this.activityResultLauncher.launch(intent);
-        Log.d("activityCallBack","88888888888888888888888888");
+        Log.d("activityCallBack", "88888888888888888888888888");
     }
 
     public void setVisibility(View view, boolean show, boolean gone) {
         view.setVisibility(show ? View.VISIBLE : gone ? View.GONE : View.INVISIBLE);
+    }
+
+    public void alertDeletion(Runnable work) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.app_name);
+        alert.setMessage(R.string.album_alert_delete);
+        //.setNegativeButton(android.R.string.no, null)
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                work.run();
+                dialog.dismiss();
+            }
+        }).show();
     }
 
     public boolean isEmpty(List<?> list) {

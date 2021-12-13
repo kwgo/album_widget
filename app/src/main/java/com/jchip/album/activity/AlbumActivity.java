@@ -1,14 +1,12 @@
 package com.jchip.album.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
@@ -82,16 +80,7 @@ public class AlbumActivity extends PhotoActivity {
                 if (item.getItemId() == R.id.album_name_edit) {
                     albumView.setEnabled(true);
                 } else if (item.getItemId() == R.id.album_name_delete) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(AlbumActivity.this);
-                    alert.setTitle(R.string.app_name);
-                    alert.setMessage(R.string.album_alert_delete);
-                    //.setNegativeButton(android.R.string.no, null)
-                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                    alertDeletion(() -> onDeleteAlbum());
                 }
                 return true;
             }
@@ -99,5 +88,9 @@ public class AlbumActivity extends PhotoActivity {
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.album_name_menu, popupMenu.getMenu());
         popupMenu.show();
+    }
+
+    private void onDeleteAlbum() {
+
     }
 }
