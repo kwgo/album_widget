@@ -41,9 +41,9 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
     // this is how to disable AutoCompleteTextView filter
     @Override
     protected void performFiltering(final CharSequence text, final int keyCode) {
-        if (!this.editable) {
-            super.performFiltering("", keyCode);
-        }
+//        if (!this.editable) {
+//            super.performFiltering("", keyCode);
+//        }
     }
 
 //    @Override
