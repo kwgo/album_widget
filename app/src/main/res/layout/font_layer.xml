@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/font_setting_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="20dp"
@@ -10,169 +11,174 @@
     android:orientation="horizontal"
     tools:context=".ActivityFrame">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/font_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/frame_0" />
-
-                    <TextView
-                        android:id="@+id/font_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:singleLine="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="@string/font_sample"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/font_type"
-                        style="@style/mini_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="2dp"
-                        android:src="@drawable/font_type" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/font_location"
-                        style="@style/mini_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginBottom="3dp"
-                        android:src="@drawable/font_location" />
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/font_size_plus"
-                        style="@style/mini_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginBottom="3dp"
-                        android:src="@drawable/font_size_plus" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/font_size_minus"
-                        style="@style/mini_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginBottom="2dp"
-                        android:src="@drawable/font_size_minus" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/font_text"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="5dp"
-                android:alpha="0.95"
-                android:background="@drawable/font_text"
-                android:hint="@string/font_sample"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:singleLine="true"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <SeekBar
-                    android:id="@+id/font_color_r"
-                    style="@style/font_color_seeker"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:max="255"
-                    android:progressTint="#FF0000"
-                    android:saveEnabled="false"
-                    android:thumbTint="#FF0000" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <SeekBar
-                    android:id="@+id/font_color_g"
-                    style="@style/font_color_seeker"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:max="255"
-                    android:progressTint="#00FF00"
-                    android:thumbTint="#00FF00" />
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1">
 
-                <SeekBar
-                    android:id="@+id/font_color_b"
-                    style="@style/font_color_seeker"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:max="255"
-                    android:progressTint="#0000FF"
-                    android:thumbTint="#0000FF" />
+                        <ImageView
+                            android:id="@+id/font_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/frame_0" />
 
-                <SeekBar
-                    android:id="@+id/font_color_a"
-                    style="@style/font_color_seeker"
+                        <TextView
+                            android:id="@+id/font_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:padding="2dp"
+                            android:singleLine="true"
+                            android:text="@string/font_sample"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/font_type"
+                            style="@style/mini_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/font_type" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/font_location"
+                            style="@style/mini_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginBottom="3dp"
+                            android:src="@drawable/font_location" />
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/font_size_plus"
+                            style="@style/mini_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginBottom="3dp"
+                            android:src="@drawable/font_size_plus" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/font_size_minus"
+                            style="@style/mini_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginBottom="2dp"
+                            android:src="@drawable/font_size_minus" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/font_text"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:max="255"
-                    android:progressTint="#BBFFFFFF"
-                    android:thumbTint="#BBFFFFFF" />
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.95"
+                    android:background="@drawable/font_text"
+                    android:hint="@string/font_sample"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <SeekBar
+                        android:id="@+id/font_color_r"
+                        style="@style/font_color_seeker"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:max="255"
+                        android:progressTint="#FF0000"
+                        android:saveEnabled="false"
+                        android:thumbTint="#FF0000" />
+
+                    <SeekBar
+                        android:id="@+id/font_color_g"
+                        style="@style/font_color_seeker"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:max="255"
+                        android:progressTint="#00FF00"
+                        android:thumbTint="#00FF00" />
+
+                    <SeekBar
+                        android:id="@+id/font_color_b"
+                        style="@style/font_color_seeker"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:max="255"
+                        android:progressTint="#0000FF"
+                        android:thumbTint="#0000FF" />
+
+                    <SeekBar
+                        android:id="@+id/font_color_a"
+                        style="@style/font_color_seeker"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:max="255"
+                        android:progressTint="#BBFFFFFF"
+                        android:thumbTint="#BBFFFFFF" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-
+    </ScrollView>
 </LinearLayout>

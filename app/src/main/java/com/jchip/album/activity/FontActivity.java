@@ -97,6 +97,8 @@ public class FontActivity extends AbstractActivity {
         this.getSeekView(R.id.font_color_g).setOnSeekBarChangeListener(seekListener);
         this.getSeekView(R.id.font_color_b).setOnSeekBarChangeListener(seekListener);
         this.getSeekView(R.id.font_color_a).setOnSeekBarChangeListener(seekListener);
+
+        findViewById(R.id.font_setting_view).setOnClickListener((v) -> this.finish());
     }
 
     private void onFontTypeChange() {

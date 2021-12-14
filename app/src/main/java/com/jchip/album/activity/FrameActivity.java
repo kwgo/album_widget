@@ -34,8 +34,8 @@ public class FrameActivity extends AbstractActivity {
             intent.putExtra(FRAME_RESOURCE, (Integer) listViewAdapter.getItem(position));
             this.setResult(RESULT_OK, intent);
             this.finish();
-            finish();
         });
+        findViewById(R.id.frame_setting_view).setOnClickListener((v) -> this.finish());
     }
 
     public class ListViewAdapter extends BaseAdapter {
