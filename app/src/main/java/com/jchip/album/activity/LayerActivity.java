@@ -29,10 +29,10 @@ public class LayerActivity extends AbstractActivity {
     }
 
     public void onFrameChange(Intent intent) {
-        int frameResourceId = intent.getIntExtra(FRAME_RESOURCE, -1);
-        if (frameResourceId >= 0) {
-            this.getImageView(R.id.photo_frame_container).setBackgroundResource(frameResourceId);
-            this.getImageView(R.id.photo_frame_cover).setBackgroundResource(frameResourceId);
+        int frameSourceId = intent.getIntExtra(FRAME_RESOURCE, -1);
+        if (frameSourceId >= 0) {
+            this.getView(R.id.photo_frame_container).setBackgroundResource(frameSourceId);
+            this.getView(R.id.photo_frame_cover).setBackgroundResource(frameSourceId);
             this.photo.setFrameIndex(intent.getIntExtra(FRAME_INDEX, -1));
         }
     }

@@ -38,8 +38,8 @@ public class AlbumActivity extends PhotoActivity {
         this.albumView.setListSelection(0);
         this.albumView.setEnabled(false);
         this.albumView.setText(this.album.getAlbumName(), false);
-        this.albumView.addTextChangedListener(text -> this.setAlbumName(text));
-        this.albumView.setOnItemClickListener((adapterView, view, position, id) -> this.setAlbumPhotos(albums.get(position)));
+        this.albumView.addTextChangedListener(text -> this.onAlbumNameChanged(text));
+        this.albumView.setOnItemClickListener((adapterView, view, position, id) -> this.onSelectAlbum(position));
 
         this.getView(R.id.album_name_menu).setOnClickListener((v) -> this.showMenu(v));
     }
@@ -63,10 +63,24 @@ public class AlbumActivity extends PhotoActivity {
         popupMenu.show();
     }
 
+    protected void onAlbumNameChanged(String text) {
+        this.album.setAlbumName(text.trim());
+        DataHelper.getInstance(this).updateAlbum(this.album);
+    }
+
+    private void onSelectAlbum(int position) {
+        this.setAlbumPhotos(albums.get(position));
+    }
+
     private void onDeleteAlbum() {
         this.alert(R.string.album_title, R.string.album_alert_delete, () -> {
-            this.deleteAlbum();
-            // todo
+            if (this.album.isSaved()) {
+                this.albums.remove(this.album);
+                DataHelper.getInstance(this).deleteAlbum(this.album);
+            }
+            if (!this.albums.isEmpty()) {
+                this.setAlbumPhotos(albums.get(0));
+            }
         });
     }
 }

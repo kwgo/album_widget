@@ -38,10 +38,12 @@ public class DataHelper extends DataHandler {
 
     // update exist album
     public AlbumData updateAlbum(AlbumData albumData) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(AlbumData.fieldAlbumId, albumData.getAlbumId());
-        contentValues.put(AlbumData.fieldAlbumName, albumData.getAlbumName());
-        this.update(AlbumData.tableName, contentValues);
+        if (albumData.isSaved()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(AlbumData.fieldAlbumId, albumData.getAlbumId());
+            contentValues.put(AlbumData.fieldAlbumName, albumData.getAlbumName());
+            this.update(AlbumData.tableName, contentValues);
+        }
         return albumData;
     }
 
@@ -52,6 +54,16 @@ public class DataHelper extends DataHandler {
         } else {
             return this.createAlbum(albumData);
         }
+    }
+
+    // delete new record
+    public AlbumData deleteAlbum(AlbumData albumData) {
+        if (albumData.isSaved()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PhotoData.fieldAlbumId, albumData.getAlbumId());
+            this.delete(AlbumData.tableName, contentValues);
+        }
+        return albumData;
     }
 
     // Read records related to the album
@@ -76,16 +88,53 @@ public class DataHelper extends DataHandler {
         ContentValues contentValues = new ContentValues();
         contentValues.put(PhotoData.fieldAlbumId, photoData.getAlbumId());
         contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
+
+        contentValues.put(PhotoData.fieldFrame, photoData.getFrameIndex());
+        contentValues.put(PhotoData.fieldScale, photoData.getScaleIndex());
+        contentValues.put(PhotoData.fieldFlip, photoData.getFlipIndex());
+        contentValues.put(PhotoData.fieldRotation, photoData.getRotationIndex());
+
+        contentValues.put(PhotoData.fieldFontType, photoData.getFontType());
+        contentValues.put(PhotoData.fieldFontSize, photoData.getFontSize());
+        contentValues.put(PhotoData.fieldFontColor, photoData.getFontColor());
+        contentValues.put(PhotoData.fieldFontLocation, photoData.getFontLocation());
+        contentValues.put(PhotoData.fieldFontText, photoData.getFontText());
+
         photoData.setPhotoId(this.insert(PhotoData.tableName, contentValues));
         return photoData;
     }
 
     // update exist photo
     public PhotoData updatePhoto(PhotoData photoData) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(PhotoData.fieldAlbumId, photoData.getAlbumId());
-        contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
-        this.update(PhotoData.tableName, contentValues);
+        if (photoData.isSaved()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PhotoData.fieldPhotoId, photoData.getPhotoId());
+            contentValues.put(PhotoData.fieldAlbumId, photoData.getAlbumId());
+            contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
+
+            contentValues.put(PhotoData.fieldFrame, photoData.getFrameIndex());
+            contentValues.put(PhotoData.fieldScale, photoData.getScaleIndex());
+            contentValues.put(PhotoData.fieldFlip, photoData.getFlipIndex());
+            contentValues.put(PhotoData.fieldRotation, photoData.getRotationIndex());
+
+            contentValues.put(PhotoData.fieldFontType, photoData.getFontType());
+            contentValues.put(PhotoData.fieldFontSize, photoData.getFontSize());
+            contentValues.put(PhotoData.fieldFontColor, photoData.getFontColor());
+            contentValues.put(PhotoData.fieldFontLocation, photoData.getFontLocation());
+            contentValues.put(PhotoData.fieldFontText, photoData.getFontText());
+
+            this.update(PhotoData.tableName, contentValues);
+        }
+        return photoData;
+    }
+
+    // delete exist photo
+    public PhotoData deletePhoto(PhotoData photoData) {
+        if (photoData.isSaved()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PhotoData.fieldPhotoId, photoData.getPhotoId());
+            this.delete(PhotoData.tableName, contentValues);
+        }
         return photoData;
     }
 
@@ -103,6 +152,18 @@ public class DataHelper extends DataHandler {
             photo.setPhotoId((Integer) rowData.get(PhotoData.fieldPhotoId));
             photo.setAlbumId((Integer) rowData.get(PhotoData.fieldAlbumId));
             photo.setPhotoPath((String) rowData.get(PhotoData.fieldPhotoPath));
+
+            photo.setFrameIndex((Integer) rowData.get(PhotoData.fieldFrame));
+            photo.setScaleIndex((Integer) rowData.get(PhotoData.fieldScale));
+            photo.setFlipIndex((Integer) rowData.get(PhotoData.fieldFlip));
+            photo.setRotationIndex((Integer) rowData.get(PhotoData.fieldRotation));
+
+            photo.setFontType((Integer) rowData.get(PhotoData.fieldFontType));
+            photo.setFontSize((Integer) rowData.get(PhotoData.fieldFontSize));
+            photo.setFontColor((Integer) rowData.get(PhotoData.fieldFontColor));
+            photo.setFontLocation((Integer) rowData.get(PhotoData.fieldFontLocation));
+            photo.setFontText((String) rowData.get(PhotoData.fieldFontText));
+
             photos.add(photo);
         }
         return photos;

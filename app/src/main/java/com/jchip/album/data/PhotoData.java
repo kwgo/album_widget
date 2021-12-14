@@ -6,6 +6,17 @@ public class PhotoData extends AbstractData {
     public static final String fieldAlbumId = "albumId";
     public static final String fieldPhotoPath = "path";
 
+    public static final String fieldFrame = "frame";
+    public static final String fieldScale = "scale";
+    public static final String fieldFlip = "flip";
+    public static final String fieldRotation = "rotation";
+
+    public static final String fieldFontType = "fontType";
+    public static final String fieldFontSize = "fontSize";
+    public static final String fieldFontColor = "fontColor";
+    public static final String fieldFontLocation = "fontLocation";
+    public static final String fieldFontText = "fontText";
+
     private int photoId;
     private int albumId;
     private String photoPath;

@@ -41,6 +41,13 @@ public class PhotoActivity extends LayerActivity {
 
     private void onDeletePhoto() {
         this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
+            if (this.photo.isSaved()) {
+                this.photos.remove(this.photo);
+                DataHelper.getInstance(this).deletePhoto(this.photo);
+            }
+            if (!this.photos.isEmpty()) {
+                this.setAlbumPhoto(photos.get(0));
+            }
         });
     }
 
@@ -86,30 +93,35 @@ public class PhotoActivity extends LayerActivity {
         ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER};
         this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % scaleTypies.length);
         this.getImageView(R.id.photo_image).setScaleType(scaleTypies[this.photo.getScaleIndex()]);
+        DataHelper.getInstance(this).updatePhoto(this.photo);
     }
 
     private void onFlipPhoto() {
         this.photo.setFlipIndex((this.photo.getFlipIndex() + 1) % 2);
+        DataHelper.getInstance(this).updatePhoto(this.photo);
         this.setViewPhoto(this.getImageView(R.id.photo_image));
     }
 
     protected void onRotatePhoto() {
         this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
+        DataHelper.getInstance(this).updatePhoto(this.photo);
         this.setViewPhoto(this.getImageView(R.id.photo_image));
     }
 
 
     private void onSelectedPhotos(List<AlbumPhoto> albumPhotos) {
-        DataHelper.getInstance(this).saveAlbum(this.album);
-        for (AlbumPhoto albumPhoto : albumPhotos) {
-            PhotoData photo = new PhotoData(this.album.getAlbumId(), albumPhoto.getPhotoPath());
-            if (!this.photos.contains(photo)) {
-                photo.setFrameIndex(this.photo.getFrameIndex());
-                this.photos.add(DataHelper.getInstance(this).createPhoto(photo));
+        if (albumPhotos != null && !albumPhotos.isEmpty()) {
+            DataHelper.getInstance(this).saveAlbum(this.album);
+            for (AlbumPhoto albumPhoto : albumPhotos) {
+                PhotoData photo = new PhotoData(this.album.getAlbumId(), albumPhoto.getPhotoPath());
+                if (!this.photos.contains(photo)) {
+                    photo.setFrameIndex(this.photo.getFrameIndex());
+                    this.photos.add(DataHelper.getInstance(this).createPhoto(photo));
+                }
             }
-        }
-        if (!this.photo.isSaved() && !this.photos.isEmpty()) {
-            this.setAlbumPhoto(this.photos.get(0));
+            if (!this.photo.isSaved() && !this.photos.isEmpty()) {
+                this.setAlbumPhoto(this.photos.get(0));
+            }
         }
     }
 }

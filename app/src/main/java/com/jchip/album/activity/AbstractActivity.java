@@ -186,14 +186,4 @@ public abstract class AbstractActivity extends AppCompatActivity {
         public void call(Intent intent);
     }
 
-    protected void setAlbumName(String name) {
-        this.album.setAlbumName(name);
-        if (!this.photos.isEmpty()) {
-            DataHelper.getInstance(this).saveAlbum(this.album);
-        }
-    }
-
-    protected void deleteAlbum() {
-        //DataHelper.getInstance(this).deleteAlbum(this.album);
-    }
-}
+ }

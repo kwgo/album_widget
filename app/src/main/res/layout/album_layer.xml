@@ -62,10 +62,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -140,7 +140,7 @@
             android:id="@+id/photo_frame_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/frame_0"
+            android:background="@drawable/frame_5"
             android:gravity="center">
 
             <RelativeLayout
@@ -165,7 +165,7 @@
             android:id="@+id/photo_frame_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/frame_0"></FrameLayout>
+            android:background="@drawable/frame_5" />
     </FrameLayout>
 
     <LinearLayout
