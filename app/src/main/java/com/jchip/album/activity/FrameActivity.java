@@ -26,16 +26,19 @@ public class FrameActivity extends AbstractActivity {
 
     @Override
     public void initContentView() {
-        ListView frameView = (ListView) findViewById(R.id.frame_list_view);
+        super.initContentView();
+
+        ListView frameView = this.getListView(R.id.frame_list_view);
         ListViewAdapter listViewAdapter = new ListViewAdapter(getApplicationContext());
         frameView.setAdapter(listViewAdapter);
         frameView.setOnItemClickListener((adapterView, view, position, id) -> {
             Intent intent = new Intent();
+            intent.putExtra(FRAME_INDEX, position);
             intent.putExtra(FRAME_RESOURCE, (Integer) listViewAdapter.getItem(position));
             this.setResult(RESULT_OK, intent);
             this.finish();
         });
-        findViewById(R.id.frame_setting_view).setOnClickListener((v) -> this.finish());
+        this.getView(R.id.frame_setting_view).setOnClickListener((v) -> this.finish());
     }
 
     public class ListViewAdapter extends BaseAdapter {

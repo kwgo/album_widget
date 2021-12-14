@@ -6,9 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -27,34 +25,25 @@ public class FontActivity extends AbstractActivity {
 
     @Override
     public void initContentView() {
-
+        super.initContentView();
 
         Intent intent = this.getIntent();
-
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
-        if (isEmpty(this.photo)) {
-            this.photo = new PhotoData();
-        }
-        Log.d("", " this.photo====" + this.photo);
+        this.photo = this.photo == null ? new PhotoData() : this.photo;
+        intent.putExtra(PhotoData.tableName, this.photo);
+        this.setResult(RESULT_OK, intent);
 
-        if (!isEmpty(this.photo)) {
-            if (!isEmpty(this.photo.getPhotoPath())) {
-                Bitmap bitmap = AlbumHelper.loadBitmap(this.photo.getPhotoPath());
-                bitmap = ImageHelper.convertBitmap(bitmap, this.photo.getRotationIndex(), this.photo.getFlipIndex());
-                this.getImageView(R.id.font_image).setImageBitmap(bitmap);
-            }
-            if (!isEmpty(this.photo.getFontText())) {
-                this.getEditView(R.id.font_text).setText(this.photo.getFontText());
-                this.getTextView(R.id.font_label).setText(this.photo.getFontText());
-            }
-            this.setFontLocation(this.photo.getFontLocation());
-            this.getTextView(R.id.font_label).setTextColor(this.photo.getFontColor());
-            this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);
-            this.getSeekView(R.id.font_color_r).setProgress((this.photo.getFontColor() >> 16) & 0xFF);
-            this.getSeekView(R.id.font_color_g).setProgress((this.photo.getFontColor() >> 8) & 0xFF);
-            this.getSeekView(R.id.font_color_b).setProgress((this.photo.getFontColor()) & 0xFF);
-        }
+        this.setViewPhoto(this.getImageView(R.id.font_image));
+        this.setViewFont(this.getTextView(R.id.font_label));
 
+        this.setViewText(this.getEditView(R.id.font_text));
+
+        this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);
+        this.getSeekView(R.id.font_color_r).setProgress((this.photo.getFontColor() >> 16) & 0xFF);
+        this.getSeekView(R.id.font_color_g).setProgress((this.photo.getFontColor() >> 8) & 0xFF);
+        this.getSeekView(R.id.font_color_b).setProgress((this.photo.getFontColor()) & 0xFF);
+
+        // events
         this.getButtonView(R.id.font_type).setOnClickListener((v) -> this.onFontTypeChange());
         this.getButtonView(R.id.font_location).setOnClickListener((v) -> this.onLocationChange());
 
@@ -99,36 +88,21 @@ public class FontActivity extends AbstractActivity {
         this.getSeekView(R.id.font_color_b).setOnSeekBarChangeListener(seekListener);
         this.getSeekView(R.id.font_color_a).setOnSeekBarChangeListener(seekListener);
 
-        this.setResult(RESULT_OK);
-        findViewById(R.id.font_setting_view).setOnClickListener((v) -> this.finish());
+        this.getView(R.id.font_setting_view).setOnClickListener((v) -> this.finish());
     }
 
     private void onFontTypeChange() {
-
     }
-
 
     private void onLocationChange() {
         this.photo.setFontLocation((this.photo.getFontLocation() + 1) % 4);
-        this.setFontLocation(this.photo.getFontLocation());
-    }
-
-    private void setFontLocation(int fontLocation) {
-        TextView textView = this.getTextView(R.id.font_label);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) textView.getLayoutParams();
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_END);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        layoutParams.addRule(fontLocation % 2 == 0 ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
-        layoutParams.addRule(fontLocation / 2 == 0 ? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.ALIGN_PARENT_BOTTOM);
-        textView.setLayoutParams(layoutParams);
+        this.setViewLocation(this.getTextView(R.id.font_label));
     }
 
     private void onSizeChange(int change) {
         TextView textView = this.getTextView(R.id.font_label);
-        float fontSize = textView.getTextSize() + change * 2;
-        if (fontSize > 16 && fontSize < 120) {
+        float fontSize = textView.getTextSize() + change * dp2px(2);
+        if (fontSize > dp2px(10) && fontSize < dp2px(100)) {
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
             this.photo.setFontSize((int) fontSize);
         }
@@ -147,8 +121,9 @@ public class FontActivity extends AbstractActivity {
         this.getTextView(R.id.font_label).setText(text);
         this.photo.setFontText(text);
     }
+
     @Override
-    public void onStop () {
+    public void onStop() {
         super.onStop();
     }
 }

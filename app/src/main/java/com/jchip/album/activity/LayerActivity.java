@@ -6,16 +6,21 @@ import android.util.Log;
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
 import com.jchip.album.R;
+import com.jchip.album.data.PhotoData;
 
 public class LayerActivity extends AbstractActivity {
 
     @Override
     public void initContentView() {
-        this.findViewById(R.id.font_setting).setOnClickListener((v) -> this.onFontSetting());
-        this.findViewById(R.id.frame_select).setOnClickListener((v) -> this.onFrameSelect());
+        super.initContentView();
+
+        this.getButtonView(R.id.font_setting).setOnClickListener((v) -> this.onFontSetting());
+        this.getButtonView(R.id.frame_select).setOnClickListener((v) -> this.onFrameSelect());
     }
 
     public void onFontSetting() {
+        Log.d("", "call onFontSetting start this =========" + this);
+        Log.d("", "call onFontSetting start =========" + this.getTextView(R.id.photo_label));
         this.startActivity(ActivityFont.class, (intent) -> onFontChange(intent));
     }
 
@@ -24,20 +29,19 @@ public class LayerActivity extends AbstractActivity {
     }
 
     public void onFrameChange(Intent intent) {
-        Log.d("", "call onFrameChange back =========" + "onFrameChange");
-        if (intent != null) {
-            int frameResourceId = intent.getIntExtra(FRAME_RESOURCE, -1);
-            Log.d("", "frameResourceId=========" + frameResourceId);
-
-            this.findViewById(R.id.photo_frame_container).setBackgroundResource(frameResourceId);
-            this.findViewById(R.id.photo_frame_cover).setBackgroundResource(frameResourceId);
+        int frameResourceId = intent.getIntExtra(FRAME_RESOURCE, -1);
+        if (frameResourceId >= 0) {
+            this.getImageView(R.id.photo_frame_container).setBackgroundResource(frameResourceId);
+            this.getImageView(R.id.photo_frame_cover).setBackgroundResource(frameResourceId);
+            this.photo.setFrameIndex(intent.getIntExtra(FRAME_INDEX, -1));
         }
     }
 
     public void onFontChange(Intent intent) {
-        Log.d("", "call onFontChange back =========" + "onFontChange");
-        if (intent != null) {
-
+        PhotoData photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
+        if (photo != null) {
+            this.photo = photo;
+            this.setViewFont(this.getTextView(R.id.photo_label));
         }
     }
 }

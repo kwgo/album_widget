@@ -10,6 +10,7 @@ public class PhotoData extends AbstractData {
     private int albumId;
     private String photoPath;
 
+    private int frameIndex = 0;
     private int scaleIndex = 0;
     private int flipIndex = 0;
     private int rotationIndex = 0;
@@ -56,6 +57,13 @@ public class PhotoData extends AbstractData {
         this.photoPath = photoPath;
     }
 
+    public int getFrameIndex() {
+        return frameIndex;
+    }
+
+    public void setFrameIndex(int frameIndex) {
+        this.frameIndex = frameIndex;
+    }
 
     public int getScaleIndex() {
         return scaleIndex;
