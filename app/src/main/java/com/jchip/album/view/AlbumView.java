@@ -3,8 +3,9 @@ package com.jchip.album.view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -35,15 +36,12 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(adapterView, view, position, id);
             }
+            this.clearFocus();
         });
     }
 
-    // this is how to disable AutoCompleteTextView filter
     @Override
     protected void performFiltering(final CharSequence text, final int keyCode) {
-//        if (!this.editable) {
-//            super.performFiltering("", keyCode);
-//        }
     }
 
 //    @Override
@@ -51,10 +49,29 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
 //        return true;
 //    }
 
+    public void addTextChangedListener(TextChangedListener textChangedListener) {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if (textChangedListener != null) {
+                    textChangedListener.textChanged(text.toString().trim());
+                }
+            }
+        };
+        super.addTextChangedListener(textWatcher);
+    }
+
     @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
-        Log.d("", "onFocusChanged ============onFocusChanged===============");
         this.setCursorVisible(focused);
         this.setSelection(this.getText().length());
         if (!focused) {
@@ -89,7 +106,6 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         new Handler().postDelayed(() -> {
-           // clearFocus();
             this.editable = enabled;
             if (enabled) {
                 requestFocus();
@@ -97,4 +113,9 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
             this.setCursorVisible(enabled);
         }, 100);
     }
+
+    public interface TextChangedListener {
+        public void textChanged(String text);
+    }
+
 }

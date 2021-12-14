@@ -1,4 +1,6 @@
 package com.jchip.album.data;
 
-public abstract class AbstractData {
+import java.io.Serializable;
+
+public abstract class AbstractData implements Serializable {
 }

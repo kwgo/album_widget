@@ -1,12 +1,10 @@
 package com.jchip.album.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,9 +13,9 @@ import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jchip.album.R;
 import com.jchip.album.data.AbstractData;
 import com.jchip.album.data.AlbumData;
+import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.model.AlbumModel;
 
@@ -74,23 +72,35 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void startActivity(Class<?> clazz, ActivityCallBack activityCallBack) {
-        Log.d("activityCallBack", "activityCallBack=" + activityCallBack);
         this.activityCallBack = activityCallBack;
-        Log.d("activityCallBack", "activityCallBack===00000000=" + activityCallBack);
         Intent intent = new Intent(this, clazz);
-        Log.d("activityCallBack", "999999999999999999999999");
+        intent.putExtra(AlbumData.tableName, this.album);
+        intent.putExtra(PhotoData.tableName, this.photo);
         this.activityResultLauncher.launch(intent);
-        Log.d("activityCallBack", "88888888888888888888888888");
     }
 
     public void setVisibility(View view, boolean show, boolean gone) {
         view.setVisibility(show ? View.VISIBLE : gone ? View.GONE : View.INVISIBLE);
     }
 
-    public void alertDeletion(Runnable work) {
+    //    public void alertDeletion(Runnable work) {
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        alert.setTitle(R.string.app_name);
+//        alert.setMessage(R.string.album_alert_delete);
+//        //.setNegativeButton(android.R.string.no, null)
+//        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                work.run();
+//                dialog.dismiss();
+//            }
+//        }).show();
+//    }
+
+    public void alert(int titleId, int detailId, Runnable work) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(R.string.app_name);
-        alert.setMessage(R.string.album_alert_delete);
+        alert.setTitle(titleId);
+        alert.setMessage(detailId);
         //.setNegativeButton(android.R.string.no, null)
         alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             @Override
@@ -124,5 +134,16 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     public interface ActivityCallBack {
         public void call(Intent intent);
+    }
+
+    protected void setAlbumName(String name) {
+        this.album.setAlbumName(name);
+        if (!isEmpty(this.photos)) {
+            DataHelper.getInstance(this).saveAlbum(this.album);
+        }
+    }
+
+    protected void deleteAlbum() {
+        //DataHelper.getInstance(this).deleteAlbum(this.album);
     }
 }

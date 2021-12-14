@@ -40,9 +40,9 @@ public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
             // in case you want to add some style, you can do something like:
             // textViewItem.setBackgroundColor(Color.CYAN);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return convertView;
     }

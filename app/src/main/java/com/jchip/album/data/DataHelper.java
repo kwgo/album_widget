@@ -8,19 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AlbumDataHandler extends DataHandler {
-    private static AlbumDataHandler instance;
+public class DataHelper extends DataHandler {
+    private static DataHelper instance;
 
-    private AlbumDataHandler(Context context) {
+    private DataHelper(Context context) {
         super(context);
     }
 
-    public static synchronized AlbumDataHandler getInstance(Context context) {
+    public static synchronized DataHelper getInstance(Context context) {
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
         // See this article for more information: http://bit.ly/6LRzfx
         if (instance == null) {
-            instance = new AlbumDataHandler(context.getApplicationContext());
+            instance = new DataHelper(context.getApplicationContext());
         }
         return instance;
     }
@@ -77,6 +77,15 @@ public class AlbumDataHandler extends DataHandler {
         contentValues.put(PhotoData.fieldAlbumId, photoData.getAlbumId());
         contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
         photoData.setPhotoId(this.insert(PhotoData.tableName, contentValues));
+        return photoData;
+    }
+
+    // update exist photo
+    public PhotoData updatePhoto(PhotoData photoData) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PhotoData.fieldAlbumId, photoData.getAlbumId());
+        contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
+        this.update(PhotoData.tableName, contentValues);
         return photoData;
     }
 
