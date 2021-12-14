@@ -19,8 +19,6 @@ import com.jchip.album.data.PhotoData;
 
 public class FontActivity extends AbstractActivity {
 
-    private int gravity = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +27,10 @@ public class FontActivity extends AbstractActivity {
 
     @Override
     public void initContentView() {
+
+
         Intent intent = this.getIntent();
+
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
         if (isEmpty(this.photo)) {
             this.photo = new PhotoData();
@@ -98,6 +99,7 @@ public class FontActivity extends AbstractActivity {
         this.getSeekView(R.id.font_color_b).setOnSeekBarChangeListener(seekListener);
         this.getSeekView(R.id.font_color_a).setOnSeekBarChangeListener(seekListener);
 
+        this.setResult(RESULT_OK);
         findViewById(R.id.font_setting_view).setOnClickListener((v) -> this.finish());
     }
 
@@ -145,5 +147,8 @@ public class FontActivity extends AbstractActivity {
         this.getTextView(R.id.font_label).setText(text);
         this.photo.setFontText(text);
     }
-
+    @Override
+    public void onStop () {
+        super.onStop();
+    }
 }

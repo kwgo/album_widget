@@ -23,7 +23,6 @@ import com.jchip.album.data.AbstractData;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
-import com.jchip.album.model.AlbumModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,6 @@ import java.util.List;
 public abstract class AbstractActivity extends AppCompatActivity {
     public static final String ALBUM_MODEL = "albumModel";
     public static final String FRAME_RESOURCE = "frameResource";
-
-    private AlbumModel albumModel;
 
     protected AlbumData album;
     protected PhotoData photo;
@@ -46,11 +43,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        if (bundle != null) {
-            this.albumModel = (AlbumModel) bundle.getSerializable(ALBUM_MODEL);
-        } else {
-            this.albumModel = new AlbumModel();
-        }
 
         this.activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -59,6 +51,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         if (activityCallBack != null) {
                             activityCallBack.call(data);
+                            activityCallBack = null;
                         }
                     }
                 });
@@ -82,7 +75,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         intent.putExtra(AlbumData.tableName, this.album);
         intent.putExtra(PhotoData.tableName, this.photo);
-        Log.d("","put into Intent ..............." +  this.photo);
+        Log.d("", "put into Intent ..............." + this.photo);
         this.activityResultLauncher.launch(intent);
     }
 
@@ -119,6 +112,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     public SeekBar getSeekView(int sourceId) {
         return (SeekBar) findViewById(sourceId);
     }
+
     public FloatingActionButton getButtonView(int sourceId) {
         return (FloatingActionButton) findViewById(sourceId);
     }
