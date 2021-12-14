@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -81,6 +82,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         intent.putExtra(AlbumData.tableName, this.album);
         intent.putExtra(PhotoData.tableName, this.photo);
+        Log.d("","put into Intent ..............." +  this.photo);
         this.activityResultLauncher.launch(intent);
     }
 

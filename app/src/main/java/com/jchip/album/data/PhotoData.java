@@ -10,15 +10,15 @@ public class PhotoData extends AbstractData {
     private int albumId;
     private String photoPath;
 
-    private int typeIndex = 0;
+    private int scaleIndex = 0;
     private int flipIndex = 0;
     private int rotationIndex = 0;
 
-    private int fontIndex = 0;
-    private int fontSizeIndex = 0;
-    private int fontColor = 0;
-    private int locationIndex = 0;
-    private String comment = "";
+    private int fontType = 0;
+    private int fontSize = 32;
+    private int fontColor = 255 * 256 * 256 * 256 + 255 * 256 * 256 + 255 * 256 + 255;
+    private int fontLocation = 0;
+    private String fontText = "";
 
     public PhotoData() {
     }
@@ -57,12 +57,12 @@ public class PhotoData extends AbstractData {
     }
 
 
-    public int getTypeIndex() {
-        return typeIndex;
+    public int getScaleIndex() {
+        return scaleIndex;
     }
 
-    public void setTypeIndex(int typeIndex) {
-        this.typeIndex = typeIndex;
+    public void setScaleIndex(int scaleIndex) {
+        this.scaleIndex = scaleIndex;
     }
 
     public int getFlipIndex() {
@@ -81,20 +81,20 @@ public class PhotoData extends AbstractData {
         this.rotationIndex = rotationIndex;
     }
 
-    public int getFontIndex() {
-        return fontIndex;
+    public int getFontType() {
+        return fontType;
     }
 
-    public void setFontIndex(int fontIndex) {
-        this.fontIndex = fontIndex;
+    public void setFontType(int fontType) {
+        this.fontType = fontType;
     }
 
-    public int getFontSizeIndex() {
-        return fontSizeIndex;
+    public int getFontSize() {
+        return fontSize;
     }
 
-    public void setFontSizeIndex(int fontSizeIndex) {
-        this.fontSizeIndex = fontSizeIndex;
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 
     public int getFontColor() {
@@ -105,20 +105,20 @@ public class PhotoData extends AbstractData {
         this.fontColor = fontColor;
     }
 
-    public int getLocationIndex() {
-        return locationIndex;
+    public int getFontLocation() {
+        return fontLocation;
     }
 
-    public void setLocationIndex(int locationIndex) {
-        this.locationIndex = locationIndex;
+    public void setFontLocation(int fontLocation) {
+        this.fontLocation = fontLocation;
     }
 
-    public String getComment() {
-        return comment;
+    public String getFontText() {
+        return fontText;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setFontText(String fontText) {
+        this.fontText = fontText;
     }
 
     @Override

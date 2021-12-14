@@ -97,8 +97,8 @@ public class PhotoActivity extends LayerActivity {
 
     private void onFitPhoto(View v) {
         ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.FIT_XY};
-        this.photo.setTypeIndex((this.photo.getTypeIndex() + 1) % scaleTypies.length);
-        ((ImageView) findViewById(R.id.photo_image)).setScaleType(scaleTypies[this.photo.getTypeIndex()]);
+        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % scaleTypies.length);
+        ((ImageView) findViewById(R.id.photo_image)).setScaleType(scaleTypies[this.photo.getScaleIndex()]);
     }
 
     private void onFlipPhoto() {
