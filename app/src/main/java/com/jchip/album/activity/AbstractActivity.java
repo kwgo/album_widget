@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -13,6 +17,7 @@ import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jchip.album.data.AbstractData;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
@@ -83,25 +88,11 @@ public abstract class AbstractActivity extends AppCompatActivity {
         view.setVisibility(show ? View.VISIBLE : gone ? View.GONE : View.INVISIBLE);
     }
 
-    //    public void alertDeletion(Runnable work) {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-//        alert.setTitle(R.string.app_name);
-//        alert.setMessage(R.string.album_alert_delete);
-//        //.setNegativeButton(android.R.string.no, null)
-//        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                work.run();
-//                dialog.dismiss();
-//            }
-//        }).show();
-//    }
-
     public void alert(int titleId, int detailId, Runnable work) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(titleId);
         alert.setMessage(detailId);
-        //.setNegativeButton(android.R.string.no, null)
+        // alert.setNegativeButton(android.R.string.no, null)
         alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -110,6 +101,26 @@ public abstract class AbstractActivity extends AppCompatActivity {
             }
         }).show();
     }
+
+    public ImageView getImageView(int sourceId) {
+        return (ImageView) findViewById(sourceId);
+    }
+
+    public TextView getTextView(int sourceId) {
+        return (TextView) findViewById(sourceId);
+    }
+
+    public EditText getEditView(int sourceId) {
+        return (EditText) findViewById(sourceId);
+    }
+
+    public SeekBar getSeekView(int sourceId) {
+        return (SeekBar) findViewById(sourceId);
+    }
+    public FloatingActionButton getButtonView(int sourceId) {
+        return (FloatingActionButton) findViewById(sourceId);
+    }
+
 
     public boolean isEmpty(List<?> list) {
         return list == null || list.isEmpty();

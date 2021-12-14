@@ -18,6 +18,7 @@ public class PhotoData extends AbstractData {
     private int fontSizeIndex = 0;
     private int fontColor = 0;
     private int locationIndex = 0;
+    private String comment = "";
 
     public PhotoData() {
     }
@@ -110,6 +111,14 @@ public class PhotoData extends AbstractData {
 
     public void setLocationIndex(int locationIndex) {
         this.locationIndex = locationIndex;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override

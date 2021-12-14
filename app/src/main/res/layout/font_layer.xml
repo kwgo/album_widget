@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +41,7 @@
                         android:src="@drawable/frame_0" />
 
                     <TextView
-                        android:id="@+id/font_sample"
+                        android:id="@+id/font_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
@@ -64,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginTop="1dp"
+                        android:layout_marginTop="2dp"
                         android:src="@drawable/font_type" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -102,11 +101,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginBottom="1dp"
+                        android:layout_marginBottom="2dp"
                         android:src="@drawable/font_size_minus" />
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <EditText
@@ -117,8 +114,8 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="0dp"
-                android:layout_marginBottom="15dp"
-                android:alpha="0.70"
+                android:layout_marginBottom="5dp"
+                android:alpha="0.95"
                 android:background="@drawable/font_text"
                 android:hint="@string/font_sample"
                 android:paddingStart="5dp"
@@ -136,7 +133,8 @@
                     android:id="@+id/font_color_r"
                     style="@style/font_color_seeker"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
+                    android:max="255"
                     android:progressTint="#FF0000"
                     android:saveEnabled="false"
                     android:thumbTint="#FF0000" />
@@ -145,7 +143,8 @@
                     android:id="@+id/font_color_g"
                     style="@style/font_color_seeker"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
+                    android:max="255"
                     android:progressTint="#00FF00"
                     android:thumbTint="#00FF00" />
 
@@ -153,7 +152,8 @@
                     android:id="@+id/font_color_b"
                     style="@style/font_color_seeker"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
+                    android:max="255"
                     android:progressTint="#0000FF"
                     android:thumbTint="#0000FF" />
 
@@ -161,7 +161,8 @@
                     android:id="@+id/font_color_a"
                     style="@style/font_color_seeker"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
+                    android:max="255"
                     android:progressTint="#BBFFFFFF"
                     android:thumbTint="#BBFFFFFF" />
 
