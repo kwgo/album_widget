@@ -72,11 +72,11 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
-        this.setViewPhoto(this.getImageView(R.id.photo_image));
-        this.setViewScale(this.getImageView(R.id.photo_image));
-        this.setViewFont(this.getTextView(R.id.photo_label));
-        this.setViewFrame(this.getView(R.id.photo_frame_container));
-        this.setViewFrame(this.getView(R.id.photo_frame_cover));
+        this.setImagePhoto(this.getImageView(R.id.photo_image));
+        this.setImageScale(this.getImageView(R.id.photo_image));
+        this.setPhotoFont(this.getTextView(R.id.photo_label));
+        this.setPhotoFrame(this.getView(R.id.photo_frame_container));
+        this.setPhotoFrame(this.getView(R.id.photo_frame_cover));
     }
 
     private boolean onSlipPhoto(int offset) {
@@ -93,19 +93,19 @@ public class PhotoActivity extends LayerActivity {
 
     private void onScalePhoto(View v) {
         this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
-        this.setViewScale(this.getImageView(R.id.photo_image));
+        this.setImageScale(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 
     private void onFlipPhoto() {
         this.photo.setFlipIndex((this.photo.getFlipIndex() + 1) % 2);
-        this.setViewPhoto(this.getImageView(R.id.photo_image));
+        this.setImagePhoto(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 
     protected void onRotatePhoto() {
         this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
-        this.setViewPhoto(this.getImageView(R.id.photo_image));
+        this.setImagePhoto(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 

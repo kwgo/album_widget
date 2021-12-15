@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -79,11 +78,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         intent.putExtra(AlbumData.tableName, this.album);
         intent.putExtra(PhotoData.tableName, this.photo);
-        Log.d("", "put into Intent ..............." + this.photo);
         this.activityResultLauncher.launch(intent);
     }
 
-    protected void setViewPhoto(ImageView imageView) {
+    protected void setImagePhoto(ImageView imageView) {
         if (this.photo.getPhotoPath() != null && !this.photo.getPhotoPath().trim().isEmpty()) {
             Bitmap bitmap = AlbumHelper.loadBitmap(this.photo.getPhotoPath());
             bitmap = ImageHelper.convertBitmap(bitmap, this.photo.getRotationIndex(), this.photo.getFlipIndex());
@@ -91,7 +89,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         }
     }
 
-    protected void setViewScale(ImageView imageView) {
+    protected void setImageScale(ImageView imageView) {
         ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{
                 ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
                 ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
@@ -99,23 +97,22 @@ public abstract class AbstractActivity extends AppCompatActivity {
         imageView.setScaleType(scaleTypies[this.photo.getScaleIndex()]);
     }
 
-    protected void setViewFont(TextView textView) {
+    protected void setPhotoFont(TextView textView) {
         textView.setText(this.photo.getFontText());
-        Log.d("","this.photo.getFontText()==="+this.photo.getFontText());
         textView.setTextColor(this.photo.getFontColor());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.photo.getFontSize());
-        this.setViewLocation(textView);
+        this.setFontLocation(textView);
     }
 
-    protected void setViewFrame(View view) {
-        this.getView(R.id.photo_frame_cover).setBackgroundResource(this.photo.getFrameIndex());
+    protected void setPhotoFrame(View view) {
+        view.setBackgroundResource(this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default);
     }
 
-    protected void setViewText(TextView textView) {
+    protected void setPhotoText(TextView textView) {
         textView.setText(this.photo.getFontText());
     }
 
-    protected void setViewLocation(View view) {
+    protected void setFontLocation(View view) {
         int fontLocation = this.photo.getFontLocation();
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
@@ -168,18 +165,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
     public FloatingActionButton getButtonView(int sourceId) {
         return (FloatingActionButton) findViewById(sourceId);
     }
-
-    //public boolean isEmpty(List<?> list) {
-    //      return list == null || list.isEmpty();
-    // }
-
-    public boolean isEmptyText(String text) {
-        return text == null || text.trim().isEmpty();
-    }
-
-    //   public boolean isEmpty(AbstractData data) {
-    //       return data == null;
-    //   }
 
     public boolean isPortrait() {
         int orientation = this.getResources().getConfiguration().orientation;

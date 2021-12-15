@@ -29,8 +29,8 @@ public class LayerActivity extends DataActivity {
         int frameSourceId = intent.getIntExtra(FRAME_RESOURCE, -1);
         if (frameSourceId >= 0) {
             this.photo.setFrameIndex(frameSourceId);
-            this.setViewFrame(this.getView(R.id.photo_frame_container));
-            this.setViewFrame(this.getView(R.id.photo_frame_cover));
+            this.setPhotoFrame(this.getView(R.id.photo_frame_container));
+            this.setPhotoFrame(this.getView(R.id.photo_frame_cover));
             this.updatePhoto();
         }
     }
@@ -43,7 +43,7 @@ public class LayerActivity extends DataActivity {
             this.photo.setFontColor(photo.getFontColor());
             this.photo.setFontLocation(photo.getFontLocation());
             this.photo.setFontText(photo.getFontText());
-            this.setViewFont(this.getTextView(R.id.photo_label));
+            this.setPhotoFont(this.getTextView(R.id.photo_label));
             this.updatePhoto();
         }
     }

@@ -30,9 +30,9 @@ public class FontActivity extends AbstractActivity {
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
         //this.photo = this.photo == null ? new PhotoData() : this.photo;
 
-        this.setViewPhoto(this.getImageView(R.id.font_image));
-        this.setViewFont(this.getTextView(R.id.font_label));
-        this.setViewText(this.getEditView(R.id.font_text));
+        this.setImagePhoto(this.getImageView(R.id.font_image));
+        this.setPhotoFont(this.getTextView(R.id.font_label));
+        this.setPhotoText(this.getEditView(R.id.font_text));
 
         this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);
         this.getSeekView(R.id.font_color_r).setProgress((this.photo.getFontColor() >> 16) & 0xFF);
@@ -90,7 +90,7 @@ public class FontActivity extends AbstractActivity {
 
     private void onLocationChange() {
         this.photo.setFontLocation((this.photo.getFontLocation() + 1) % 4);
-        this.setViewLocation(this.getTextView(R.id.font_label));
+        this.setFontLocation(this.getTextView(R.id.font_label));
     }
 
     private void onSizeChange(int change) {

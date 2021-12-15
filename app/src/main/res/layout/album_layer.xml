@@ -140,7 +140,7 @@
             android:id="@+id/photo_frame_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/frame_5"
+            android:background="@drawable/frame_default"
             android:gravity="center">
 
             <RelativeLayout
@@ -165,7 +165,7 @@
             android:id="@+id/photo_frame_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/frame_5" />
+            android:background="@drawable/frame_default" />
     </FrameLayout>
 
     <LinearLayout
