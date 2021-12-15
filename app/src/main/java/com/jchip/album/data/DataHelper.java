@@ -60,8 +60,12 @@ public class DataHelper extends DataHandler {
     public AlbumData deleteAlbum(AlbumData albumData) {
         if (albumData.isSaved()) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(PhotoData.fieldAlbumId, albumData.getAlbumId());
+            contentValues.put(AlbumData.fieldAlbumId, albumData.getAlbumId());
             this.delete(AlbumData.tableName, contentValues);
+
+            contentValues = new ContentValues();
+            contentValues.put(PhotoData.fieldAlbumId, albumData.getAlbumId());
+            this.delete(PhotoData.tableName, contentValues);
         }
         return albumData;
     }

@@ -23,10 +23,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.ImageHelper;
 import com.jchip.album.data.AlbumData;
-import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
 
 import java.util.ArrayList;
@@ -92,11 +92,23 @@ public abstract class AbstractActivity extends AppCompatActivity {
         }
     }
 
+    protected void setViewScale(ImageView imageView) {
+        ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{
+                ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
+                ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
+        };
+        imageView.setScaleType(scaleTypies[this.photo.getScaleIndex()]);
+    }
+
     protected void setViewFont(TextView textView) {
         textView.setText(this.photo.getFontText());
         textView.setTextColor(this.photo.getFontColor());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.photo.getFontSize());
         this.setViewLocation(textView);
+    }
+
+    protected void setViewFrame(View view) {
+        this.getView(R.id.photo_frame_cover).setBackgroundResource(this.photo.getFrameIndex());
     }
 
     protected void setViewText(TextView textView) {
@@ -186,4 +198,4 @@ public abstract class AbstractActivity extends AppCompatActivity {
         public void call(Intent intent);
     }
 
- }
+}

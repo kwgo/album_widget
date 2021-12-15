@@ -3,7 +3,6 @@ package com.jchip.album.activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
@@ -27,7 +26,7 @@ public class PhotoActivity extends LayerActivity {
         this.getButtonView(R.id.photo_add).setOnClickListener((e) -> onAddPhotos());
         this.getButtonView(R.id.photo_delete).setOnClickListener((v) -> this.onDeletePhoto());
 
-        this.getButtonView(R.id.photo_fit).setOnClickListener((v) -> this.onFitPhoto(v));
+        this.getButtonView(R.id.photo_fit).setOnClickListener((v) -> this.onScalePhoto(v));
         this.getButtonView(R.id.photo_rotation).setOnClickListener((v) -> this.onRotatePhoto());
         this.getButtonView(R.id.photo_flip).setOnClickListener((v) -> this.onFlipPhoto());
 
@@ -75,6 +74,10 @@ public class PhotoActivity extends LayerActivity {
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
         this.setViewPhoto(this.getImageView(R.id.photo_image));
+        this.setViewScale(this.getImageView(R.id.photo_image));
+        this.setViewFont(this.getTextView(R.id.photo_label));
+        this.setViewFrame(this.getView(R.id.photo_frame_container));
+        this.setViewFrame(this.getView(R.id.photo_frame_cover));
     }
 
     private boolean onSlipPhoto(int offset) {
@@ -89,25 +92,23 @@ public class PhotoActivity extends LayerActivity {
         return false;
     }
 
-    private void onFitPhoto(View v) {
-        ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER};
-        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % scaleTypies.length);
-        this.getImageView(R.id.photo_image).setScaleType(scaleTypies[this.photo.getScaleIndex()]);
+    private void onScalePhoto(View v) {
+        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
+        this.setViewScale(this.getImageView(R.id.photo_image));
         DataHelper.getInstance(this).updatePhoto(this.photo);
     }
 
     private void onFlipPhoto() {
         this.photo.setFlipIndex((this.photo.getFlipIndex() + 1) % 2);
-        DataHelper.getInstance(this).updatePhoto(this.photo);
         this.setViewPhoto(this.getImageView(R.id.photo_image));
+        DataHelper.getInstance(this).updatePhoto(this.photo);
     }
 
     protected void onRotatePhoto() {
         this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
-        DataHelper.getInstance(this).updatePhoto(this.photo);
         this.setViewPhoto(this.getImageView(R.id.photo_image));
+        DataHelper.getInstance(this).updatePhoto(this.photo);
     }
-
 
     private void onSelectedPhotos(List<AlbumPhoto> albumPhotos) {
         if (albumPhotos != null && !albumPhotos.isEmpty()) {
@@ -122,6 +123,7 @@ public class PhotoActivity extends LayerActivity {
             if (!this.photo.isSaved() && !this.photos.isEmpty()) {
                 this.setAlbumPhoto(this.photos.get(0));
             }
+            ((AlbumActivity) this).reloadAlbumList();
         }
     }
 }

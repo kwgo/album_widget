@@ -16,7 +16,7 @@ import java.util.Map;
 public abstract class DataHandler extends SQLiteOpenHelper {
 
     // database version
-    protected static final int DATABASE_VERSION = 8;
+    protected static final int DATABASE_VERSION = 9;
     // database name
     protected static final String DATABASE_NAME = "album";
 
@@ -113,7 +113,13 @@ public abstract class DataHandler extends SQLiteOpenHelper {
 
     protected boolean delete(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(tableName, "id=?", new String[]{contentValues.getAsString(FIELD_ID)});
+        StringBuilder whereClause = new StringBuilder("1=1");
+        List<String> whereArgs = new ArrayList<>();
+        for (String key : contentValues.keySet()) {
+            whereClause.append(" and ").append(key).append("=?");
+            whereArgs.add(contentValues.getAsString(key));
+        }
+        int result = db.delete(tableName, whereClause.toString(), whereArgs.toArray(new String[0]));
         return result > 0;
     }
 

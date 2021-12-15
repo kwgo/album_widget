@@ -28,20 +28,32 @@ public class AlbumActivity extends PhotoActivity {
     public void initContentView() {
         super.initContentView();
 
-        String albumName = this.getString(R.string.default_album_name);
         this.albums = DataHelper.getInstance(this).queryAlbums();
-        this.albums.add(0, new AlbumData(albumName + (this.albums.size() + 1)));
-        this.setAlbumPhotos(this.albums.get(0));
+        this.reloadAlbumList();
+        this.setAlbumPhotos(albums.get(0));
 
         this.albumView = (AlbumView) findViewById(R.id.album_name_text);
         this.albumView.setAdapter(new AlbumViewAdapter(this, this.albums));
-        this.albumView.setListSelection(0);
         this.albumView.setEnabled(false);
         this.albumView.setText(this.album.getAlbumName(), false);
         this.albumView.addTextChangedListener(text -> this.onAlbumNameChanged(text));
         this.albumView.setOnItemClickListener((adapterView, view, position, id) -> this.onSelectAlbum(position));
 
         this.getView(R.id.album_name_menu).setOnClickListener((v) -> this.showMenu(v));
+    }
+
+    protected void reloadAlbumList() {
+        boolean allSaved = true;
+        for (AlbumData album : this.albums) {
+            if (!album.isSaved()) {
+                allSaved = false;
+                break;
+            }
+        }
+        if (allSaved) {
+            String albumName = this.getString(R.string.default_album_name);
+            this.albums.add(0, new AlbumData(albumName + (this.albums.size() + 1)));
+        }
     }
 
     public void showMenu(View view) {
@@ -78,9 +90,8 @@ public class AlbumActivity extends PhotoActivity {
                 this.albums.remove(this.album);
                 DataHelper.getInstance(this).deleteAlbum(this.album);
             }
-            if (!this.albums.isEmpty()) {
-                this.setAlbumPhotos(albums.get(0));
-            }
+            this.reloadAlbumList();
+            this.setAlbumPhotos(albums.get(0));
         });
     }
 }

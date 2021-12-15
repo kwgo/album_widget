@@ -31,9 +31,9 @@ public class LayerActivity extends AbstractActivity {
     public void onFrameChange(Intent intent) {
         int frameSourceId = intent.getIntExtra(FRAME_RESOURCE, -1);
         if (frameSourceId >= 0) {
-            this.getView(R.id.photo_frame_container).setBackgroundResource(frameSourceId);
-            this.getView(R.id.photo_frame_cover).setBackgroundResource(frameSourceId);
-            this.photo.setFrameIndex(intent.getIntExtra(FRAME_INDEX, -1));
+            this.photo.setFrameIndex(frameSourceId);
+            this.setViewFrame(this.getView(R.id.photo_frame_container));
+            this.setViewFrame(this.getView(R.id.photo_frame_cover));
         }
     }
 
