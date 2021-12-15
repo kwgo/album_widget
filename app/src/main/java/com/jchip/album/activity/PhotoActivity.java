@@ -25,7 +25,7 @@ public class PhotoActivity extends LayerActivity {
         this.getButtonView(R.id.photo_add).setOnClickListener((e) -> onAddPhotos());
         this.getButtonView(R.id.photo_delete).setOnClickListener((v) -> this.onDeletePhoto());
 
-        this.getButtonView(R.id.photo_fit).setOnClickListener((v) -> this.onScalePhoto(v));
+        this.getButtonView(R.id.photo_scale).setOnClickListener((v) -> this.onScalePhoto(v));
         this.getButtonView(R.id.photo_rotation).setOnClickListener((v) -> this.onRotatePhoto());
         this.getButtonView(R.id.photo_flip).setOnClickListener((v) -> this.onFlipPhoto());
 

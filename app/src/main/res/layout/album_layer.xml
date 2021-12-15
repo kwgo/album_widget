@@ -119,7 +119,7 @@
             android:src="@drawable/photo_rotation" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/photo_fit"
+            android:id="@+id/photo_scale"
             style="@style/mini_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

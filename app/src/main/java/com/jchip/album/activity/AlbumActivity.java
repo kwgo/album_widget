@@ -1,9 +1,14 @@
 package com.jchip.album.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.OrientationEventListener;
 import android.view.View;
 
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -27,6 +32,8 @@ public class AlbumActivity extends PhotoActivity {
     public void initContentView() {
         super.initContentView();
 
+        this.setOrientationEvent();
+
         this.albums = this.queryAlbums();
         this.reloadAlbumList();
         this.setAlbumPhotos(albums.get(0));
@@ -38,7 +45,6 @@ public class AlbumActivity extends PhotoActivity {
         this.albumView.addTextChangedListener(text -> this.onAlbumNameChanged(text));
         this.albumView.setOnItemClickListener((adapterView, view, position, id) -> this.onSelectAlbum(position));
 
-        this.getView(R.id.album_name_menu).setOnClickListener((v) -> this.showMenu(v));
     }
 
     protected void reloadAlbumList() {
@@ -92,5 +98,49 @@ public class AlbumActivity extends PhotoActivity {
             this.reloadAlbumList();
             this.setAlbumPhotos(albums.get(0));
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d("", "onConfigurationChanged onConfigurationChanged onConfigurationChanged onConfigurationChanged");
+    }
+
+    private OrientationEventListener orientationEventListener;
+
+    private void setOrientationEvent() {
+        orientationEventListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+     //           Log.v("", "Orientation changed to " + orientation);
+       //         Log.v("", "Orientation item changed to " + findViewById(R.id.photo_scale).getRotation());
+                View view = getButtonView(R.id.photo_delete);
+                int rotation = (orientation + 45) % 360 / 90;
+                if (rotation != view.getRotation() && rotation >= 0 && rotation != 2) {
+                    //view.setRotation(rotation * -90);L
+                    Log.v("", "Orientation item changed to " + findViewById(R.id.photo_scale).getRotation());
+                    view.animate().rotation(rotation * -90).setDuration(300);
+
+//                    ObjectAnimator rotate = ObjectAnimator.ofFloat(view, "rotation", 0f, rotation * -90);
+//        rotate.setRepeatCount(1);
+//                   rotate.setDuration(500);
+//                    rotate.start();
+                }
+            }
+        };
+
+        if (orientationEventListener.canDetectOrientation()) {
+            Log.v("", "Can detect orientation");
+            orientationEventListener.enable();
+        } else {
+            Log.v("", "Cannot detect orientation");
+            orientationEventListener.disable();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        orientationEventListener.disable();
     }
 }
