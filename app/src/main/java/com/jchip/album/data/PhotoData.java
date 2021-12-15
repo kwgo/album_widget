@@ -139,12 +139,4 @@ public class PhotoData extends AbstractData {
     public void setFontText(String fontText) {
         this.fontText = fontText;
     }
-
-    @Override
-    public boolean equals(Object photo) {
-        if (photo != null) {
-            return this.photoPath != null && this.photoPath.equals(((PhotoData) photo).getPhotoPath());
-        }
-        return false;
-    }
 }

@@ -39,7 +39,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected PhotoData photo = new PhotoData();
 
     protected List<AlbumData> albums = new ArrayList<>();
-    protected List<PhotoData> photos = new ArrayList<>();
+    //protected List<PhotoData> photos = new ArrayList<>();
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ActivityCallBack activityCallBack;

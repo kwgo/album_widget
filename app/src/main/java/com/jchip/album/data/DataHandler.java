@@ -16,7 +16,7 @@ import java.util.Map;
 public abstract class DataHandler extends SQLiteOpenHelper {
 
     // database version
-    protected static final int DATABASE_VERSION = 9;
+    protected static final int DATABASE_VERSION = 10;
     // database name
     protected static final String DATABASE_NAME = "album";
 
@@ -44,6 +44,7 @@ public abstract class DataHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         this.createAlbumTable(db);
         this.createPhotoTable(db);
+        this.createWidgetTable(db);
     }
 
     // When upgrading the database, it will drop the current table and recreate.
@@ -166,12 +167,24 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         this.createTable(db, PhotoData.tableName, contentValues);
     }
 
+    public void createWidgetTable(SQLiteDatabase db) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(WidgetData.fieldWidgetId, "INTEGER PRIMARY KEY");
+        contentValues.put(WidgetData.fieldAlbumId, "INT");
+        contentValues.put(WidgetData.fieldPhotoId, "INT");
+        this.createTable(db, WidgetData.tableName, contentValues);
+    }
+
     protected void dropAlbumTable(SQLiteDatabase db) {
         this.dropTable(db, AlbumData.tableName);
     }
 
     protected void dropPhotoTable(SQLiteDatabase db) {
         this.dropTable(db, PhotoData.tableName);
+    }
+
+    protected void dropWidgetTable(SQLiteDatabase db) {
+        this.dropTable(db, WidgetData.tableName);
     }
 
     protected void dropTable(SQLiteDatabase db, String tableName) {

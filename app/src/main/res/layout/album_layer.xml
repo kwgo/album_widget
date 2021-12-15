@@ -213,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="end|bottom"
-                android:src="@drawable/photo_font" />
+                android:src="@drawable/photo_help" />
         </LinearLayout>
 
         <LinearLayout

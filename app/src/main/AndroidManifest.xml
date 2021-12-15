@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,6 +36,46 @@
             android:name=".ActivityFont"
             android:theme="@style/layer_theme" />
 
+        <activity
+            android:name=".ActivityAlbumSetting"
+            android:icon="@drawable/widget_icon"
+            android:roundIcon="@drawable/widget_icon"
+            android:theme="@style/widget_setting">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ActivityPhotoSetting"
+            android:icon="@drawable/widget_icon"
+            android:roundIcon="@drawable/widget_icon"
+            android:theme="@style/widget_setting">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".ActivityAlbumSetting$AlbumProvider"
+            android:label="@string/album_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_album_info" />
+        </receiver>
+        <receiver
+            android:name=".ActivityPhotoSetting$PhotoProvider"
+            android:label="@string/photo_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_photo_info" />
+        </receiver>
     </application>
 
 </manifest>

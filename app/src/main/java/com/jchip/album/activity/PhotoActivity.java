@@ -40,12 +40,10 @@ public class PhotoActivity extends LayerActivity {
     private void onDeletePhoto() {
         this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
             if (this.photo.isSaved()) {
-                this.photos.remove(this.photo);
+                this.album.removePhoto(this.photo);
                 this.deletePhoto();
             }
-            if (!this.photos.isEmpty()) {
-                this.setAlbumPhoto(photos.get(0));
-            }
+            this.setAlbumPhoto(this.album.getPhoto(0));
         });
     }
 
@@ -63,11 +61,11 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhotos(AlbumData album) {
         this.album = album;
-        this.photos.clear();
+        this.album.clearPhotos();
         if (album.isSaved()) {
-            this.photos = this.queryPhotos();
+            this.album.setPhotos(this.queryPhotos());
         }
-        this.setAlbumPhoto(this.photos.isEmpty() ? new PhotoData() : this.photos.get(0));
+        this.setAlbumPhoto(this.album.getPhoto(0));
     }
 
     public void setAlbumPhoto(PhotoData photo) {
@@ -80,11 +78,11 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private boolean onSlipPhoto(int offset) {
-        if (!this.photos.isEmpty()) {
-            int postion = this.photos.indexOf(this.photo);
+        if (!this.album.isPhotoEmpty()) {
+            int postion = this.album.getPhotoIndex(this.photo);
             postion = postion < 0 ? 0 : postion + offset;
-            if (postion >= 0 && postion < this.photos.size()) {
-                this.setAlbumPhoto(this.photos.get(postion));
+            if (postion >= 0 && postion < this.album.getPhotoSize()) {
+                this.setAlbumPhoto(this.album.getPhoto(postion));
                 return true;
             }
         }
@@ -115,14 +113,14 @@ public class PhotoActivity extends LayerActivity {
             PhotoData photo = this.photo;
             for (AlbumPhoto albumPhoto : albumPhotos) {
                 this.photo = new PhotoData(this.album.getAlbumId(), albumPhoto.getPhotoPath());
-                if (!this.photos.contains(this.photo)) {
+                if (!this.album.isPhotoPathExisted(this.photo)) {
                     this.photo.setFrameIndex(photo.getFrameIndex());
-                    this.photos.add(this.createPhoto());
+                    this.album.addPhoto(this.createPhoto());
                 }
             }
             this.photo = photo;
-            if (!this.photo.isSaved() && !this.photos.isEmpty()) {
-                this.setAlbumPhoto(this.photos.get(0));
+            if (!this.photo.isSaved()) {
+                this.setAlbumPhoto(this.album.getPhoto(0));
             }
             ((AlbumActivity) this).reloadAlbumList();
         }
