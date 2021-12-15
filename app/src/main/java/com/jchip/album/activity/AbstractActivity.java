@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractActivity extends AppCompatActivity {
-    public static final String ALBUM_MODEL = "albumModel";
     public static final String FRAME_INDEX = "frameIndex";
     public static final String FRAME_RESOURCE = "frameResource";
 

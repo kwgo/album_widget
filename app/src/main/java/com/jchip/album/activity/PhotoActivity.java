@@ -72,6 +72,7 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
+        Log.d("", "setAlbumPhoto this.photo===" + this.photo.getClass());
         this.setViewPhoto(this.getImageView(R.id.photo_image));
         this.setViewScale(this.getImageView(R.id.photo_image));
         this.setViewFont(this.getTextView(R.id.photo_label));

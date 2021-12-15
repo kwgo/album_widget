@@ -41,10 +41,15 @@ public class LayerActivity extends DataActivity {
     public void onFontChange(Intent intent) {
         PhotoData photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
         if (photo != null) {
-            this.photo = photo;
+            this.photo.setFontType(photo.getFontType());
+            this.photo.setFontSize(photo.getFontSize());
+            this.photo.setFontColor(photo.getFontColor());
+            this.photo.setFontLocation(photo.getFontLocation());
+            this.photo.setFontText(photo.getFontText());
             this.setViewFont(this.getTextView(R.id.photo_label));
             this.updatePhoto();
-            Log.d("", "ooo this.photo.getFontText()===" + this.photo.getFontText());
+            Log.d("", "onFontChange this.photo===" + this.photo.getClass());
+            Log.d("", "onFontChange this.photo.getFontText()===" + this.photo.getFontText());
         }
     }
 }

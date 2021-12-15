@@ -24,15 +24,14 @@ public class FontActivity extends AbstractActivity {
     public void initContentView() {
         super.initContentView();
 
-        Intent intent = new Intent(this.getIntent());
+        Intent intent = this.getIntent();
+        this.setResult(RESULT_OK, intent);
+
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
         //this.photo = this.photo == null ? new PhotoData() : this.photo;
-        //intent.putExtra(PhotoData.tableName, this.photo);
-        this.setResult(RESULT_OK, intent);
 
         this.setViewPhoto(this.getImageView(R.id.font_image));
         this.setViewFont(this.getTextView(R.id.font_label));
-
         this.setViewText(this.getEditView(R.id.font_text));
 
         this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);
@@ -43,14 +42,12 @@ public class FontActivity extends AbstractActivity {
         // events
         this.getButtonView(R.id.font_type).setOnClickListener((v) -> this.onFontTypeChange());
         this.getButtonView(R.id.font_location).setOnClickListener((v) -> this.onLocationChange());
-
         this.getButtonView(R.id.font_size_plus).setOnClickListener((v) -> this.onSizeChange(+1));
         this.getButtonView(R.id.font_size_minus).setOnClickListener((v) -> this.onSizeChange(-1));
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
