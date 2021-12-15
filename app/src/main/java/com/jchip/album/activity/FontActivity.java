@@ -1,7 +1,6 @@
 package com.jchip.album.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,8 +10,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jchip.album.R;
-import com.jchip.album.common.AlbumHelper;
-import com.jchip.album.common.ImageHelper;
 import com.jchip.album.data.PhotoData;
 
 public class FontActivity extends AbstractActivity {
@@ -27,10 +24,10 @@ public class FontActivity extends AbstractActivity {
     public void initContentView() {
         super.initContentView();
 
-        Intent intent = this.getIntent();
+        Intent intent = new Intent(this.getIntent());
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
-        this.photo = this.photo == null ? new PhotoData() : this.photo;
-        intent.putExtra(PhotoData.tableName, this.photo);
+        //this.photo = this.photo == null ? new PhotoData() : this.photo;
+        //intent.putExtra(PhotoData.tableName, this.photo);
         this.setResult(RESULT_OK, intent);
 
         this.setViewPhoto(this.getImageView(R.id.font_image));

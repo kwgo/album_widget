@@ -11,7 +11,6 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.jchip.album.R;
 import com.jchip.album.data.AlbumData;
-import com.jchip.album.data.DataHelper;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.AlbumViewAdapter;
 
@@ -28,7 +27,7 @@ public class AlbumActivity extends PhotoActivity {
     public void initContentView() {
         super.initContentView();
 
-        this.albums = DataHelper.getInstance(this).queryAlbums();
+        this.albums = this.queryAlbums();
         this.reloadAlbumList();
         this.setAlbumPhotos(albums.get(0));
 
@@ -77,7 +76,7 @@ public class AlbumActivity extends PhotoActivity {
 
     protected void onAlbumNameChanged(String text) {
         this.album.setAlbumName(text.trim());
-        DataHelper.getInstance(this).updateAlbum(this.album);
+        this.updateAlbum();
     }
 
     private void onSelectAlbum(int position) {
@@ -88,7 +87,7 @@ public class AlbumActivity extends PhotoActivity {
         this.alert(R.string.album_title, R.string.album_alert_delete, () -> {
             if (this.album.isSaved()) {
                 this.albums.remove(this.album);
-                DataHelper.getInstance(this).deleteAlbum(this.album);
+                this.deleteAlbum();
             }
             this.reloadAlbumList();
             this.setAlbumPhotos(albums.get(0));

@@ -8,7 +8,6 @@ import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
-import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
 import com.rayzhang.android.rzalbum.RZAlbum;
 import com.rayzhang.android.rzalbum.model.AlbumPhoto;
@@ -42,7 +41,7 @@ public class PhotoActivity extends LayerActivity {
         this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
             if (this.photo.isSaved()) {
                 this.photos.remove(this.photo);
-                DataHelper.getInstance(this).deletePhoto(this.photo);
+                this.deletePhoto();
             }
             if (!this.photos.isEmpty()) {
                 this.setAlbumPhoto(photos.get(0));
@@ -66,7 +65,7 @@ public class PhotoActivity extends LayerActivity {
         this.album = album;
         this.photos.clear();
         if (album.isSaved()) {
-            this.photos = DataHelper.getInstance(this).queryPhotos(album.getAlbumId());
+            this.photos = this.queryPhotos();
         }
         this.setAlbumPhoto(this.photos.isEmpty() ? new PhotoData() : this.photos.get(0));
     }
@@ -95,31 +94,33 @@ public class PhotoActivity extends LayerActivity {
     private void onScalePhoto(View v) {
         this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
         this.setViewScale(this.getImageView(R.id.photo_image));
-        DataHelper.getInstance(this).updatePhoto(this.photo);
+        this.updatePhoto();
     }
 
     private void onFlipPhoto() {
         this.photo.setFlipIndex((this.photo.getFlipIndex() + 1) % 2);
         this.setViewPhoto(this.getImageView(R.id.photo_image));
-        DataHelper.getInstance(this).updatePhoto(this.photo);
+        this.updatePhoto();
     }
 
     protected void onRotatePhoto() {
         this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
         this.setViewPhoto(this.getImageView(R.id.photo_image));
-        DataHelper.getInstance(this).updatePhoto(this.photo);
+        this.updatePhoto();
     }
 
     private void onSelectedPhotos(List<AlbumPhoto> albumPhotos) {
         if (albumPhotos != null && !albumPhotos.isEmpty()) {
-            DataHelper.getInstance(this).saveAlbum(this.album);
+            this.saveAlbum();
+            PhotoData photo = this.photo;
             for (AlbumPhoto albumPhoto : albumPhotos) {
-                PhotoData photo = new PhotoData(this.album.getAlbumId(), albumPhoto.getPhotoPath());
-                if (!this.photos.contains(photo)) {
-                    photo.setFrameIndex(this.photo.getFrameIndex());
-                    this.photos.add(DataHelper.getInstance(this).createPhoto(photo));
+                this.photo = new PhotoData(this.album.getAlbumId(), albumPhoto.getPhotoPath());
+                if (!this.photos.contains(this.photo)) {
+                    this.photo.setFrameIndex(photo.getFrameIndex());
+                    this.photos.add(this.createPhoto());
                 }
             }
+            this.photo = photo;
             if (!this.photo.isSaved() && !this.photos.isEmpty()) {
                 this.setAlbumPhoto(this.photos.get(0));
             }

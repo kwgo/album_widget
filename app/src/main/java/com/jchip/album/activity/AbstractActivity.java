@@ -102,6 +102,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     protected void setViewFont(TextView textView) {
         textView.setText(this.photo.getFontText());
+        Log.d("","this.photo.getFontText()==="+this.photo.getFontText());
         textView.setTextColor(this.photo.getFontColor());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.photo.getFontSize());
         this.setViewLocation(textView);

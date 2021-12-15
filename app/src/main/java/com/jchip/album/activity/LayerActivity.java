@@ -8,7 +8,7 @@ import com.jchip.album.ActivityFrame;
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 
-public class LayerActivity extends AbstractActivity {
+public class LayerActivity extends DataActivity {
 
     @Override
     public void initContentView() {
@@ -34,6 +34,7 @@ public class LayerActivity extends AbstractActivity {
             this.photo.setFrameIndex(frameSourceId);
             this.setViewFrame(this.getView(R.id.photo_frame_container));
             this.setViewFrame(this.getView(R.id.photo_frame_cover));
+            this.updatePhoto();
         }
     }
 
@@ -42,6 +43,8 @@ public class LayerActivity extends AbstractActivity {
         if (photo != null) {
             this.photo = photo;
             this.setViewFont(this.getTextView(R.id.photo_label));
+            this.updatePhoto();
+            Log.d("", "ooo this.photo.getFontText()===" + this.photo.getFontText());
         }
     }
 }
