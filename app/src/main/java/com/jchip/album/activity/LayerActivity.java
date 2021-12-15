@@ -1,7 +1,6 @@
 package com.jchip.album.activity;
 
 import android.content.Intent;
-import android.util.Log;
 
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
@@ -19,8 +18,6 @@ public class LayerActivity extends DataActivity {
     }
 
     public void onFontSetting() {
-        Log.d("", "call onFontSetting start this =========" + this);
-        Log.d("", "call onFontSetting start =========" + this.getTextView(R.id.photo_label));
         this.startActivity(ActivityFont.class, (intent) -> onFontChange(intent));
     }
 
@@ -48,8 +45,6 @@ public class LayerActivity extends DataActivity {
             this.photo.setFontText(photo.getFontText());
             this.setViewFont(this.getTextView(R.id.photo_label));
             this.updatePhoto();
-            Log.d("", "onFontChange this.photo===" + this.photo.getClass());
-            Log.d("", "onFontChange this.photo.getFontText()===" + this.photo.getFontText());
         }
     }
 }

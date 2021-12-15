@@ -61,7 +61,7 @@ public class AlbumView extends AppCompatAutoCompleteTextView {
 
             @Override
             public void onTextChanged(CharSequence text, int start, int before, int count) {
-                if (textChangedListener != null) {
+                if (isEnabled() && textChangedListener != null) {
                     textChangedListener.textChanged(text.toString().trim());
                 }
             }
