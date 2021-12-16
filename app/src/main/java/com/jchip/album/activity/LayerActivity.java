@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
+import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 
@@ -15,6 +16,14 @@ public class LayerActivity extends DataActivity {
 
         this.getButtonView(R.id.font_setting).setOnClickListener((v) -> this.onFontSetting());
         this.getButtonView(R.id.frame_select).setOnClickListener((v) -> this.onFrameSelect());
+
+        this.getButtonView(R.id.album_help).setOnClickListener((v) -> this.onAlbumHelp());
+
+
+    }
+
+    public void onAlbumHelp() {
+        this.startActivity(ActivityPhotoSetting.class, null);
     }
 
     public void onFontSetting() {

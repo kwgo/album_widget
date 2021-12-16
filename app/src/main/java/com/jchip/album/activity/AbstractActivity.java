@@ -81,7 +81,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         this.activityResultLauncher.launch(intent);
     }
 
-    protected void setImagePhoto(ImageView imageView) {
+    public void setImagePhoto(ImageView imageView) {
         if (this.photo.getPhotoPath() != null && !this.photo.getPhotoPath().trim().isEmpty()) {
             Bitmap bitmap = AlbumHelper.loadBitmap(this.photo.getPhotoPath());
             bitmap = ImageHelper.convertBitmap(bitmap, this.photo.getRotationIndex(), this.photo.getFlipIndex());
@@ -89,7 +89,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         }
     }
 
-    protected void setImageScale(ImageView imageView) {
+    public void setImageScale(ImageView imageView) {
         ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{
                 ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
                 ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
@@ -97,22 +97,22 @@ public abstract class AbstractActivity extends AppCompatActivity {
         imageView.setScaleType(scaleTypies[this.photo.getScaleIndex()]);
     }
 
-    protected void setPhotoFont(TextView textView) {
+    public void setPhotoFont(TextView textView) {
         textView.setText(this.photo.getFontText());
         textView.setTextColor(this.photo.getFontColor());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.photo.getFontSize());
         this.setFontLocation(textView);
     }
 
-    protected void setPhotoFrame(View view) {
+    public void setPhotoFrame(View view) {
         view.setBackgroundResource(this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default);
     }
 
-    protected void setPhotoText(TextView textView) {
+    public void setPhotoText(TextView textView) {
         textView.setText(this.photo.getFontText());
     }
 
-    protected void setFontLocation(View view) {
+    public void setFontLocation(View view) {
         int fontLocation = this.photo.getFontLocation();
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);

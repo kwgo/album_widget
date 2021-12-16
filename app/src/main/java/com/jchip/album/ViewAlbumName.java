@@ -5,16 +5,16 @@ import android.util.AttributeSet;
 
 import com.jchip.album.view.AlbumView;
 
-public class ViewAlbum extends AlbumView {
-    public ViewAlbum(Context context) {
+public class ViewAlbumName extends AlbumView {
+    public ViewAlbumName(Context context) {
         super(context);
     }
 
-    public ViewAlbum(Context context, AttributeSet attributeSet) {
+    public ViewAlbumName(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
     }
 
-    public ViewAlbum(Context context, AttributeSet attributeSet, int defStyleAttr) {
+    public ViewAlbumName(Context context, AttributeSet attributeSet, int defStyleAttr) {
         super(context, attributeSet, defStyleAttr);
     }
 }

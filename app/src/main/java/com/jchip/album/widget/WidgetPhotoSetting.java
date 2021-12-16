@@ -9,21 +9,21 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jchip.album.R;
+import com.jchip.album.activity.AbstractActivity;
+import com.jchip.album.data.AlbumData;
+import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
-import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class WidgetPhotoSetting extends AppCompatActivity {
+public class WidgetPhotoSetting extends AbstractActivity {
 
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
@@ -32,16 +32,16 @@ public class WidgetPhotoSetting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.widget_photo_setting);
+        super.setContentView(R.layout.widget_photo_setting);
+    }
 
-        this.getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        );
+    @Override
+    public void initContentView() {
+        super.initContentView();
 
         this.appWidgetId = getIntent().getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         if (this.appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            finish();
+            //finish();
         }
 
         ListView settingView = (ListView) findViewById(R.id.widget_setting_view);
@@ -50,7 +50,6 @@ public class WidgetPhotoSetting extends AppCompatActivity {
 
         settingView.setOnItemClickListener((adapterView, view, position, id) -> {
             saveSharedPreferences(getApplicationContext(), appWidgetId, (String) listViewAdapter.getItem(position));
-            updateWidget(getApplicationContext());
             finish();
         });
     }
@@ -72,7 +71,7 @@ public class WidgetPhotoSetting extends AppCompatActivity {
     }
 
     protected Class gerProviderClass() {
-        return WidgetAlbumProvider.class;
+        return WidgetPhotoProvider.class;
     }
 
     @Override
@@ -103,28 +102,23 @@ public class WidgetPhotoSetting extends AppCompatActivity {
         private Context context;
         private LayoutInflater inflater;
 
-        private Map<String, String[]> info;
-        private List<String> sortedInfo;
+        private List<AlbumData> albums;
 
         public ListViewAdapter(Context context) {
             this.context = context;
             this.inflater = (LayoutInflater.from(context));
 
-//            this.info = MainHelper.getISOInfo();
-//
-//            this.sortedInfo = new ArrayList(this.info.keySet());
-//
-//            FallHelper.sortCountryInfo(this.context, this.info, this.sortedInfo, FallHelper.COUNTRY);
+            this.albums = DataHelper.getInstance(context).queryPhotoAlbum();
         }
 
         @Override
         public int getCount() {
-            return this.info.size();
+            return this.albums.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return this.sortedInfo.get(position);
+            return this.albums.get(position);
         }
 
         @Override
@@ -135,20 +129,24 @@ public class WidgetPhotoSetting extends AppCompatActivity {
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.widget_photo_setting_item, null);
-//            TextView textView = view.findViewById(R.id.widget_setting_text);
-//            ImageView imageView = view.findViewById(R.id.widget_setting_image);
+            TextView albumName = view.findViewById(R.id.album_name);
+            albumName.setText(this.albums.get(position).getAlbumName());
 
-   //         String item = this.sortedInfo.get(position);
-     //       textView.setText(FallUtility.getSourceText(context, item, "string", "short"));
-     //       imageView.setImageResource(FallUtility.getSourceId(context, item, "drawable", "flag"));
+            GridLayout photoContainer = view.findViewById(R.id.photo_container);
+            for (PhotoData photoData : this.albums.get(position).getPhotos()) {
+                photo = photoData;
+                ImageView photoImage = new ImageView(context);
+                ((AbstractActivity) context).setImagePhoto(photoImage);
+                photoContainer.addView(photoImage);
+            }
             return view;
         }
     }
 
     protected void saveSharedPreferences(Context context, int appWidgetId, String item) {
         SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        //prefs.clear();
         prefs.putString(String.valueOf(appWidgetId), item);
         prefs.commit();
+        //this.updateWidget(getApplicationContext());
     }
 }
