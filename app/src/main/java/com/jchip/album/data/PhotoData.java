@@ -17,8 +17,8 @@ public class PhotoData extends AbstractData {
     public static final String fieldFontLocation = "fontLocation";
     public static final String fieldFontText = "fontText";
 
-    private int photoId;
-    private int albumId;
+    private int photoId = -1;
+    private int albumId = -1;
     private String photoPath;
 
     private int frameIndex = 0;
@@ -41,7 +41,7 @@ public class PhotoData extends AbstractData {
     }
 
     public boolean isSaved() {
-        return photoId > 0;
+        return photoId >= 0;
     }
 
     public int getPhotoId() {

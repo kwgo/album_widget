@@ -7,15 +7,15 @@ public class WidgetData extends AbstractData {
     public static final String fieldPhotoId = "photoId";
     public static final String valuePhotoIds = "photoIds";
 
-    private int widgetId;
-    private int albumId;
-    private int photoId;
+    private int widgetId = -1;
+    private int albumId = -1;
+    private int photoId = -1;
 
     private String photoIds;
     private PhotoData photo;
 
     public boolean isSaved() {
-        return widgetId > 0;
+        return widgetId >= 0;
     }
 
     public int getWidgetId() {

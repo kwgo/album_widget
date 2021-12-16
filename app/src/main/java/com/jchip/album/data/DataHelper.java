@@ -3,6 +3,7 @@ package com.jchip.album.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -164,6 +165,7 @@ public class DataHelper extends DataHandler {
                 albumData = this.getAlbumData(rowData);
                 albumData.setAlbumId(albumId);
                 albums.add(albumData);
+                albumMap.put(albumId, albumData);
             }
             albumData.addPhoto(photoData);
         }
@@ -225,7 +227,9 @@ public class DataHelper extends DataHandler {
 
     private ContentValues getAlbumContentValues(AlbumData albumData) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(AlbumData.fieldAlbumId, albumData.getAlbumId());
+        if (albumData.getAlbumId() >= 0) {
+            contentValues.put(AlbumData.fieldAlbumId, albumData.getAlbumId());
+        }
         contentValues.put(AlbumData.fieldAlbumName, albumData.getAlbumName());
         return contentValues;
     }
@@ -233,13 +237,16 @@ public class DataHelper extends DataHandler {
     private AlbumData getAlbumData(Map<String, Object> rowData) {
         AlbumData albumData = new AlbumData();
         albumData.setAlbumId((Integer) rowData.get(AlbumData.fieldAlbumId));
+        Log.d("", "rowData.get(AlbumData.fieldAlbumId) ==" + rowData.get(AlbumData.fieldAlbumId));
         albumData.setAlbumName((String) rowData.get(AlbumData.fieldAlbumName));
         return albumData;
     }
 
     private ContentValues getPhotoContentValues(PhotoData photoData) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PhotoData.fieldPhotoId, photoData.getPhotoId());
+        if (photoData.getPhotoId() >= 0) {
+            contentValues.put(PhotoData.fieldPhotoId, photoData.getPhotoId());
+        }
         contentValues.put(PhotoData.fieldAlbumId, photoData.getAlbumId());
         contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
 
@@ -277,7 +284,9 @@ public class DataHelper extends DataHandler {
 
     private ContentValues getWidgetContentValues(WidgetData widgetData) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(WidgetData.fieldWidgetId, widgetData.getWidgetId());
+        if (widgetData.getWidgetId() >= 0) {
+            contentValues.put(WidgetData.fieldWidgetId, widgetData.getWidgetId());
+        }
         contentValues.put(WidgetData.fieldAlbumId, widgetData.getAlbumId());
         contentValues.put(WidgetData.fieldPhotoId, widgetData.getPhotoId());
         return contentValues;

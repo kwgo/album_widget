@@ -8,7 +8,7 @@ public class AlbumData extends AbstractData {
     public static final String fieldAlbumId = "id";
     public static final String fieldAlbumName = "name";
 
-    private int albumId;
+    private int albumId = -1;
     private String albumName;
 
     private List<PhotoData> photos;
@@ -21,7 +21,7 @@ public class AlbumData extends AbstractData {
     }
 
     public boolean isSaved() {
-        return albumId > 0;
+        return albumId >= 0;
     }
 
     public int getAlbumId() {

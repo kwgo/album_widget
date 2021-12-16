@@ -50,7 +50,7 @@ public class WidgetPhotoSetting extends AbstractActivity {
         settingView.setAdapter(listViewAdapter);
 
         settingView.setOnItemClickListener((adapterView, view, position, id) -> {
-            saveSharedPreferences(getApplicationContext(), appWidgetId, (String) listViewAdapter.getItem(position));
+            //saveSharedPreferences(getApplicationContext(), appWidgetId, (String) listViewAdapter.getItem(position));
             finish();
         });
     }
@@ -135,9 +135,12 @@ public class WidgetPhotoSetting extends AbstractActivity {
             albumName.setText(this.albums.get(position).getAlbumName());
 
             GridLayout photoContainer = view.findViewById(R.id.photo_container);
+            Log.d("","this.albums.get(position).getPhotos() size==="+this.albums.get(position).getPhotos().size());
             for (PhotoData photoData : this.albums.get(position).getPhotos()) {
                 photo = photoData;
                 ImageView photoImage = new ImageView(context);
+                photoImage.setMaxWidth(80);
+                photoImage.setMaxHeight(80);
                 ((AbstractActivity) this.context).setImagePhoto(photoImage);
                 photoContainer.addView(photoImage);
             }

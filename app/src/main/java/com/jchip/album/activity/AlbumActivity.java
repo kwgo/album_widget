@@ -2,6 +2,7 @@ package com.jchip.album.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,12 +43,15 @@ public class AlbumActivity extends PhotoActivity {
 
     protected void reloadAlbumList() {
         boolean allSaved = true;
+        Log.d("","this.albums size=" +this.albums.size());
         for (AlbumData album : this.albums) {
+            Log.d("","album.isSaved()=" +album.isSaved());
             if (!album.isSaved()) {
                 allSaved = false;
                 break;
             }
         }
+        Log.d("","allSaved=" +allSaved);
         if (allSaved) {
             String albumName = this.getString(R.string.default_album_name);
             this.albums.add(0, new AlbumData(albumName + (this.albums.size() + 1)));
