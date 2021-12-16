@@ -3,9 +3,7 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +16,13 @@ import android.widget.TextView;
 
 import com.jchip.album.R;
 import com.jchip.album.activity.AbstractActivity;
+import com.jchip.album.activity.DataActivity;
 import com.jchip.album.data.AlbumData;
-import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
 
 import java.util.List;
 
-public class WidgetPhotoSetting extends AbstractActivity {
+public class WidgetPhotoSetting extends DataActivity {
 
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
@@ -109,8 +107,7 @@ public class WidgetPhotoSetting extends AbstractActivity {
             this.context = context;
             this.inflater = (LayoutInflater.from(context));
 
-            //         this.albums = DataHelper.getInstance(context).queryPhotoAlbum();
-            this.albums = DataHelper.getInstance(context).queryAlbumPhotos();
+            this.albums = ((DataActivity) context).queryAlbumPhotos();
         }
 
         @Override
@@ -135,7 +132,7 @@ public class WidgetPhotoSetting extends AbstractActivity {
             albumName.setText(this.albums.get(position).getAlbumName());
 
             GridLayout photoContainer = view.findViewById(R.id.photo_container);
-            Log.d("","this.albums.get(position).getPhotos() size==="+this.albums.get(position).getPhotos().size());
+            Log.d("", "this.albums.get(position).getPhotos() size===" + this.albums.get(position).getPhotos().size());
             for (PhotoData photoData : this.albums.get(position).getPhotos()) {
                 photo = photoData;
                 ImageView photoImage = new ImageView(context);

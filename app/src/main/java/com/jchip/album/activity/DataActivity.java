@@ -47,4 +47,12 @@ public class DataActivity extends AbstractActivity {
         DataHelper.getInstance(this).updatePhoto(this.photo);
         return this.photo;
     }
+
+    public List<AlbumData> queryPhotoAlbum() {
+        return DataHelper.getInstance(this).queryPhotoAlbum();
+    }
+
+    public List<AlbumData> queryAlbumPhotos() {
+        return DataHelper.getInstance(this).queryAlbumPhotos();
+    }
 }
