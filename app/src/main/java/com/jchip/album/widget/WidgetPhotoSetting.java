@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,8 @@ public class WidgetPhotoSetting extends AbstractActivity {
             //finish();
         }
 
-        ListView settingView = (ListView) findViewById(R.id.widget_setting_view);
-        ListViewAdapter listViewAdapter = new ListViewAdapter(getApplicationContext());
+        ListView settingView = (ListView) findViewById(R.id.photo_setting_view);
+        ListViewAdapter listViewAdapter = new ListViewAdapter(this);
         settingView.setAdapter(listViewAdapter);
 
         settingView.setOnItemClickListener((adapterView, view, position, id) -> {
@@ -108,7 +109,8 @@ public class WidgetPhotoSetting extends AbstractActivity {
             this.context = context;
             this.inflater = (LayoutInflater.from(context));
 
-            this.albums = DataHelper.getInstance(context).queryPhotoAlbum();
+            //         this.albums = DataHelper.getInstance(context).queryPhotoAlbum();
+            this.albums = DataHelper.getInstance(context).queryAlbumPhotos();
         }
 
         @Override
@@ -136,7 +138,7 @@ public class WidgetPhotoSetting extends AbstractActivity {
             for (PhotoData photoData : this.albums.get(position).getPhotos()) {
                 photo = photoData;
                 ImageView photoImage = new ImageView(context);
-                ((AbstractActivity) context).setImagePhoto(photoImage);
+                ((AbstractActivity) this.context).setImagePhoto(photoImage);
                 photoContainer.addView(photoImage);
             }
             return view;
@@ -144,9 +146,9 @@ public class WidgetPhotoSetting extends AbstractActivity {
     }
 
     protected void saveSharedPreferences(Context context, int appWidgetId, String item) {
-        SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        prefs.putString(String.valueOf(appWidgetId), item);
-        prefs.commit();
+//        SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
+//        prefs.putString(String.valueOf(appWidgetId), item);
+//        prefs.commit();
         //this.updateWidget(getApplicationContext());
     }
 }
