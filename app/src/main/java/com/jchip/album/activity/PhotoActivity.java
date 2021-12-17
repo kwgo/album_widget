@@ -70,7 +70,7 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
-        View photoView = this.getView(R.id.photo_view);
+        View photoView = this.getView(R.id.photos_view);
         this.setPhotoView(photoView, R.id.photo_image, R.id.photo_label, R.id.photo_container, R.id.photo_frame);
 //        this.setImagePhoto(this.getImageView(R.id.photo_image));
 //        this.setImageScale(this.getImageView(R.id.photo_image));

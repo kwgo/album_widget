@@ -130,43 +130,15 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/photo_view"
+        android:id="@+id/photos_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
         android:padding="4dp">
 
-        <FrameLayout
-            android:id="@+id/photo_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/frame_default"
-            android:gravity="center">
+        <include  layout="@layout/photo_item" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/photo_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
-
-                <TextView
-                    android:id="@+id/photo_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/photo_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/frame_default" />
     </FrameLayout>
 
     <LinearLayout

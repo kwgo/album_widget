@@ -12,7 +12,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.jchip.album.R;
@@ -37,19 +36,19 @@ public class ImageHelper {
 //    }
 
     public static Bitmap convertBitmap(Bitmap bitmap, float ratio, int rotation, int flip, int maxSize) {
-        float width = bitmap.getWidth();
-        float height = bitmap.getHeight();
-        if(maxSize > 0) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        if (maxSize > 0) {
             ratio *= maxSize / Math.min(width, height);
         }
-        Log.d("", "image width=" + width);
-        Log.d("", "image height=" + height);
+        //  Log.d("", "image width=" + width);
+        // Log.d("", "image height=" + height);
         Matrix matrix = new Matrix();
         matrix.postRotate(rotation * 90);
         matrix.postScale(flip == 0 ? 1 : -1, 1, ratio, ratio);
-  //      matrix.postScale(flip == 0 ? 1 : -1, 1, width, height);
- //       return Bitmap.createBitmap(bitmap, 0, 0, (int) (width*ratio), (int) (height*ratio), matrix, true);
-        return Bitmap.createBitmap(bitmap, 0, 0, (int)width, (int) (height), matrix, false);
+        //      matrix.postScale(flip == 0 ? 1 : -1, 1, width, height);
+        //       return Bitmap.createBitmap(bitmap, 0, 0, (int) (width*ratio), (int) (height*ratio), matrix, true);
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
     }
 
 

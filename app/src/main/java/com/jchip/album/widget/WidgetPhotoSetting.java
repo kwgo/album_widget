@@ -19,9 +19,11 @@ import com.jchip.album.R;
 import com.jchip.album.activity.AbstractActivity;
 import com.jchip.album.activity.DataActivity;
 import com.jchip.album.common.AlbumHelper;
+import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WidgetPhotoSetting extends DataActivity {
@@ -104,13 +106,28 @@ public class WidgetPhotoSetting extends DataActivity {
         private LayoutInflater inflater;
 
         private List<AlbumData> albums;
+        private static final int PHOTO_NUMBER = 2;
 
         public ListViewAdapter(Context context) {
             this.context = context;
             this.inflater = (LayoutInflater.from(context));
 
-            this.albums = ((DataActivity) context).queryAlbumPhotos();
-            Log.d("", "query done===" +albums.size());
+            this.albums = new ArrayList<>();
+            for (AlbumData albumData : ((DataActivity) context).queryAlbumPhotos()) {
+                AlbumData album = new AlbumData(albumData.getAlbumName());
+                album.setAlbumId(albumData.getAlbumId());
+                this.albums.add(album);
+
+                AlbumData photoAlbum = new AlbumData();
+                for (int index = 0; index < albumData.getPhotoSize(); index++) {
+                    if (index % PHOTO_NUMBER == 0) {
+                        photoAlbum = new AlbumData();
+                        this.albums.add(photoAlbum);
+                    }
+                    photoAlbum.addPhoto(albumData.getPhoto(index));
+                }
+            }
+            Log.d("", "query done===" + albums.size());
 
         }
 
@@ -131,28 +148,22 @@ public class WidgetPhotoSetting extends DataActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
-            Log.d("", "view ===" +  view );
-            if(view == null) {
+            Log.d("", "view ===" + view);
+            if (view == null) {
                 view = inflater.inflate(R.layout.widget_photo_setting_item, null);
-                TextView albumName = view.findViewById(R.id.album_name);
-                albumName.setText(this.albums.get(position).getAlbumName());
-
-                GridLayout photoContainer = view.findViewById(R.id.photo_container);
-                Log.d("", "this.albums.get(position) ===" + position);
-                Log.d("", "this.albums.get(position).getPhotos() size===" + this.albums.get(position).getPhotos().size());
-                for (PhotoData photoData : this.albums.get(position).getPhotos()) {
-                    photo = photoData;
-
-                    int size = AlbumHelper.dp2px(context, 100);
-                    ImageView photoImage = new ImageView(context);
-                    photoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    ((AbstractActivity) this.context).setImagePhoto(photoImage, size);
-
-                    GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-                    param.height = param.width = size;
-                    param.setGravity(Gravity.CENTER);
-                    photoContainer.addView(photoImage, param);
+                AlbumData albumData = this.albums.get(position);
+                if (albumData.isSaved()) {
+                    TextView albumName = view.findViewById(R.id.album_name);
+                    albumName.setText(albumData.getAlbumName());
+                } else {
+                    for (int index = 0; index < albumData.getPhotoSize(); index++) {
+                        PhotoData photoData = albumData.getPhoto(index);
+                        View photoView = view.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
+                        PhotoHelper.setPhotoView(photoView, photoData, R.id.photo_image, R.id.photo_label, 0, 0);
+                    }
                 }
+                view.findViewById(R.id.album_name).setVisibility(albumData.isSaved()?View.VISIBLE:View.GONE);
+                view.findViewById(R.id.photos_view).setVisibility(albumData.isSaved()?View.GONE:View.VISIBLE);
             }
             return view;
         }

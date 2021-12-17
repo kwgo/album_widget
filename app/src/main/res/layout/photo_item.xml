@@ -12,9 +12,7 @@
         <FrameLayout
             android:id="@+id/photo_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/frame_default"
-            android:gravity="center">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -37,7 +35,7 @@
         <FrameLayout
             android:id="@+id/photo_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/frame_default" />
+            android:layout_height="match_parent" />
     </FrameLayout>
+
 </LinearLayout>

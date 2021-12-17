@@ -12,11 +12,17 @@ import com.jchip.album.data.PhotoData;
 
 public class PhotoHelper {
     public static void setPhotoView(View view, PhotoData photo, int imageId, int labelId, int containerId, int frameId) {
-        setImagePhoto(view.findViewById(imageId), photo);
-        setImageScale(view.findViewById(imageId), photo);
-        setPhotoFont(view.findViewById(labelId), photo);
-        setPhotoFrame(view.findViewById(containerId), photo);
-        setPhotoFrame(view.findViewById(frameId), photo);
+        if (imageId > 0) {
+            setImagePhoto(view.findViewById(imageId), photo);
+            setImageScale(view.findViewById(imageId), photo);
+        }
+        if (labelId > 0) {
+            setPhotoFont(view.findViewById(labelId), photo);
+        }
+        if (containerId > 0 && frameId > 0) {
+            setPhotoFrame(view.findViewById(containerId), photo);
+            setPhotoFrame(view.findViewById(frameId), photo);
+        }
     }
 
     public static void setImagePhoto(ImageView imageView, PhotoData photo) {
