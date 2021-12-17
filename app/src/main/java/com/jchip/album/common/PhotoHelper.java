@@ -20,13 +20,19 @@ public class PhotoHelper {
     }
 
     public static void setImagePhoto(ImageView imageView, PhotoData photo) {
+        setImagePhoto(imageView, photo, 0);
+    }
+
+    public static void setImagePhoto(ImageView imageView, PhotoData photo, int maxSize) {
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
-            bitmap = ImageHelper.convertBitmap(bitmap, photo.getRotationIndex(), photo.getFlipIndex());
-            imageView.setImageBitmap(bitmap);
-        } else {
-            imageView.setImageBitmap(null);
+            if (bitmap != null) {
+                bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), maxSize);
+                imageView.setImageBitmap(bitmap);
+                return;
+            }
         }
+        imageView.setImageBitmap(null);
     }
 
     public static void setImageScale(ImageView imageView, PhotoData photo) {

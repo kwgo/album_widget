@@ -110,6 +110,8 @@ public class WidgetPhotoSetting extends DataActivity {
             this.inflater = (LayoutInflater.from(context));
 
             this.albums = ((DataActivity) context).queryAlbumPhotos();
+            Log.d("", "query done===" +albums.size());
+
         }
 
         @Override
@@ -119,40 +121,38 @@ public class WidgetPhotoSetting extends DataActivity {
 
         @Override
         public Object getItem(int position) {
-            return this.albums.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
             return position;
         }
 
         @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
-            view = inflater.inflate(R.layout.widget_photo_setting_item, null);
-            TextView albumName = view.findViewById(R.id.album_name);
-            albumName.setText(this.albums.get(position).getAlbumName());
+            Log.d("", "view ===" +  view );
+            if(view == null) {
+                view = inflater.inflate(R.layout.widget_photo_setting_item, null);
+                TextView albumName = view.findViewById(R.id.album_name);
+                albumName.setText(this.albums.get(position).getAlbumName());
 
-            GridLayout photoContainer = view.findViewById(R.id.photo_container);
-            Log.d("", "this.albums.get(position).getPhotos() size===" + this.albums.get(position).getPhotos().size());
-            for (PhotoData photoData : this.albums.get(position).getPhotos()) {
-                photo = photoData;
+                GridLayout photoContainer = view.findViewById(R.id.photo_container);
+                Log.d("", "this.albums.get(position) ===" + position);
+                Log.d("", "this.albums.get(position).getPhotos() size===" + this.albums.get(position).getPhotos().size());
+                for (PhotoData photoData : this.albums.get(position).getPhotos()) {
+                    photo = photoData;
 
-        //        View photoView = inflater.inflate(R.layout.widget_photo, null);
-          //      ((AbstractActivity) context).setPhotoView(photoView, R.id.photo_image, R.id.photo_label, R.id.photo_container, R.id.photo_frame);
+                    int size = AlbumHelper.dp2px(context, 100);
+                    ImageView photoImage = new ImageView(context);
+                    photoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    ((AbstractActivity) this.context).setImagePhoto(photoImage, size);
 
-
-                ImageView photoImage = new ImageView(context);
-                photoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                ((AbstractActivity) this.context).setImagePhoto(photoImage);
-
-                GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-                param.height = AlbumHelper.dp2px(context,100);
-                param.width =AlbumHelper.dp2px(context,100);
-                param.setGravity(Gravity.CENTER);
-                //    view.setLayoutParams (param);
-              photoContainer.addView(photoImage, param);
-         //       photoContainer.addView(photoView, param);
+                    GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+                    param.height = param.width = size;
+                    param.setGravity(Gravity.CENTER);
+                    photoContainer.addView(photoImage, param);
+                }
             }
             return view;
         }

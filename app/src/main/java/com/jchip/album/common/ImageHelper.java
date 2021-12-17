@@ -20,19 +20,36 @@ import com.jchip.album.R;
 import java.io.IOException;
 
 public class ImageHelper {
-    public static Bitmap convertBitmap(Context context, int sourceId, int rotation, int flip) {
-        return convertBitmap(BitmapFactory.decodeResource(context.getResources(), sourceId), rotation, flip);
-    }
+//    public static Bitmap convertBitmap(Context context, int sourceId, int rotation, int flip) {
+//        return convertBitmap(context, sourceId, 1f, rotation, flip);
+//    }
+//
+//    public static Bitmap convertBitmap(Context context, int sourceId, float ratio, int rotation, int flip) {
+//        return convertBitmap(BitmapFactory.decodeResource(context.getResources(), sourceId), ratio, rotation, flip, );
+//    }
 
     public static Bitmap convertBitmap(Bitmap bitmap, int rotation, int flip) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
+        return convertBitmap(bitmap, 1f, rotation, flip, 0);
+    }
+//
+//    public static Bitmap convertBitmap(Bitmap bitmap, int rotation, int flip, int maxSize) {
+//        return convertBitmap(bitmap, 1f, rotation, flip);
+//    }
+
+    public static Bitmap convertBitmap(Bitmap bitmap, float ratio, int rotation, int flip, int maxSize) {
+        float width = bitmap.getWidth();
+        float height = bitmap.getHeight();
+        if(maxSize > 0) {
+            ratio *= maxSize / Math.min(width, height);
+        }
         Log.d("", "image width=" + width);
         Log.d("", "image height=" + height);
         Matrix matrix = new Matrix();
         matrix.postRotate(rotation * 90);
-        matrix.postScale(flip == 0 ? 1 : -1, 1, width, height);
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        matrix.postScale(flip == 0 ? 1 : -1, 1, ratio, ratio);
+  //      matrix.postScale(flip == 0 ? 1 : -1, 1, width, height);
+ //       return Bitmap.createBitmap(bitmap, 0, 0, (int) (width*ratio), (int) (height*ratio), matrix, true);
+        return Bitmap.createBitmap(bitmap, 0, 0, (int)width, (int) (height), matrix, false);
     }
 
 

@@ -109,7 +109,7 @@ public class DataHelper extends DataHandler {
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT * FROM ").append(PhotoData.tableName);
         sql.append(" WHERE ").append(PhotoData.fieldAlbumId).append(" = ").append(albumId);
-        sql.append(" ORDER BY ").append(PhotoData.fieldPhotoId).append(" DESC");
+        sql.append(" ORDER BY ").append(PhotoData.fieldPhotoId).append(" ASC");
 
         List<PhotoData> photos = new ArrayList<>();
         for (Map<String, Object> rowData : this.query(sql.toString())) {
@@ -131,7 +131,7 @@ public class DataHelper extends DataHandler {
         sql.append(" AND ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
                 .append(" = (SELECT MIN( ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
                 .append(" ) FROM ").append(PhotoData.tableName).append(")");
-        sql.append(" ORDER BY 1 DESC");
+        sql.append(" ORDER BY 1 ASC");
 
         List<AlbumData> albums = new ArrayList<>();
         for (Map<String, Object> rowData : this.query(sql.toString())) {
@@ -153,7 +153,7 @@ public class DataHelper extends DataHandler {
         sql.append(" LEFT JOIN ").append(PhotoData.tableName);
         sql.append(" ON ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumId)
                 .append(" = ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId);
-        sql.append(" ORDER BY 1 DESC");
+        sql.append(" ORDER BY 1 ASC");
 
         Map<Integer, AlbumData> albumMap = new HashMap<>();
         List<AlbumData> albums = new ArrayList<>();

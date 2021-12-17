@@ -82,6 +82,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setImagePhoto(imageView, this.photo);
     }
 
+    public void setImagePhoto(ImageView imageView, int maxSize) {
+        PhotoHelper.setImagePhoto(imageView, this.photo, maxSize);
+    }
+
     public void setImageScale(ImageView imageView) {
         PhotoHelper.setImageScale(imageView, this.photo);
     }
