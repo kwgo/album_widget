@@ -2,15 +2,20 @@ package com.jchip.album.common;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.Log;
+import android.util.TypedValue;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.jchip.album.R;
+import com.jchip.album.data.PhotoData;
 import com.rayzhang.android.rzalbum.RZAlbum;
 
 import java.io.FileInputStream;
@@ -94,4 +99,21 @@ public class AlbumHelper {
                 .showGif(false)
                 .start(activity, ALBUM_REQUEST_CODE);
     }
+    public static void alert(Context context, int titleId, int detailId, Runnable work) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle(titleId);
+        alert.setMessage(detailId);
+        // alert.setNegativeButton(android.R.string.no, null)
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                work.run();
+                dialog.dismiss();
+            }
+        }).show();
+    }
+    public static int dp2px(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
 }

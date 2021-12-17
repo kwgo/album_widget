@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.jchip.album.R;
 import com.jchip.album.activity.AbstractActivity;
 import com.jchip.album.activity.DataActivity;
+import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
 
@@ -135,11 +137,22 @@ public class WidgetPhotoSetting extends DataActivity {
             Log.d("", "this.albums.get(position).getPhotos() size===" + this.albums.get(position).getPhotos().size());
             for (PhotoData photoData : this.albums.get(position).getPhotos()) {
                 photo = photoData;
+
+        //        View photoView = inflater.inflate(R.layout.widget_photo, null);
+          //      ((AbstractActivity) context).setPhotoView(photoView, R.id.photo_image, R.id.photo_label, R.id.photo_container, R.id.photo_frame);
+
+
                 ImageView photoImage = new ImageView(context);
-                photoImage.setMaxWidth(80);
-                photoImage.setMaxHeight(80);
+                photoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 ((AbstractActivity) this.context).setImagePhoto(photoImage);
-                photoContainer.addView(photoImage);
+
+                GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+                param.height = AlbumHelper.dp2px(context,100);
+                param.width =AlbumHelper.dp2px(context,100);
+                param.setGravity(Gravity.CENTER);
+                //    view.setLayoutParams (param);
+              photoContainer.addView(photoImage, param);
+         //       photoContainer.addView(photoView, param);
             }
             return view;
         }

@@ -20,7 +20,7 @@ public class PhotoActivity extends LayerActivity {
     public void initContentView() {
         super.initContentView();
 
-        GestureHelper.setViewGesture(this.getView(R.id.photo_frame_cover), () -> onSlipPhoto(+1), () -> onSlipPhoto(-1));
+        GestureHelper.setViewGesture(this.getView(R.id.photo_frame), () -> onSlipPhoto(+1), () -> onSlipPhoto(-1));
 
         this.getButtonView(R.id.photo_add).setOnClickListener((e) -> onAddPhotos());
         this.getButtonView(R.id.photo_delete).setOnClickListener((v) -> this.onDeletePhoto());
@@ -70,11 +70,13 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
-        this.setImagePhoto(this.getImageView(R.id.photo_image));
-        this.setImageScale(this.getImageView(R.id.photo_image));
-        this.setPhotoFont(this.getTextView(R.id.photo_label));
-        this.setPhotoFrame(this.getView(R.id.photo_frame_container));
-        this.setPhotoFrame(this.getView(R.id.photo_frame_cover));
+        View photoView = this.getView(R.id.photo_view);
+        this.setPhotoView(photoView, R.id.photo_image, R.id.photo_label, R.id.photo_container, R.id.photo_frame);
+//        this.setImagePhoto(this.getImageView(R.id.photo_image));
+//        this.setImageScale(this.getImageView(R.id.photo_image));
+//        this.setPhotoFont(this.getTextView(R.id.photo_label));
+//        this.setPhotoFrame(this.getView(R.id.photo_frame_container));
+//        this.setPhotoFrame(this.getView(R.id.photo_frame_cover));
     }
 
     private boolean onSlipPhoto(int offset) {

@@ -1,30 +1,24 @@
 package com.jchip.album.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.LayoutRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
-import com.jchip.album.common.ImageHelper;
+import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
 
@@ -80,62 +74,36 @@ public abstract class AbstractActivity extends AppCompatActivity {
         intent.putExtra(PhotoData.tableName, this.photo);
         this.activityResultLauncher.launch(intent);
     }
+    public void setPhotoView(View view, int imageId, int labelId, int containerId, int frameId) {
+        PhotoHelper.setPhotoView( view, this. photo,  imageId,  labelId,  containerId,  frameId);
+    }
 
     public void setImagePhoto(ImageView imageView) {
-        if (this.photo.getPhotoPath() != null && !this.photo.getPhotoPath().trim().isEmpty()) {
-            Bitmap bitmap = AlbumHelper.loadBitmap(this.photo.getPhotoPath());
-            bitmap = ImageHelper.convertBitmap(bitmap, this.photo.getRotationIndex(), this.photo.getFlipIndex());
-            imageView.setImageBitmap(bitmap);
-        }
+        PhotoHelper.setImagePhoto(imageView, this.photo);
     }
 
     public void setImageScale(ImageView imageView) {
-        ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{
-                ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
-                ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
-        };
-        imageView.setScaleType(scaleTypies[this.photo.getScaleIndex()]);
+        PhotoHelper.setImageScale(imageView, this.photo);
     }
 
-    public void setPhotoFont(TextView textView) {
-        textView.setText(this.photo.getFontText());
-        textView.setTextColor(this.photo.getFontColor());
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.photo.getFontSize());
-        this.setFontLocation(textView);
+    public void setPhotoFont(TextView setPhotoFont) {
+        PhotoHelper.setPhotoFont(setPhotoFont, this.photo);
     }
 
     public void setPhotoFrame(View view) {
-        view.setBackgroundResource(this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default);
+        PhotoHelper.setPhotoFrame(view, this.photo);
     }
 
     public void setPhotoText(TextView textView) {
-        textView.setText(this.photo.getFontText());
+        PhotoHelper.setPhotoText(textView, this.photo);
     }
 
     public void setFontLocation(View view) {
-        int fontLocation = this.photo.getFontLocation();
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_END);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        layoutParams.addRule(fontLocation % 2 == 0 ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
-        layoutParams.addRule(fontLocation / 2 == 0 ? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.ALIGN_PARENT_BOTTOM);
-        view.setLayoutParams(layoutParams);
+        PhotoHelper.setFontLocation(view, this.photo);
     }
 
     public void alert(int titleId, int detailId, Runnable work) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(titleId);
-        alert.setMessage(detailId);
-        // alert.setNegativeButton(android.R.string.no, null)
-        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                work.run();
-                dialog.dismiss();
-            }
-        }).show();
+        AlbumHelper.alert(this, titleId, detailId, work);
     }
 
     public View getView(int sourceId) {
@@ -176,7 +144,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+        return AlbumHelper.dp2px(this, dp);
     }
 
     public interface ActivityCallBack {
