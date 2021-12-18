@@ -219,10 +219,9 @@ public class DataHelper extends DataHandler {
     }
 
     // Read record related to a widget
-    public WidgetData queryWidgetAlbum(int widgetId, int photoId) {
+    public WidgetData queryWidgetPhoto(int widgetId, int photoId) {
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ");
-        //      sql.append(" 1 AS abc ");
         sql.append(" ( SELECT GROUP_CONCAT(").append(PhotoData.fieldPhotoId).append(")")
                 .append(" FROM ").append(PhotoData.tableName)
                 .append(" WHERE ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
@@ -234,16 +233,17 @@ public class DataHelper extends DataHandler {
                 .append(" = ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
                 .append(" AND ").append(WidgetData.tableName).append(".").append(WidgetData.fieldWidgetId)
                 .append(" = ").append(widgetId);
-        sql.append(" WHERE 0 > ").append(photoId)
-                .append(" OR ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
-                .append(" = ").append(photoId);
+        sql.append(" WHERE (0 <= ").append(photoId)
+                .append(" AND ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
+                .append(" = ").append(photoId).append(")")
+                .append(" OR 0 > ").append(photoId);
         sql.append(" ORDER BY RANDOM() LIMIT 1");
 
         for (Map<String, Object> rowData : this.query(sql.toString())) {
             PhotoData photoData = this.getPhotoData(rowData);
             WidgetData widgetData = new WidgetData();
             widgetData.setWidgetId(widgetId);
-            widgetData.setAlbumId(photoData.getPhotoId());
+            widgetData.setAlbumId(photoData.getAlbumId());
             widgetData.setPhotoIds((String) rowData.get(WidgetData.valuePhotoIds));
             widgetData.setPhoto(photoData);
             return widgetData;
@@ -255,16 +255,20 @@ public class DataHelper extends DataHandler {
     public WidgetData queryWidgetPhoto(int widgetId) {
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ");
-        sql.append(" FROM ").append(WidgetData.tableName);
-        sql.append(" INNER JOIN ").append(PhotoData.tableName)
+        sql.append(" FROM ").append(PhotoData.tableName);
+        sql.append(" INNER JOIN ").append(WidgetData.tableName)
                 .append(" ON ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
                 .append(" = ").append(WidgetData.tableName).append(".").append(WidgetData.fieldPhotoId);
         sql.append(" WHERE ").append(WidgetData.tableName).append(".").append(WidgetData.fieldWidgetId)
                 .append(" = ").append(widgetId);
 
         for (Map<String, Object> rowData : this.query(sql.toString())) {
-            WidgetData widgetData = this.getWidgetData(rowData);
-            widgetData.setPhoto(this.getPhotoData(rowData));
+            PhotoData photoData = this.getPhotoData(rowData);
+            WidgetData widgetData = new WidgetData();
+            widgetData.setWidgetId(widgetId);
+            widgetData.setAlbumId(photoData.getAlbumId());
+            widgetData.setPhotoId(photoData.getPhotoId());
+            widgetData.setPhoto(photoData);
             return widgetData;
         }
         return null;

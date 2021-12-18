@@ -25,10 +25,8 @@ public class WidgetAlbumProvider extends WidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d("", "onUpdate ++++++++++++++++++++++++++++++++++++++++++");
         for (int appWidgetId : appWidgetIds) {
-            Log.d("", "onUpdate +++++++++++++++++++appWidgetId+++++++++++++++++++++++ " + appWidgetId);
-            WidgetData widgetData = DataHelper.getInstance(context).queryWidgetAlbum(appWidgetId, -1);
+            WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId, -1);
             Log.d("", "updateAppWidget ++++++++++++++++++++++++++++++++++++++++++ widgetData=" + widgetData.getAlbumId());
             if (widgetData != null && widgetData.isSaved()) {
                 updateAppWidget(context, appWidgetId, widgetData);
