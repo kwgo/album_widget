@@ -1,13 +1,19 @@
 package com.jchip.album.widget;
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
-import java.util.Map;
+import com.jchip.album.R;
+import com.jchip.album.common.AlbumHelper;
+import com.jchip.album.common.ImageHelper;
+import com.jchip.album.data.PhotoData;
+
 import java.util.Random;
 
 public class WidgetPhotoView {
@@ -21,7 +27,7 @@ public class WidgetPhotoView {
     public static final String WIDGET_TEXT = "widgetText";
 
     private Context context;
-    private Intent intent;
+    private PhotoData photoData;
     private RemoteViews views;
     private int appWidgetId;
 
@@ -31,14 +37,15 @@ public class WidgetPhotoView {
         random = random != null ? random : new Random();
     }
 
-    public WidgetPhotoView(Context context, Intent intent, RemoteViews views, int appWidgetId) {
+    public WidgetPhotoView(Context context, RemoteViews views, PhotoData photoData) {
         this.context = context;
-        this.intent = intent;
         this.views = views;
-        this.appWidgetId = appWidgetId;
+        this.photoData = photoData;
     }
 
     public void updateView() {
+        this.setPhotoView();
+
 //        Map<String, String[]> info = MainHelper.getISOInfo();
 //        int index = this.random.nextInt(info.size());
 //        String item = String.valueOf(info.keySet().toArray()[index]);
@@ -62,22 +69,86 @@ public class WidgetPhotoView {
 //        this.setViewAction(isLandscape ? R.id.widget_image_landscape : R.id.widget_image_portrait, ACTION_APP);
     }
 
-    public void setViewAction(int viewId, String action) {
-        intent.setAction(action);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(viewId, pendingIntent);
+    public void setPhotoView() {
+        this.setImageScale(R.id.photo_image, this.photoData);
+        this.setImagePhoto(R.id.photo_image, this.photoData);
+
+        this.setPhotoFont(R.id.photo_label, this.photoData);
+
+        this.setPhotoFrame(R.id.photo_container, this.photoData);
+        this.setPhotoFrame(R.id.photo_frame, this.photoData);
+    }
+
+    public void setImagePhoto(int imageViewId, PhotoData photo) {
+        Bitmap bitmap = null;
+        if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
+            bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
+            if (bitmap != null) {
+                bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0);
+            }
+        }
+        this.views.setImageViewBitmap(imageViewId, bitmap);
+    }
+
+    public void setImageScale(int imageViewId, PhotoData photo) {
+        ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{
+                ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
+                ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
+        };
+        //this.views.
+        //imageView.setScaleType(scaleTypies[photo.getScaleIndex()]);
+    }
+
+    public void setPhotoFont(int textViewId, PhotoData photo) {
+        this.views.setTextViewText(textViewId, photo.getFontText());
+        this.views.setTextColor(textViewId, photo.getFontColor());
+        this.views.setTextViewTextSize(textViewId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
+        this.setFontLocation(textViewId, photo);
+    }
+
+    public void setPhotoFrame(int imageViewId, PhotoData photo) {
+        int frameIndex = photo.getFrameIndex() > 0 ? photo.getFrameIndex() : R.drawable.frame_default;
+        this.views.setInt(imageViewId, "setBackgroundResource", frameIndex);
+        //remoteViews.setInt(R.id.nmcButton, "setBackgroundColor", color);
+        // view.setBackgroundResource(photo.getFrameIndex() > 0 ? photo.getFrameIndex() : R.drawable.frame_default);
+    }
+
+//    public void setPhotoText(TextView textView, PhotoData photo) {
+//        textView.setText(photo.getFontText());
+//    }
+
+    public void setFontLocation(int textViewId, PhotoData photo) {
+        int fontLocation = photo.getFontLocation();
+//        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+//        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
+//        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_END);
+//        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
+//        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        layoutParams.addRule(fontLocation % 2 == 0 ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
+//        layoutParams.addRule(fontLocation / 2 == 0 ? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.ALIGN_PARENT_BOTTOM);
+       // this.views.setViewLayoutHeight();
+        //view.setLayoutParams(layoutParams);
     }
 
     public final void setTextView(int textViewId, String text) {
         this.views.setTextViewText(textViewId, text);
     }
 
-    public final void setImageView(int imageViewId, int imageSourceId) {
+    public final void setImagePhoto(int imageViewId, int imageSourceId) {
         this.views.setImageViewResource(imageViewId, imageSourceId);
     }
 
     public void setVisibility(int viewId, boolean isOn) {
         this.views.setViewVisibility(viewId, isOn ? View.VISIBLE : View.GONE);
     }
-
+//    private void setBackground(Context context, RemoteViews remoteViews) {
+//        String background = Utils.getStringValue(context, R.string.pref_widget_backgroundcolor_key,
+//                R.string.pref_widget_backgroundcolor_default);
+//
+//        if (!TextUtils.isEmpty(background)) {
+//            int identifier = context.getResources().getIdentifier(
+//                    background, "drawable", context.getPackageName());
+//            remoteViews.setImageViewResource(R.id.iv_widget_background, identifier);
+//        }
+//    }
 }

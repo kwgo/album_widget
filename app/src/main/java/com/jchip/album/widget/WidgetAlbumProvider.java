@@ -32,27 +32,19 @@ public class WidgetAlbumProvider extends WidgetProvider {
             Log.d("", "onUpdate +++++++++++++++++++appWidgetId+++++++++++++++++++++++ " + appWidgetId);
             WidgetData widgetData = DataHelper.getInstance(context).queryWidgetAlbum(appWidgetId, -1);
             Log.d("", "updateAppWidget ++++++++++++++++++++++++++++++++++++++++++ widgetData=" + widgetData.getAlbumId());
-            if (widgetData != null) {
+            if (widgetData != null && widgetData.isSaved()) {
                 updateAppWidget(context, appWidgetId, widgetData);
             }
         }
     }
 
     protected void updateAppWidget(Context context, int appWidgetId, WidgetData widgetData) {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
-
         Log.d("", "updateAppWidget ++++++++++++++++++++++++++++++++++++++++++");
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
+        new WidgetPhotoView(context, remoteViews, widgetData.getPhoto());
 
-//        int sourceId = FallUtility.getSourceId(context, item, "drawable", "good");
-//        if (this.isRotatedImage(item)) {
-//            remoteViews.setImageViewBitmap(R.id.widget_image_landscape, FallUtility.rotateBitmap(context, sourceId, 90));
-//            remoteViews.setImageViewResource(R.id.widget_image_portrait, sourceId);
-//        } else {
-//            remoteViews.setImageViewResource(R.id.widget_image_landscape, sourceId);
-//            remoteViews.setImageViewBitmap(R.id.widget_image_portrait, FallUtility.rotateBitmap(context, sourceId, 90));
-//        }
         Intent intent = new Intent(context, WidgetAlbumProvider.class);
-       // this.updateWidgetAction(context, remoteViews, intent, appWidgetId, item);
+        // this.updateWidgetAction(context, remoteViews, intent, appWidgetId, item);
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
