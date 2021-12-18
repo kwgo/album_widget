@@ -5,8 +5,13 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="64dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -16,12 +21,14 @@
 
     <TextView
         android:id="@+id/album_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:alpha="0.90"
         android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
         android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:textSize="20dp" />
 
 </LinearLayout>
 

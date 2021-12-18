@@ -18,7 +18,7 @@
             android:id="@+id/album_setting_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.6"
             android:background="@drawable/widget_setting_background"
             android:divider="@color/material_blue_grey_800"
             android:dividerHeight="1dp"

@@ -22,7 +22,7 @@ public class LayerActivity extends DataActivity {
     }
 
     public void onAlbumHelp() {
-        this.startActivity(ActivityAlbumSetting.class, null);
+        this.startActivity(ActivityPhotoSetting.class, null);
     }
 
     public void onFontSetting() {

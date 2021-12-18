@@ -1,18 +1,18 @@
 package com.jchip.album.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
-import com.jchip.album.data.PhotoData;
-public class WidgetAlbumProvider extends WidgetPhotoProvider {
+import com.jchip.album.data.DataHelper;
+import com.jchip.album.data.WidgetData;
+
+public class WidgetAlbumProvider extends WidgetProvider {
 
 //    @Override
 //    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
@@ -27,17 +27,22 @@ public class WidgetAlbumProvider extends WidgetPhotoProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Log.d("", "onUpdate ++++++++++++++++++++++++++++++++++++++++++");
         for (int appWidgetId : appWidgetIds) {
-            SharedPreferences pres = PreferenceManager.getDefaultSharedPreferences(context);
-            String item = pres.getString(String.valueOf(appWidgetId), (String) null);
-            if (item != null && !item.isEmpty()) {
-                updateAppWidget(context, appWidgetId, item);
+            Log.d("", "onUpdate +++++++++++++++++++appWidgetId+++++++++++++++++++++++ " + appWidgetId);
+            WidgetData widgetData = DataHelper.getInstance(context).queryWidgetAlbum(appWidgetId, -1);
+            Log.d("", "updateAppWidget ++++++++++++++++++++++++++++++++++++++++++ widgetData=" + widgetData.getAlbumId());
+            if (widgetData != null) {
+                updateAppWidget(context, appWidgetId, widgetData);
             }
         }
     }
 
-    protected void updateAppWidget(Context context, int appWidgetId, String item) {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), this.getWidgetLayoutId());
+    protected void updateAppWidget(Context context, int appWidgetId, WidgetData widgetData) {
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
+
+        Log.d("", "updateAppWidget ++++++++++++++++++++++++++++++++++++++++++");
+
 //        int sourceId = FallUtility.getSourceId(context, item, "drawable", "good");
 //        if (this.isRotatedImage(item)) {
 //            remoteViews.setImageViewBitmap(R.id.widget_image_landscape, FallUtility.rotateBitmap(context, sourceId, 90));
@@ -46,20 +51,13 @@ public class WidgetAlbumProvider extends WidgetPhotoProvider {
 //            remoteViews.setImageViewResource(R.id.widget_image_landscape, sourceId);
 //            remoteViews.setImageViewBitmap(R.id.widget_image_portrait, FallUtility.rotateBitmap(context, sourceId, 90));
 //        }
-//        Intent intent = new Intent(context, WidgetAlbumProvider.class);
-//        this.updateWidgetAction(context, remoteViews, intent, appWidgetId, item);
+        Intent intent = new Intent(context, WidgetAlbumProvider.class);
+       // this.updateWidgetAction(context, remoteViews, intent, appWidgetId, item);
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
     }
 
-    protected boolean isRotatedImage(String item) {
-        return "NP".equalsIgnoreCase(item);
-    }
-
-    protected int getWidgetLayoutId() {
-        return R.layout.widget_album;
-    }
 
     protected void updateWidgetAction(Context context, RemoteViews remoteViews, Intent intent, int appWidgetId, String item) {
 //        intent.setAction(FallWidgetView.ACTION_APP);
@@ -75,7 +73,9 @@ public class WidgetAlbumProvider extends WidgetPhotoProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
         for (int appWidgetId : appWidgetIds) {
-            prefs.remove(String.valueOf(appWidgetId));
+            WidgetData widgetData = new WidgetData();
+            widgetData.setWidgetId(appWidgetId);
+            DataHelper.getInstance(context).deleteWidget(widgetData);
         }
         prefs.commit();
     }

@@ -148,37 +148,8 @@ public class DataHelper extends DataHandler {
     }
 
     // Read records related to the album and photo
-    public List<AlbumData> queryPhotoAlbum0() {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT * FROM ").append(AlbumData.tableName);
-//        sql.append(" SELECT ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumName).append(", ")
-//                .append(PhotoData.tableName).append(".* ");
-//        sql.append(" FROM ").append(AlbumData.tableName);
-        sql.append(" LEFT JOIN ").append(PhotoData.tableName);
-        sql.append(" ON ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumId)
-                .append(" = ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId);
-        sql.append(" AND ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
-                .append(" = (SELECT MIN(").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId).append(")")
-                .append(" FROM ").append(PhotoData.tableName).append(")");
-        sql.append(" ORDER BY 1 ASC");
-
-        List<AlbumData> albums = new ArrayList<>();
-        for (Map<String, Object> rowData : this.query(sql.toString())) {
-            Log.d("", "rowData ====" + rowData);
-            AlbumData albumData = this.getAlbumData(rowData);
-            //PhotoData photoData = this.getPhotoData(rowData);
-            // albumData.setAlbumId(photoData.getAlbumId());
-            // albumData.addPhoto(photoData);
-            albums.add(albumData);
-        }
-        return albums;
-    }
-
-    // Read records related to the album and photo
     public List<AlbumData> queryAlbumPhotos() {
         StringBuilder sql = new StringBuilder();
-//        sql.append(" SELECT ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumName).append(", ")
-//                .append(PhotoData.tableName).append(".* ");
         sql.append(" SELECT * FROM ").append(AlbumData.tableName);
         sql.append(" INNER JOIN ").append(PhotoData.tableName);
         sql.append(" ON ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumId)
@@ -211,9 +182,18 @@ public class DataHelper extends DataHandler {
     // update exist widget
     public WidgetData updateWidget(WidgetData widgetData) {
         if (widgetData.isSaved()) {
-            this.update(AlbumData.tableName, this.getWidgetContentValues(widgetData));
+            this.update(WidgetData.tableName, this.getWidgetContentValues(widgetData));
         }
         return widgetData;
+    }
+
+    // save exist widget
+    public WidgetData saveWidget(WidgetData widgetData) {
+        if (widgetData.isSaved()) {
+            return this.updateWidget(widgetData);
+        } else {
+            return this.createWidget(widgetData);
+        }
     }
 
     // delete exist widget
@@ -227,29 +207,52 @@ public class DataHelper extends DataHandler {
     }
 
     // Read record related to a widget
-    public WidgetData queryWidget(int widgetId, int photoId) {
+    public WidgetData queryWidgetAlbum(int widgetId, int photoId) {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT * ");
-        if (photoId > 0) {
-            sql.append(" ( SELECT GROUP_CONCAT(").append(AlbumData.fieldAlbumId).append(", SEPARATOR ',') FROM ").append(AlbumData.tableName);
-            sql.append(" WHERE ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumId);
-            sql.append(" = ").append(WidgetData.tableName).append(".").append(WidgetData.fieldAlbumId);
-            sql.append(" ) AS ").append(WidgetData.valuePhotoIds);
+        sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ");
+        //      sql.append(" 1 AS abc ");
+        sql.append(" ( SELECT GROUP_CONCAT(").append(PhotoData.fieldPhotoId).append(")")
+                .append(" FROM ").append(PhotoData.tableName)
+                .append(" WHERE ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
+                .append(" = ").append(WidgetData.tableName).append(".").append(WidgetData.fieldAlbumId)
+                .append(" ) AS ").append(WidgetData.valuePhotoIds);
+        sql.append(" FROM ").append(PhotoData.tableName);
+        sql.append(" INNER JOIN ").append(WidgetData.tableName)
+                .append(" ON ").append(WidgetData.tableName).append(".").append(WidgetData.fieldAlbumId)
+                .append(" = ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
+                .append(" AND ").append(WidgetData.tableName).append(".").append(WidgetData.fieldWidgetId)
+                .append(" = ").append(widgetId);
+        sql.append(" WHERE 0 > ").append(photoId)
+                .append(" OR ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
+                .append(" = ").append(photoId);
+        sql.append(" ORDER BY RANDOM() LIMIT 1");
+
+        for (Map<String, Object> rowData : this.query(sql.toString())) {
+            PhotoData photoData = this.getPhotoData(rowData);
+            WidgetData widgetData = new WidgetData();
+            widgetData.setWidgetId(widgetId);
+            widgetData.setAlbumId(photoData.getPhotoId());
+            widgetData.setPhotoIds((String) rowData.get(WidgetData.valuePhotoIds));
+            widgetData.setPhoto(photoData);
+            return this.getWidgetData(rowData);
         }
+        return new WidgetData();
+    }
+
+    // Read record related to a widget
+    public WidgetData queryWidgetPhoto(int widgetId) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ");
         sql.append(" FROM ").append(WidgetData.tableName);
-        sql.append(" LEFT JOIN ").append(PhotoData.tableName);
-        sql.append(" ON ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId);
-        if (photoId > 0) {
-            sql.append(" = ").append(photoId);
-        } else {
-            sql.append(" = ").append(WidgetData.tableName).append(".").append(WidgetData.fieldPhotoId);
-        }
-        sql.append(" WHERE ").append(WidgetData.fieldWidgetId).append(" = ").append(widgetId);
+        sql.append(" INNER JOIN ").append(PhotoData.tableName)
+                .append(" ON ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
+                .append(" = ").append(WidgetData.tableName).append(".").append(WidgetData.fieldPhotoId);
+        sql.append(" WHERE ").append(WidgetData.tableName).append(".").append(WidgetData.fieldWidgetId)
+                .append(" = ").append(widgetId);
 
         for (Map<String, Object> rowData : this.query(sql.toString())) {
             WidgetData widgetData = this.getWidgetData(rowData);
             widgetData.setPhoto(this.getPhotoData(rowData));
-            widgetData.setPhotoIds((String) rowData.get(WidgetData.valuePhotoIds));
             return widgetData;
         }
         return null;

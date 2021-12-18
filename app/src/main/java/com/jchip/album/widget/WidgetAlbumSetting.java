@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,9 @@ import com.jchip.album.R;
 import com.jchip.album.activity.DataActivity;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
+import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.data.WidgetData;
 
 import java.util.List;
 
@@ -45,7 +48,13 @@ public class WidgetAlbumSetting extends DataActivity {
         settingView.setAdapter(listViewAdapter);
 
         settingView.setOnItemClickListener((adapterView, view, position, id) -> {
-            //saveSharedPreferences(getApplicationContext(), appWidgetId, (String) listViewAdapter.getItem(position));
+
+            Log.d("", "photoView  OnClick  ===========================");
+            Log.d("", "photoView  appWidgetId  ===========================" + appWidgetId);
+            //Log.d("","photoView  photoData  ===========================" + photoData.getAlbumId());
+            Log.d("", "photoView  OnClick  ===========================");
+            AlbumData albumData = (AlbumData) listViewAdapter.getItem(position);
+            saveWidget(this, appWidgetId, albumData.getAlbumId());
             finish();
         });
     }
@@ -114,7 +123,7 @@ public class WidgetAlbumSetting extends DataActivity {
 
         @Override
         public Object getItem(int position) {
-            return position;
+            return this.albums.get(position);
         }
 
         @Override
@@ -138,10 +147,11 @@ public class WidgetAlbumSetting extends DataActivity {
 
     }
 
-    protected void saveSharedPreferences(Context context, int appWidgetId, String item) {
-//        SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
-//        prefs.putString(String.valueOf(appWidgetId), item);
-//        prefs.commit();
-        //this.updateWidget(getApplicationContext());
+    protected void saveWidget(Context context, int appWidgetId, int albumId) {
+        WidgetData widgetData = new WidgetData();
+        widgetData.setWidgetId(appWidgetId);
+        widgetData.setAlbumId(albumId);
+        DataHelper.getInstance(context).saveWidget(widgetData);
+        this.updateWidget(context);
     }
 }
