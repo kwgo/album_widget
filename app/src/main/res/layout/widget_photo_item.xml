@@ -45,10 +45,20 @@
                     android:scaleType="center"
                     android:visibility="invisible" />
 
-                <TextView
-                    android:id="@+id/photo_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/label_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/photo_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:lineSpacingExtra="0dp" />
+                </LinearLayout>
+
             </RelativeLayout>
 
         </FrameLayout>

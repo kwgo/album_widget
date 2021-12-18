@@ -39,24 +39,31 @@
                         android:layout_weight="1">
 
                         <ImageView
-                            android:id="@+id/font_image"
+                            android:id="@+id/photo_image"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:adjustViewBounds="true"
                             android:scaleType="fitXY"
                             android:src="@drawable/frame_0" />
 
-                        <TextView
-                            android:id="@+id/font_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:padding="2dp"
-                            android:singleLine="true"
-                            android:text="@string/font_sample"
-                            android:textColor="@color/white"
-                            android:textSize="16dp" />
+                        <LinearLayout
+                            android:id="@+id/label_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/photo_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:lineSpacingExtra="0dp"
+                                android:padding="2dp"
+                                android:text="@string/font_sample"
+                                android:textColor="@color/white"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
 
                     </RelativeLayout>
 
@@ -115,7 +122,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/font_text"
+                    android:id="@+id/photo_text"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_centerVertical="true"
@@ -128,7 +135,6 @@
                     android:hint="@string/font_sample"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:singleLine="true"
                     android:textColor="#F8FFFFFF"
                     android:textColorHint="#60FFFFFF" />
 

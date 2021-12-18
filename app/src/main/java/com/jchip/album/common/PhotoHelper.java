@@ -2,8 +2,10 @@ package com.jchip.album.common;
 
 import android.graphics.Bitmap;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,11 +44,11 @@ public class PhotoHelper {
     }
 
     public static void setImageScale(ImageView imageView, PhotoData photo) {
-        ImageView.ScaleType[] scaleTypies = new ImageView.ScaleType[]{
+        ImageView.ScaleType[] scale = {
                 ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
                 ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
         };
-        imageView.setScaleType(scaleTypies[photo.getScaleIndex()]);
+        imageView.setScaleType(scale[photo.getScaleIndex()]);
     }
 
     public static void setPhotoFont(TextView textView, PhotoData photo) {
@@ -64,7 +66,16 @@ public class PhotoHelper {
         textView.setText(photo.getFontText());
     }
 
-    public static void setFontLocation(View view, PhotoData photo) {
+    public static void setFontLocation(TextView view, PhotoData photo) {
+        int[] gravity = {
+                Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
+                Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
+                Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
+        };
+        ((LinearLayout) view.getParent()).setGravity(gravity[photo.getFontLocation()]);
+    }
+
+    public static void setFontLocation0(View view, PhotoData photo) {
         int fontLocation = photo.getFontLocation();
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);

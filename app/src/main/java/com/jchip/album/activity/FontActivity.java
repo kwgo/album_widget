@@ -30,9 +30,9 @@ public class FontActivity extends AbstractActivity {
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
         //this.photo = this.photo == null ? new PhotoData() : this.photo;
 
-        this.setImagePhoto(this.getImageView(R.id.font_image));
-        this.setPhotoFont(this.getTextView(R.id.font_label));
-        this.setPhotoText(this.getEditView(R.id.font_text));
+        this.setImagePhoto(this.getImageView(R.id.photo_image));
+        this.setPhotoFont(this.getTextView(R.id.photo_label));
+        this.setPhotoText(this.getEditView(R.id.photo_text));
 
         this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);
         this.getSeekView(R.id.font_color_r).setProgress((this.photo.getFontColor() >> 16) & 0xFF);
@@ -59,7 +59,7 @@ public class FontActivity extends AbstractActivity {
             public void afterTextChanged(Editable s) {
             }
         };
-        this.getEditView(R.id.font_text).addTextChangedListener(textWatcher);
+        this.getEditView(R.id.photo_text).addTextChangedListener(textWatcher);
 
         SeekBar.OnSeekBarChangeListener seekListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -89,12 +89,12 @@ public class FontActivity extends AbstractActivity {
     }
 
     private void onLocationChange() {
-        this.photo.setFontLocation((this.photo.getFontLocation() + 1) % 4);
-        this.setFontLocation(this.getTextView(R.id.font_label));
+        this.photo.setFontLocation((this.photo.getFontLocation() + 1) % 9);
+        this.setFontLocation(this.getTextView(R.id.photo_label));
     }
 
     private void onSizeChange(int change) {
-        TextView textView = this.getTextView(R.id.font_label);
+        TextView textView = this.getTextView(R.id.photo_label);
         float fontSize = textView.getTextSize() + change * dp2px(2);
         if (fontSize > dp2px(10) && fontSize < dp2px(100)) {
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
@@ -107,12 +107,12 @@ public class FontActivity extends AbstractActivity {
         int r = this.getSeekView(R.id.font_color_r).getProgress();
         int g = this.getSeekView(R.id.font_color_g).getProgress();
         int b = this.getSeekView(R.id.font_color_b).getProgress();
-        this.getTextView(R.id.font_label).setTextColor(Color.argb(a, r, g, b));
+        this.getTextView(R.id.photo_label).setTextColor(Color.argb(a, r, g, b));
         this.photo.setFontColor(Color.argb(a, r, g, b));
     }
 
     private void onTextChange(String text) {
-        this.getTextView(R.id.font_label).setText(text);
+        this.getTextView(R.id.photo_label).setText(text);
         this.photo.setFontText(text);
     }
 
