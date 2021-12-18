@@ -28,9 +28,10 @@ public class FontActivity extends AbstractActivity {
         this.setResult(RESULT_OK, intent);
 
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
-        //this.photo = this.photo == null ? new PhotoData() : this.photo;
 
-        this.setImagePhoto(this.getImageView(R.id.photo_image));
+        this.setPhotoImage(this.getImageView(R.id.photo_image));
+        this.setPhotoScale(this.getImageView(R.id.photo_image));
+
         this.setPhotoFont(this.getTextView(R.id.photo_label));
         this.setPhotoText(this.getEditView(R.id.photo_text));
 
@@ -52,7 +53,7 @@ public class FontActivity extends AbstractActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                onTextChange(s.toString().trim());
+                onTextChange(s.toString());
             }
 
             @Override
@@ -97,8 +98,8 @@ public class FontActivity extends AbstractActivity {
         TextView textView = this.getTextView(R.id.photo_label);
         float fontSize = textView.getTextSize() + change * dp2px(2);
         if (fontSize > dp2px(10) && fontSize < dp2px(100)) {
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
             this.photo.setFontSize((int) fontSize);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
         }
     }
 
@@ -107,13 +108,13 @@ public class FontActivity extends AbstractActivity {
         int r = this.getSeekView(R.id.font_color_r).getProgress();
         int g = this.getSeekView(R.id.font_color_g).getProgress();
         int b = this.getSeekView(R.id.font_color_b).getProgress();
-        this.getTextView(R.id.photo_label).setTextColor(Color.argb(a, r, g, b));
         this.photo.setFontColor(Color.argb(a, r, g, b));
+        this.getTextView(R.id.photo_label).setTextColor(Color.argb(a, r, g, b));
     }
 
     private void onTextChange(String text) {
-        this.getTextView(R.id.photo_label).setText(text);
         this.photo.setFontText(text);
+        this.getTextView(R.id.photo_label).setText(text);
     }
 
     @Override

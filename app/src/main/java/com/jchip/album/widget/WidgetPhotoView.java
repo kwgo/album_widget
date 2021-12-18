@@ -34,7 +34,7 @@ public class WidgetPhotoView {
     public void setPhotoView() {
         this.setScalePhoto(this.photoData);
 
-        this.setLabelLocation(R.id.label_container, this.photoData);
+        this.setLabelLocation(R.id.label_container, R.id.photo_label, this.photoData);
         this.setLabelFont(R.id.photo_label, this.photoData);
 
         this.setPhotoFrame(R.id.photo_container, this.photoData);
@@ -72,13 +72,14 @@ public class WidgetPhotoView {
         this.views.setTextViewTextSize(textViewId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
     }
 
-    public void setLabelLocation(int viewId, PhotoData photo) {
+    public void setLabelLocation(int containerId, int labelId, PhotoData photo) {
         int[] gravity = {
                 Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
                 Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
                 Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
         };
-        this.views.setInt(viewId, "setGravity", gravity[photo.getFontLocation()]);
+        //this.views.setInt(labelId, "setGravity", gravity[photo.getFontLocation() % gravity.length]);
+        this.views.setInt(containerId, "setGravity", gravity[photo.getFontLocation() % gravity.length]);
     }
 
     public void setPhotoFrame(int imageViewId, PhotoData photo) {

@@ -74,20 +74,22 @@ public abstract class AbstractActivity extends AppCompatActivity {
         intent.putExtra(PhotoData.tableName, this.photo);
         this.activityResultLauncher.launch(intent);
     }
-    public void setPhotoView(View view, int imageId, int labelId, int containerId, int frameId) {
-        PhotoHelper.setPhotoView( view, this. photo,  imageId,  labelId,  containerId,  frameId);
+
+    public void setPhotoView(View view, boolean label, boolean frame) {
+        //     public void setPhotoView(View view, int imageId, int labelId, int containerId, int frameId) {
+        PhotoHelper.setPhotoView(view, this.photo, label, frame);
     }
 
-    public void setImagePhoto(ImageView imageView) {
-        PhotoHelper.setImagePhoto(imageView, this.photo);
+    public void setPhotoImage(ImageView imageView) {
+        PhotoHelper.setPhotoImage(imageView, this.photo);
     }
 
     public void setImagePhoto(ImageView imageView, int maxSize) {
-        PhotoHelper.setImagePhoto(imageView, this.photo, maxSize);
+        PhotoHelper.setPhotoImage(imageView, this.photo, maxSize);
     }
 
-    public void setImageScale(ImageView imageView) {
-        PhotoHelper.setImageScale(imageView, this.photo);
+    public void setPhotoScale(ImageView imageView) {
+        PhotoHelper.setPhotoScale(imageView, this.photo);
     }
 
     public void setPhotoFont(TextView setPhotoFont) {

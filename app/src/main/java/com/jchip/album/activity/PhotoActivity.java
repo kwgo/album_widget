@@ -71,7 +71,7 @@ public class PhotoActivity extends LayerActivity {
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
         View photoView = this.getView(R.id.photos_view);
-        this.setPhotoView(photoView, R.id.photo_image, R.id.photo_label, R.id.photo_container, R.id.photo_frame);
+        this.setPhotoView(photoView, true, true);
 //        this.setImagePhoto(this.getImageView(R.id.photo_image));
 //        this.setImageScale(this.getImageView(R.id.photo_image));
 //        this.setPhotoFont(this.getTextView(R.id.photo_label));
@@ -93,19 +93,19 @@ public class PhotoActivity extends LayerActivity {
 
     private void onScalePhoto(View v) {
         this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
-        this.setImageScale(this.getImageView(R.id.photo_image));
+        this.setPhotoScale(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 
     private void onFlipPhoto() {
         this.photo.setFlipIndex((this.photo.getFlipIndex() + 1) % 2);
-        this.setImagePhoto(this.getImageView(R.id.photo_image));
+        this.setPhotoImage(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 
     protected void onRotatePhoto() {
         this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
-        this.setImagePhoto(this.getImageView(R.id.photo_image));
+        this.setPhotoImage(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 

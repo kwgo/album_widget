@@ -6,32 +6,29 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 
 public class PhotoHelper {
-    public static void setPhotoView(View view, PhotoData photo, int imageId, int labelId, int containerId, int frameId) {
-        if (imageId > 0) {
-            setImagePhoto(view.findViewById(imageId), photo);
-            setImageScale(view.findViewById(imageId), photo);
+    public static void setPhotoView(View view, PhotoData photo, boolean label, boolean frame) {
+        setPhotoImage(view.findViewById(R.id.photo_image), photo);
+        setPhotoScale(view.findViewById(R.id.photo_image), photo);
+        if (label) {
+            setPhotoFont(view.findViewById(R.id.photo_label), photo);
         }
-        if (labelId > 0) {
-            setPhotoFont(view.findViewById(labelId), photo);
-        }
-        if (containerId > 0 && frameId > 0) {
-            setPhotoFrame(view.findViewById(containerId), photo);
-            setPhotoFrame(view.findViewById(frameId), photo);
+        if (frame) {
+            setPhotoFrame(view.findViewById(R.id.photo_container), photo);
+            setPhotoFrame(view.findViewById(R.id.photo_frame), photo);
         }
     }
 
-    public static void setImagePhoto(ImageView imageView, PhotoData photo) {
-        setImagePhoto(imageView, photo, 0);
+    public static void setPhotoImage(ImageView imageView, PhotoData photo) {
+        setPhotoImage(imageView, photo, 0);
     }
 
-    public static void setImagePhoto(ImageView imageView, PhotoData photo, int maxSize) {
+    public static void setPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
             if (bitmap != null) {
@@ -43,7 +40,7 @@ public class PhotoHelper {
         imageView.setImageBitmap(null);
     }
 
-    public static void setImageScale(ImageView imageView, PhotoData photo) {
+    public static void setPhotoScale(ImageView imageView, PhotoData photo) {
         ImageView.ScaleType[] scale = {
                 ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
                 ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
@@ -72,18 +69,8 @@ public class PhotoHelper {
                 Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
                 Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
         };
-        ((LinearLayout) view.getParent()).setGravity(gravity[photo.getFontLocation()]);
-    }
-
-    public static void setFontLocation0(View view, PhotoData photo) {
-        int fontLocation = photo.getFontLocation();
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_END);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        layoutParams.addRule(fontLocation % 2 == 0 ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
-        layoutParams.addRule(fontLocation / 2 == 0 ? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.ALIGN_PARENT_BOTTOM);
-        view.setLayoutParams(layoutParams);
+        view.setGravity(gravity[photo.getFontLocation() % gravity.length]);
+        view.setGravity(gravity[photo.getFontLocation() % gravity.length]);
+        ((LinearLayout) view.getParent()).setGravity(gravity[photo.getFontLocation() % gravity.length]);
     }
 }
