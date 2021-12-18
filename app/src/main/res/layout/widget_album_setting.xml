@@ -2,51 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.10" />
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.00"
-        android:orientation="vertical">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6" />
+        android:layout_weight="0.9"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <ListView
-            android:id="@+id/photo_setting_view"
+            android:id="@+id/album_setting_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"
-
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-
+            android:layout_weight="0.7"
             android:background="@drawable/widget_setting_background"
             android:divider="@color/material_blue_grey_800"
             android:dividerHeight="1dp"
-            android:footerDividersEnabled="false" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.8" />
+            android:footerDividersEnabled="false"
+            android:paddingStart="2dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="2dp"
+            android:paddingBottom="4dp" />
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.10" />
-
 </LinearLayout>
-

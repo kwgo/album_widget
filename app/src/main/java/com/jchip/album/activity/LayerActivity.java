@@ -2,6 +2,7 @@ package com.jchip.album.activity;
 
 import android.content.Intent;
 
+import com.jchip.album.ActivityAlbumSetting;
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
 import com.jchip.album.ActivityPhotoSetting;
@@ -18,12 +19,10 @@ public class LayerActivity extends DataActivity {
         this.getButtonView(R.id.frame_select).setOnClickListener((v) -> this.onFrameSelect());
 
         this.getButtonView(R.id.album_help).setOnClickListener((v) -> this.onAlbumHelp());
-
-
     }
 
     public void onAlbumHelp() {
-        this.startActivity(ActivityPhotoSetting.class, null);
+        this.startActivity(ActivityAlbumSetting.class, null);
     }
 
     public void onFontSetting() {

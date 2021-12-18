@@ -4,21 +4,15 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jchip.album.R;
-import com.jchip.album.activity.AbstractActivity;
 import com.jchip.album.activity.DataActivity;
-import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
@@ -127,8 +121,6 @@ public class WidgetPhotoSetting extends DataActivity {
                     photoAlbum.addPhoto(albumData.getPhoto(index));
                 }
             }
-            Log.d("", "query done===" + albums.size());
-
         }
 
         @Override
@@ -148,7 +140,6 @@ public class WidgetPhotoSetting extends DataActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
-            Log.d("", "view ===" + view);
             if (view == null) {
                 view = inflater.inflate(R.layout.widget_photo_setting_item, null);
                 AlbumData albumData = this.albums.get(position);
@@ -162,8 +153,8 @@ public class WidgetPhotoSetting extends DataActivity {
                         PhotoHelper.setPhotoView(photoView, photoData, R.id.photo_image, R.id.photo_label, 0, 0);
                     }
                 }
-                view.findViewById(R.id.album_name).setVisibility(albumData.isSaved()?View.VISIBLE:View.GONE);
-                view.findViewById(R.id.photos_view).setVisibility(albumData.isSaved()?View.GONE:View.VISIBLE);
+                view.findViewById(R.id.album_name).setVisibility(albumData.isSaved() ? View.VISIBLE : View.GONE);
+                view.findViewById(R.id.photos_view).setVisibility(albumData.isSaved() ? View.GONE : View.VISIBLE);
             }
             return view;
         }

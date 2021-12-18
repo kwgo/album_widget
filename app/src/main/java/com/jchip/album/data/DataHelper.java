@@ -121,6 +121,35 @@ public class DataHelper extends DataHandler {
     // Read records related to the album and photo
     public List<AlbumData> queryPhotoAlbum() {
         StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ")
+                .append(" ( SELECT ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumName)
+                .append(" FROM ").append(AlbumData.tableName)
+                .append(" WHERE ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumId)
+                .append(" = ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
+                .append(" ) AS ").append(AlbumData.fieldAlbumName);
+        sql.append(" FROM ").append(PhotoData.tableName);
+        sql.append(" WHERE ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
+                .append(" IN ( SELECT MIN(").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId).append(")")
+                .append(" FROM ").append(PhotoData.tableName)
+                .append(" GROUP BY ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
+                .append(" )");
+        sql.append(" ORDER BY 1 ASC");
+
+        List<AlbumData> albums = new ArrayList<>();
+        for (Map<String, Object> rowData : this.query(sql.toString())) {
+            Log.d("", "rowData ====" + rowData);
+            PhotoData photoData = this.getPhotoData(rowData);
+            AlbumData albumData = new AlbumData((String) rowData.get(AlbumData.fieldAlbumName));
+            albumData.setAlbumId(photoData.getAlbumId());
+            albumData.addPhoto(photoData);
+            albums.add(albumData);
+        }
+        return albums;
+    }
+
+    // Read records related to the album and photo
+    public List<AlbumData> queryPhotoAlbum0() {
+        StringBuilder sql = new StringBuilder();
         sql.append(" SELECT * FROM ").append(AlbumData.tableName);
 //        sql.append(" SELECT ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumName).append(", ")
 //                .append(PhotoData.tableName).append(".* ");
@@ -129,16 +158,17 @@ public class DataHelper extends DataHandler {
         sql.append(" ON ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumId)
                 .append(" = ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId);
         sql.append(" AND ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
-                .append(" = (SELECT MIN( ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
-                .append(" ) FROM ").append(PhotoData.tableName).append(")");
+                .append(" = (SELECT MIN(").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId).append(")")
+                .append(" FROM ").append(PhotoData.tableName).append(")");
         sql.append(" ORDER BY 1 ASC");
 
         List<AlbumData> albums = new ArrayList<>();
         for (Map<String, Object> rowData : this.query(sql.toString())) {
+            Log.d("", "rowData ====" + rowData);
             AlbumData albumData = this.getAlbumData(rowData);
-            PhotoData photoData = this.getPhotoData(rowData);
-            albumData.setAlbumId(photoData.getAlbumId());
-            albumData.addPhoto(photoData);
+            //PhotoData photoData = this.getPhotoData(rowData);
+            // albumData.setAlbumId(photoData.getAlbumId());
+            // albumData.addPhoto(photoData);
             albums.add(albumData);
         }
         return albums;
@@ -150,7 +180,7 @@ public class DataHelper extends DataHandler {
 //        sql.append(" SELECT ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumName).append(", ")
 //                .append(PhotoData.tableName).append(".* ");
         sql.append(" SELECT * FROM ").append(AlbumData.tableName);
-        sql.append(" LEFT JOIN ").append(PhotoData.tableName);
+        sql.append(" INNER JOIN ").append(PhotoData.tableName);
         sql.append(" ON ").append(AlbumData.tableName).append(".").append(AlbumData.fieldAlbumId)
                 .append(" = ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId);
         sql.append(" ORDER BY 1 ASC");
@@ -237,7 +267,6 @@ public class DataHelper extends DataHandler {
     private AlbumData getAlbumData(Map<String, Object> rowData) {
         AlbumData albumData = new AlbumData();
         albumData.setAlbumId((Integer) rowData.get(AlbumData.fieldAlbumId));
-        Log.d("", "rowData.get(AlbumData.fieldAlbumId) ==" + rowData.get(AlbumData.fieldAlbumId));
         albumData.setAlbumName((String) rowData.get(AlbumData.fieldAlbumName));
         return albumData;
     }
