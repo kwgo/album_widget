@@ -58,8 +58,7 @@ public abstract class DataHandler extends SQLiteOpenHelper {
 
     protected int insert(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int id = (int) db.insert(tableName, null, contentValues);
-        return id;
+        return (int) db.insert(tableName, null, contentValues);
     }
 
     protected List<Map<String, Object>> query(String sql) {
@@ -122,6 +121,11 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         }
         int result = db.delete(tableName, whereClause.toString(), whereArgs.toArray(new String[0]));
         return result > 0;
+    }
+
+    protected int replace(String tableName, ContentValues contentValues) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return (int) db.insertWithOnConflict(tableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     protected void createTable(SQLiteDatabase db, String tableName, ContentValues contentValues) {

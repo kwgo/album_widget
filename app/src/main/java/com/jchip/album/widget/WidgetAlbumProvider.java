@@ -3,8 +3,6 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -39,9 +37,9 @@ public class WidgetAlbumProvider extends WidgetProvider {
     }
 
     protected void updateAppWidget(Context context, int appWidgetId, WidgetData widgetData) {
-        Log.d("", "updateAppWidget ++++++++++++++++++++++++++++++++++++++++++");
+        Log.d("", "updateAppWidget ----------------------------");
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
-        new WidgetPhotoView(context, remoteViews, widgetData.getPhoto());
+        new WidgetPhotoView(context, remoteViews, widgetData.getPhoto()).updateView();
 
         Intent intent = new Intent(context, WidgetAlbumProvider.class);
         // this.updateWidgetAction(context, remoteViews, intent, appWidgetId, item);
@@ -63,12 +61,10 @@ public class WidgetAlbumProvider extends WidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
         for (int appWidgetId : appWidgetIds) {
             WidgetData widgetData = new WidgetData();
             widgetData.setWidgetId(appWidgetId);
             DataHelper.getInstance(context).deleteWidget(widgetData);
         }
-        prefs.commit();
     }
 }

@@ -148,6 +148,8 @@ public class WidgetAlbumSetting extends DataActivity {
     }
 
     protected void saveWidget(Context context, int appWidgetId, int albumId) {
+        Log.d("", "saveWidget 888888888888888888888888888");
+        //WidgetData widgetData = DataHelper.getInstance(context).queryWidget(appWidgetId);
         WidgetData widgetData = new WidgetData();
         widgetData.setWidgetId(appWidgetId);
         widgetData.setAlbumId(albumId);

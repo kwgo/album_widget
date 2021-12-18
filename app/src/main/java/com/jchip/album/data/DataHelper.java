@@ -30,8 +30,7 @@ public class DataHelper extends DataHandler {
 
     // create new record
     public AlbumData createAlbum(AlbumData albumData) {
-        int id = this.insert(AlbumData.tableName, this.getAlbumContentValues(albumData));
-        albumData.setAlbumId(id);
+        albumData.setAlbumId(this.insert(AlbumData.tableName, this.getAlbumContentValues(albumData)));
         return albumData;
     }
 
@@ -173,6 +172,17 @@ public class DataHelper extends DataHandler {
         return albums;
     }
 
+    // query widget
+    public WidgetData queryWidget(int widgetId) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT * FROM ").append(WidgetData.tableName);
+        sql.append(" WHERE ").append(WidgetData.fieldWidgetId).append(" = ").append(widgetId);
+        for (Map<String, Object> rowData : this.query(sql.toString())) {
+            return this.getWidgetData(rowData);
+        }
+        return new WidgetData();
+    }
+
     // create new widget
     public WidgetData createWidget(WidgetData widgetData) {
         this.insert(WidgetData.tableName, this.getWidgetContentValues(widgetData));
@@ -189,11 +199,13 @@ public class DataHelper extends DataHandler {
 
     // save exist widget
     public WidgetData saveWidget(WidgetData widgetData) {
-        if (widgetData.isSaved()) {
-            return this.updateWidget(widgetData);
-        } else {
-            return this.createWidget(widgetData);
-        }
+//        if (widgetData.isSaved()) {
+//            return this.updateWidget(widgetData);
+//        } else {
+//            return this.createWidget(widgetData);
+//        }
+        widgetData.setWidgetId(this.replace(WidgetData.tableName, this.getWidgetContentValues(widgetData)));
+        return widgetData;
     }
 
     // delete exist widget
@@ -234,7 +246,7 @@ public class DataHelper extends DataHandler {
             widgetData.setAlbumId(photoData.getPhotoId());
             widgetData.setPhotoIds((String) rowData.get(WidgetData.valuePhotoIds));
             widgetData.setPhoto(photoData);
-            return this.getWidgetData(rowData);
+            return widgetData;
         }
         return new WidgetData();
     }
