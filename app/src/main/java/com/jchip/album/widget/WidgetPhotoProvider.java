@@ -25,6 +25,7 @@ public class WidgetPhotoProvider extends WidgetProvider {
         if (widgetData != null && widgetData.isSaved()) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
             new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updatePhotoScale();
+            remoteViews.setOnClickPendingIntent(R.id.widget_album_view, this.getPendingIntent(context, appWidgetId, widgetData));
             AppWidgetManager.getInstance(context).partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }
     }
