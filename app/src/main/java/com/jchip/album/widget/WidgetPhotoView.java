@@ -1,8 +1,6 @@
 package com.jchip.album.widget;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -14,15 +12,12 @@ import com.jchip.album.common.ImageHelper;
 import com.jchip.album.data.PhotoData;
 
 public class WidgetPhotoView {
-
-    private Context context;
-    private PhotoData photoData;
     private RemoteViews views;
+    private PhotoData photo;
 
-    public WidgetPhotoView(Context context, RemoteViews views, PhotoData photoData) {
-        this.context = context;
+    public WidgetPhotoView(RemoteViews views, PhotoData photo) {
         this.views = views;
-        this.photoData = photoData;
+        this.photo = photo;
     }
 
     public void updateView() {
@@ -33,41 +28,26 @@ public class WidgetPhotoView {
     }
 
     public void setPhotoView() {
-        int photoId = this.getPhotoId(this.photoData);
-        this.setPhotoImage(photoId, this.photoData);
-        this.setPhotoFrame(R.id.photo_container, this.photoData);
-        this.setPhotoFrame(R.id.photo_frame, this.photoData);
+        this.setPhotoFrame();
+        this.setPhotoImage();
+        this.setPhotoLabel();
+    }
 
-        Log.d("", "pos id ========================================");
-
-        String photoText = this.photoData.getFontText();
-        if (photoText != null && !photoText.trim().isEmpty()) {
-            int labelId = this.getPhotoLabelId(this.photoData);
-            Log.d("", "labelId id ========================================" + labelId);
-            this.setLabelLocation(R.id.label_container, labelId, this.photoData);
-            this.setLabelFont(labelId, this.photoData);
+    public void setPhotoImage() {
+        int[] imageIds = {
+                R.id.photo_image_0, R.id.photo_image_1, R.id.photo_image_2, R.id.photo_image_3
+        };
+        for (int imageId : imageIds) {
+            this.views.setImageViewBitmap(imageId, null);
+            this.views.setViewVisibility(imageId, View.GONE);
         }
+        int photoImageId = this.photo.getScaleIndex() == 3 ? R.id.photo_image_3 :
+                this.photo.getScaleIndex() == 2 ? R.id.photo_image_2 :
+                        this.photo.getScaleIndex() == 1 ? R.id.photo_image_1 : R.id.photo_image_0;
+        this.setPhotoImage(photoImageId);
     }
 
-    public int getPhotoId(PhotoData photo) {
-        this.views.setViewVisibility(R.id.photo_image_0, View.GONE);
-        this.views.setViewVisibility(R.id.photo_image_1, View.GONE);
-        this.views.setViewVisibility(R.id.photo_image_2, View.GONE);
-        this.views.setViewVisibility(R.id.photo_image_3, View.GONE);
-
-        this.views.setImageViewBitmap(R.id.photo_image_0, null);
-        this.views.setImageViewBitmap(R.id.photo_image_1, null);
-        this.views.setImageViewBitmap(R.id.photo_image_2, null);
-        this.views.setImageViewBitmap(R.id.photo_image_3, null);
-
-        int scaleIndex = photo.getScaleIndex();
-        int photoId = scaleIndex == 3 ? R.id.photo_image_3 :
-                scaleIndex == 2 ? R.id.photo_image_2 :
-                        scaleIndex == 1 ? R.id.photo_image_1 : R.id.photo_image_0;
-        return photoId;
-    }
-
-    public void setPhotoImage(int photoViewId, PhotoData photo) {
+    public void setPhotoImage(int photoImageId) {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
@@ -75,24 +55,22 @@ public class WidgetPhotoView {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0);
             }
         }
-        this.views.setImageViewBitmap(photoViewId, bitmap);
-        this.views.setViewVisibility(photoViewId, View.VISIBLE);
+        this.views.setImageViewBitmap(photoImageId, bitmap);
+        this.views.setViewVisibility(photoImageId, View.VISIBLE);
     }
 
-    public void setLabelFont(int textViewId, PhotoData photo) {
-        Log.d("", "setLabelFont====== textViewId" + textViewId);
-        Log.d("", "setLabelText====== photo.getFontText()" + photo.getFontText());
-
-        this.views.setTextViewText(textViewId, photo.getFontText());
-        this.views.setTextColor(textViewId, photo.getFontColor());
-        this.views.setTextViewTextSize(textViewId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
+    public void setPhotoFrame() {
+        this.setPhotoFrame(R.id.photo_container);
+        this.setPhotoFrame(R.id.photo_frame);
     }
 
-    public int getPhotoLabelId(PhotoData photo) {
-        int[] fontIds = {
-                R.id.label_font_0, R.id.label_font_1, R.id.label_font_2,
-                R.id.label_font_3, R.id.label_font_4, R.id.label_font_5
-        };
+    public void setPhotoFrame(int photoFrameId) {
+        int frameIndex = this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default;
+        this.views.setInt(photoFrameId, "setBackgroundResource", frameIndex);
+    }
+
+    public void setPhotoLabel() {
+        int alignCount = 3;
         int[] labelIds = {
                 R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
                 R.id.photo_label_3, R.id.photo_label_4, R.id.photo_label_5,
@@ -101,46 +79,27 @@ public class WidgetPhotoView {
                 R.id.photo_label_12, R.id.photo_label_13, R.id.photo_label_14,
                 R.id.photo_label_15, R.id.photo_label_16, R.id.photo_label_17
         };
-        int alignCount = 3;
-        Log.d("", "fontIds === " + fontIds);
-        StringBuilder sbs = new StringBuilder();
-        for (int fontIndex = 0; fontIndex < fontIds.length; fontIndex++) {
-            sbs.append(fontIds[fontIndex]).append(", ");
-            if (fontIndex == photo.getFontType()) {
-                Log.d("", "font VISIBLE============== " + fontIds[fontIndex]);
-            }
-            this.views.setViewVisibility(fontIds[fontIndex], fontIndex == photo.getFontType() ? View.VISIBLE : View.GONE);
+        for (int labelId : labelIds) {
+            this.views.setViewVisibility(labelId, View.GONE);
         }
-        Log.d("", "END   font ids=" + sbs);
-        int idIndex = photo.getFontType() * alignCount + photo.getFontLocation() % alignCount;
-        Log.d("", "idIndex============== " + idIndex);
-        for (int labelIndex = photo.getFontType() * alignCount; labelIndex < photo.getFontType() * alignCount + alignCount; labelIndex++) {
-            if (labelIndex == idIndex) {
-                Log.d("", "labelIndex VISIBLE============== " + labelIds[labelIndex]);
-            }
-            this.views.setViewVisibility(labelIds[labelIndex], labelIndex == idIndex ? View.VISIBLE : View.GONE);
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (int labelIndex = 0; labelIndex < labelIds.length; labelIndex++) {
-            sb.append(labelIds[labelIndex]).append(", ");
-        }
-        Log.d("", "labelIds === " + sb);
-        return labelIds[idIndex];
+        int index = photo.getFontType() * alignCount + photo.getFontLocation() % alignCount;
+        this.setLabelFont(labelIds[index]);
+        this.setLabelLocation(R.id.label_container);
     }
 
-    public void setLabelLocation(int containerId, int labelId, PhotoData photo) {
+    public void setLabelFont(int photoLabelId) {
+        this.views.setTextViewText(photoLabelId, photo.getFontText());
+        this.views.setTextColor(photoLabelId, photo.getFontColor());
+        this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
+        this.views.setViewVisibility(photoLabelId, View.VISIBLE);
+    }
+
+    public void setLabelLocation(int labelContainerId) {
         int[] gravity = {
                 Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
                 Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
                 Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
         };
-        //this.views.setInt(labelId, "setGravity", gravity[photo.getFontLocation() % gravity.length]);
-        this.views.setInt(containerId, "setGravity", gravity[photo.getFontLocation() % gravity.length]);
-    }
-
-    public void setPhotoFrame(int imageViewId, PhotoData photo) {
-        int frameIndex = photo.getFrameIndex() > 0 ? photo.getFrameIndex() : R.drawable.frame_default;
-        this.views.setInt(imageViewId, "setBackgroundResource", frameIndex);
+        this.views.setInt(labelContainerId, "setGravity", gravity[photo.getFontLocation() % gravity.length]);
     }
 }

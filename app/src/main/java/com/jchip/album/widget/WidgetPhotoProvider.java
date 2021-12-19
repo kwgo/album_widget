@@ -39,7 +39,7 @@ public class WidgetPhotoProvider extends WidgetProvider {
     protected void updateAppWidget(Context context, int appWidgetId, WidgetData widgetData) {
         Log.d("", "updateAppWidget ----------------------------");
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
-        new WidgetPhotoView(context, remoteViews, widgetData.getPhoto()).updateView();
+        new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updateView();
 
         Intent intent = new Intent(context, WidgetAlbumProvider.class);
         // this.updateWidgetAction(context, remoteViews, intent, appWidgetId, item);
