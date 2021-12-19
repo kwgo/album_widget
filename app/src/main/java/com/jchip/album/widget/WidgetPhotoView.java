@@ -27,6 +27,21 @@ public class WidgetPhotoView {
         }
     }
 
+    public void updatePhotoScale() {
+        int[] imageIds = {
+                R.id.photo_image_0, R.id.photo_image_1, R.id.photo_image_2, R.id.photo_image_3
+        };
+        for (int imageId : imageIds) {
+            this.views.setImageViewBitmap(imageId, null);
+            this.views.setViewVisibility(imageId, View.GONE);
+        }
+        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % imageIds.length);
+        int photoImageId = this.photo.getScaleIndex() == 3 ? R.id.photo_image_3 :
+                this.photo.getScaleIndex() == 2 ? R.id.photo_image_2 :
+                        this.photo.getScaleIndex() == 1 ? R.id.photo_image_1 : R.id.photo_image_0;
+        this.setPhotoImage(photoImageId);
+    }
+
     private void setPhotoView() {
         this.setPhotoFrame();
         this.setPhotoImage();
