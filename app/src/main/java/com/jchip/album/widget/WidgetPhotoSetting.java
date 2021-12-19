@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.R;
 import com.jchip.album.activity.DataActivity;
 import com.jchip.album.common.PhotoHelper;
@@ -99,7 +100,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
                             widgetData.setAlbumId(photoData.getAlbumId());
                             widgetData.setPhotoId(photoData.getPhotoId());
                             saveWidget(widgetData);
-                            updateWidget(WidgetPhotoProvider.class);
+                            updateWidget(ActivityPhotoSetting.PhotoProvider.class);
                             finish();
                         });
                     }

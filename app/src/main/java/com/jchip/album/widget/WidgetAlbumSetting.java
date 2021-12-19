@@ -1,6 +1,5 @@
 package com.jchip.album.widget;
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jchip.album.ActivityAlbumSetting;
 import com.jchip.album.R;
 import com.jchip.album.activity.DataActivity;
 import com.jchip.album.common.PhotoHelper;
@@ -41,7 +41,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
             widgetData.setWidgetId(appWidgetId);
             widgetData.setAlbumId(albumData.getAlbumId());
             this.saveWidget(widgetData);
-            this.updateWidget(WidgetAlbumProvider.class);
+            this.updateWidget(ActivityAlbumSetting.AlbumProvider.class);
             finish();
         });
     }

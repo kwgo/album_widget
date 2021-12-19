@@ -35,7 +35,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-//        this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
+        this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
     }
 
     @Override
