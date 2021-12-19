@@ -34,12 +34,12 @@ public class WidgetAlbumProvider extends WidgetProvider {
     protected void updateAppWidget(Context context, int appWidgetId, int photoId) {
         WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId, photoId);
         if (widgetData != null && widgetData.isSaved()) {
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo);
             new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updateView();
 
             widgetData.setPhotoId(this.getNextPhotoId(widgetData));
 
-            remoteViews.setOnClickPendingIntent(R.id.widget_album_view, this.getPendingIntent(context, appWidgetId, widgetData));
+            remoteViews.setOnClickPendingIntent(R.id.widget_view, this.getPendingIntent(context, appWidgetId, widgetData));
             AppWidgetManager.getInstance(context).partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }
     }
