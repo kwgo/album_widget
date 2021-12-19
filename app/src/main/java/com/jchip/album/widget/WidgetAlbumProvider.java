@@ -27,7 +27,7 @@ public class WidgetAlbumProvider extends WidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId, -1);
-            Log.d("", "updateAppWidget ++++++++++++++++++++++++++++++++++++++++++ widgetData=" + widgetData.getAlbumId());
+            Log.d("", "updateAppWidget ++ widgetData=" + widgetData.getAlbumId());
             if (widgetData != null && widgetData.isSaved()) {
                 updateAppWidget(context, appWidgetId, widgetData);
             }
@@ -35,7 +35,7 @@ public class WidgetAlbumProvider extends WidgetProvider {
     }
 
     protected void updateAppWidget(Context context, int appWidgetId, WidgetData widgetData) {
-        Log.d("", "updateAppWidget ----------------------------");
+        Log.d("", "updateAppWidget ------");
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
         new WidgetPhotoView(context, remoteViews, widgetData.getPhoto()).updateView();
 

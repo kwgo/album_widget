@@ -128,8 +128,8 @@ public class AlbumHelper {
         for (int fontIndex = 0; fontIndex < font.length; fontIndex++) {
             sb.append(" <LinearLayout");
             sb.append(" android:id=\"@+id/label_font_").append(fontIndex).append("\"");
-            sb.append(" android:layout_width=\"match_parent\"");
-            sb.append(" android:layout_height=\"match_parent\"");
+            sb.append(" android:layout_width=\"wrap_content\"");
+            sb.append(" android:layout_height=\"wrap_content\"");
             sb.append(" android:orientation=\"vertical\">");
             for (int alignIndex = 0; alignIndex < align.length; alignIndex++) {
                 sb.append(" <TextView");
