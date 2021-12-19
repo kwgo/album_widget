@@ -226,6 +226,7 @@ public class DataHelper extends DataHandler {
                 .append(" FROM ").append(PhotoData.tableName)
                 .append(" WHERE ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
                 .append(" = ").append(WidgetData.tableName).append(".").append(WidgetData.fieldAlbumId)
+                .append(" ORDER BY ").append(PhotoData.fieldPhotoId)
                 .append(" ) AS ").append(WidgetData.valuePhotoIds);
         sql.append(" FROM ").append(PhotoData.tableName);
         sql.append(" INNER JOIN ").append(WidgetData.tableName)

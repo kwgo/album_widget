@@ -27,13 +27,13 @@ public class WidgetPhotoView {
         }
     }
 
-    public void setPhotoView() {
+    private void setPhotoView() {
         this.setPhotoFrame();
         this.setPhotoImage();
         this.setPhotoLabel();
     }
 
-    public void setPhotoImage() {
+    private void setPhotoImage() {
         int[] imageIds = {
                 R.id.photo_image_0, R.id.photo_image_1, R.id.photo_image_2, R.id.photo_image_3
         };
@@ -47,7 +47,7 @@ public class WidgetPhotoView {
         this.setPhotoImage(photoImageId);
     }
 
-    public void setPhotoImage(int photoImageId) {
+    private void setPhotoImage(int photoImageId) {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
@@ -59,17 +59,17 @@ public class WidgetPhotoView {
         this.views.setViewVisibility(photoImageId, View.VISIBLE);
     }
 
-    public void setPhotoFrame() {
+    private void setPhotoFrame() {
         this.setPhotoFrame(R.id.photo_container);
         this.setPhotoFrame(R.id.photo_frame);
     }
 
-    public void setPhotoFrame(int photoFrameId) {
+    private void setPhotoFrame(int photoFrameId) {
         int frameIndex = this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default;
         this.views.setInt(photoFrameId, "setBackgroundResource", frameIndex);
     }
 
-    public void setPhotoLabel() {
+    private void setPhotoLabel() {
         int alignCount = 3;
         int[] labelIds = {
                 R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
@@ -87,14 +87,14 @@ public class WidgetPhotoView {
         this.setLabelLocation(R.id.label_container);
     }
 
-    public void setLabelFont(int photoLabelId) {
+    private void setLabelFont(int photoLabelId) {
         this.views.setTextViewText(photoLabelId, photo.getFontText());
         this.views.setTextColor(photoLabelId, photo.getFontColor());
         this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
         this.views.setViewVisibility(photoLabelId, View.VISIBLE);
     }
 
-    public void setLabelLocation(int labelContainerId) {
+    private void setLabelLocation(int labelContainerId) {
         int[] gravity = {
                 Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
                 Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
