@@ -72,11 +72,6 @@ public class PhotoActivity extends LayerActivity {
         this.photo = photo;
         View photoView = this.getView(R.id.photos_view);
         this.setPhotoView(photoView, true, true);
-//        this.setImagePhoto(this.getImageView(R.id.photo_image));
-//        this.setImageScale(this.getImageView(R.id.photo_image));
-//        this.setPhotoFont(this.getTextView(R.id.photo_label));
-//        this.setPhotoFrame(this.getView(R.id.photo_frame_container));
-//        this.setPhotoFrame(this.getView(R.id.photo_frame_cover));
     }
 
     private boolean onSlipPhoto(int offset) {

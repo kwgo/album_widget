@@ -140,7 +140,7 @@ public class WidgetAlbumSetting extends DataActivity {
                 albumName.setText(albumData.getAlbumName());
                 PhotoData photoData = albumData.getPhoto(0);
                 View photoView = view.findViewById(R.id.photo_view);
-                PhotoHelper.setPhotoView(photoView, photoData, true, false);
+                PhotoHelper.setPhotoView(context, photoView, photoData, true, false);
             }
             return view;
         }

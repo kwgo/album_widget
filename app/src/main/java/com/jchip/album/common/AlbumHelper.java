@@ -15,7 +15,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.jchip.album.R;
-import com.jchip.album.data.PhotoData;
 import com.rayzhang.android.rzalbum.RZAlbum;
 
 import java.io.FileInputStream;
@@ -99,6 +98,7 @@ public class AlbumHelper {
                 .showGif(false)
                 .start(activity, ALBUM_REQUEST_CODE);
     }
+
     public static void alert(Context context, int titleId, int detailId, Runnable work) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle(titleId);
@@ -112,8 +112,35 @@ public class AlbumHelper {
             }
         }).show();
     }
+
     public static int dp2px(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
+    public static String createFont() {
+        String[] font = {
+                "niconne_regular", "anton_regular", "macondo_egular",
+                "frederickathe_great", "ole_regular", "wind_song_medium"
+        };
+        String[] align = {"start|center_vertical", "center", "end|center_vertical"};
+
+        StringBuilder sb = new StringBuilder();
+        for (int fontIndex = 0; fontIndex < font.length; fontIndex++) {
+            sb.append(" <LinearLayout");
+            sb.append(" android:id=\"@+id/label_font_").append(fontIndex).append("\"");
+            sb.append(" android:layout_width=\"match_parent\"");
+            sb.append(" android:layout_height=\"match_parent\"");
+            sb.append(" android:orientation=\"vertical\">");
+            for (int alignIndex = 0; alignIndex < align.length; alignIndex++) {
+                sb.append(" <TextView");
+                sb.append(" android:id=\"@+id/photo_label_").append(fontIndex * align.length + alignIndex).append("\"");
+                sb.append(" android:gravity=\"").append(align[alignIndex]).append("\"");
+                sb.append(" android:fontFamily=\"@font/").append(font[fontIndex]).append("\"");
+                sb.append(" style=\"@style/widget_photo_label\"/>");
+            }
+            sb.append(" </LinearLayout>");
+        }
+        Log.d("", sb.toString());
+        return sb.toString();
+    }
 }

@@ -29,12 +29,9 @@ public class FontActivity extends AbstractActivity {
 
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
 
-        this.setPhotoImage(this.getImageView(R.id.photo_image));
-        this.setPhotoScale(this.getImageView(R.id.photo_image));
+        this.setPhotoView(this.getView(R.id.photo_view), true, false);
 
-        this.setPhotoFont(this.getTextView(R.id.photo_label));
-        this.setPhotoText(this.getEditView(R.id.photo_text));
-
+        this.getTextView(R.id.photo_text).setText(this.photo.getFontText());
         this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);
         this.getSeekView(R.id.font_color_r).setProgress((this.photo.getFontColor() >> 16) & 0xFF);
         this.getSeekView(R.id.font_color_g).setProgress((this.photo.getFontColor() >> 8) & 0xFF);
@@ -87,6 +84,8 @@ public class FontActivity extends AbstractActivity {
     }
 
     private void onFontTypeChange() {
+        this.photo.setFontType((this.photo.getFontType() + 1) % 6);
+        this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onLocationChange() {

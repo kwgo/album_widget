@@ -150,7 +150,7 @@ public class WidgetPhotoSetting extends DataActivity {
                     for (int index = 0; index < albumData.getPhotoSize(); index++) {
                         PhotoData photoData = albumData.getPhoto(index);
                         View photoView = view.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
-                        PhotoHelper.setPhotoView(photoView, photoData, true, false);
+                        PhotoHelper.setPhotoView(context, photoView, photoData, true, false);
                     }
                 }
                 view.findViewById(R.id.album_name).setVisibility(albumData.isSaved() ? View.VISIBLE : View.GONE);

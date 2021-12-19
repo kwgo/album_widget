@@ -76,15 +76,14 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void setPhotoView(View view, boolean label, boolean frame) {
-        //     public void setPhotoView(View view, int imageId, int labelId, int containerId, int frameId) {
-        PhotoHelper.setPhotoView(view, this.photo, label, frame);
+        PhotoHelper.setPhotoView(this, view, this.photo, label, frame);
     }
 
     public void setPhotoImage(ImageView imageView) {
         PhotoHelper.setPhotoImage(imageView, this.photo);
     }
 
-    public void setImagePhoto(ImageView imageView, int maxSize) {
+    public void setPhotoImage(ImageView imageView, int maxSize) {
         PhotoHelper.setPhotoImage(imageView, this.photo, maxSize);
     }
 
@@ -92,16 +91,16 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setPhotoScale(imageView, this.photo);
     }
 
-    public void setPhotoFont(TextView setPhotoFont) {
-        PhotoHelper.setPhotoFont(setPhotoFont, this.photo);
+    public void setPhotoLabel(TextView textView) {
+        PhotoHelper.setPhotoLabel(this, textView, this.photo);
+    }
+
+    public void setPhotoFont(TextView textView) {
+        PhotoHelper.setPhotoFont(this, textView, this.photo);
     }
 
     public void setPhotoFrame(View view) {
         PhotoHelper.setPhotoFrame(view, this.photo);
-    }
-
-    public void setPhotoText(TextView textView) {
-        PhotoHelper.setPhotoText(textView, this.photo);
     }
 
     public void setFontLocation(TextView textView) {

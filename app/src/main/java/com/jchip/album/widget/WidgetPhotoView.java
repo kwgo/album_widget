@@ -34,8 +34,9 @@ public class WidgetPhotoView {
     public void setPhotoView() {
         this.setScalePhoto(this.photoData);
 
-        this.setLabelLocation(R.id.label_container, R.id.photo_label, this.photoData);
-        this.setLabelFont(R.id.photo_label, this.photoData);
+        int labelId = this.getPhotoLabelId(this.photoData);
+        this.setLabelLocation(R.id.label_container, labelId, this.photoData);
+        this.setLabelFont(labelId, this.photoData);
 
         this.setPhotoFrame(R.id.photo_container, this.photoData);
         this.setPhotoFrame(R.id.photo_frame, this.photoData);
@@ -70,6 +71,30 @@ public class WidgetPhotoView {
         this.views.setTextViewText(textViewId, photo.getFontText());
         this.views.setTextColor(textViewId, photo.getFontColor());
         this.views.setTextViewTextSize(textViewId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
+    }
+
+    public int getPhotoLabelId(PhotoData photo) {
+        int[] fontIds = {
+                R.id.label_font_0, R.id.label_font_1, R.id.label_font_2,
+                R.id.label_font_3, R.id.label_font_4, R.id.label_font_5
+        };
+        int[] alignIds = {
+                R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
+                R.id.photo_label_3, R.id.photo_label_4, R.id.photo_label_5,
+                R.id.photo_label_6, R.id.photo_label_7, R.id.photo_label_8,
+                R.id.photo_label_9, R.id.photo_label_10, R.id.photo_label_11,
+                R.id.photo_label_12, R.id.photo_label_13, R.id.photo_label_14,
+                R.id.photo_label_15, R.id.photo_label_16, R.id.photo_label_17
+        };
+        int alignCount = 3;
+        for (int fountId : fontIds) {
+            this.views.setViewVisibility(fountId, fountId == photo.getFontType() ? View.VISIBLE : View.INVISIBLE);
+        }
+        int idIndex = photo.getFontType() * alignCount + photo.getFontLocation() % alignCount;
+        for (int alignIndex = photo.getFontType() * alignCount; alignIndex < photo.getFontType() * alignCount + alignCount; alignIndex++) {
+            this.views.setViewVisibility(alignIds[idIndex], alignIndex == idIndex ? View.VISIBLE : View.INVISIBLE);
+        }
+        return alignIds[idIndex];
     }
 
     public void setLabelLocation(int containerId, int labelId, PhotoData photo) {
