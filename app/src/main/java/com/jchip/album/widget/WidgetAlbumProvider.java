@@ -1,10 +1,8 @@
 package com.jchip.album.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
@@ -18,14 +16,14 @@ import java.util.List;
 public class WidgetAlbumProvider extends WidgetProvider {
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdateAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             this.updateAppWidget(context, appWidgetId, -1);
         }
     }
 
     @Override
-    public void nextAppWidget(Context context, Intent intent) {
+    public void onNextAppWidget(Context context, Intent intent) {
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
         WidgetData widgetData = (WidgetData) intent.getSerializableExtra(WIDGET_ITEM);
         if (widgetData != null) {

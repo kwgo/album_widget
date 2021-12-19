@@ -12,14 +12,14 @@ import com.jchip.album.data.WidgetData;
 public class WidgetPhotoProvider extends WidgetProvider {
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdateAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             this.updateAppWidget(context, appWidgetId);
         }
     }
 
     @Override
-    public void nextAppWidget(Context context, Intent intent) {
+    public void onNextAppWidget(Context context, Intent intent) {
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
         WidgetData widgetData = (WidgetData) intent.getSerializableExtra(WIDGET_ITEM);
         if (widgetData != null && widgetData.isSaved()) {
@@ -30,7 +30,7 @@ public class WidgetPhotoProvider extends WidgetProvider {
     }
 
     protected void updateAppWidget(Context context, int appWidgetId) {
-        WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId, -1);
+        WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId);
         if (widgetData != null && widgetData.isSaved()) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_album);
             new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updateView();

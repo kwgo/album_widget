@@ -199,11 +199,6 @@ public class DataHelper extends DataHandler {
 
     // save exist widget
     public WidgetData saveWidget(WidgetData widgetData) {
-//        if (widgetData.isSaved()) {
-//            return this.updateWidget(widgetData);
-//        } else {
-//            return this.createWidget(widgetData);
-//        }
         widgetData.setWidgetId(this.replace(WidgetData.tableName, this.getWidgetContentValues(widgetData)));
         return widgetData;
     }
@@ -255,7 +250,7 @@ public class DataHelper extends DataHandler {
     // Read record related to a widget
     public WidgetData queryWidgetPhoto(int widgetId) {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ");
+        sql.append(" SELECT ").append(PhotoData.tableName).append(".* ");
         sql.append(" FROM ").append(PhotoData.tableName);
         sql.append(" INNER JOIN ").append(WidgetData.tableName)
                 .append(" ON ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)

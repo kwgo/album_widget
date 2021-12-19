@@ -7,10 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 import com.jchip.album.ActivitySplash;
-import com.jchip.album.R;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
 
@@ -22,11 +20,11 @@ public class WidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(final Context context, Intent intent) {
         try {
-            Log.d("widget", "received widget action " + intent.getAction());
+            // Log.d("widget", "received widget action " + intent.getAction());
             if (ACTION_APP.equals(intent.getAction())) {
                 this.startAppActivity(context, intent);
             } else if (ACTION_NEXT.equals(intent.getAction())) {
-                this.nextAppWidget(context, intent);
+                this.onNextAppWidget(context, intent);
             } else {
                 super.onReceive(context, intent);
             }
@@ -42,11 +40,18 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d("", "onUpdate ------ ------ ------ ------");
-
+        try {
+            this.onUpdateAppWidget(context, appWidgetManager, appWidgetIds);
+        } catch (Exception ex) {
+            Log.e("widget", "widget update action error:", ex);
+        }
     }
 
-    public void nextAppWidget(Context context, Intent intent) {
+    public void onUpdateAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Log.d("", "onUpdate ------ ------ ------ ------");
+    }
+
+    public void onNextAppWidget(Context context, Intent intent) {
         Log.d("", "nextAppWidget ------ ------ ------ ------");
 //        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 //        this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
