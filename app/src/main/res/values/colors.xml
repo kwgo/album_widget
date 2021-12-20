@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="photo_font">#FFFF0000</color>
     <color name="photo_image">#FFFFFFFF</color>
-    <color name="photo_board">#FFFAFAFA</color>
+    <color name="photo_board">#FFE8E8E8</color>
 
 </resources>

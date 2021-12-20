@@ -12,19 +12,19 @@
 
         <TextView
             android:id="@+id/photo_label_0"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/niconne_regular"
             android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/photo_label_1"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/niconne_regular"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/photo_label_2"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/niconne_regular"
             android:gravity="end|center_vertical" />
     </LinearLayout>
@@ -37,19 +37,19 @@
 
         <TextView
             android:id="@+id/photo_label_3"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/anton_regular"
             android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/photo_label_4"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/anton_regular"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/photo_label_5"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/anton_regular"
             android:gravity="end|center_vertical" />
     </LinearLayout>
@@ -62,19 +62,19 @@
 
         <TextView
             android:id="@+id/photo_label_6"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/macondo_egular"
             android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/photo_label_7"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/macondo_egular"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/photo_label_8"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/macondo_egular"
             android:gravity="end|center_vertical" />
     </LinearLayout>
@@ -87,19 +87,19 @@
 
         <TextView
             android:id="@+id/photo_label_9"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/frederickathe_great"
             android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/photo_label_10"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/frederickathe_great"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/photo_label_11"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/frederickathe_great"
             android:gravity="end|center_vertical" />
     </LinearLayout>
@@ -112,19 +112,19 @@
 
         <TextView
             android:id="@+id/photo_label_12"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/ole_regular"
             android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/photo_label_13"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/ole_regular"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/photo_label_14"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/ole_regular"
             android:gravity="end|center_vertical" />
     </LinearLayout>
@@ -137,19 +137,19 @@
 
         <TextView
             android:id="@+id/photo_label_15"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/wind_song_medium"
             android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/photo_label_16"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/wind_song_medium"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/photo_label_17"
-            style="@style/widget_photo_label"
+            style="@style/photo_label"
             android:fontFamily="@font/wind_song_medium"
             android:gravity="end|center_vertical" />
     </LinearLayout>

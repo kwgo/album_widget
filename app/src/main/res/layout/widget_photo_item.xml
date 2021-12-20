@@ -15,9 +15,9 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
+                style="@style/photo_board"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/album_photo_board">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/photo_image_0"

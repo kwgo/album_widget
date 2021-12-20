@@ -9,13 +9,6 @@
     android:orientation="vertical"
     tools:context=".ActivityAlbum">
 
-    <Space
-        android:id="@+id/album_name_popup"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_gravity="end"
-        android:gravity="end" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -137,7 +130,7 @@
         android:gravity="center"
         android:padding="4dp">
 
-        <include  layout="@layout/photo_item" />
+        <include layout="@layout/photo_item" />
 
     </FrameLayout>
 
