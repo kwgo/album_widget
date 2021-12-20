@@ -24,30 +24,32 @@
         android:visibility="gone">
 
         <LinearLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:orientation="horizontal">
 
             <include
                 android:id="@+id/photo_left_view"
-                layout="@layout/photo_item" />
+                layout="@layout/photo_item"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
         <LinearLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:orientation="horizontal">
 
             <include
                 android:id="@+id/photo_right_view"
-                layout="@layout/photo_item" />
+                layout="@layout/photo_item"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

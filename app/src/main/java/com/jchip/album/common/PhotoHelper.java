@@ -20,16 +20,19 @@ import com.jchip.album.data.PhotoData;
 import java.io.FileInputStream;
 
 public class PhotoHelper {
-    public static void setPhotoView(Context context, View view, PhotoData photo, boolean label, boolean frame) {
+    public static void setPhotoView(Context context, View view, PhotoData photo) {
         setPhotoImage(view.findViewById(R.id.photo_image), photo);
-        setPhotoScale(view.findViewById(R.id.photo_image), photo);
-        if (label) {
-            setPhotoLabel(context, view.findViewById(R.id.photo_label), photo);
-        }
-        if (frame) {
-            setPhotoFrame(view.findViewById(R.id.photo_container), photo);
-            setPhotoFrame(view.findViewById(R.id.photo_frame), photo);
-        }
+        setPhotoScale(view.findViewById(R.id.photo_image), photo, true);
+        setPhotoLabel(context, view.findViewById(R.id.photo_label), photo);
+        setPhotoFrame(view.findViewById(R.id.photo_container), photo);
+        setPhotoFrame(view.findViewById(R.id.photo_frame), photo);
+    }
+
+    public static void setPhotoLook(Context context, View view, PhotoData photo) {
+        setPhotoImage(view.findViewById(R.id.photo_image), photo);
+        setPhotoScale(view.findViewById(R.id.photo_image), photo, false);
+        //     setPhotoFrame(view.findViewById(R.id.photo_container), photo);
+        //    setPhotoFrame(view.findViewById(R.id.photo_frame), photo);
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo) {
@@ -50,14 +53,14 @@ public class PhotoHelper {
         imageView.setImageResource(R.drawable.photo_default);
     }
 
-    public static void setPhotoScale(ImageView imageView, PhotoData photo) {
+    public static void setPhotoScale(ImageView imageView, PhotoData photo, boolean gap) {
         ImageView.ScaleType[] scale = {
                 ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
                 ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
         };
-        int FIT_PADDING = 16;
-        int gap = scale[photo.getScaleIndex()] == ImageView.ScaleType.FIT_CENTER ? dpToPx(FIT_PADDING) : 0;
-        imageView.setPadding(gap, gap, gap, gap);
+        int FIT_PADDING = gap ? 16 : 0;
+        int gapBorder = scale[photo.getScaleIndex()] == ImageView.ScaleType.FIT_CENTER ? dpToPx(FIT_PADDING) : 0;
+        imageView.setPadding(gapBorder, gapBorder, gapBorder, gapBorder);
         imageView.setScaleType(scale[photo.getScaleIndex()]);
     }
 

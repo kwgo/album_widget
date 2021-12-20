@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Album</string>
 
-    <string name="album_title">Album</string>
+    <string name="album_title">Photo Album</string>
     <string name="photo_title">Photo</string>
 
 

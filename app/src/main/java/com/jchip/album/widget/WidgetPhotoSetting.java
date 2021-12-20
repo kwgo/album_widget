@@ -92,8 +92,8 @@ public class WidgetPhotoSetting extends WidgetSetting {
                     for (int index = 0; index < albumData.getPhotoSize(); index++) {
                         PhotoData photoData = albumData.getPhoto(index);
                         View photoView = view.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
-                        PhotoHelper.setPhotoView(context, photoView, photoData, true, false);
-
+                        PhotoHelper.setPhotoLook(context, photoView, photoData);
+                        photoView.setVisibility(View.VISIBLE);
                         photoView.setOnClickListener((v) -> {
                             WidgetData widgetData = new WidgetData();
                             widgetData.setWidgetId(appWidgetId);

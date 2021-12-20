@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.jchip.album.ActivityAlbumSetting;
 import com.jchip.album.R;
-import com.jchip.album.activity.DataActivity;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
@@ -84,7 +83,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
                 albumName.setText(albumData.getAlbumName());
                 PhotoData photoData = albumData.getPhoto(0);
                 View photoView = view.findViewById(R.id.photo_view);
-                PhotoHelper.setPhotoView(context, photoView, photoData, true, false);
+                PhotoHelper.setPhotoLook(context, photoView, photoData);
             }
             return view;
         }
