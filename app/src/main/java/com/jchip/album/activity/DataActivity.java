@@ -18,14 +18,17 @@ public class DataActivity extends AbstractActivity {
     }
 
     protected AlbumData saveAlbum() {
+        // this.updateWidget();
         return DataHelper.getInstance(this).saveAlbum(this.album);
     }
 
     protected AlbumData updateAlbum() {
+        // this.updateWidget();
         return DataHelper.getInstance(this).updateAlbum(this.album);
     }
 
     protected AlbumData deleteAlbum() {
+        this.updateWidget();
         return DataHelper.getInstance(this).deleteAlbum(this.album);
     }
 
@@ -35,24 +38,19 @@ public class DataActivity extends AbstractActivity {
 
     protected PhotoData createPhoto() {
         DataHelper.getInstance(this).createPhoto(this.photo);
+        this.updateWidget();
         return this.photo;
     }
 
     protected PhotoData deletePhoto() {
         DataHelper.getInstance(this).deletePhoto(this.photo);
+        this.updateWidget();
         return this.photo;
     }
 
     protected PhotoData updatePhoto() {
         DataHelper.getInstance(this).updatePhoto(this.photo);
+        this.updateWidget();
         return this.photo;
-    }
-
-    public List<AlbumData> queryPhotoAlbum() {
-        return DataHelper.getInstance(this).queryPhotoAlbum();
-    }
-
-    public List<AlbumData> queryAlbumPhotos() {
-        return DataHelper.getInstance(this).queryAlbumPhotos();
     }
 }

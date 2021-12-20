@@ -14,6 +14,7 @@ import com.jchip.album.R;
 import com.jchip.album.activity.DataActivity;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
+import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
 
@@ -56,7 +57,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
             this.context = context;
             this.inflater = (LayoutInflater.from(context));
 
-            this.albums = ((DataActivity) context).queryPhotoAlbum();
+            this.albums = DataHelper.getInstance(context).queryPhotoAlbum();
         }
 
         @Override

@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jchip.album.activity.DataActivity;
+import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
+
+import java.util.List;
 
 public class WidgetSetting extends DataActivity {
 
@@ -68,4 +71,5 @@ public class WidgetSetting extends DataActivity {
         Log.d("", "save widget id:" + widgetData.getWidgetId() + " album:" + widgetData.getAlbumId() + " photo:" + widgetData.getPhotoId());
         DataHelper.getInstance(this).saveWidget(widgetData);
     }
+
 }

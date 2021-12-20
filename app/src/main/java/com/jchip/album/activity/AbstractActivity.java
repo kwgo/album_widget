@@ -17,6 +17,8 @@ import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jchip.album.ActivityAlbumSetting;
+import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
@@ -148,8 +150,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return !this.isPortrait();
     }
 
-    public int dp2px(int dp) {
-        return AlbumHelper.dp2px(this, dp);
+    public int dpToPx(int dp) {
+        return PhotoHelper.dpToPx(dp);
+    }
+
+    public void updateWidget() {
+        AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
+        AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
     }
 
     public interface ActivityCallBack {

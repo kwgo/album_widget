@@ -3,6 +3,7 @@ package com.jchip.album.common;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -15,6 +16,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
+
+import java.io.FileInputStream;
 
 public class PhotoHelper {
     public static void setPhotoView(Context context, View view, PhotoData photo, boolean label, boolean frame) {
@@ -35,7 +38,7 @@ public class PhotoHelper {
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
+            Bitmap bitmap = loadBitmap(photo.getPhotoPath());
             if (bitmap != null) {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), maxSize);
                 imageView.setImageResource(0);
@@ -94,5 +97,13 @@ public class PhotoHelper {
 
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static Bitmap loadBitmap(String path) {
+        try (FileInputStream inputStream = new FileInputStream(path)) {
+            return BitmapFactory.decodeStream(inputStream);
+        } catch (Exception ex) {
+        }
+        return null;
     }
 }

@@ -2,8 +2,11 @@ package com.jchip.album.common;
 
 import android.Manifest;
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,14 +51,6 @@ public class AlbumHelper {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
-    }
-
-    public static Bitmap loadBitmap(String path) {
-        try (FileInputStream inputStream = new FileInputStream(path)) {
-            return BitmapFactory.decodeStream(inputStream);
-        } catch (Exception ex) {
-        }
-        return null;
     }
 
     public static void selectPhotos(Activity activity) {
@@ -108,10 +103,6 @@ public class AlbumHelper {
         }).show();
     }
 
-    public static int dp2px(Context context, int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
-    }
-
     public static String createFont() {
         String[] font = {
                 "niconne_regular", "anton_regular", "macondo_egular",
@@ -137,5 +128,17 @@ public class AlbumHelper {
         }
         Log.d("", sb.toString());
         return sb.toString();
+    }
+
+    public static void updateWidget(Context context, Class widgetProvider) {
+        try {
+            Intent intent = new Intent(context, widgetProvider);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            ComponentName componentName = new ComponentName(context, widgetProvider);
+            int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(componentName);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            context.sendBroadcast(intent);
+        } catch (Exception ex) {
+        }
     }
 }

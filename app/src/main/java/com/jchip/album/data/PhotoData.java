@@ -27,9 +27,9 @@ public class PhotoData extends AbstractData {
     private int rotationIndex = 0;
 
     private int fontType = 0;
-    private int fontSize = 48;
-    private int fontColor = 255 * 256 * 256 * 256 + 255 * 256 * 256 + 255 * 256 + 255;
-    private int fontLocation = 0;
+    private int fontSize = 80;
+    private int fontColor = 0xFFFFFFFF;
+    private int fontLocation = 4;
     private String fontText = "";
 
     public PhotoData() {

@@ -95,8 +95,8 @@ public class FontActivity extends AbstractActivity {
 
     private void onSizeChange(int change) {
         TextView textView = this.getTextView(R.id.photo_label);
-        float fontSize = textView.getTextSize() + change * dp2px(2);
-        if (fontSize > dp2px(10) && fontSize < dp2px(100)) {
+        float fontSize = textView.getTextSize() + change * dpToPx(2);
+        if (fontSize > dpToPx(10) && fontSize < dpToPx(100)) {
             this.photo.setFontSize((int) fontSize);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
         }
