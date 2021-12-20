@@ -29,7 +29,7 @@ public class PhotoHelper {
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo) {
-        setPhotoImage(imageView, photo, 0);
+        setPhotoImage(imageView, photo, 1600);
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {

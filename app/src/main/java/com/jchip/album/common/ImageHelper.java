@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.jchip.album.R;
@@ -27,30 +28,72 @@ public class ImageHelper {
 //        return convertBitmap(BitmapFactory.decodeResource(context.getResources(), sourceId), ratio, rotation, flip, );
 //    }
 
-    public static Bitmap convertBitmap(Bitmap bitmap, int rotation, int flip) {
-        return convertBitmap(bitmap, 1f, rotation, flip, 0);
-    }
-//
+//    public static Bitmap convertBitmap(Bitmap bitmap, int rotation, int flip) {
+//        return convertBitmap(bitmap, 1f, rotation, flip, 0);
+//    }
+
+    //
 //    public static Bitmap convertBitmap(Bitmap bitmap, int rotation, int flip, int maxSize) {
 //        return convertBitmap(bitmap, 1f, rotation, flip);
 //    }
+    public static Bitmap convertBitmap3(Bitmap bitmap, float ratio, int rotation, int flip, int maxSize) {
+
+        int width = bitmap.getWidth();
+
+        int height = bitmap.getHeight();
+
+
+        int newWidth = 320;
+
+        int newHeight = 480;
+
+
+        float scaleWidth = ((float) newWidth) / width;
+
+        float scaleHeight = ((float) newHeight) / height;
+
+//        Matrix matrix = new Matrix();
+//
+//        scaleWidth = 0.5f;
+//        scaleHeight = 0.5f;
+//
+//        matrix.postScale(scaleWidth, scaleHeight);
+
+        Log.d("", "image width=" + width + "   height=" + height + "  ratio:" + ratio);
+        Matrix matrix = new Matrix();
+        // matrix.postRotate(rotation * 90);
+        //  matrix.postScale(flip == 0 ? ratio : -ratio, ratio);
+
+        matrix.postScale(0.5f, 0.5f);
+        //      matrix.postScale(flip == 0 ? 1 : -1, 1, width, height);
+        //       return Bitmap.createBitmap(bitmap, 0, 0, (int) (width*ratio), (int) (height*ratio), matrix, true);
+
+        Log.d("", "let do image width=" + width + "   height=" + height + "  ratio:" + ratio);
+
+//        Bitmap nerb = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+//        Log.d("", "new image =" + nerb);
+//        width = nerb.getWidth();
+//        height = nerb.getHeight();
+//        Log.d("", "new image width=" + width + "   height=" + height);
+
+
+        //  Bitmap newbm = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        //   return newbm;
+
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+    }
 
     public static Bitmap convertBitmap(Bitmap bitmap, float ratio, int rotation, int flip, int maxSize) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         if (maxSize > 0) {
-            ratio *= maxSize / Math.min(width, height);
+            ratio = ratio * maxSize / Math.min(width, height);
         }
-        //  Log.d("", "image width=" + width);
-        // Log.d("", "image height=" + height);
         Matrix matrix = new Matrix();
         matrix.postRotate(rotation * 90);
-        matrix.postScale(flip == 0 ? 1 : -1, 1, ratio, ratio);
-        //      matrix.postScale(flip == 0 ? 1 : -1, 1, width, height);
-        //       return Bitmap.createBitmap(bitmap, 0, 0, (int) (width*ratio), (int) (height*ratio), matrix, true);
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
+        matrix.postScale(flip == 0 ? ratio : -ratio, ratio);
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
     }
-
 
     private Bitmap bmp;
     private Canvas canvas;

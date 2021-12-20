@@ -67,7 +67,7 @@ public class WidgetPhotoView {
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
             if (bitmap != null) {
-                bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0);
+                bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 1200);
             }
         }
         this.views.setImageViewBitmap(photoImageId, bitmap);
