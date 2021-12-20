@@ -2,7 +2,9 @@ package com.jchip.album.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.jchip.album.activity.AbstractActivity;
 import com.jchip.album.data.DataHelper;
@@ -13,6 +15,16 @@ public class WidgetSetting extends AbstractActivity {
     protected int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     protected int resultValue = RESULT_CANCELED;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        this.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        );
+    }
 
     @Override
     public void initContentView() {
