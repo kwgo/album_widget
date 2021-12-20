@@ -18,8 +18,6 @@ import com.jchip.album.R;
 import com.rayzhang.android.rzalbum.RZAlbum;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class AlbumHelper {
     public static final int ALBUM_REQUEST_CODE = 1;
@@ -55,10 +53,7 @@ public class AlbumHelper {
     public static Bitmap loadBitmap(String path) {
         try (FileInputStream inputStream = new FileInputStream(path)) {
             return BitmapFactory.decodeStream(inputStream);
-        } catch (FileNotFoundException e) {
-            // a file must have been deleted manually!
-        } catch (IOException e) {
-            // a file read error!
+        } catch (Exception ex) {
         }
         return null;
     }

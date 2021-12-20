@@ -38,11 +38,13 @@ public class PhotoHelper {
             Bitmap bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
             if (bitmap != null) {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), maxSize);
+                imageView.setImageResource(0);
                 imageView.setImageBitmap(bitmap);
                 return;
             }
         }
         imageView.setImageBitmap(null);
+        imageView.setImageResource(R.drawable.photo_default);
     }
 
     public static void setPhotoScale(ImageView imageView, PhotoData photo) {
@@ -54,7 +56,7 @@ public class PhotoHelper {
         int gap = scale[photo.getScaleIndex()] == ImageView.ScaleType.FIT_CENTER ? dpToPx(FIT_PADDING) : 0;
         imageView.setPadding(gap, gap, gap, gap);
         imageView.setScaleType(scale[photo.getScaleIndex()]);
-     }
+    }
 
     public static void setPhotoLabel(Context context, TextView textView, PhotoData photo) {
         textView.setText(photo.getFontText());

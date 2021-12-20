@@ -54,6 +54,7 @@ public class WidgetPhotoView {
                 R.id.photo_image_0, R.id.photo_image_1, R.id.photo_image_2, R.id.photo_image_3
         };
         for (int imageId : imageIds) {
+            this.views.setImageViewResource(imageId, 0);
             this.views.setImageViewBitmap(imageId, null);
             this.views.setViewVisibility(imageId, View.GONE);
         }
@@ -64,6 +65,9 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoImage(int photoImageId) {
+        int FIT_CENTER = 1, FIT_PADDING = 15;
+        int gap = photo.getScaleIndex() == FIT_CENTER ? PhotoHelper.dpToPx(FIT_PADDING) : 0;
+        this.views.setViewPadding(photoImageId, gap, gap, gap, gap);
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = AlbumHelper.loadBitmap(photo.getPhotoPath());
@@ -71,10 +75,11 @@ public class WidgetPhotoView {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 1200);
             }
         }
-        int FIT_CENTER = 1, FIT_PADDING = 15;
-        int gap = photo.getScaleIndex() == FIT_CENTER ? PhotoHelper.dpToPx(FIT_PADDING) : 0;
-        this.views.setViewPadding(photoImageId, gap, gap, gap, gap);
-        this.views.setImageViewBitmap(photoImageId, bitmap);
+        if (bitmap != null) {
+            this.views.setImageViewBitmap(photoImageId, bitmap);
+        } else {
+            this.views.setImageViewResource(photoImageId, R.drawable.photo_default);
+        }
         this.views.setViewVisibility(photoImageId, View.VISIBLE);
     }
 
