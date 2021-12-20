@@ -1,6 +1,7 @@
 package com.jchip.album.common;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.util.TypedValue;
@@ -49,8 +50,11 @@ public class PhotoHelper {
                 ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
                 ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
         };
+        int FIT_PADDING = 16;
+        int gap = scale[photo.getScaleIndex()] == ImageView.ScaleType.FIT_CENTER ? dpToPx(FIT_PADDING) : 0;
+        imageView.setPadding(gap, gap, gap, gap);
         imageView.setScaleType(scale[photo.getScaleIndex()]);
-    }
+     }
 
     public static void setPhotoLabel(Context context, TextView textView, PhotoData photo) {
         textView.setText(photo.getFontText());
@@ -84,5 +88,9 @@ public class PhotoHelper {
         view.setGravity(gravity[photo.getFontLocation() % gravity.length]);
         view.setGravity(gravity[photo.getFontLocation() % gravity.length]);
         ((LinearLayout) view.getParent()).setGravity(gravity[photo.getFontLocation() % gravity.length]);
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }

@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.ImageHelper;
+import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 
 public class WidgetPhotoView {
@@ -70,6 +71,9 @@ public class WidgetPhotoView {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 1200);
             }
         }
+        int FIT_CENTER = 1, FIT_PADDING = 15;
+        int gap = photo.getScaleIndex() == FIT_CENTER ? PhotoHelper.dpToPx(FIT_PADDING) : 0;
+        this.views.setViewPadding(photoImageId, gap, gap, gap, gap);
         this.views.setImageViewBitmap(photoImageId, bitmap);
         this.views.setViewVisibility(photoImageId, View.VISIBLE);
     }
