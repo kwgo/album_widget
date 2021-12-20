@@ -8,19 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.Log;
-import android.util.TypedValue;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.jchip.album.R;
 import com.rayzhang.android.rzalbum.RZAlbum;
-
-import java.io.FileInputStream;
 
 public class AlbumHelper {
     public static final int ALBUM_REQUEST_CODE = 1;
@@ -138,6 +133,13 @@ public class AlbumHelper {
             int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(componentName);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
             context.sendBroadcast(intent);
+        } catch (Exception ex) {
+        }
+    }
+
+    public static void setStatusBarColor(Activity activity, int colorId) {
+        try {
+            activity.getWindow().setStatusBarColor(activity.getResources().getColor(colorId));
         } catch (Exception ex) {
         }
     }

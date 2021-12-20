@@ -33,9 +33,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     protected AlbumData album = new AlbumData();
     protected PhotoData photo = new PhotoData();
-
     protected List<AlbumData> albums = new ArrayList<>();
-    //protected List<PhotoData> photos = new ArrayList<>();
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ActivityCallBack activityCallBack;
@@ -157,6 +155,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
     public void updateWidget() {
         AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
         AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
+    }
+
+    public void setStatusBarColor(int colorId) {
+        AlbumHelper.setStatusBarColor(this, colorId);
     }
 
     public interface ActivityCallBack {

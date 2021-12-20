@@ -17,7 +17,8 @@ public class FontActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.font_layer);
+        super.setContentView(R.layout.font_layer);
+        super.setStatusBarColor(android.R.color.transparent);
     }
 
     @Override

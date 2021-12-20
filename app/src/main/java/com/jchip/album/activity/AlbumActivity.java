@@ -21,6 +21,7 @@ public class AlbumActivity extends PhotoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.album_layer);
+        super.setStatusBarColor(R.color.window_background);
     }
 
     @Override

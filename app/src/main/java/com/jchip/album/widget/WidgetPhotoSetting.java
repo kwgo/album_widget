@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.R;
-import com.jchip.album.activity.DataActivity;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;

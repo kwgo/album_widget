@@ -21,7 +21,8 @@ public class FrameActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.frame_layer);
+        super.setContentView(R.layout.frame_layer);
+        super.setStatusBarColor(android.R.color.transparent);
     }
 
     @Override
