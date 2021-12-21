@@ -53,4 +53,13 @@ public class DataActivity extends AbstractActivity {
         this.updateWidget();
         return this.photo;
     }
+
+    protected boolean existAlbumWidget() {
+        return DataHelper.getInstance(this).existAlbumWidget(this.album.getAlbumId());
+    }
+
+    protected boolean existPhotoWidget() {
+        return DataHelper.getInstance(this).existPhotoWidget(this.photo.getPhotoId());
+    }
+
 }

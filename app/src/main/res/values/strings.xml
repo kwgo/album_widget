@@ -7,6 +7,7 @@
 
     <string name="default_album_name">Photo album #</string>
     <string name="album_alert_delete">Are you sure you want to delete?</string>
+    <string name="album_alert_link">There are widgets link to it, are you sure you want to delete?</string>
 
     <string name="font_sample">Input text</string>
 

@@ -36,6 +36,7 @@ public class FrameActivity extends AbstractActivity {
             Intent intent = new Intent();
             intent.putExtra(FRAME_INDEX, position);
             intent.putExtra(FRAME_RESOURCE, (Integer) listViewAdapter.getItem(position));
+            intent.putExtra(FRAME_LOOK, (Integer) listViewAdapter.getLook(position));
             this.setResult(RESULT_OK, intent);
             this.finish();
         });
@@ -47,17 +48,22 @@ public class FrameActivity extends AbstractActivity {
         private LayoutInflater inflater;
 
         private List<Integer> frames;
+        private List<Integer> frameLooks;
 
         public ListViewAdapter(Context context) {
             this.context = context;
             this.inflater = (LayoutInflater.from(context));
 
             this.frames = new ArrayList<>();
+            this.frameLooks = new ArrayList<>();
             for (int index = 0; index < MAX_FRAME_NUMBER; index++) {
-                String sourceName = "frame_" + index;
-                int sourceId = context.getResources().getIdentifier(sourceName, "drawable", context.getPackageName());
+                String sourceFrame = "frame_" + index;
+                int sourceId = context.getResources().getIdentifier(sourceFrame, "drawable", context.getPackageName());
                 if (sourceId > 0) {
                     this.frames.add(sourceId);
+                    sourceFrame = "frame_look_" + index;
+                    sourceId = context.getResources().getIdentifier(sourceFrame, "drawable", context.getPackageName());
+                    this.frameLooks.add(sourceId);
                 }
             }
         }
@@ -70,6 +76,10 @@ public class FrameActivity extends AbstractActivity {
         @Override
         public Object getItem(int position) {
             return this.frames.get(position);
+        }
+
+        public Object getLook(int position) {
+            return this.frameLooks.get(position);
         }
 
         @Override

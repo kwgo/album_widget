@@ -39,12 +39,22 @@ public class PhotoActivity extends LayerActivity {
 
     private void onDeletePhoto() {
         this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
-            if (this.photo.isSaved()) {
-                this.album.removePhoto(this.photo);
-                this.deletePhoto();
+            if (this.existPhotoWidget()) {
+                this.alert(R.string.photo_title, R.string.album_alert_link, () -> {
+                    removePhoto();
+                });
+            } else {
+                removePhoto();
             }
-            this.setAlbumPhoto(this.album.getPhoto(0));
         });
+    }
+
+    private void removePhoto() {
+        if (this.photo.isSaved()) {
+            this.album.removePhoto(this.photo);
+            this.deletePhoto();
+        }
+        this.setAlbumPhoto(this.album.getPhoto(0));
     }
 
     @Override

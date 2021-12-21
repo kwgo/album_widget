@@ -31,8 +31,8 @@ public class PhotoHelper {
     public static void setPhotoLook(Context context, View view, PhotoData photo) {
         setPhotoImage(view.findViewById(R.id.photo_image), photo);
         setPhotoScale(view.findViewById(R.id.photo_image), photo, false);
-        //     setPhotoFrame(view.findViewById(R.id.photo_container), photo);
-        //    setPhotoFrame(view.findViewById(R.id.photo_frame), photo);
+        setPhotoFrameLook(view.findViewById(R.id.photo_container), photo);
+        setPhotoFrameLook(view.findViewById(R.id.photo_frame), photo);
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo) {
@@ -85,6 +85,10 @@ public class PhotoHelper {
 
     public static void setPhotoFrame(View view, PhotoData photo) {
         view.setBackgroundResource(photo.getFrameIndex() > 0 ? photo.getFrameIndex() : R.drawable.frame_default);
+    }
+
+    public static void setPhotoFrameLook(View view, PhotoData photo) {
+        view.setBackgroundResource(photo.getFrameLook() > 0 ? photo.getFrameLook() : R.drawable.frame_look_default);
     }
 
     public static void setFontLocation(TextView view, PhotoData photo) {

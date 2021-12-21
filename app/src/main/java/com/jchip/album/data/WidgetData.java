@@ -6,6 +6,7 @@ public class WidgetData extends AbstractData {
     public static final String fieldAlbumId = "albumId";
     public static final String fieldPhotoId = "photoId";
     public static final String valuePhotoIds = "photoIds";
+    public static final String valueTotal = "total";
 
     private int widgetId = -1;
     private int albumId = -1;

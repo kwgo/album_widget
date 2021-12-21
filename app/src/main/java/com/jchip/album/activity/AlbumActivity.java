@@ -21,7 +21,6 @@ public class AlbumActivity extends PhotoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.album_layer);
-        super.setStatusBarColor(R.color.window_background);
     }
 
     @Override
@@ -84,14 +83,24 @@ public class AlbumActivity extends PhotoActivity {
         this.setAlbumPhotos(albums.get(position));
     }
 
+    private void removeAlbum() {
+        if (this.album.isSaved()) {
+            this.albums.remove(this.album);
+            this.deleteAlbum();
+        }
+        this.reloadAlbumList();
+        this.setAlbumPhotos(albums.get(0));
+    }
+
     private void onDeleteAlbum() {
         this.alert(R.string.album_title, R.string.album_alert_delete, () -> {
-            if (this.album.isSaved()) {
-                this.albums.remove(this.album);
-                this.deleteAlbum();
+            if (this.existAlbumWidget()) {
+                this.alert(R.string.album_title, R.string.album_alert_link, () -> {
+                    removeAlbum();
+                });
+            } else {
+                deleteAlbum();
             }
-            this.reloadAlbumList();
-            this.setAlbumPhotos(albums.get(0));
         });
     }
 }

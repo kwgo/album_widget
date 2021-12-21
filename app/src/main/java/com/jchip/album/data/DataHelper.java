@@ -62,6 +62,10 @@ public class DataHelper extends DataHandler {
             contentValues = new ContentValues();
             contentValues.put(PhotoData.fieldAlbumId, albumData.getAlbumId());
             this.delete(PhotoData.tableName, contentValues);
+
+            contentValues = new ContentValues();
+            contentValues.put(WidgetData.fieldAlbumId, albumData.getAlbumId());
+            this.delete(WidgetData.tableName, contentValues);
         }
         return albumData;
     }
@@ -99,6 +103,10 @@ public class DataHelper extends DataHandler {
             ContentValues contentValues = new ContentValues();
             contentValues.put(PhotoData.fieldPhotoId, photoData.getPhotoId());
             this.delete(PhotoData.tableName, contentValues);
+
+            contentValues = new ContentValues();
+            contentValues.put(WidgetData.fieldPhotoId, photoData.getPhotoId());
+            this.delete(WidgetData.tableName, contentValues);
         }
         return photoData;
     }
@@ -270,6 +278,32 @@ public class DataHelper extends DataHandler {
         return null;
     }
 
+    // exists album widget
+    public boolean existAlbumWidget(int albumId) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT COUNT(*) AS ").append(WidgetData.valueTotal);
+        sql.append(" FROM ").append(WidgetData.tableName);
+        sql.append(" WHERE ").append(WidgetData.fieldAlbumId).append(" = ").append(albumId);
+        for (Map<String, Object> rowData : this.query(sql.toString())) {
+            int total = (Integer) rowData.get(WidgetData.valueTotal);
+            return total > 0;
+        }
+        return false;
+    }
+
+    // exists photo widget
+    public boolean existPhotoWidget(int photoId) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT COUNT(*) AS ").append(WidgetData.valueTotal);
+        sql.append(" FROM ").append(WidgetData.tableName);
+        sql.append(" WHERE ").append(WidgetData.fieldPhotoId).append(" = ").append(photoId);
+        for (Map<String, Object> rowData : this.query(sql.toString())) {
+            int total = (Integer) rowData.get(WidgetData.valueTotal);
+            return total > 0;
+        }
+        return false;
+    }
+
     private ContentValues getAlbumContentValues(AlbumData albumData) {
         ContentValues contentValues = new ContentValues();
         if (albumData.getAlbumId() >= 0) {
@@ -295,6 +329,7 @@ public class DataHelper extends DataHandler {
         contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
 
         contentValues.put(PhotoData.fieldFrame, photoData.getFrameIndex());
+        contentValues.put(PhotoData.fieldLook, photoData.getFrameLook());
         contentValues.put(PhotoData.fieldScale, photoData.getScaleIndex());
         contentValues.put(PhotoData.fieldFlip, photoData.getFlipIndex());
         contentValues.put(PhotoData.fieldRotation, photoData.getRotationIndex());
@@ -314,6 +349,7 @@ public class DataHelper extends DataHandler {
         photoData.setPhotoPath((String) rowData.get(PhotoData.fieldPhotoPath));
 
         photoData.setFrameIndex((Integer) rowData.get(PhotoData.fieldFrame));
+        photoData.setFrameLook((Integer) rowData.get(PhotoData.fieldLook));
         photoData.setScaleIndex((Integer) rowData.get(PhotoData.fieldScale));
         photoData.setFlipIndex((Integer) rowData.get(PhotoData.fieldFlip));
         photoData.setRotationIndex((Integer) rowData.get(PhotoData.fieldRotation));
