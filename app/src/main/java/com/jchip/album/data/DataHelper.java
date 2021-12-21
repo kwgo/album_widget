@@ -275,7 +275,7 @@ public class DataHelper extends DataHandler {
             widgetData.setPhoto(photoData);
             return widgetData;
         }
-        return null;
+        return new WidgetData();
     }
 
     // exists album widget

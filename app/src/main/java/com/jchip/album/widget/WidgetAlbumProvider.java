@@ -33,7 +33,7 @@ public class WidgetAlbumProvider extends WidgetProvider {
 
     protected void updateAppWidget(Context context, int appWidgetId, int photoId) {
         WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId, photoId);
-        if (widgetData != null && widgetData.isSaved()) {
+        if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo);
             new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updateView();
 

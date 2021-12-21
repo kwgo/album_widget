@@ -32,7 +32,7 @@ public class WidgetPhotoProvider extends WidgetProvider {
 
     protected void updateAppWidget(Context context, int appWidgetId) {
         WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId);
-        if (widgetData != null && widgetData.isSaved()) {
+        if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo);
             new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updateView();
             remoteViews.setOnClickPendingIntent(R.id.widget_view, this.getPendingIntent(context, appWidgetId, widgetData));
