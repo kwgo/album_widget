@@ -21,22 +21,29 @@ import java.io.FileInputStream;
 
 public class PhotoHelper {
     public static void setPhotoView(Context context, View view, PhotoData photo) {
+        setPhotoFrame(view.findViewById(R.id.photo_container), photo);
+        setPhotoFrame(view.findViewById(R.id.photo_frame), photo);
         setPhotoImage(view.findViewById(R.id.photo_image), photo);
         setPhotoScale(view.findViewById(R.id.photo_image), photo, true);
         setPhotoLabel(context, view.findViewById(R.id.photo_label), photo);
-        setPhotoFrame(view.findViewById(R.id.photo_container), photo);
-        setPhotoFrame(view.findViewById(R.id.photo_frame), photo);
     }
 
-    public static void setPhotoLook(Context context, View view, PhotoData photo) {
-        setPhotoImage(view.findViewById(R.id.photo_image), photo);
-        setPhotoScale(view.findViewById(R.id.photo_image), photo, false);
+    public static void setPhotoLook(Context context, View view, PhotoData photo, boolean label) {
         setPhotoFrameLook(view.findViewById(R.id.photo_container), photo);
         setPhotoFrameLook(view.findViewById(R.id.photo_frame), photo);
+        setPhotoImageLook(view.findViewById(R.id.photo_image), photo);
+        setPhotoScale(view.findViewById(R.id.photo_image), photo, false);
+        if (label) {
+            setPhotoLabel(context, view.findViewById(R.id.photo_label), photo);
+        }
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo) {
         setPhotoImage(imageView, photo, 1600);
+    }
+
+    public static void setPhotoImageLook(ImageView imageView, PhotoData photo) {
+        setPhotoImage(imageView, photo, 640);
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {

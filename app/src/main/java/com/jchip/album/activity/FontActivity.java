@@ -30,7 +30,7 @@ public class FontActivity extends AbstractActivity {
 
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
 
-        this.setPhotoView(this.getView(R.id.photo_view));
+        this.setPhotoLook(this.getView(R.id.photo_view));
 
         this.getTextView(R.id.photo_text).setText(this.photo.getFontText());
         this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);

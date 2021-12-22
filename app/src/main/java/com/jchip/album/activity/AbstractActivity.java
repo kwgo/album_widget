@@ -80,6 +80,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setPhotoView(this, view, this.photo);
     }
 
+    public void setPhotoLook(View view) {
+        PhotoHelper.setPhotoLook(this, view, this.photo, true);
+    }
+
     public void setPhotoImage(ImageView imageView) {
         PhotoHelper.setPhotoImage(imageView, this.photo);
     }

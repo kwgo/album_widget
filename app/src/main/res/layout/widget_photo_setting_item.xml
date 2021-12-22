@@ -25,31 +25,30 @@
 
         <LinearLayout
 
+            android:id="@+id/photo_left_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
-            <include
-                android:id="@+id/photo_left_view"
-                layout="@layout/photo_item"
-                android:visibility="invisible" />
+            <include layout="@layout/photo_item" />
 
         </LinearLayout>
 
         <LinearLayout
 
+            android:id="@+id/photo_right_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="1px"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
-            <include
-                android:id="@+id/photo_right_view"
-                layout="@layout/photo_item"
-                android:visibility="invisible" />
+            <include layout="@layout/photo_item" />
 
         </LinearLayout>
 

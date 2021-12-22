@@ -18,7 +18,9 @@ import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WidgetPhotoSetting extends WidgetSetting {
 
@@ -38,11 +40,13 @@ public class WidgetPhotoSetting extends WidgetSetting {
     }
 
     public class ListViewAdapter extends BaseAdapter {
+        private static final int PHOTO_NUMBER = 2;
+
         private Context context;
         private LayoutInflater inflater;
 
         private List<AlbumData> albums;
-        private static final int PHOTO_NUMBER = 2;
+        private Map<Integer, View> views = new HashMap<>();
 
         public ListViewAdapter(Context context) {
             this.context = context;
@@ -50,15 +54,12 @@ public class WidgetPhotoSetting extends WidgetSetting {
 
             this.albums = new ArrayList<>();
             for (AlbumData albumData : DataHelper.getInstance(context).queryAlbumPhotos()) {
-                AlbumData album = new AlbumData(albumData.getAlbumName());
-                album.setAlbumId(albumData.getAlbumId());
-                this.albums.add(album);
+                 this.albums.add(albumData);
 
                 AlbumData photoAlbum = new AlbumData();
                 for (int index = 0; index < albumData.getPhotoSize(); index++) {
                     if (index % PHOTO_NUMBER == 0) {
-                        photoAlbum = new AlbumData();
-                        this.albums.add(photoAlbum);
+                        this.albums.add(photoAlbum = new AlbumData());
                     }
                     photoAlbum.addPhoto(albumData.getPhoto(index));
                 }
@@ -82,6 +83,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
 
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
+            view = this.views.get(position);
             if (view == null) {
                 view = inflater.inflate(R.layout.widget_photo_setting_item, null);
                 AlbumData albumData = this.albums.get(position);
@@ -92,7 +94,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
                     for (int index = 0; index < albumData.getPhotoSize(); index++) {
                         PhotoData photoData = albumData.getPhoto(index);
                         View photoView = view.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
-                        PhotoHelper.setPhotoLook(context, photoView, photoData);
+                        PhotoHelper.setPhotoLook(context, photoView, photoData, false);
                         photoView.setVisibility(View.VISIBLE);
                         photoView.setOnClickListener((v) -> {
                             WidgetData widgetData = new WidgetData();
@@ -107,6 +109,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
                 }
                 view.findViewById(R.id.album_name).setVisibility(albumData.isSaved() ? View.VISIBLE : View.GONE);
                 view.findViewById(R.id.photos_view).setVisibility(albumData.isSaved() ? View.GONE : View.VISIBLE);
+                this.views.put(position, view);
             }
             return view;
         }

@@ -17,7 +17,9 @@ import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WidgetAlbumSetting extends WidgetSetting {
 
@@ -51,6 +53,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
         private LayoutInflater inflater;
 
         private List<AlbumData> albums;
+        private Map<Integer, View> views = new HashMap<>();
 
         public ListViewAdapter(Context context) {
             this.context = context;
@@ -76,6 +79,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
 
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
+            view = this.views.get(position);
             if (view == null) {
                 view = inflater.inflate(R.layout.widget_album_setting_item, null);
                 AlbumData albumData = this.albums.get(position);
@@ -83,7 +87,8 @@ public class WidgetAlbumSetting extends WidgetSetting {
                 albumName.setText(albumData.getAlbumName());
                 PhotoData photoData = albumData.getPhoto(0);
                 View photoView = view.findViewById(R.id.photo_view);
-                PhotoHelper.setPhotoLook(context, photoView, photoData);
+                PhotoHelper.setPhotoLook(context, photoView, photoData, false);
+                this.views.put(position, view);
             }
             return view;
         }
