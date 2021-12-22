@@ -1,7 +1,6 @@
 package com.jchip.album.activity;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.jchip.album.R;
@@ -38,7 +37,7 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void onDeletePhoto() {
-        if(this.photo.isSaved()) {
+        if (this.photo.isSaved()) {
             this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
                 if (this.existPhotoWidget()) {
                     this.alert(R.string.photo_title, R.string.album_alert_link, () -> {
@@ -64,7 +63,6 @@ public class PhotoActivity extends LayerActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == AlbumHelper.ALBUM_REQUEST_CODE) {
             List<AlbumPhoto> albumPhotos = RZAlbum.parseResult(data);
-            Log.d("", "albumPhotos size:::::::::::::::" + albumPhotos.size());
             if (albumPhotos != null && !albumPhotos.isEmpty()) {
                 this.onSelectedPhotos(albumPhotos);
             }

@@ -20,7 +20,6 @@ public class WidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(final Context context, Intent intent) {
         try {
-            // Log.d("widget", "received widget action " + intent.getAction());
             if (ACTION_APP.equals(intent.getAction())) {
                 this.startAppActivity(context, intent);
             } else if (ACTION_NEXT.equals(intent.getAction())) {
@@ -48,11 +47,9 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     public void onUpdateAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d("", "onUpdate ------ ------ ------ ------");
     }
 
     public void onNextAppWidget(Context context, Intent intent) {
-        Log.d("", "nextAppWidget ------ ------ ------ ------");
 //        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 //        this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
     }

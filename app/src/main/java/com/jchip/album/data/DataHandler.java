@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,7 +140,6 @@ public abstract class DataHandler extends SQLiteOpenHelper {
             }
         }
         sql.append(")");
-        Log.d("", "creating table SQL: " + sql.toString());
         db.execSQL(sql.toString());
     }
 
@@ -196,7 +194,6 @@ public abstract class DataHandler extends SQLiteOpenHelper {
     protected void dropTable(SQLiteDatabase db, String tableName) {
         StringBuilder sql = new StringBuilder();
         sql.append("DROP TABLE IF EXISTS ").append(tableName);
-        Log.d("", "drop table SQL: " + sql.toString());
         db.execSQL(sql.toString());
     }
 }

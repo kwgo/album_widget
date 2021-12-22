@@ -3,7 +3,6 @@ package com.jchip.album.data;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,7 +143,6 @@ public class DataHelper extends DataHandler {
 
         List<AlbumData> albums = new ArrayList<>();
         for (Map<String, Object> rowData : this.query(sql.toString())) {
-            Log.d("", "rowData ====" + rowData);
             PhotoData photoData = this.getPhotoData(rowData);
             AlbumData albumData = new AlbumData((String) rowData.get(AlbumData.fieldAlbumName));
             albumData.setAlbumId(photoData.getAlbumId());

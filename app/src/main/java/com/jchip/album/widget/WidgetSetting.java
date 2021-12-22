@@ -3,7 +3,6 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.jchip.album.activity.AbstractActivity;
@@ -77,7 +76,6 @@ public class WidgetSetting extends AbstractActivity {
     }
 
     protected void saveWidget(WidgetData widgetData) {
-        Log.d("", "save widget id:" + widgetData.getWidgetId() + " album:" + widgetData.getAlbumId() + " photo:" + widgetData.getPhotoId());
         DataHelper.getInstance(this).saveWidget(widgetData);
     }
 

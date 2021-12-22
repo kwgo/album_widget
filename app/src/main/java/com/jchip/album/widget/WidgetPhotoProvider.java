@@ -3,7 +3,6 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
@@ -21,7 +20,6 @@ public class WidgetPhotoProvider extends WidgetProvider {
 
     @Override
     public void onNextAppWidget(Context context, Intent intent) {
-        Log.d("", "onNextAppWidget ========================onNextAppWidget ==== ");
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
         WidgetData widgetData = (WidgetData) intent.getSerializableExtra(WIDGET_ITEM);
         if (widgetData != null) {
@@ -33,7 +31,6 @@ public class WidgetPhotoProvider extends WidgetProvider {
     }
 
     protected void updateAppWidget(Context context, int appWidgetId) {
-        Log.d("", "photo ========================updateAppWidget ==== " + appWidgetId);
         WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId);
         if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo);
