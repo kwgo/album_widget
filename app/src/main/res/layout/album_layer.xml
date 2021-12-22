@@ -43,8 +43,10 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="0dp"
             android:alpha="0.70"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@android:color/transparent"
             android:contentDescription="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:focusedByDefault="true"
             android:src="@drawable/album_name_dots" />
 
