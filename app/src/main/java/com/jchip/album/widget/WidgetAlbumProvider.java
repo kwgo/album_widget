@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.jchip.album.ActivityAlbumSetting;
 import com.jchip.album.R;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
@@ -37,9 +36,7 @@ public class WidgetAlbumProvider extends WidgetProvider {
         if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo);
             new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updateView();
-
             widgetData.setPhotoId(this.getNextPhotoId(widgetData));
-
             remoteViews.setOnClickPendingIntent(R.id.widget_view, this.getPendingIntent(context, appWidgetId, widgetData));
             AppWidgetManager.getInstance(context).partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }

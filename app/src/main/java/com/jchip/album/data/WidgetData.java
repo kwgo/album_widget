@@ -58,4 +58,14 @@ public class WidgetData extends AbstractData {
     public void setPhoto(PhotoData photo) {
         this.photo = photo;
     }
+
+    public WidgetData getCopy() {
+        WidgetData widgetData = new WidgetData();
+        widgetData.setWidgetId(this.getWidgetId());
+        widgetData.setAlbumId(this.getAlbumId());
+        widgetData.setPhotoId(this.getPhotoId());
+        widgetData.setPhotoIds(this.getPhotoIds());
+        widgetData.setPhoto(this.getPhoto());
+        return widgetData;
+    }
 }
