@@ -93,14 +93,16 @@ public class AlbumActivity extends PhotoActivity {
     }
 
     private void onDeleteAlbum() {
-        this.alert(R.string.album_title, R.string.album_alert_delete, () -> {
-            if (this.existAlbumWidget()) {
-                this.alert(R.string.album_title, R.string.album_alert_link, () -> {
-                    removeAlbum();
-                });
-            } else {
-                deleteAlbum();
-            }
-        });
+        if (this.album.isSaved()) {
+            this.alert(R.string.album_title, R.string.album_alert_delete, () -> {
+                if (this.existAlbumWidget()) {
+                    this.alert(R.string.album_title, R.string.album_alert_link, () -> {
+                        removeAlbum();
+                    });
+                } else {
+                    deleteAlbum();
+                }
+            });
+        }
     }
 }

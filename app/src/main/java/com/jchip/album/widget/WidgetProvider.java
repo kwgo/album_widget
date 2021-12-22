@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.jchip.album.ActivitySplash;
 import com.jchip.album.data.DataHelper;
+import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -58,10 +59,30 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     protected PendingIntent getPendingIntent(Context context, int appWidgetId, WidgetData widgetData) {
-        Intent intent = new Intent(context, getClass());
+        WidgetData widget = new WidgetData();
+        widget.setWidgetId(widgetData.getWidgetId());
+        widget.setAlbumId(widgetData.getAlbumId());
+        widget.setPhotoId(widgetData.getPhotoId());
+        widget.setPhotoIds(widgetData.getPhotoIds());
+        widget.setPhoto(widgetData.getPhoto());
+
+        PhotoData photo = widget.getPhoto();
+        Log.d("", "photo ========================getPendingIntent ==== 0:   " + widgetData.getPhoto());
+        Log.d("", "photo ========================getPendingIntent ===| 0:   " + photo);
+        Intent intent = new Intent(context, this.getClass());
+        Log.d("", "photo ========================getPendingIntent ==== 1:   " + widgetData.getPhoto());
+        Log.d("", "photo ========================getPendingIntent ===| 1:   " + photo);
         intent.setAction(ACTION_NEXT);
+        Log.d("", "photo ========================getPendingIntent ==== 2:   " + widgetData.getPhoto());
+        Log.d("", "photo ========================getPendingIntent ===| 2:   " + photo);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        intent.putExtra(WIDGET_ITEM, widgetData);
+        Log.d("", "photo ========================getPendingIntent ==== 3:   " + widgetData.getPhoto());
+        Log.d("", "photo ========================getPendingIntent ===| 3:   " + photo);
+        //widgetData.setPhoto(photo);
+        intent.putExtra(WIDGET_ITEM, widget);
+        //    intent.putExtra(WIDGET_ITEM, photo);
+        Log.d("", "photo ========================getPendingIntent ==== 4:   " + widgetData.getPhoto());
+        Log.d("", "photo ========================getPendingIntent ===| 4:   " + photo);
         return PendingIntent.getBroadcast(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 

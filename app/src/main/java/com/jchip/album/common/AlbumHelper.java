@@ -130,8 +130,9 @@ public class AlbumHelper {
             Intent intent = new Intent(context, widgetProvider);
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             ComponentName componentName = new ComponentName(context, widgetProvider);
-            int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(componentName);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            int appWidgetIds[] = AppWidgetManager.getInstance(context).getAppWidgetIds(componentName);
+            Log.d("", "update widgets ids size = " + appWidgetIds.length);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
             context.sendBroadcast(intent);
         } catch (Exception ex) {
         }

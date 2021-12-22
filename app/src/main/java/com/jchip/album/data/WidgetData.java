@@ -52,7 +52,7 @@ public class WidgetData extends AbstractData {
     }
 
     public PhotoData getPhoto() {
-        return photo;
+        return photo == null ? new PhotoData() : photo;
     }
 
     public void setPhoto(PhotoData photo) {

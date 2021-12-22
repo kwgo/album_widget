@@ -38,15 +38,17 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void onDeletePhoto() {
-        this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
-            if (this.existPhotoWidget()) {
-                this.alert(R.string.photo_title, R.string.album_alert_link, () -> {
+        if(this.photo.isSaved()) {
+            this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
+                if (this.existPhotoWidget()) {
+                    this.alert(R.string.photo_title, R.string.album_alert_link, () -> {
+                        removePhoto();
+                    });
+                } else {
                     removePhoto();
-                });
-            } else {
-                removePhoto();
-            }
-        });
+                }
+            });
+        }
     }
 
     private void removePhoto() {

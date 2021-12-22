@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.jchip.album.ActivityAlbumSetting;
 import com.jchip.album.R;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
@@ -50,7 +51,9 @@ public class WidgetAlbumProvider extends WidgetProvider {
             if (widgetData.getPhotoIds() != null && !widgetData.getPhotoIds().trim().isEmpty()) {
                 List<Integer> photoIds = new ArrayList<>();
                 for (String itemId : widgetData.getPhotoIds().split(",")) {
-                    photoIds.add(Integer.parseInt(itemId));
+                    if (itemId != null && !itemId.trim().isEmpty()) {
+                        photoIds.add(Integer.parseInt(itemId));
+                    }
                 }
                 int index = photoIds.indexOf(photoData.getPhotoId());
                 return index < 0 ? -1 : photoIds.get((index + 1) % photoIds.size());

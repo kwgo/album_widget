@@ -12,6 +12,7 @@
         <FrameLayout
             android:id="@+id/photo_container"
             android:layout_width="match_parent"
+            android:background="@drawable/frame_default"
             android:layout_height="match_parent">
 
             <RelativeLayout
@@ -23,6 +24,7 @@
                     android:id="@+id/photo_image_0"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:src="@drawable/photo_default"
                     android:scaleType="centerCrop" />
 
                 <ImageView
@@ -51,7 +53,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
                     <include layout="@layout/widget_photo_label" />
 
                 </LinearLayout>
