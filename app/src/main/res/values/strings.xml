@@ -1,18 +1,25 @@
 <resources>
     <string name="app_name">Photo Album</string>
+    <string name="app_author">JChip Game</string>
 
     <string name="album_title">Album</string>
     <string name="photo_title">Photo</string>
 
-
-    <string name="default_album_name">Photo album #</string>
+    <string name="album_default_name">Photo album #</string>
     <string name="album_alert_delete">Are you sure you want to delete?</string>
     <string name="album_alert_link">There are widgets link to it, are you sure you want to delete?</string>
 
     <string name="font_sample">Input text</string>
 
-
-
+    <string name="about_name">App name</string>
+    <string name="about_version">Version</string>
+    <string name="about_author">Author</string>
+    <string name="about_contact">Contact</string>
+    <string name="about_email">jchipgame@gmail.com</string>
+    <string name="about_source">Other apps</string>
+    <string name="about_store">play.google.com/store/search?q=jchip</string>
+    <string name="about_owned">Owned Sokoban (Boxman) Classic</string>
+    <string name="about_play">click image to play</string>
 
     <string name="rz_album_dia_read_description">(Enter something that u want)</string>
     <string name="rz_album_dia_read_message">(Enter something that u want)</string>

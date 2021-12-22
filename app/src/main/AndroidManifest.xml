@@ -17,7 +17,9 @@
         android:theme="@style/app_theme"
         tools:replace="android:label">
 
-        <activity android:name=".ActivitySplash">
+        <activity
+            android:name=".ActivitySplash"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,11 +37,15 @@
         <activity
             android:name=".ActivityFont"
             android:theme="@style/layer_theme" />
+        <activity
+            android:name=".ActivityAbout"
+            android:theme="@style/layer_theme" />
 
         <activity
             android:name=".ActivityAlbumSetting"
             android:icon="@drawable/widget_icon"
             android:roundIcon="@drawable/widget_icon"
+            android:screenOrientation="portrait"
             android:theme="@style/widget_setting">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -50,6 +56,7 @@
             android:name=".ActivityPhotoSetting"
             android:icon="@drawable/widget_icon"
             android:roundIcon="@drawable/widget_icon"
+            android:screenOrientation="portrait"
             android:theme="@style/widget_setting">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

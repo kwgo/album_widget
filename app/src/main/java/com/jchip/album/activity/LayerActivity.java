@@ -2,11 +2,10 @@ package com.jchip.album.activity;
 
 import android.content.Intent;
 
+import com.jchip.album.ActivityAbout;
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
-import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.R;
-import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.PhotoData;
 
 public class LayerActivity extends DataActivity {
@@ -22,8 +21,7 @@ public class LayerActivity extends DataActivity {
     }
 
     public void onAlbumHelp() {
-        AlbumHelper.createFont();
-        this.startActivity(ActivityPhotoSetting.class, null);
+        this.startActivity(ActivityAbout.class, null);
     }
 
     public void onFontSetting() {
@@ -56,6 +54,6 @@ public class LayerActivity extends DataActivity {
             this.photo.setFontText(photo.getFontText());
             this.updatePhoto();
             this.setPhotoLabel(this.getTextView(R.id.photo_label));
-          }
+        }
     }
 }

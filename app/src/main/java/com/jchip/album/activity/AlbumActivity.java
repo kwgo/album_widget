@@ -50,7 +50,7 @@ public class AlbumActivity extends PhotoActivity {
             }
         }
         if (allSaved) {
-            String albumName = this.getString(R.string.default_album_name);
+            String albumName = this.getString(R.string.album_default_name);
             this.albums.add(0, new AlbumData(albumName + (this.albums.size() + 1)));
         }
     }
