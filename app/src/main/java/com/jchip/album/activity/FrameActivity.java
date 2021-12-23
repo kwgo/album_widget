@@ -91,7 +91,7 @@ public class FrameActivity extends AbstractActivity {
         public View getView(int position, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.frame_list_item, null);
             ImageView imageView = view.findViewById(R.id.frame_item_image);
-            imageView.setImageResource(frames.get(position));
+            imageView.setImageResource(frameLooks.get(position));
             return view;
         }
     }
