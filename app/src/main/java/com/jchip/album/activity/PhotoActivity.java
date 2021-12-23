@@ -2,6 +2,7 @@ package com.jchip.album.activity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
@@ -102,7 +103,7 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void onFlipPhoto() {
-        this.photo.setFlipIndex((this.photo.getFlipIndex() + 1) % 2);
+        this.photo.setFlipIndex(this.photo.getFlipIndex() == 0 ? 1 : 0);
         this.setPhotoImage(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }

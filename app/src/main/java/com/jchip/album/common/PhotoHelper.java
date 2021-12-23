@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +17,8 @@ import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 
 import java.io.FileInputStream;
+import java.util.Arrays;
+import java.util.List;
 
 public class PhotoHelper {
     public static void setPhotoView(Context context, View view, PhotoData photo) {
@@ -68,8 +69,8 @@ public class PhotoHelper {
                 ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
                 ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
         };
-        int FIT_PADDING = gap ? 16 : 0;
-        int gapBorder = scale[photo.getScaleIndex()] == ImageView.ScaleType.FIT_CENTER ? dpToPx(FIT_PADDING) : 0;
+        int FIT_PADDING = dpToPx(gap ? 16 : 2);
+        int gapBorder = scale[photo.getScaleIndex()] == ImageView.ScaleType.FIT_CENTER ? FIT_PADDING : 0;
         imageView.setPadding(gapBorder, gapBorder, gapBorder, gapBorder);
         imageView.setScaleType(scale[photo.getScaleIndex()]);
     }
@@ -83,13 +84,7 @@ public class PhotoHelper {
     }
 
     public static void setPhotoFont(Context context, TextView textView, PhotoData photo) {
-        int[] font = {
-                R.font.niconne_regular, R.font.anton_regular, R.font.abril_fatface_regular,
-                R.font.macondo_egular, R.font.ole_regular, R.font.wind_song_medium
-        };
-        int fontType = font[photo.getFontType() % font.length];
-        Typeface typeface = fontType == 0 ? null : ResourcesCompat.getFont(context, fontType);
-        textView.setTypeface(typeface);
+        textView.setTypeface(getFontTypeface(context, photo.getFontType()));
     }
 
 
@@ -102,14 +97,8 @@ public class PhotoHelper {
     }
 
     public static void setFontLocation(TextView view, PhotoData photo) {
-        int[] gravity = {
-                Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
-                Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
-                Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
-        };
-        view.setGravity(gravity[photo.getFontLocation() % gravity.length]);
-        view.setGravity(gravity[photo.getFontLocation() % gravity.length]);
-        ((LinearLayout) view.getParent()).setGravity(gravity[photo.getFontLocation() % gravity.length]);
+        view.setGravity(photo.getFontLocation());
+        ((LinearLayout) view.getParent()).setGravity(photo.getFontLocation());
     }
 
     public static int dpToPx(int dp) {
@@ -130,5 +119,21 @@ public class PhotoHelper {
 
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
+    public static Typeface getFontTypeface(Context context, int fontId) {
+        try {
+            return ResourcesCompat.getFont(context, fontId);
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
+    public static int getFontIndex(int fontId) {
+        List<Integer> fonts = Arrays.asList(new Integer[]{
+                R.font.niconne_regular, R.font.anton_regular, R.font.abril_fatface_regular,
+                R.font.macondo_egular, R.font.ole_regular, R.font.wind_song_medium
+        });
+        return fonts.indexOf(fontId) < 0 ? 0 : fonts.indexOf(fontId);
     }
 }

@@ -1,5 +1,6 @@
 package com.jchip.album.widget;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -12,10 +13,12 @@ import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 
 public class WidgetPhotoView {
+    private Context context;
     private RemoteViews views;
     private PhotoData photo;
 
-    public WidgetPhotoView(RemoteViews views, PhotoData photo) {
+    public WidgetPhotoView(Context context, RemoteViews views, PhotoData photo) {
+        this.context = context;
         this.views = views;
         this.photo = photo;
     }
@@ -29,19 +32,8 @@ public class WidgetPhotoView {
     }
 
     public void updatePhotoScale() {
-        int[] imageIds = {
-                R.id.photo_image_0, R.id.photo_image_1, R.id.photo_image_2, R.id.photo_image_3
-        };
-        for (int imageId : imageIds) {
-            this.views.setImageViewResource(imageId, 0);
-            this.views.setImageViewBitmap(imageId, null);
-            this.views.setViewVisibility(imageId, View.GONE);
-        }
-        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % imageIds.length);
-        int photoImageId = this.photo.getScaleIndex() == 3 ? R.id.photo_image_3 :
-                this.photo.getScaleIndex() == 2 ? R.id.photo_image_2 :
-                        this.photo.getScaleIndex() == 1 ? R.id.photo_image_1 : R.id.photo_image_0;
-        this.setPhotoImage(photoImageId);
+        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
+        this.setPhotoImage();
     }
 
     private void setPhotoView() {
@@ -59,10 +51,7 @@ public class WidgetPhotoView {
             this.views.setImageViewBitmap(imageId, null);
             this.views.setViewVisibility(imageId, View.GONE);
         }
-        int photoImageId = this.photo.getScaleIndex() == 3 ? R.id.photo_image_3 :
-                this.photo.getScaleIndex() == 2 ? R.id.photo_image_2 :
-                        this.photo.getScaleIndex() == 1 ? R.id.photo_image_1 : R.id.photo_image_0;
-        this.setPhotoImage(photoImageId);
+        this.setPhotoImage(imageIds[this.photo.getScaleIndex()]);
     }
 
     private void setPhotoImage(int photoImageId) {
@@ -108,8 +97,9 @@ public class WidgetPhotoView {
         for (int labelId : labelIds) {
             this.views.setViewVisibility(labelId, View.GONE);
         }
-        int index = photo.getFontType() * alignCount + photo.getFontLocation() % alignCount;
-        this.setLabelFont(labelIds[index]);
+        int fontIndex = PhotoHelper.getFontIndex(photo.getFontType());
+        int labelIndex = fontIndex * alignCount + fontIndex % alignCount;
+        this.setLabelFont(labelIds[labelIndex]);
         this.setLabelLocation(R.id.label_container);
     }
 

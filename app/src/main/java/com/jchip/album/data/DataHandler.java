@@ -15,7 +15,7 @@ import java.util.Map;
 public abstract class DataHandler extends SQLiteOpenHelper {
 
     // database version
-    protected static final int DATABASE_VERSION = 11;
+    protected static final int DATABASE_VERSION = 12;
     // database name
     protected static final String DATABASE_NAME = "album";
 

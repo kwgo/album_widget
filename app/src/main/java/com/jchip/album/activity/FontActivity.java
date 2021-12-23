@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class FontActivity extends AbstractActivity {
 
@@ -85,12 +89,25 @@ public class FontActivity extends AbstractActivity {
     }
 
     private void onFontTypeChange() {
-        this.photo.setFontType((this.photo.getFontType() + 1) % 6);
+        List<Integer> fonts = Arrays.asList(new Integer[]{
+                R.font.niconne_regular, R.font.anton_regular, R.font.abril_fatface_regular,
+                R.font.macondo_egular, R.font.ole_regular, R.font.wind_song_medium
+        });
+        int fontIndex = fonts.indexOf(this.photo.getFontType());
+        fontIndex = fontIndex < 0 ? 0 : fontIndex;
+        this.photo.setFontType(fonts.get((fontIndex + 1) % fonts.size()));
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onLocationChange() {
-        this.photo.setFontLocation((this.photo.getFontLocation() + 1) % 9);
+        List<Integer> locations = Arrays.asList(new Integer[]{
+                Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
+                Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
+                Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
+        });
+        int locationIndex = locations.indexOf(this.photo.getFontLocation());
+        locationIndex = locationIndex < 0 ? 0 : locationIndex;
+        this.photo.setFontLocation(locations.get((locationIndex + 1) % locations.size()));
         this.setFontLocation(this.getTextView(R.id.photo_label));
     }
 

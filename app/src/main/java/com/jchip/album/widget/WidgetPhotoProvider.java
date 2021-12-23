@@ -24,7 +24,7 @@ public class WidgetPhotoProvider extends WidgetProvider {
         WidgetData widgetData = (WidgetData) intent.getSerializableExtra(WIDGET_ITEM);
         if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo);
-            new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updatePhotoScale();
+            new WidgetPhotoView(context, remoteViews, widgetData.getPhoto()).updatePhotoScale();
             remoteViews.setOnClickPendingIntent(R.id.widget_view, this.getPendingIntent(context, appWidgetId, widgetData));
             AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
         }
@@ -34,7 +34,7 @@ public class WidgetPhotoProvider extends WidgetProvider {
         WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId);
         if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo);
-            new WidgetPhotoView(remoteViews, widgetData.getPhoto()).updateView();
+            new WidgetPhotoView(context, remoteViews, widgetData.getPhoto()).updateView();
             remoteViews.setOnClickPendingIntent(R.id.widget_view, this.getPendingIntent(context, appWidgetId, widgetData));
             AppWidgetManager.getInstance(context).partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }
