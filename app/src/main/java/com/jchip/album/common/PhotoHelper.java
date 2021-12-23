@@ -39,25 +39,28 @@ public class PhotoHelper {
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo) {
-        setPhotoImage(imageView, photo, 1600);
+        setPhotoImage(imageView, photo, getScreenHeight());
     }
 
     public static void setPhotoImageLook(ImageView imageView, PhotoData photo) {
-        setPhotoImage(imageView, photo, 800);
+        setPhotoImage(imageView, photo, getScreenHeight() / 2);
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {
+        Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            Bitmap bitmap = loadBitmap(photo.getPhotoPath());
+            bitmap = loadBitmap(photo.getPhotoPath());
             if (bitmap != null) {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), maxSize);
-                imageView.setImageResource(0);
-                imageView.setImageBitmap(bitmap);
-                return;
             }
         }
-        imageView.setImageBitmap(null);
-        imageView.setImageResource(R.drawable.photo_default);
+        if (bitmap != null) {
+            imageView.setImageResource(0);
+            imageView.setImageBitmap(bitmap);
+        } else {
+            imageView.setImageBitmap(null);
+            imageView.setImageResource(R.drawable.photo_default);
+        }
     }
 
     public static void setPhotoScale(ImageView imageView, PhotoData photo, boolean gap) {
