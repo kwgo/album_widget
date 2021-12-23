@@ -24,6 +24,7 @@ public class WidgetPhotoView {
         try {
             this.setPhotoView();
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
