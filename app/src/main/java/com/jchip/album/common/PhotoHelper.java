@@ -81,8 +81,8 @@ public class PhotoHelper {
 
     public static void setPhotoFont(Context context, TextView textView, PhotoData photo) {
         int[] font = {
-                R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
-                R.font.frederickathe_great, R.font.ole_regular, R.font.wind_song_medium
+                R.font.niconne_regular, R.font.anton_regular, R.font.abril_fatface_regular,
+                R.font.macondo_egular, R.font.ole_regular, R.font.wind_song_medium
         };
         int fontType = font[photo.getFontType() % font.length];
         Typeface typeface = fontType == 0 ? null : ResourcesCompat.getFont(context, fontType);

@@ -88,19 +88,19 @@
         <TextView
             android:id="@+id/photo_label_9"
             style="@style/photo_label"
-            android:fontFamily="@font/frederickathe_great"
+            android:fontFamily="@font/abril_fatface_regular"
             android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/photo_label_10"
             style="@style/photo_label"
-            android:fontFamily="@font/frederickathe_great"
+            android:fontFamily="@font/abril_fatface_regular"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/photo_label_11"
             style="@style/photo_label"
-            android:fontFamily="@font/frederickathe_great"
+            android:fontFamily="@font/abril_fatface_regular"
             android:gravity="end|center_vertical" />
     </LinearLayout>
 
