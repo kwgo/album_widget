@@ -53,6 +53,16 @@
         </activity>
 
         <activity
+            android:name=".photo.activity.PhotoPickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/app_theme" />
+
+        <activity
+            android:name=".photo.activity.PhotoPreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/app_theme" />
+
+        <activity
             android:name=".ActivityPhotoSetting"
             android:icon="@drawable/widget_icon"
             android:roundIcon="@drawable/widget_icon"
@@ -83,19 +93,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_photo_info" />
         </receiver>
-
-
-        <activity
-            android:name=".photo.activity.PhotoPickerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/app_theme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-
-        <activity
-            android:name=".photo.activity.PhotoPreviewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/app_theme" />
 
     </application>
 

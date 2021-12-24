@@ -52,11 +52,13 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void removePhoto() {
+        int photoIndex = this.album.getPhotos().indexOf(photo);
         if (this.photo.isSaved()) {
             this.album.removePhoto(this.photo);
             this.deletePhoto();
         }
-        this.setAlbumPhoto(this.album.getPhoto(0));
+        photoIndex = photoIndex < this.album.getPhotoSize() ? photoIndex : this.album.getPhotoSize() - 1;
+        this.setAlbumPhoto(this.album.getPhoto(photoIndex >= 0 ? photoIndex : 0));
     }
 
     @Override
