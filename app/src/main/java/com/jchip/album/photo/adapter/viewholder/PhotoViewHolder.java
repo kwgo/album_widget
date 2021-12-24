@@ -20,10 +20,10 @@ import com.jchip.album.photo.view.PhotoNumberView;
  */
 
 public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
-    private ImageView rzPhotoImg;
-    private TextView rzGifText;
-    private PhotoBorderView rzBorderView;
-    private PhotoNumberView rzNumberView;
+    private ImageView photoImage;
+    private TextView gifText;
+    private PhotoBorderView photoBorderView;
+    private PhotoNumberView photoNumberView;
 
     private PhotoViewHolder(View itemView) {
         super(itemView);
@@ -32,10 +32,10 @@ public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
     public PhotoViewHolder(int wh, View itemView) {
         super(itemView);
 
-        rzPhotoImg = (ImageView) getView(R.id.rzPhotoImg);
-        rzGifText = (TextView) getView(R.id.rzGifText);
-        rzBorderView = (PhotoBorderView) getView(R.id.rzBorderView);
-        rzNumberView = (PhotoNumberView) getView(R.id.rzNumberView);
+        photoImage = (ImageView) getView(R.id.grid_photo_image);
+        gifText = (TextView) getView(R.id.grid_gif_text);
+        photoBorderView = (PhotoBorderView) getView(R.id.grid_border_view);
+        photoNumberView = (PhotoNumberView) getView(R.id.photo_number_view);
 
         if (wh > 0) {
             ViewGroup.LayoutParams lp = itemView.getLayoutParams();
@@ -47,7 +47,7 @@ public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
 
     @Override
     public View[] getClickViews() {
-        return new View[]{rzBorderView, rzNumberView};
+        return new View[]{photoBorderView, photoNumberView};
     }
 
     @Override
@@ -57,7 +57,7 @@ public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
 
     @Override
     public void bindViewData(Context context, PhotoModel data, int itemPosition) {
-        rzGifText.setText(context.getResources().getString(R.string.rz_album_gif));
+        gifText.setText(context.getResources().getString(R.string.photo_type_gif));
 
 //        RequestOptions options = new RequestOptions()
 //                .placeholder(R.drawable.ic_place_img_50dp)
@@ -66,17 +66,17 @@ public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
                 .asBitmap()
                 .load(data.getPhotoPath())
                 //.apply(options)
-                .into(rzPhotoImg);
+                .into(photoImage);
 
         if (data.getPhotoPath().endsWith(".gif") || data.getPhotoPath().endsWith(".GIF")) {
-            float radius = rzGifText.getWidth() / 2;
-            rzGifText.setBackground(DrawableUtils.drawableOfRoundRect(Color.argb(200, 255, 255, 255), radius));
-            rzGifText.setVisibility(View.VISIBLE);
+            float radius = gifText.getWidth() / 2;
+            gifText.setBackground(DrawableUtils.drawableOfRoundRect(Color.argb(200, 255, 255, 255), radius));
+            gifText.setVisibility(View.VISIBLE);
         } else {
-            rzGifText.setVisibility(View.INVISIBLE);
+            gifText.setVisibility(View.INVISIBLE);
         }
-        rzBorderView.setDraw(data.getPickNumber() > 0, data.getPickColor());
-        rzNumberView.setNumber(data.getPickNumber());
-        rzNumberView.setPickColor(data.getPickColor());
+        photoBorderView.setDraw(data.getPickNumber() > 0, data.getPickColor());
+        photoNumberView.setNumber(data.getPickNumber());
+        photoNumberView.setPickColor(data.getPickColor());
     }
 }

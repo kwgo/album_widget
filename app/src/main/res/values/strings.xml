@@ -30,18 +30,12 @@
     <string name="dialog_deny_description">請至手機設定 → 應用程式 → %1$s → 權限，將【儲存】開啟</string>
     <string name="dialog_deny_go_setting">前往設定</string>
 
-    <string name="rz_album_all_folder_name">All Photos</string>
-    <string name="rz_album_gif">GIF</string>
-    <string name="rz_album_folder_count">%1$s (%2$d)</string>
-    <string name="rz_album_limit_count">最多選擇%d張</string>
+    <string name="photo_all_folder">All Photos</string>
+    <string name="photo_type_gif">GIF</string>
+    <string name="photo_folder_count">%1$s (%2$d)</string>
+    <string name="photo_limit_count">最多選擇%d張</string>
 
-
-
-    <string name="rz_album_camera_not_found">該設備無相機功能！</string>
-    <string name="rz_album_menu_camera">Camera</string>
-
-    <string name="rz_album_fatbut_scroll_hide_behavior" translatable="false">com.jchip.album.photo.behavior.FatButtonScrollHideBehavior</string>
-
+    <string name="photo_fat_button_behavior" translatable="false">com.jchip.album.photo.behavior.FatButtonScrollHideBehavior</string>
 
 </resources>
 

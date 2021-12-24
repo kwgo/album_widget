@@ -68,7 +68,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     private Runnable scanPhotoRunnable = new Runnable() {
         @Override
         public void run() {
-            folderName = folderName.isEmpty() ? getResources().getString(R.string.rz_album_all_folder_name) : folderName;
+            folderName = folderName.isEmpty() ? getResources().getString(R.string.photo_all_folder) : folderName;
             folderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerActivity.this, folderName);
             MainHandler.instances().postDelayed(new Runnable() {
                 @Override
@@ -184,7 +184,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
         PhotoModel photo = multiAdapter.getDatas().get(itemPosition);
         if (photo.getPickNumber() == 0) {
             if (selectedPhotos.size() == limitCount) {
-                Toast.makeText(PhotoPickerActivity.this, String.format(getResources().getString(R.string.rz_album_limit_count), limitCount),
+                Toast.makeText(PhotoPickerActivity.this, String.format(getResources().getString(R.string.photo_limit_count), limitCount),
                         Toast.LENGTH_SHORT).show();
                 return;
             }

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rzFrameLayout"
+    android:id="@+id/frag_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/rz_colorOfTransWhite">
+    android:background="@color/color_half_white">
 
     <ProgressBar
-        android:id="@+id/rzProgressBar"
+        android:id="@+id/frag_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
     <com.jchip.album.photo.view.PhotoNumberView
-        android:id="@+id/rzNumberView"
+        android:id="@+id/photo_number_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="?android:attr/actionBarSize"
         android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="?android:attr/actionBarSize" />
 
 </FrameLayout>

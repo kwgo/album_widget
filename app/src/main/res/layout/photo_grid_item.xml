@@ -5,19 +5,19 @@
     android:layout_height="150dp">
 
     <ImageView
-        android:id="@+id/rzPhotoImg"
+        android:id="@+id/grid_photo_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
     <com.jchip.album.photo.view.PhotoBorderView
-        android:id="@+id/rzBorderView"
+        android:id="@+id/grid_border_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/rzGifText"
+        android:id="@+id/grid_gif_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
@@ -25,12 +25,12 @@
         android:layout_marginLeft="7dp"
         android:layout_marginBottom="7dp"
         android:padding="3dp"
-        android:textColor="@color/rz_colorOfBlack"
+        android:textColor="@color/color_half_dark"
         android:textSize="12sp"
         tools:text="GIF" />
 
     <com.jchip.album.photo.view.PhotoNumberView
-        android:id="@+id/rzNumberView"
+        android:id="@+id/photo_number_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end" />

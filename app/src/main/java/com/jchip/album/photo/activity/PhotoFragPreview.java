@@ -21,23 +21,20 @@ import com.jchip.album.photo.view.ZoomImageView;
 import java.util.ArrayList;
 import java.util.Locale;
 
-//import android.support.annotation.Nullable;
-
 /**
  * Photo preview
  */
-
 public class PhotoFragPreview extends BaseLazyFragment {
     private static final String FRAG_ALBUM_PHOTO = "FRAG_ALBUM_PHOTO";
     private static final String FRAG_ALBUM_PHOTOS = "FRAG_ALBUM_PHOTOS";
     private static final String FRAG_ALBUM_LIMIT_COUNT = "FRAG_ALBUM_LIMIT_COUNT";
 
-    private FrameLayout rzFrameLayout;
-    private ProgressBar rzProgressBar;
-    private PhotoNumberView rzNumberView;
+    private FrameLayout frameLayout;
+    private ProgressBar progressBar;
+    private PhotoNumberView photoNumberView;
 
     private PhotoModel photo;
-    private ArrayList<PhotoModel> addPhotos;
+    private ArrayList<PhotoModel> selectedPhotos;
     private int limitCount;
     private OnNumberViewClickListener listener;
 
@@ -61,13 +58,13 @@ public class PhotoFragPreview extends BaseLazyFragment {
     private void setup(View view) {
         if (getArguments() != null) {
             photo = getArguments().getParcelable(FRAG_ALBUM_PHOTO);
-            addPhotos = getArguments().getParcelableArrayList(FRAG_ALBUM_PHOTOS);
+            selectedPhotos = getArguments().getParcelableArrayList(FRAG_ALBUM_PHOTOS);
             limitCount = getArguments().getInt(FRAG_ALBUM_LIMIT_COUNT);
         }
 
-        rzFrameLayout = view.findViewById(R.id.rzFrameLayout);
-        rzProgressBar = view.findViewById(R.id.rzProgressBar);
-        rzNumberView = view.findViewById(R.id.rzNumberView);
+        frameLayout = view.findViewById(R.id.frag_frame_layout);
+        progressBar = view.findViewById(R.id.frag_progress_bar);
+        photoNumberView = view.findViewById(R.id.photo_number_view);
 
         isPrepared = true;
     }
@@ -77,8 +74,8 @@ public class PhotoFragPreview extends BaseLazyFragment {
         if (!isVisiable || !isPrepared || isLoadData) {
             if (isLoadData) {
                 // update number
-                rzNumberView.setNumber(photo.getPickNumber());
-                rzNumberView.setPickColor(photo.getPickColor());
+                photoNumberView.setNumber(photo.getPickNumber());
+                photoNumberView.setPickColor(photo.getPickColor());
             }
             return;
         }
@@ -95,7 +92,7 @@ public class PhotoFragPreview extends BaseLazyFragment {
                         .asGif()
                         .load(photoPath)
                         .into(mImgView);
-                rzFrameLayout.addView(mImgView, 0);
+                frameLayout.addView(mImgView, 0);
             } else {
                 ZoomImageView mZoomView = new ZoomImageView(getContext());
                 mZoomView.setLayoutParams(lp);
@@ -103,37 +100,37 @@ public class PhotoFragPreview extends BaseLazyFragment {
                         .asBitmap()
                         .load(photoPath)
                         .into(mZoomView);
-                rzFrameLayout.addView(mZoomView, 0);
+                frameLayout.addView(mZoomView, 0);
             }
         }
-        rzNumberView.setNumber(photo.getPickNumber());
-        rzNumberView.setPickColor(photo.getPickColor());
+        photoNumberView.setNumber(photo.getPickNumber());
+        photoNumberView.setPickColor(photo.getPickColor());
 
-        rzNumberView.setOnClickListener(new View.OnClickListener() {
+        photoNumberView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isAdd = true;
                 if (photo.getPickNumber() == 0) {
-                    if (addPhotos.size() == limitCount) {
+                    if (selectedPhotos.size() == limitCount) {
                         Toast.makeText(getActivity(), String.format(Locale.TAIWAN,
-                                getResources().getString(R.string.rz_album_limit_count), limitCount),
+                                getResources().getString(R.string.photo_limit_count), limitCount),
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    photo.setPickNumber(addPhotos.size() + 1);
-                    addPhotos.add(photo);
+                    photo.setPickNumber(selectedPhotos.size() + 1);
+                    selectedPhotos.add(photo);
                 } else {
-                    if (addPhotos.size() == 0) return;
-                    addPhotos.remove(photo);
+                    if (selectedPhotos.size() == 0) return;
+                    selectedPhotos.remove(photo);
                     photo.setPickNumber(0);
                     isAdd = false;
                 }
-                rzNumberView.setNumber(photo.getPickNumber());
-                rzNumberView.setPickColor(photo.getPickColor());
+                photoNumberView.setNumber(photo.getPickNumber());
+                photoNumberView.setPickColor(photo.getPickColor());
                 if (listener != null) listener.onNumberViewClick(v, photo, isAdd);
             }
         });
-        rzProgressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         isLoadData = true;
     }
 

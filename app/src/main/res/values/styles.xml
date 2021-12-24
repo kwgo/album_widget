@@ -79,12 +79,4 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-
-    <style name="RZAppNoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/rz_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/rz_colorPrimaryDark</item>
-        <item name="colorAccent">@color/rz_colorAccent</item>
-    </style>
-
 </resources>

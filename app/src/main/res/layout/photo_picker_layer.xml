@@ -18,7 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/rz_fab_margin_bottom"
         android:src="@drawable/photo_fab_folder"
         android:visibility="invisible" />
 
@@ -28,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/rz_fab_margin_bottom"
         android:src="@drawable/photo_fab_done"
         android:visibility="invisible" />
 
@@ -38,8 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/rz_fab_margin_bottom"
         android:src="@drawable/photo_fab_function"
-        app:layout_behavior="@string/rz_album_fatbut_scroll_hide_behavior" />
+        app:layout_behavior="@string/photo_fat_button_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,23 +22,23 @@ import java.util.Locale;
  */
 
 public class FolderViewHolder extends BaseViewHolder<FolderModel> {
-    private RelativeLayout rzFolderViewHolder;
-    private ImageView rzImgView;
-    private TextView rzFolderText;
-    private RadioButton rzRadioBut;
+    private RelativeLayout folderViewHolder;
+    private ImageView imageView;
+    private TextView folderText;
+    private RadioButton radioButton;
 
     public FolderViewHolder(View itemView) {
         super(itemView);
 
-        rzFolderViewHolder = (RelativeLayout) getView(R.id.rzFolderViewHolder);
-        rzImgView = (ImageView) getView(R.id.rzImgView);
-        rzFolderText = (TextView) getView(R.id.rzFolderText);
-        rzRadioBut = (RadioButton) getView(R.id.rzRadioBut);
+        folderViewHolder = (RelativeLayout) getView(R.id.folder_view_holder);
+        imageView = (ImageView) getView(R.id.folder_image);
+        folderText = (TextView) getView(R.id.folder_text);
+        radioButton = (RadioButton) getView(R.id.folder_radio_button);
     }
 
     @Override
     public View[] getClickViews() {
-        return new View[]{rzFolderViewHolder};
+        return new View[]{folderViewHolder};
     }
 
     @Override
@@ -51,17 +51,17 @@ public class FolderViewHolder extends BaseViewHolder<FolderModel> {
         Glide.with(context)
                 .asBitmap()
                 .load(data.getFolderPhotos().get(0).getPhotoPath())
-                .into(rzImgView);
+                .into(imageView);
 
-        rzFolderText.setText(String.format(Locale.TAIWAN,
-                context.getResources().getString(R.string.rz_album_folder_count),
+        folderText.setText(String.format(Locale.TAIWAN,
+                context.getResources().getString(R.string.photo_folder_count),
                 data.getFolderName(), data.getFolderPhotos().size()));
-        rzRadioBut.setChecked(data.isCheck());
-        rzRadioBut.setClickable(false);
+        radioButton.setChecked(data.isCheck());
+        radioButton.setClickable(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int[] colors = new int[]{data.getPickColor(), Color.argb(255, 77, 77, 77)};
-            rzRadioBut.setButtonTintList(DrawableUtils.drawableOfColorStateList(colors, android.R.attr.state_checked));
+            radioButton.setButtonTintList(DrawableUtils.drawableOfColorStateList(colors, android.R.attr.state_checked));
         }
     }
 }

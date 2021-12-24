@@ -31,8 +31,8 @@ import java.util.Locale;
  */
 
 public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFragPreview.OnNumberViewClickListener {
-    private TextView rzIndexText;
-    private PhotoNumberView rzNumberView;
+    private TextView indexText;
+    private PhotoNumberView photoNumberView;
 
     private ArrayList<PhotoModel> allPhotos;
     private ArrayList<PhotoModel> addPhotos, deletePhotos;
@@ -63,27 +63,27 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
     }
 
     private void setupView() {
-        ViewPager rzViewPager = findViewById(R.id.rzViewPager);
-        RelativeLayout rzBottomView = findViewById(R.id.rzBottomView);
-        rzBottomView.setBackgroundColor(Color.argb(200, 255, 255, 255));
-        findViewById(R.id.rzBackImgBut).setOnClickListener(new View.OnClickListener() {
+        ViewPager viewPager = findViewById(R.id.photo_view_pager);
+        RelativeLayout bottomView = findViewById(R.id.photo_bottom_view);
+        bottomView.setBackgroundColor(Color.argb(200, 255, 255, 255));
+        findViewById(R.id.photo_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finishPreviewPhoto();
             }
         });
-        rzIndexText = findViewById(R.id.rzIndexText);
-        rzNumberView = findViewById(R.id.rzNumberView);
+        indexText = findViewById(R.id.photo_index_text);
+        photoNumberView = findViewById(R.id.photo_number_view);
 
-        rzIndexText.setText(String.format(Locale.TAIWAN, "(%d/%d)", currentItem + 1, allPhotos.size()));
-        rzNumberView.setNumber(addPhotos.size());
-        rzNumberView.setPickColor(pickColor);
+        indexText.setText(String.format(Locale.TAIWAN, "(%d/%d)", currentItem + 1, allPhotos.size()));
+        photoNumberView.setNumber(addPhotos.size());
+        photoNumberView.setPickColor(pickColor);
 
         FragPreviewAdapter fragPreviewAdapter = new FragPreviewAdapter(getSupportFragmentManager(), allPhotos, addPhotos,
                 limitCount, new WeakReference<>(this));
-        rzViewPager.setAdapter(fragPreviewAdapter);
-        rzViewPager.setCurrentItem(currentItem, false);
-        rzViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.setAdapter(fragPreviewAdapter);
+        viewPager.setCurrentItem(currentItem, false);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -91,7 +91,7 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
             @Override
             public void onPageSelected(int position) {
                 currentItem = position;
-                rzIndexText.setText(String.format(Locale.TAIWAN, "(%d/%d)", position + 1, allPhotos.size()));
+                indexText.setText(String.format(Locale.TAIWAN, "(%d/%d)", position + 1, allPhotos.size()));
             }
 
             @Override
@@ -125,8 +125,8 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
                 allPhotos.get(index).setPickNumber(addPhotos.get(i).getPickNumber());
             }
         }
-        rzNumberView.setNumber(addPhotos.size());
-        rzNumberView.setPickColor(pickColor);
+        photoNumberView.setNumber(addPhotos.size());
+        photoNumberView.setPickColor(pickColor);
     }
 
     @Override
