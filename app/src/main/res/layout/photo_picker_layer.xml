@@ -4,21 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="2dp"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_marginTop="2dp"
     android:weightSum="1">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.671"
+        android:layout_weight="0.67"
         tools:context="com.jchip.album.photo.activity.PhotoPickerActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/photo_picker_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

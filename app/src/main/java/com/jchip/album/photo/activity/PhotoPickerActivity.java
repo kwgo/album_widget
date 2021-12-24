@@ -109,7 +109,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         int gapSize = 3;
         recyclerView.addItemDecoration(new RecycleItemDecoration(gapSize, Color.TRANSPARENT));
 
-        int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(22);
+        int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(20) - 2;
         int itemSize = (screenWidth - (gapSize * (spanCount - 1))) / spanCount;
 
         multiAdapter = new MultiAdapter<>(null, itemSize);
@@ -141,9 +141,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
         // Bottom Adapter
         bottomRecyclerView = new RecyclerView(this);
-        bottomRecyclerView.setBackgroundColor(Color.argb(255, 255, 255, 255));
-        bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        //bottomRecyclerView.setBackgroundColor(Color.argb(255, 255, 255, 255));
+        bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         bottomRecyclerView.setLayoutManager(manager);
         bottomRecyclerView.setHasFixedSize(true);
