@@ -62,7 +62,7 @@ public class WidgetPhotoView {
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = PhotoHelper.loadBitmap(photo.getPhotoPath());
             if (bitmap != null) {
-                int screenHeight = (int) (PhotoHelper.getScreenHeight() * 0.75);
+                int screenHeight = (int) (PhotoHelper.getScreenHeight() * 0.65);
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), screenHeight);
             }
         }
