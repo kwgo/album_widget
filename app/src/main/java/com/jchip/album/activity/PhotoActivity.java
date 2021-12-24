@@ -128,9 +128,7 @@ public class PhotoActivity extends LayerActivity {
                 }
             }
             this.photo = photo;
-            if (!this.photo.isSaved()) {
-                this.setAlbumPhoto(this.album.getPhoto(0));
-            }
+            this.setAlbumPhoto(this.album.getPhoto(this.album.getPhotoSize() > 0 ? this.album.getPhotoSize() - 1 : 0));
             ((AlbumActivity) this).reloadAlbumList();
         }
     }

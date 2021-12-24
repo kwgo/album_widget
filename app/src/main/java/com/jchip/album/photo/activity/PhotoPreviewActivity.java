@@ -17,9 +17,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.jchip.album.R;
+import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.PhotoModel;
-import com.jchip.album.photo.utils.Utils;
 import com.jchip.album.photo.view.PhotoNumberView;
 
 import java.lang.ref.WeakReference;
@@ -44,8 +44,7 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_preview_layer);
-
-        Utils.setStatusBarTransparent(this);
+        AlbumHelper.setStatusBarColor(this, Color.TRANSPARENT);
 
         allPhotos = getIntent().getParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS);
         addPhotos = getIntent().getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);

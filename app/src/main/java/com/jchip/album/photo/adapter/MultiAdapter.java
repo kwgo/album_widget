@@ -22,43 +22,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<BaseViewHolder<T>> {
-    private Context mContext;
-    private List<T> mData;
+    private Context context;
+    private List<T> data;
     private ItemTypeFactory itemTypeFactory;
 
     private static final int BASE_ITEM_TYPE_HEADER = 800000;
     private static final int BASE_ITEM_TYPE_FOOTER = 900000;
-    private SparseArray<View> mHeaderViews;
-    private SparseArray<View> mFooterViews;
+    private SparseArray<View> headerViews;
+    private SparseArray<View> footerViews;
 
     private OnMultiItemClickListener clickListener;
     private OnMultiItemLongClickListener longClickListener;
 
     public MultiAdapter(@Nullable List<T> list) {
-        mData = new ArrayList<>();
-        if (list != null) mData.addAll(list);
+        data = new ArrayList<>();
+        if (list != null) data.addAll(list);
         itemTypeFactory = ItemTypeFactory.instance(0);
-        mHeaderViews = new SparseArray<>();
-        mFooterViews = new SparseArray<>();
+        headerViews = new SparseArray<>();
+        footerViews = new SparseArray<>();
     }
 
     public MultiAdapter(@Nullable List<T> list, int wh) {
-        mData = new ArrayList<>();
-        if (list != null) mData.addAll(list);
+        data = new ArrayList<>();
+        if (list != null) data.addAll(list);
         itemTypeFactory = ItemTypeFactory.instance(wh);
-        mHeaderViews = new SparseArray<>();
-        mFooterViews = new SparseArray<>();
+        headerViews = new SparseArray<>();
+        footerViews = new SparseArray<>();
     }
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public BaseViewHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-        if (mHeaderViews.get(viewType) != null) {
-            return new HeaderViewHolder(mHeaderViews.get(viewType));
-        } else if (mFooterViews.get(viewType) != null) {
-            return new FooterViewHolder(mFooterViews.get(viewType));
+        context = parent.getContext();
+        if (headerViews.get(viewType) != null) {
+            return new HeaderViewHolder(headerViews.get(viewType));
+        } else if (footerViews.get(viewType) != null) {
+            return new FooterViewHolder(footerViews.get(viewType));
         }
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         return itemTypeFactory.createViewHolder(viewType, view);
@@ -69,7 +69,7 @@ public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<Base
         if (isHeaderViewPosition(position) || isFooterViewPosition(position)) return;
 
         final int finalPosition = position - getHeadersCount();
-        holder.bindViewData(mContext, mData.get(finalPosition), finalPosition);
+        holder.bindViewData(context, data.get(finalPosition), finalPosition);
         if (clickListener != null) {
             for (int i = 0; i < holder.getClickViews().length; i++) {
                 final int viewPosition = i;
@@ -97,17 +97,17 @@ public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<Base
 
     @Override
     public int getItemCount() {
-        return getHeadersCount() + mData.size() + getFootersCount();
+        return getHeadersCount() + data.size() + getFootersCount();
     }
 
     @Override
     public int getItemViewType(int position) {
         if (isHeaderViewPosition(position)) {
-            return mHeaderViews.keyAt(position);
+            return headerViews.keyAt(position);
         } else if (isFooterViewPosition(position)) {
-            return mFooterViews.keyAt(position - getHeadersCount() - mData.size());
+            return footerViews.keyAt(position - getHeadersCount() - data.size());
         }
-        return mData.get(position - getHeadersCount()).itemLayout();
+        return data.get(position - getHeadersCount()).itemLayout();
     }
 
     @Override
@@ -119,7 +119,7 @@ public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<Base
                 @Override
                 public int getSpanSize(int position) {
                     int viewType = getItemViewType(position);
-                    if (mHeaderViews.get(viewType) != null || mFooterViews.get(viewType) != null) {
+                    if (headerViews.get(viewType) != null || footerViews.get(viewType) != null) {
                         return ((GridLayoutManager) layoutManager).getSpanCount();
                     }
                     return 1;
@@ -173,11 +173,11 @@ public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<Base
     }
 
     private int getHeadersCount() {
-        return mHeaderViews.size();
+        return headerViews.size();
     }
 
     private int getFootersCount() {
-        return mFooterViews.size();
+        return footerViews.size();
     }
 
     private boolean isHeaderViewPosition(int position) {
@@ -185,70 +185,70 @@ public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<Base
     }
 
     private boolean isFooterViewPosition(int position) {
-        return position >= getHeadersCount() + mData.size();
+        return position >= getHeadersCount() + data.size();
     }
 
     public void addHeaderView(View view) {
-        mHeaderViews.put(mHeaderViews.size() + BASE_ITEM_TYPE_HEADER, view);
+        headerViews.put(headerViews.size() + BASE_ITEM_TYPE_HEADER, view);
     }
 
     public void addFooterView(View view) {
-        mFooterViews.put(mFooterViews.size() + BASE_ITEM_TYPE_FOOTER, view);
+        footerViews.put(footerViews.size() + BASE_ITEM_TYPE_FOOTER, view);
     }
 
     public void addData(T t) {
-        int finalIndex = getHeadersCount() + mData.size() - 1;
+        int finalIndex = getHeadersCount() + data.size() - 1;
         addData(finalIndex, t);
     }
 
     public void addData(int index, T t) {
         int finalIndex = getHeadersCount() + index - 1;
-        mData.add(finalIndex, t);
+        data.add(finalIndex, t);
         notifyItemInserted(finalIndex);
     }
 
     public void addDatas(@NonNull List<T> list) {
-        int finalIndex = getHeadersCount() + mData.size() - 1;
+        int finalIndex = getHeadersCount() + data.size() - 1;
         addDatas(finalIndex, list);
 
     }
 
     public void addDatas(int index, @NonNull List<T> list) {
         int finalIndex = getHeadersCount() + index - 1;
-        mData.addAll(finalIndex, list);
+        data.addAll(finalIndex, list);
         notifyItemInserted(finalIndex);
     }
 
     public void removeData(int index) {
         int finalIndex = getHeadersCount() + index - 1;
-        mData.remove(finalIndex);
+        data.remove(finalIndex);
         notifyItemRemoved(finalIndex);
     }
 
     public void clear() {
-        mData.clear();
+        data.clear();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mHeaderViews.removeAtRange(0, mHeaderViews.size());
-            mFooterViews.removeAtRange(0, mFooterViews.size());
+            headerViews.removeAtRange(0, headerViews.size());
+            footerViews.removeAtRange(0, footerViews.size());
         } else {
-            for (int i = 0; i < mHeaderViews.size(); i++) {
-                mHeaderViews.removeAt(i);
+            for (int i = 0; i < headerViews.size(); i++) {
+                headerViews.removeAt(i);
             }
-            for (int i = 0; i < mFooterViews.size(); i++) {
-                mFooterViews.removeAt(i);
+            for (int i = 0; i < footerViews.size(); i++) {
+                footerViews.removeAt(i);
             }
         }
         notifyDataSetChanged();
     }
 
     public void resetData(@NonNull List<T> list) {
-        if (mData.size() > 0) mData.clear();
-        mData.addAll(list);
+        if (data.size() > 0) data.clear();
+        data.addAll(list);
         notifyDataSetChanged();
     }
 
     public List<T> getDatas() {
-        return mData;
+        return data;
     }
 
     public void setOnItemClickListener(OnMultiItemClickListener listener) {

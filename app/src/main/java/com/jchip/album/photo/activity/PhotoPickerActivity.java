@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jchip.album.R;
+import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.photo.adapter.MultiAdapter;
 import com.jchip.album.photo.adapter.itemdecoration.RecycleItemDecoration;
 import com.jchip.album.photo.adapter.listener.OnMultiItemClickListener;
@@ -31,17 +34,16 @@ import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.FolderModel;
 import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.utils.AnimationHelper;
-import com.jchip.album.photo.utils.DisplayUtils;
 import com.jchip.album.photo.utils.MainHandler;
 import com.jchip.album.photo.utils.PhotoScanner;
-import com.jchip.album.photo.utils.Utils;
+import com.jchip.album.photo.utils.PhotoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class PhotoPickerActivity extends AppCompatActivity implements View.OnClickListener {
+public class PhotoPickerActivity extends AppCompatActivity {
     private final int PERMISSION_REQUEST_STORAGE = 6666;
     private final int ACTIVITY_REQUEST_PREVIEW = 7778;
 
@@ -88,8 +90,9 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_picker_layer);
+        AlbumHelper.setStatusBarColor(this, Color.TRANSPARENT);
 
-        DisplayUtils.instance(this.getApplicationContext());
+        PhotoUtils.instance(this.getApplicationContext());
 
         singleExecutor = Executors.newSingleThreadExecutor();
         selectedPhotos = new ArrayList<>();
@@ -103,30 +106,38 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
-        int itemSize = 1;
-        recyclerView.addItemDecoration(new RecycleItemDecoration(itemSize, Color.argb(255, 255, 255, 255)));
-        int itemWH = (DisplayUtils.screenW - (itemSize * (spanCount - 1))) / spanCount;
-        multiAdapter = new MultiAdapter<>(null, itemWH);
+        int gapSize = 3;
+        recyclerView.addItemDecoration(new RecycleItemDecoration(gapSize, Color.TRANSPARENT));
+
+        int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(22);
+        int itemSize = (screenWidth - (gapSize * (spanCount - 1))) / spanCount;
+
+        multiAdapter = new MultiAdapter<>(null, itemSize);
         recyclerView.setAdapter(multiAdapter);
 
-        multiAdapter.setOnItemClickListener(new OnMultiItemClickListener() {
-            @Override
-            public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int viewPosition, int itemPosition) {
-                if (viewPosition == 0) {
-                    photoPreview(itemPosition);
-                } else {
-                    photoPick(itemPosition);
-                }
+        multiAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
+            if (viewPosition == 0) {
+                photoPreview(itemPosition);
+            } else {
+                photoPick(itemPosition);
             }
         });
 
         functionButton = findViewById(R.id.photo_function_button);
         folderButton = findViewById(R.id.photo_folder_button);
         doneButton = findViewById(R.id.photo_done_button);
-        functionButton.setAlpha(.8f);
-        functionButton.setOnClickListener(this);
-        folderButton.setOnClickListener(this);
-        doneButton.setOnClickListener(this);
+        //functionButton.setAlpha(.8f);
+        functionButton.setOnClickListener(v -> fatButHideAnimation(functionButton));
+        folderButton.setOnClickListener(v -> {
+            showBottomDialog();
+            fatButHideAnimation(functionButton);
+        });
+        doneButton.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
 
         // Bottom Adapter
         bottomRecyclerView = new RecyclerView(this);
@@ -146,10 +157,8 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
             int permissionResult = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permissionResult != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    // 第一次被使用者拒絕後，這邊做些解釋的動作
                     showDescriptionDialog(1);
                 } else {
-                    // 第一次詢問
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                             PERMISSION_REQUEST_STORAGE);
@@ -219,19 +228,13 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(R.string.dialog_permission_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(PhotoPickerActivity.this,
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
-                    }
+                .setPositiveButton(R.string.dialog_permission_ok, (dialog, which) -> {
+                    ActivityCompat.requestPermissions(PhotoPickerActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
                 })
-                .setNegativeButton(R.string.dialog_permission_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        PhotoPickerActivity.this.finish();
-                    }
+                .setNegativeButton(R.string.dialog_permission_cancel, (dialog, which) -> {
+                    dialog.dismiss();
+                    PhotoPickerActivity.this.finish();
                 });
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
 
@@ -253,13 +256,15 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(description)
-                .setPositiveButton(R.string.dialog_deny_go_setting, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        dialogInterface.dismiss();
-                        Utils.goAppSettingPage(PhotoPickerActivity.this);
-                        if (type == 1) PhotoPickerActivity.this.finish();
-                    }
+                .setPositiveButton(R.string.dialog_deny_go_setting, (dialog, which) -> {
+                    dialog.dismiss();
+
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.setData(Uri.fromParts("package", this.getPackageName(), null));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    this.startActivity(intent);
+
+                    if (type == 1) PhotoPickerActivity.this.finish();
                 });
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
 
@@ -306,22 +311,6 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
             bottomSheetDialog.setCanceledOnTouchOutside(true);
         }
         bottomSheetDialog.show();
-    }
-
-    @Override
-    public void onClick(View view) {
-        int tag = view.getId();
-        if (tag == R.id.photo_function_button) {
-            fatButHideAnimation(functionButton);
-        } else if (tag == R.id.photo_folder_button) {
-            showBottomDialog();
-            fatButHideAnimation(functionButton);
-        } else if (tag == R.id.photo_done_button) {
-            Intent intent = new Intent();
-            intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
-            setResult(RESULT_OK, intent);
-            finish();
-        }
     }
 
     @Override

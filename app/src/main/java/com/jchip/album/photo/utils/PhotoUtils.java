@@ -8,7 +8,7 @@ import android.view.WindowManager;
  * DisplayUtil
  */
 
-public final class DisplayUtils {
+public final class PhotoUtils {
     public static int screenW;
     public static int screenH;
     public static int screenDpi;
@@ -16,7 +16,7 @@ public final class DisplayUtils {
     public static int statusBarHeight;
     public static int navigationBarHeight;
 
-    private DisplayUtils() {
+    private PhotoUtils() {
         throw new RuntimeException("This class can't be initialized");
     }
 
