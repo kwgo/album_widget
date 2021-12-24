@@ -101,7 +101,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     private void setupView() {
-        RecyclerView recyclerView = findViewById(R.id.photo_picker_view);
+        RecyclerView recyclerView = findViewById(R.id.photo_grid_view);
         layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -113,8 +113,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
         int itemSize = (screenWidth - (gapSize * (spanCount - 1))) / spanCount;
 
         multiAdapter = new MultiAdapter<>(null, itemSize);
-        recyclerView.setAdapter(multiAdapter);
-
         multiAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
             if (viewPosition == 0) {
                 photoPreview(itemPosition);
@@ -122,16 +120,16 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 photoPick(itemPosition);
             }
         });
+        recyclerView.setAdapter(multiAdapter);
 
         functionButton = findViewById(R.id.photo_function_button);
-        folderButton = findViewById(R.id.photo_folder_button);
-        doneButton = findViewById(R.id.photo_done_button);
-        //functionButton.setAlpha(.8f);
         functionButton.setOnClickListener(v -> fatButHideAnimation(functionButton));
+        folderButton = findViewById(R.id.photo_folder_button);
         folderButton.setOnClickListener(v -> {
             showBottomDialog();
             fatButHideAnimation(functionButton);
         });
+        doneButton = findViewById(R.id.photo_done_button);
         doneButton.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
@@ -149,6 +147,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
         bottomRecyclerView.addItemDecoration(new RecycleItemDecoration(1, Color.LTGRAY));
         bottomAdapter = new MultiAdapter<>(null);
         bottomRecyclerView.setAdapter(bottomAdapter);
+
+        findViewById(R.id.photo_picker_view).setOnClickListener((v) -> this.finish());
     }
 
     private void requestScanPhotos() {
