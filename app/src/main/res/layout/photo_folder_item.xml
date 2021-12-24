@@ -20,16 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/folder_radio_button"
-        android:layout_toLeftOf="@+id/folder_radio_button"
         android:layout_toEndOf="@+id/folder_image"
-        android:layout_toRightOf="@+id/folder_image"
         android:gravity="center_vertical"
         android:paddingStart="10dp"
         android:paddingLeft="10dp"
         android:paddingEnd="0dp"
         android:paddingRight="0dp"
-        android:textColor="@color/color_half_dark"
+        android:textColor="@android:color/transparent"
         android:textSize="16sp" />
 
     <RadioButton

@@ -15,8 +15,6 @@ import com.jchip.album.photo.adapter.base.BaseViewHolder;
 import com.jchip.album.photo.model.FolderModel;
 import com.jchip.album.photo.utils.DrawableUtils;
 
-import java.util.Locale;
-
 /**
  * FolderViewHolder
  */
@@ -53,9 +51,7 @@ public class FolderViewHolder extends BaseViewHolder<FolderModel> {
                 .load(data.getFolderPhotos().get(0).getPhotoPath())
                 .into(imageView);
 
-        folderText.setText(String.format(Locale.TAIWAN,
-                context.getResources().getString(R.string.photo_folder_count),
-                data.getFolderName(), data.getFolderPhotos().size()));
+        folderText.setText(String.format(context.getResources().getString(R.string.photo_folder_count), data.getFolderName(), data.getFolderPhotos().size()));
         radioButton.setChecked(data.isCheck());
         radioButton.setClickable(false);
 

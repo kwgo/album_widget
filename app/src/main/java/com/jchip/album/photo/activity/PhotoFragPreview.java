@@ -19,7 +19,6 @@ import com.jchip.album.photo.view.PhotoNumberView;
 import com.jchip.album.photo.view.ZoomImageView;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Photo preview
@@ -51,11 +50,6 @@ public class PhotoFragPreview extends BaseLazyFragment {
     @Override
     public View initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.photo_fragment_preview, container, false);
-        setup(view);
-        return view;
-    }
-
-    private void setup(View view) {
         if (getArguments() != null) {
             photo = getArguments().getParcelable(FRAG_ALBUM_PHOTO);
             selectedPhotos = getArguments().getParcelableArrayList(FRAG_ALBUM_PHOTOS);
@@ -67,7 +61,9 @@ public class PhotoFragPreview extends BaseLazyFragment {
         photoNumberView = view.findViewById(R.id.photo_number_view);
 
         isPrepared = true;
+        return view;
     }
+
 
     @Override
     protected void loadData() {
@@ -80,55 +76,43 @@ public class PhotoFragPreview extends BaseLazyFragment {
             return;
         }
 
-        final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         String photoPath = photo.getPhotoPath();
 
         if (getActivity() != null) {
             if (photoPath.endsWith(".gif") || photoPath.endsWith(".GIF")) {
-                ImageView mImgView = new ImageView(getContext());
-                mImgView.setLayoutParams(lp);
-                Glide.with(getActivity())
-                        .asGif()
-                        .load(photoPath)
-                        .into(mImgView);
-                frameLayout.addView(mImgView, 0);
+                ImageView imageView = new ImageView(getContext());
+                imageView.setLayoutParams(params);
+                Glide.with(getActivity()).asGif().load(photoPath).into(imageView);
+                frameLayout.addView(imageView, 0);
             } else {
                 ZoomImageView mZoomView = new ZoomImageView(getContext());
-                mZoomView.setLayoutParams(lp);
-                Glide.with(getActivity())
-                        .asBitmap()
-                        .load(photoPath)
-                        .into(mZoomView);
+                mZoomView.setLayoutParams(params);
+                Glide.with(getActivity()).asBitmap().load(photoPath).into(mZoomView);
                 frameLayout.addView(mZoomView, 0);
             }
         }
         photoNumberView.setNumber(photo.getPickNumber());
         photoNumberView.setPickColor(photo.getPickColor());
 
-        photoNumberView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isAdd = true;
-                if (photo.getPickNumber() == 0) {
-                    if (selectedPhotos.size() == limitCount) {
-                        Toast.makeText(getActivity(), String.format(Locale.TAIWAN,
-                                getResources().getString(R.string.photo_limit_count), limitCount),
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    photo.setPickNumber(selectedPhotos.size() + 1);
-                    selectedPhotos.add(photo);
-                } else {
-                    if (selectedPhotos.size() == 0) return;
-                    selectedPhotos.remove(photo);
-                    photo.setPickNumber(0);
-                    isAdd = false;
+        photoNumberView.setOnClickListener((view) -> {
+            boolean isAdd = true;
+            if (photo.getPickNumber() == 0) {
+                if (selectedPhotos.size() == limitCount) {
+                    Toast.makeText(getActivity(), String.format(getResources().getString(R.string.photo_limit_count), limitCount), Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                photoNumberView.setNumber(photo.getPickNumber());
-                photoNumberView.setPickColor(photo.getPickColor());
-                if (listener != null) listener.onNumberViewClick(v, photo, isAdd);
+                photo.setPickNumber(selectedPhotos.size() + 1);
+                selectedPhotos.add(photo);
+            } else {
+                if (selectedPhotos.size() == 0) return;
+                selectedPhotos.remove(photo);
+                photo.setPickNumber(0);
+                isAdd = false;
             }
+            photoNumberView.setNumber(photo.getPickNumber());
+            photoNumberView.setPickColor(photo.getPickColor());
+            if (listener != null) listener.onNumberViewClick(view, photo, isAdd);
         });
         progressBar.setVisibility(View.GONE);
         isLoadData = true;
@@ -136,7 +120,6 @@ public class PhotoFragPreview extends BaseLazyFragment {
 
     @Override
     protected void unLoadData() {
-
     }
 
     public interface OnNumberViewClickListener {

@@ -22,10 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_marginStart="7dp"
-        android:layout_marginLeft="7dp"
         android:layout_marginBottom="7dp"
+        android:background="@android:color/transparent"
         android:padding="3dp"
-        android:textColor="@color/color_half_dark"
         android:textSize="12sp"
         tools:text="GIF" />
 

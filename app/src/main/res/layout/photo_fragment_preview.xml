@@ -3,7 +3,7 @@
     android:id="@+id/frag_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_half_white">
+    android:background="@android:color/transparent">
 
     <ProgressBar
         android:id="@+id/frag_progress_bar"

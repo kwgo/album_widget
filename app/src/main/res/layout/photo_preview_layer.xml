@@ -1,51 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/photo_preview_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="1">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/photo_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.86"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-    <RelativeLayout
-        android:id="@+id/photo_bottom_view"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_gravity="bottom"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <ImageButton
-            android:id="@+id/photo_back_image_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_arrow_back_black"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/photo_index_text"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toStartOf="@+id/photo_number_view"
-            android:layout_toLeftOf="@id/photo_number_view"
-            android:layout_toEndOf="@+id/photo_back_image_button"
-            android:layout_toRightOf="@id/photo_back_image_button"
-            android:gravity="center"
-            android:textColor="@color/color_half_dark"
-            android:textSize="16sp"
-            tools:text="(1/1000)" />
+            android:layout_height="0dp"
+            android:layout_weight="0.60">
 
-        <com.jchip.album.photo.view.PhotoNumberView
-            android:id="@+id/photo_number_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/photo_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
 
-    </RelativeLayout>
-</FrameLayout>
+            <RelativeLayout
+                android:id="@+id/photo_bottom_view"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_gravity="bottom"
+                android:background="@android:color/transparent"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp">
+
+                <ImageButton
+                    android:id="@+id/photo_back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:visibility="invisible"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/photo_index_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@+id/photo_number_view"
+                    android:layout_toEndOf="@+id/photo_back_button"
+                    android:alpha="0.85"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    tools:text="1/1000" />
+
+                <com.jchip.album.photo.view.PhotoNumberView
+                    android:id="@+id/photo_number_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
