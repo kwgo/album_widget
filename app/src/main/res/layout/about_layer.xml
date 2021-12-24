@@ -39,7 +39,7 @@
             android:singleLine="true"
             android:text="@string/app_name"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textStyle="normal" />
 
         <TextView
@@ -72,7 +72,7 @@
             android:singleLine="true"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textStyle="normal" />
 
         <TextView
@@ -104,7 +104,7 @@
             android:singleLine="true"
             android:text="@string/app_author"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textStyle="normal" />
 
         <TextView
@@ -191,13 +191,9 @@
 
         <ImageView
             android:id="@+id/about_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="134dp"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="0dp"
             android:adjustViewBounds="true"
             android:alpha="0.95"
             android:background="@drawable/font_edit_image"
