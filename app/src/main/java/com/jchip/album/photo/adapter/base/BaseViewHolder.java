@@ -27,12 +27,9 @@ public abstract class BaseViewHolder<T extends IItemType> extends RecyclerView.V
         return view;
     }
 
-    // 實現view的點擊事件
     public abstract View[] getClickViews();
 
-    // 實現view的長按點擊事件
     public abstract View[] getLongClickViews();
 
-    // 綁定資料
     public abstract void bindViewData(Context context, T data, int itemPosition);
 }

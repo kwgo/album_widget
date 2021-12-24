@@ -32,11 +32,12 @@ public final class PhotoConfig {
     public static final int DEFAULT_STATUS_BAR_COLOR = Color.parseColor("#ff673ab7");
     public static final int DEFAULT_TOOLBAR_COLOR = Color.parseColor("#ff673ab7");
     public static final int DEFAULT_PICK_COLOR = Color.parseColor("#ffffc107");
+
     public static final int DEFAULT_LIMIT_COUNT = 5;
     public static final int DEFAULT_SPAN_COUNT = 3;
-    public static final String DEFAULT_APP_NAME = "RZAlbum";
-    public static final String DEFAULT_TOOLBAR_TITLE = "RZAlbum";
-    public static final boolean DEFAULT_SHOW_CAMERA = true;
+    public static final String DEFAULT_APP_NAME = "Photo Album";
+    public static final String DEFAULT_TOOLBAR_TITLE = "Album";
+    public static final boolean DEFAULT_SHOW_CAMERA = false;
     public static final boolean DEFAULT_SHOW_GIF = true;
     public static final int DEFAULT_ORIENTATION = ORIENTATION_AUTO;
 

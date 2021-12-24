@@ -9,10 +9,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,18 +32,14 @@ import com.jchip.album.photo.adapter.listener.OnMultiItemClickListener;
 import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.FolderModel;
 import com.jchip.album.photo.model.PhotoModel;
-import com.jchip.album.photo.utils.PhotoScanner;
 import com.jchip.album.photo.utils.AnimationHelper;
 import com.jchip.album.photo.utils.DisplayUtils;
-import com.jchip.album.photo.utils.FileProviderUtils;
 import com.jchip.album.photo.utils.MainHandler;
+import com.jchip.album.photo.utils.PhotoScanner;
 import com.jchip.album.photo.utils.Utils;
 import com.jchip.album.photo.view.PreviewPhotoActivity;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -83,25 +75,25 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     private RecyclerView bottomRecyclerView;
     private MultiAdapter<FolderModel> bottomAdapter;
 
-    // 相簿資料夾
-    private List<FolderModel> mFolderModels;
-    // 紀錄選擇到的Photo
-    private List<PhotoModel> addPhotos;
-    // 儲存照片的路徑
-    private String mCameraPath;
+    // photo folders
+    private List<FolderModel> folderModels;
 
-    private ExecutorService mSingleExecutor;
-    private Runnable scanAlbumRunnable = new Runnable() {
+    private List<PhotoModel> selectedPhotos;
+    // photo storage path
+    //private String cameraPath;
+
+    private ExecutorService singleExecutor;
+    private Runnable scanPhotoRunnable = new Runnable() {
         @Override
         public void run() {
             folderName = folderName.isEmpty() ? getResources().getString(R.string.rz_album_all_folder_name) : folderName;
-            mFolderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerActivity.this, folderName);
+            folderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerActivity.this, folderName);
             MainHandler.instances().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (isFinishing()) {
-                        mFolderModels.clear();
-                        mFolderModels = null;
+                        folderModels.clear();
+                        folderModels = null;
                     } else {
                         showAlbum(0);
                     }
@@ -117,56 +109,56 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
 
         DisplayUtils.instance(this.getApplicationContext());
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            appName = bundle.getString(PhotoConfig.APP_NAME, PhotoConfig.DEFAULT_APP_NAME);
-            limitCount = bundle.getInt(PhotoConfig.LIMIT_COUNT, PhotoConfig.DEFAULT_LIMIT_COUNT);
-            spanCount = bundle.getInt(PhotoConfig.SPAN_COUNT, PhotoConfig.DEFAULT_SPAN_COUNT);
-            statusBarColor = bundle.getInt(PhotoConfig.STATUS_BAR_COLOR, PhotoConfig.DEFAULT_STATUS_BAR_COLOR);
-            toolBarTitle = bundle.getString(PhotoConfig.TOOLBAR_TITLE, PhotoConfig.DEFAULT_TOOLBAR_TITLE);
-            toolBarColor = bundle.getInt(PhotoConfig.TOOLBAR_COLOR, PhotoConfig.DEFAULT_TOOLBAR_COLOR);
-            showCamera = bundle.getBoolean(PhotoConfig.SHOW_CAMERA, PhotoConfig.DEFAULT_SHOW_CAMERA);
-            showGif = bundle.getBoolean(PhotoConfig.SHOW_GIF, PhotoConfig.DEFAULT_SHOW_GIF);
-            orientation = bundle.getInt(PhotoConfig.PREVIEW_ORIENTATION, PhotoConfig.ORIENTATION_AUTO);
-            pickColor = bundle.getInt(PhotoConfig.PICK_COLOR, PhotoConfig.DEFAULT_PICK_COLOR);
-            folderName = bundle.getString(PhotoConfig.ALL_FOLDER_NAME, "");
-            dialogIcon = bundle.getInt(PhotoConfig.DIALOG_ICON, -1);
-        }
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle != null) {
+//            appName = bundle.getString(PhotoConfig.APP_NAME, PhotoConfig.DEFAULT_APP_NAME);
+//            limitCount = bundle.getInt(PhotoConfig.LIMIT_COUNT, PhotoConfig.DEFAULT_LIMIT_COUNT);
+//            spanCount = bundle.getInt(PhotoConfig.SPAN_COUNT, PhotoConfig.DEFAULT_SPAN_COUNT);
+//            statusBarColor = bundle.getInt(PhotoConfig.STATUS_BAR_COLOR, PhotoConfig.DEFAULT_STATUS_BAR_COLOR);
+//            toolBarTitle = bundle.getString(PhotoConfig.TOOLBAR_TITLE, PhotoConfig.DEFAULT_TOOLBAR_TITLE);
+//            toolBarColor = bundle.getInt(PhotoConfig.TOOLBAR_COLOR, PhotoConfig.DEFAULT_TOOLBAR_COLOR);
+//            showCamera = bundle.getBoolean(PhotoConfig.SHOW_CAMERA, PhotoConfig.DEFAULT_SHOW_CAMERA);
+//            showGif = bundle.getBoolean(PhotoConfig.SHOW_GIF, PhotoConfig.DEFAULT_SHOW_GIF);
+//            orientation = bundle.getInt(PhotoConfig.PREVIEW_ORIENTATION, PhotoConfig.ORIENTATION_AUTO);
+//            pickColor = bundle.getInt(PhotoConfig.PICK_COLOR, PhotoConfig.DEFAULT_PICK_COLOR);
+//            folderName = bundle.getString(PhotoConfig.ALL_FOLDER_NAME, "");
+//            dialogIcon = bundle.getInt(PhotoConfig.DIALOG_ICON, -1);
+//        }
 
-        mSingleExecutor = Executors.newSingleThreadExecutor();
-        addPhotos = new ArrayList<>();
+        singleExecutor = Executors.newSingleThreadExecutor();
+        selectedPhotos = new ArrayList<>();
         setupView();
         requestScanPhotos();
     }
 
     private void setupView() {
-        Utils.setStatusBarColor(this, statusBarColor);
-        Toolbar mToolBar = findViewById(R.id.photo_picker_toolBar);
-        mToolBar.setTitle(toolBarTitle);
-        mToolBar.setTitleTextColor(Color.WHITE);
-        mToolBar.setBackgroundColor(toolBarColor);
-        mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_white);
-        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-        });
-        if (showCamera) {
-            mToolBar.getMenu().add(0, 0, 0, getResources().getString(R.string.rz_album_menu_camera))
-                    .setIcon(R.drawable.ic_camera).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == 0) {
-                        requestOpenCamera();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        }
+//        Utils.setStatusBarColor(this, statusBarColor);
+//        Toolbar toolbar = findViewById(R.id.photo_picker_toolBar);
+//        toolbar.setTitle(toolBarTitle);
+//        toolbar.setTitleTextColor(Color.WHITE);
+//        toolbar.setBackgroundColor(toolBarColor);
+//        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setResult(RESULT_CANCELED);
+//                finish();
+//            }
+//        });
+//        if (showCamera) {
+//            toolbar.getMenu().add(0, 0, 0, getResources().getString(R.string.rz_album_menu_camera))
+//                    .setIcon(R.drawable.ic_camera).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//                @Override
+//                public boolean onMenuItemClick(MenuItem item) {
+//                    if (item.getItemId() == 0) {
+//                        requestOpenCamera();
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
+//        }
 
         RecyclerView recyclerView = findViewById(R.id.photo_picker_view);
         layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
@@ -225,78 +217,78 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
                             PERMISSION_REQUEST_STORAGE);
                 }
             } else {
-                mSingleExecutor.execute(scanAlbumRunnable);
+                singleExecutor.execute(scanPhotoRunnable);
             }
         } else {
-            mSingleExecutor.execute(scanAlbumRunnable);
+            singleExecutor.execute(scanPhotoRunnable);
         }
     }
 
-    private void requestOpenCamera() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            int permissionResult = ContextCompat.checkSelfPermission(this, PERMISSION_CAMERA);
-            if (permissionResult != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION_CAMERA)) {
-                    showDescriptionDialog(2);
-                } else {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{PERMISSION_CAMERA},
-                            PERMISSION_REQUEST_CAMERA);
-                }
-            } else {
-                openCamera();
-            }
-        } else {
-            openCamera();
-        }
-    }
+//    private void requestOpenCamera() {
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            int permissionResult = ContextCompat.checkSelfPermission(this, PERMISSION_CAMERA);
+//            if (permissionResult != PackageManager.PERMISSION_GRANTED) {
+//                if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION_CAMERA)) {
+//                    showDescriptionDialog(2);
+//                } else {
+//                    ActivityCompat.requestPermissions(this,
+//                            new String[]{PERMISSION_CAMERA},
+//                            PERMISSION_REQUEST_CAMERA);
+//                }
+//            } else {
+//                openCamera();
+//            }
+//        } else {
+//            openCamera();
+//        }
+//    }
 
     private void showAlbum(int index) {
-        multiAdapter.resetData(mFolderModels.get(index).getFolderPhotos());
+        multiAdapter.resetData(folderModels.get(index).getFolderPhotos());
         layoutManager.scrollToPosition(0);
         //changePhotoStatus();
     }
 
-    private void openCamera() {
-        // 打開手機的照相機
-        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // 判斷手機上是否有可以啟動照相機的應用程式
-        if (camera.resolveActivity(getPackageManager()) != null) {
-            File photoFile;
-            // 照片命名
-            String uuid = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-            String fileName = String.format(Locale.TAIWAN, "JPEG_%s.jpg", uuid);
-            // 建立目錄
-            File dcimFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-            // 如果目錄不存在就建立
-            if (!dcimFile.exists()) {
-                boolean isCreate = dcimFile.mkdirs();
-            }
-            // 建立檔案(存放的位置, 檔名)
-            // 拍照時，將拍得的照片先保存在指定的資料夾中(未缩小)
-            photoFile = new File(dcimFile, fileName);
-
-            // 照片存放路徑
-            mCameraPath = photoFile.getAbsolutePath();
-            // 拍照適配Android7.0 up
-            Uri fileUri = FileProviderUtils.getUriForFile(this, photoFile);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                FileProviderUtils.grantPermissions(this, camera, fileUri, true);
-            }
-            // 2017-06-11 更改
-            // 如果指定了圖片uri，data就没有數據，如果没有指定uri，則data就返回有數據
-            // 指定圖片输出位置，若無這句則拍照後，圖片會放入內存中，由於占用内存太大導致無法剪切或者剪切後無法保存
-            //camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-            camera.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-            startActivityForResult(camera, ACTIVITY_REQUEST_CAMERA);
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.rz_album_camera_not_found), Toast.LENGTH_SHORT).show();
-        }
-    }
+//    private void openCamera() {
+//        // 打開手機的照相機
+//        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        // 判斷手機上是否有可以啟動照相機的應用程式
+//        if (camera.resolveActivity(getPackageManager()) != null) {
+//            File photoFile;
+//            // 照片命名
+//            String uuid = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//            String fileName = String.format(Locale.TAIWAN, "JPEG_%s.jpg", uuid);
+//            // 建立目錄
+//            File dcimFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+//            // 如果目錄不存在就建立
+//            if (!dcimFile.exists()) {
+//                boolean isCreate = dcimFile.mkdirs();
+//            }
+//            // 建立檔案(存放的位置, 檔名)
+//            // 拍照時，將拍得的照片先保存在指定的資料夾中(未缩小)
+//            photoFile = new File(dcimFile, fileName);
+//
+//            // 照片存放路徑
+//            mCameraPath = photoFile.getAbsolutePath();
+//            // 拍照適配Android7.0 up
+//            Uri fileUri = FileProviderUtils.getUriForFile(this, photoFile);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                FileProviderUtils.grantPermissions(this, camera, fileUri, true);
+//            }
+//            // 2017-06-11 更改
+//            // 如果指定了圖片uri，data就没有數據，如果没有指定uri，則data就返回有數據
+//            // 指定圖片输出位置，若無這句則拍照後，圖片會放入內存中，由於占用内存太大導致無法剪切或者剪切後無法保存
+//            //camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+//            camera.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+//            startActivityForResult(camera, ACTIVITY_REQUEST_CAMERA);
+//        } else {
+//            Toast.makeText(this, getResources().getString(R.string.rz_album_camera_not_found), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     private void photoPreview(int itemPosition) {
         Intent preview = new Intent(this, PreviewPhotoActivity.class);
-        preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) addPhotos);
+        preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) multiAdapter.getDatas());
         preview.putExtra(PhotoConfig.PREVIEW_ITEM_POSITION, itemPosition);
         preview.putExtra(PhotoConfig.PREVIEW_PICK_COLOR, pickColor);
@@ -309,17 +301,17 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     private void photoPick(int itemPosition) {
         PhotoModel photo = multiAdapter.getDatas().get(itemPosition);
         if (photo.getPickNumber() == 0) {
-            if (addPhotos.size() == limitCount) {
+            if (selectedPhotos.size() == limitCount) {
                 Toast.makeText(PhotoPickerActivity.this, String.format(Locale.TAIWAN, getResources().getString(R.string.rz_album_limit_count), limitCount),
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            photo.setPickNumber(addPhotos.size() + 1);
-            addPhotos.add(photo);
+            photo.setPickNumber(selectedPhotos.size() + 1);
+            selectedPhotos.add(photo);
             multiAdapter.notifyItemChanged(itemPosition);
         } else {
-            if (addPhotos.size() == 0) return;
-            addPhotos.remove(photo);
+            if (selectedPhotos.size() == 0) return;
+            selectedPhotos.remove(photo);
             photo.setPickNumber(0);
             multiAdapter.notifyItemChanged(itemPosition);
             changePhotoPickNumber();
@@ -328,9 +320,9 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
 
     private void changePhotoPickNumber() {
         // 改變item status & index
-        for (int i = 0; i < addPhotos.size(); i++) {
-            addPhotos.get(i).setPickNumber(i + 1);
-            int index = multiAdapter.getDatas().indexOf(addPhotos.get(i));
+        for (int i = 0; i < selectedPhotos.size(); i++) {
+            selectedPhotos.get(i).setPickNumber(i + 1);
+            int index = multiAdapter.getDatas().indexOf(selectedPhotos.get(i));
             if (index != -1) {
                 multiAdapter.getDatas().get(index).setPickNumber(i + 1);
                 multiAdapter.notifyItemChanged(index);
@@ -415,10 +407,10 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void showBottomDialog() {
-        if (mFolderModels.get(0).getFolderPhotos().size() == 0) return;
+        if (folderModels.get(0).getFolderPhotos().size() == 0) return;
         if (bottomSheetDialog == null) {
             bottomSheetDialog = new BottomSheetDialog(this);
-            bottomAdapter.resetData(mFolderModels);
+            bottomAdapter.resetData(folderModels);
             bottomAdapter.setOnItemClickListener(new OnMultiItemClickListener() {
                 @Override
                 public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int viewPosition, int itemPosition) {
@@ -448,7 +440,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
             fatButHideAnimation(functionButton);
         } else if (tag == R.id.photo_done_button) {
             Intent intent = new Intent();
-            intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) addPhotos);
+            intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
             setResult(RESULT_OK, intent);
             finish();
         }
@@ -460,7 +452,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
         switch (requestCode) {
             case PERMISSION_REQUEST_STORAGE:
                 if (permissionResult == PackageManager.PERMISSION_GRANTED) {
-                    mSingleExecutor.execute(scanAlbumRunnable);
+                    singleExecutor.execute(scanPhotoRunnable);
                 } else {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
                         showDescriptionDialog(1);
@@ -470,15 +462,15 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case PERMISSION_REQUEST_CAMERA:
-                if (permissionResult == PackageManager.PERMISSION_GRANTED) {
-                    openCamera();
-                } else {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-                        showDescriptionDialog(2);
-                    } else {
-                        showDeniedDialog(2);
-                    }
-                }
+//                if (permissionResult == PackageManager.PERMISSION_GRANTED) {
+//                    openCamera();
+//                } else {
+//                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
+//                        showDescriptionDialog(2);
+//                    } else {
+//                        showDeniedDialog(2);
+//                    }
+//                }
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -492,37 +484,37 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case ACTIVITY_REQUEST_CAMERA:
-                    // 拍照完後透過掃描可在手機端發現剛拍完照的檔案 參考資料 : https://www.jianshu.com/p/bc8b04bffddf
-                    MediaScannerConnection.scanFile(this, new String[]{mCameraPath}, new String[]{PhotoConfig.JPEG},
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, final Uri uri) {
-                                    mSingleExecutor.execute(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            final PhotoModel photo = PhotoScanner.instances(pickColor, showGif)
-                                                    .getSinglePhoto(PhotoPickerActivity.this, uri);
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Intent result = new Intent();
-                                                    if (photo != null) {
-                                                        ArrayList<PhotoModel> list = new ArrayList<>();
-                                                        list.add(photo);
-                                                        result.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, list);
-                                                    }
-                                                    setResult(RESULT_OK, result);
-                                                    finish();
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
+//                    // 拍照完後透過掃描可在手機端發現剛拍完照的檔案 參考資料 : https://www.jianshu.com/p/bc8b04bffddf
+//                    MediaScannerConnection.scanFile(this, new String[]{cameraPath}, new String[]{PhotoConfig.JPEG},
+//                            new MediaScannerConnection.OnScanCompletedListener() {
+//                                @Override
+//                                public void onScanCompleted(String path, final Uri uri) {
+//                                    singleExecutor.execute(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            final PhotoModel photo = PhotoScanner.instances(pickColor, showGif)
+//                                                    .getSinglePhoto(PhotoPickerActivity.this, uri);
+//                                            runOnUiThread(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    Intent result = new Intent();
+//                                                    if (photo != null) {
+//                                                        ArrayList<PhotoModel> list = new ArrayList<>();
+//                                                        list.add(photo);
+//                                                        result.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, list);
+//                                                    }
+//                                                    setResult(RESULT_OK, result);
+//                                                    finish();
+//                                                }
+//                                            });
+//                                        }
+//                                    });
+//                                }
+//                            });
                     break;
                 case ACTIVITY_REQUEST_PREVIEW:
                     if (data != null) {
-                        addPhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);
+                        selectedPhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);
                         List<PhotoModel> deletePhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_DELETE_PHOTOS);
                         // delete
                         for (int i = 0; i < deletePhotos.size(); i++) {
@@ -531,8 +523,8 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
                             multiAdapter.notifyItemChanged(index);
                         }
                         // add
-                        for (int j = 0; j < addPhotos.size(); j++) {
-                            PhotoModel photo = addPhotos.get(j);
+                        for (int j = 0; j < selectedPhotos.size(); j++) {
+                            PhotoModel photo = selectedPhotos.get(j);
                             int index = multiAdapter.getDatas().indexOf(photo);
                             if (index != -1) {
                                 multiAdapter.getDatas().get(index).setPickNumber(photo.getPickNumber());
@@ -547,9 +539,9 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onDestroy() {
-        if (!mSingleExecutor.isShutdown()) {
-            mSingleExecutor.shutdown();
-            mSingleExecutor = null;
+        if (!singleExecutor.isShutdown()) {
+            singleExecutor.shutdown();
+            singleExecutor = null;
         }
         super.onDestroy();
     }

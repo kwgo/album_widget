@@ -8,15 +8,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-
-import com.jchip.album.R;
-import com.jchip.album.photo.PhotoPicker;
-//import com.rayzhang.android.rzalbum.RZAlbum;
 
 public class AlbumHelper {
     public static final int ALBUM_REQUEST_CODE = 1;
@@ -47,42 +42,6 @@ public class AlbumHelper {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
-    }
-
-    public static void selectPhotos(Activity activity) {
-        Log.d("", "selectPhotos ==============================");
-        /**
-         * @param ofAppName             : (required)
-         * @param setLimitCount         : (choose)   (default:5)
-         * @param setSpanCount          : (choose)   (default:3)
-         * @param setStatusBarColor     : (choose)   (default:#ff673ab7)
-         * @param setToolBarColor       : (choose)   (default:#ff673ab7)
-         * @param setToolBarTitle       : (choose)   (default:RZAlbum)
-         * @param setPickColor          : (choose)   (default:#ffffc107)
-         * @param setPreviewOrientation : (choose)   (default:ORIENTATION_AUTO)
-         * @param setAllFolderName      : (choose)   (default:All Photos)
-         * @param setDialogIcon         : (choose)   (default:none)
-         * @param showCamera            : (choose)   (default:true)
-         * @param showGif               : (choose)   (default:true)
-         * @param start                 : (required)
-         */
-        PhotoPicker.ofAppName("RZ - Album")
-                .setLimitCount(12)
-                .setSpanCount(3)
-                .setStatusBarColor(Color.parseColor("#AD1457"))
-                .setToolBarColor(Color.parseColor("#D81B60"))
-                .setToolBarTitle("Album")
-                .setPickerColor(0x000000)
-                //.setPickerColor(18);
-                //.setPickColor(Color.argb(255, 153, 51, 255))
-                //.setDialogIcon(R.drawable.ic_bird_shape_30_3dp)
-                .setDialogIcon(R.drawable.widget_icon)
-
-                //    .setPreviewOrientation(RZAlbum.ORIENTATION_PORTRATI)
-                .setAllFolderName("Photos")
-                .showCamera(true)
-                .showGif(false)
-                .start(activity, ALBUM_REQUEST_CODE);
     }
 
     public static void alert(Context context, int titleId, int detailId, Runnable work) {

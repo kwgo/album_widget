@@ -8,14 +8,11 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
-import com.jchip.album.photo.PhotoPicker;
+import com.jchip.album.photo.PhotoPickerActivity;
+import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.PhotoModel;
 
 import java.util.List;
-//import com.rayzhang.android.rzalbum.RZAlbum;
-//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
-//
-//import java.util.List;
 
 public class PhotoActivity extends LayerActivity {
 
@@ -37,7 +34,7 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void onAddPhotos() {
-        AlbumHelper.selectPhotos(this);
+        this.startActivityForResult(new Intent(this, PhotoPickerActivity.class), AlbumHelper.ALBUM_REQUEST_CODE);
     }
 
     private void onDeletePhoto() {
@@ -66,7 +63,7 @@ public class PhotoActivity extends LayerActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == AlbumHelper.ALBUM_REQUEST_CODE) {
-            List<PhotoModel> photoModels = PhotoPicker.parseResult(data);
+            List<PhotoModel> photoModels = data.getParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS);
             if (photoModels != null && !photoModels.isEmpty()) {
                 this.onSelectedPhotos(photoModels);
             }
