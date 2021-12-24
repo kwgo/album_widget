@@ -130,10 +130,11 @@ public class PhotoHelper {
     }
 
     public static int getFontIndex(int fontId) {
-        List<Integer> fonts = Arrays.asList(new Integer[]{
-                R.font.niconne_regular, R.font.anton_regular, R.font.abril_fatface_regular,
-                R.font.macondo_egular, R.font.ole_regular, R.font.wind_song_medium
-        });
+        List<Integer> fonts = getFonts();
         return fonts.indexOf(fontId) < 0 ? 0 : fonts.indexOf(fontId);
+    }
+    public static List<Integer> getFonts() {
+       return   Arrays.asList(R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
+                R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
     }
 }

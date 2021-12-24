@@ -11,6 +11,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jchip.album.R;
+import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class FontActivity extends AbstractActivity {
         this.setPhotoLook(this.getView(R.id.photo_view));
 
         this.getTextView(R.id.photo_text).setText(this.photo.getFontText());
-        this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 32) & 0xFF);
+        this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 24) & 0xFF);
         this.getSeekView(R.id.font_color_r).setProgress((this.photo.getFontColor() >> 16) & 0xFF);
         this.getSeekView(R.id.font_color_g).setProgress((this.photo.getFontColor() >> 8) & 0xFF);
         this.getSeekView(R.id.font_color_b).setProgress((this.photo.getFontColor()) & 0xFF);
@@ -89,22 +90,19 @@ public class FontActivity extends AbstractActivity {
     }
 
     private void onFontTypeChange() {
-        List<Integer> fonts = Arrays.asList(new Integer[]{
-                R.font.niconne_regular, R.font.anton_regular, R.font.abril_fatface_regular,
-                R.font.macondo_egular, R.font.ole_regular, R.font.wind_song_medium
-        });
-        int fontIndex = fonts.indexOf(this.photo.getFontType());
+        List<Integer> fonts = PhotoHelper.getFonts();
+        int fontIndex = PhotoHelper.getFontIndex(this.photo.getFontType());
         fontIndex = fontIndex < 0 ? 0 : fontIndex;
         this.photo.setFontType(fonts.get((fontIndex + 1) % fonts.size()));
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onLocationChange() {
-        List<Integer> locations = Arrays.asList(new Integer[]{
+        List<Integer> locations = Arrays.asList(
                 Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
                 Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
                 Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
-        });
+        );
         int locationIndex = locations.indexOf(this.photo.getFontLocation());
         locationIndex = locationIndex < 0 ? 0 : locationIndex;
         this.photo.setFontLocation(locations.get((locationIndex + 1) % locations.size()));

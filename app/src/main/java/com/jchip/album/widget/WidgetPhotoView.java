@@ -111,11 +111,6 @@ public class WidgetPhotoView {
     }
 
     private void setLabelLocation(int labelContainerId) {
-        int[] gravity = {
-                Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
-                Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
-                Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
-        };
-        this.views.setInt(labelContainerId, "setGravity", gravity[photo.getFontLocation() % gravity.length]);
+        this.views.setInt(labelContainerId, "setGravity", photo.getFontLocation());
     }
 }
