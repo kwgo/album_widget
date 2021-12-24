@@ -11,57 +11,46 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/mToolBar"
+            android:id="@+id/photo_picker_toolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mRZRecyclerView"
+        android:id="@+id/photo_picker_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/mFabFolderBut"
+        android:id="@+id/photo_folder_button"
+        style="@style/normal_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/rz_fab_margin_bottom"
-        android:elevation="6dp"
         android:src="@drawable/photo_fab_folder"
-        android:translationZ="12dp"
-        android:visibility="invisible"
-        app:backgroundTint="@android:color/white"
-        app:borderWidth="0dp"
-        tools:targetApi="lollipop" />
+        android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/mFabDoneBut"
+        android:id="@+id/photo_done_button"
+        style="@style/normal_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/rz_fab_margin_bottom"
-        android:elevation="6dp"
         android:src="@drawable/photo_fab_done"
-        android:translationZ="12dp"
-        android:visibility="invisible"
-        app:backgroundTint="@android:color/white"
-        app:borderWidth="0dp"
-        tools:targetApi="lollipop" />
+        android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/mFabMultiBut"
+        android:id="@+id/photo_function_button"
+        style="@style/normal_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/rz_fab_margin_bottom"
-        android:elevation="6dp"
         android:src="@drawable/photo_fab_function"
-        android:translationZ="12dp"
-        app:backgroundTint="@android:color/white"
-        app:borderWidth="0dp"
-        app:layout_behavior="@string/rz_album_fatbut_scroll_hide_behavior"
-        tools:targetApi="lollipop" />
+        app:layout_behavior="@string/rz_album_fatbut_scroll_hide_behavior" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

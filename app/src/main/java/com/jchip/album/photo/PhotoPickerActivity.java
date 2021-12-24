@@ -113,7 +113,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.photo_layer);
+        setContentView(R.layout.photo_picker_layer);
 
         DisplayUtils.instance(this.getApplicationContext());
 
@@ -141,7 +141,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
 
     private void setupView() {
         Utils.setStatusBarColor(this, statusBarColor);
-        Toolbar mToolBar = findViewById(R.id.mToolBar);
+        Toolbar mToolBar = findViewById(R.id.photo_picker_toolBar);
         mToolBar.setTitle(toolBarTitle);
         mToolBar.setTitleTextColor(Color.WHITE);
         mToolBar.setBackgroundColor(toolBarColor);
@@ -168,7 +168,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
             });
         }
 
-        RecyclerView recyclerView = findViewById(R.id.mRZRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.photo_picker_view);
         layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -190,9 +190,9 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-        functionButton = findViewById(R.id.mFabMultiBut);
-        folderButton = findViewById(R.id.mFabFolderBut);
-        doneButton = findViewById(R.id.mFabDoneBut);
+        functionButton = findViewById(R.id.photo_function_button);
+        folderButton = findViewById(R.id.photo_folder_button);
+        doneButton = findViewById(R.id.photo_done_button);
         functionButton.setAlpha(.8f);
         functionButton.setOnClickListener(this);
         folderButton.setOnClickListener(this);
@@ -441,12 +441,12 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         int tag = view.getId();
-        if (tag == R.id.mFabMultiBut) {
+        if (tag == R.id.photo_function_button) {
             fatButHideAnimation(functionButton);
-        } else if (tag == R.id.mFabFolderBut) {
+        } else if (tag == R.id.photo_folder_button) {
             showBottomDialog();
             fatButHideAnimation(functionButton);
-        } else if (tag == R.id.mFabDoneBut) {
+        } else if (tag == R.id.photo_done_button) {
             Intent intent = new Intent();
             intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) addPhotos);
             setResult(RESULT_OK, intent);
