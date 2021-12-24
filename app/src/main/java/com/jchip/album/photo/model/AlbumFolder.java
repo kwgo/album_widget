@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class AlbumFolder implements Parcelable, IItemType {
-    public static final int FOLDER_ITEM = R.layout.rz_album_adapter_linear_folder_item;
+    public static final int FOLDER_ITEM = R.layout.photo_folder_item;
 
     private int folderId;
     private String folderName;

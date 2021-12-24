@@ -44,7 +44,7 @@ public class PreviewPhotoActivity extends AppCompatActivity implements FragPrevi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preview_photo);
+        setContentView(R.layout.photo_preview_layer);
 
         Utils.setStatusBarTransparent(this);
 

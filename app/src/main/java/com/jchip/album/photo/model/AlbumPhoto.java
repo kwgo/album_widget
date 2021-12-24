@@ -18,7 +18,7 @@ import com.jchip.album.photo.adapter.factory.IItemType;
  */
 
 public class AlbumPhoto implements Parcelable, Comparable<AlbumPhoto>, IItemType {
-    public static final int PHOTO_ITEM = R.layout.rz_album_adapter_grid_photo_item;
+    public static final int PHOTO_ITEM = R.layout.photo_grid_item;
 
     private String bucketName;
     private int photoId;

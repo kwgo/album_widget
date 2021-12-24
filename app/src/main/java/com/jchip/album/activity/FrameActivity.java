@@ -21,7 +21,7 @@ public class FrameActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.frame_layer);
+        super.setContentView(R.layout.photo_frame);
         super.setStatusBarColor(android.R.color.transparent);
     }
 
@@ -89,7 +89,7 @@ public class FrameActivity extends AbstractActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
-            view = inflater.inflate(R.layout.frame_list_item, null);
+            view = inflater.inflate(R.layout.photo_frame_item, null);
             ImageView imageView = view.findViewById(R.id.frame_item_image);
             imageView.setImageResource(frameLooks.get(position));
             return view;

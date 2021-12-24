@@ -58,7 +58,7 @@ public class FragPreviewPhoto extends BaseLazyFragment {
 
     @Override
     public View initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_preview_photo, container, false);
+        View view = inflater.inflate(R.layout.photo_fragment_preview, container, false);
         setup(view);
         return view;
     }

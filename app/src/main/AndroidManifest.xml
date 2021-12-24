@@ -106,7 +106,7 @@
             tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/rz_file_path"
+                android:resource="@xml/photo_file_path"
                 tools:replace="android:resource" />
         </provider>
 

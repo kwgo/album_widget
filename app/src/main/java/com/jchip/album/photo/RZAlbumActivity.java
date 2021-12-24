@@ -25,7 +25,6 @@ import android.provider.MediaStore;
 //import android.support.v7.widget.LinearLayoutManager;
 //import android.support.v7.widget.RecyclerView;
 //import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,7 +139,7 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rzalbum);
+        setContentView(R.layout.photo_layer);
 
         DisplayUtils.instance(this.getApplicationContext());
 
