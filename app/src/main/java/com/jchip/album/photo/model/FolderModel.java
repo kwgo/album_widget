@@ -100,9 +100,9 @@ public class FolderModel implements Parcelable, IItemType {
 
     @Override
     public String toString() {
-        return "AlbumFolder{" +
-                "folderId=" + folderId +
-                ", folderName='" + folderName + '\'' +
+        return "FolderModel { " +
+                "  folderId=" + folderId +
+                ", folderName=" + folderName +
                 ", folderPhotos=" + folderPhotos +
                 ", isCheck=" + isCheck +
                 ", pickColor=" + pickColor +

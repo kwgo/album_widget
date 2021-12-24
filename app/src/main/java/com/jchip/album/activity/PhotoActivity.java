@@ -8,7 +8,7 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
-import com.jchip.album.photo.PhotoPickerActivity;
+import com.jchip.album.photo.activity.PhotoPickerActivity;
 import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.PhotoModel;
 

@@ -1,4 +1,4 @@
-package com.jchip.album.photo;
+package com.jchip.album.photo.activity;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -35,7 +35,6 @@ import com.jchip.album.photo.utils.DisplayUtils;
 import com.jchip.album.photo.utils.MainHandler;
 import com.jchip.album.photo.utils.PhotoScanner;
 import com.jchip.album.photo.utils.Utils;
-import com.jchip.album.photo.view.PreviewPhotoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,7 +169,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void photoPreview(int itemPosition) {
-        Intent preview = new Intent(this, PreviewPhotoActivity.class);
+        Intent preview = new Intent(this, PhotoPreviewActivity.class);
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) multiAdapter.getDatas());
         preview.putExtra(PhotoConfig.PREVIEW_ITEM_POSITION, itemPosition);

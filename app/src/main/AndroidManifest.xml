@@ -86,14 +86,14 @@
 
 
         <activity
-            android:name=".photo.PhotoPickerActivity"
+            android:name=".photo.activity.PhotoPickerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/RZAppNoActionBarTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
         <activity
-            android:name=".photo.view.PreviewPhotoActivity"
+            android:name=".photo.activity.PhotoPreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/RZAppNoActionBarTheme" />
 

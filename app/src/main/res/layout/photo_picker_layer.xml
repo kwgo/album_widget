@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jchip.album.photo.PhotoPickerActivity">
+    tools:context="com.jchip.album.photo.activity.PhotoPickerActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photo_picker_view"

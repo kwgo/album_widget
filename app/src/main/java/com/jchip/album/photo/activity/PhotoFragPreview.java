@@ -1,4 +1,4 @@
-package com.jchip.album.photo.view;
+package com.jchip.album.photo.activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide;
 import com.jchip.album.R;
 import com.jchip.album.photo.base.BaseLazyFragment;
 import com.jchip.album.photo.model.PhotoModel;
-import com.jchip.album.photo.widget.PhotoNumberView;
-import com.jchip.album.photo.widget.ZoomImageView;
+import com.jchip.album.photo.view.PhotoNumberView;
+import com.jchip.album.photo.view.ZoomImageView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -27,7 +27,7 @@ import java.util.Locale;
  * Photo preview
  */
 
-public class FragPreviewPhoto extends BaseLazyFragment {
+public class PhotoFragPreview extends BaseLazyFragment {
     private static final String FRAG_ALBUM_PHOTO = "FRAG_ALBUM_PHOTO";
     private static final String FRAG_ALBUM_PHOTOS = "FRAG_ALBUM_PHOTOS";
     private static final String FRAG_ALBUM_LIMIT_COUNT = "FRAG_ALBUM_LIMIT_COUNT";
@@ -41,14 +41,14 @@ public class FragPreviewPhoto extends BaseLazyFragment {
     private int limitCount;
     private OnNumberViewClickListener listener;
 
-    public static FragPreviewPhoto instance(PhotoModel photo, ArrayList<PhotoModel> addPhotos, int limitCount) {
-        FragPreviewPhoto fragPreviewPhoto = new FragPreviewPhoto();
+    public static PhotoFragPreview instance(PhotoModel photo, ArrayList<PhotoModel> addPhotos, int limitCount) {
+        PhotoFragPreview photoFragPreview = new PhotoFragPreview();
         Bundle bundle = new Bundle();
         bundle.putParcelable(FRAG_ALBUM_PHOTO, photo);
         bundle.putParcelableArrayList(FRAG_ALBUM_PHOTOS, addPhotos);
         bundle.putInt(FRAG_ALBUM_LIMIT_COUNT, limitCount);
-        fragPreviewPhoto.setArguments(bundle);
-        return fragPreviewPhoto;
+        photoFragPreview.setArguments(bundle);
+        return photoFragPreview;
     }
 
     @Override

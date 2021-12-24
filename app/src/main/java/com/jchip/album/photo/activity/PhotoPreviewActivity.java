@@ -1,4 +1,4 @@
-package com.jchip.album.photo.view;
+package com.jchip.album.photo.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -20,7 +20,7 @@ import com.jchip.album.R;
 import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.utils.Utils;
-import com.jchip.album.photo.widget.PhotoNumberView;
+import com.jchip.album.photo.view.PhotoNumberView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.Locale;
  * Photo preview activity
  */
 
-public class PreviewPhotoActivity extends AppCompatActivity implements FragPreviewPhoto.OnNumberViewClickListener {
+public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFragPreview.OnNumberViewClickListener {
     private TextView rzIndexText;
     private PhotoNumberView rzNumberView;
 
@@ -138,11 +138,11 @@ public class PreviewPhotoActivity extends AppCompatActivity implements FragPrevi
     private static class FragPreviewAdapter extends FragmentStatePagerAdapter {
         private ArrayList<PhotoModel> allPhotos;
         private ArrayList<PhotoModel> addPhotos;
-        private WeakReference<PreviewPhotoActivity> weakReference;
+        private WeakReference<PhotoPreviewActivity> weakReference;
         private int limitCount;
 
         private FragPreviewAdapter(FragmentManager fm, ArrayList<PhotoModel> allPhotos, ArrayList<PhotoModel> addPhotos,
-                                   int limitCount, WeakReference<PreviewPhotoActivity> weakReference) {
+                                   int limitCount, WeakReference<PhotoPreviewActivity> weakReference) {
             super(fm);
             this.allPhotos = allPhotos;
             this.addPhotos = addPhotos;
@@ -152,10 +152,10 @@ public class PreviewPhotoActivity extends AppCompatActivity implements FragPrevi
 
         @Override
         public Fragment getItem(int position) {
-            FragPreviewPhoto fragPreviewPhoto = FragPreviewPhoto.instance(allPhotos.get(position), addPhotos,
+            PhotoFragPreview photoFragPreview = PhotoFragPreview.instance(allPhotos.get(position), addPhotos,
                     limitCount);
-            fragPreviewPhoto.setOnNumberViewClickListener(weakReference.get());
-            return fragPreviewPhoto;
+            photoFragPreview.setOnNumberViewClickListener(weakReference.get());
+            return photoFragPreview;
         }
 
         @Override

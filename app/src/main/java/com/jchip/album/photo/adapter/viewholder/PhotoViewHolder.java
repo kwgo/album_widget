@@ -12,8 +12,8 @@ import com.jchip.album.R;
 import com.jchip.album.photo.adapter.base.BaseViewHolder;
 import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.utils.DrawableUtils;
-import com.jchip.album.photo.widget.PhotoBorderView;
-import com.jchip.album.photo.widget.PhotoNumberView;
+import com.jchip.album.photo.view.PhotoBorderView;
+import com.jchip.album.photo.view.PhotoNumberView;
 
 /**
  * PhotoViewHolder

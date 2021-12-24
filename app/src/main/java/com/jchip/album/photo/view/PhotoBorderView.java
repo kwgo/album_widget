@@ -1,4 +1,4 @@
-package com.jchip.album.photo.widget;
+package com.jchip.album.photo.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

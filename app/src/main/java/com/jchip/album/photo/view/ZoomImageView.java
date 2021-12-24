@@ -1,4 +1,4 @@
-package com.jchip.album.photo.widget;
+package com.jchip.album.photo.view;
 
 import android.content.Context;
 import android.content.res.Configuration;

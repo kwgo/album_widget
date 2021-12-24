@@ -321,8 +321,8 @@ public class PhotoModel implements Parcelable, Comparable<PhotoModel>, IItemType
 
     @Override
     public String toString() {
-        return "AlbumPhoto{" +
-                "bucketName='" + bucketName + '\'' +
+        return "PhotoModel {" +
+                "  bucketName='" + bucketName + '\'' +
                 ", photoId=" + photoId +
                 ", photoDesc='" + photoDesc + '\'' +
                 ", photoLat=" + photoLat +

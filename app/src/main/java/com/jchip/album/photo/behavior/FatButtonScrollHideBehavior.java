@@ -18,12 +18,10 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
  */
 
 class FatButtonScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
-    // xml 調用時  所在包名+類別名稱 = com.rayzhang.android.rzalbum.behavior.FatButtonScrollHideBehavior
     private static final String TAG = FatButtonScrollHideBehavior.class.getSimpleName();
     private static final Interpolator INTERPOLATOR = new FastOutLinearInInterpolator();
-    // 動畫是否正在進行中
+
     private boolean isAnimate;
-    // 是否為顯示狀態
     private boolean isShow = true;
 
     public FatButtonScrollHideBehavior(Context context, AttributeSet attrs) {
@@ -33,14 +31,12 @@ class FatButtonScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child,
                                        @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
-        // 判斷是否是垂直滑動
         return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
     @Override
     public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child,
                                   @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
-        // dy > 0 是向上滑動 ; dy < 0 是向下滑動
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
         if (dy >= 10 && !isAnimate && isShow) {
             hide(child, lp.bottomMargin);
