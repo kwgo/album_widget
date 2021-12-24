@@ -21,25 +21,21 @@
     <string name="about_owned">Owned Sokoban (Boxman) Classic</string>
     <string name="about_play">click image to play</string>
 
-    <string name="rz_album_dia_read_description">(Enter something that u want)</string>
-    <string name="rz_album_dia_read_message">(Enter something that u want)</string>
-    <string name="rz_album_dia_camera_description">(Enter something that u want)</string>
-    <string name="rz_album_dia_camera_message">(Enter something that u want)</string>
-    <string name="rz_album_dia_ok">(Enter something that u want)</string>
-    <string name="rz_album_dia_cancel">(Enter something that u want)</string>
+    <string name="dialog_permission_title">Photo Album</string>
+    <string name="dialog_permission_description">Please grant to access the storage</string>
+    <string name="dialog_permission_ok">OK</string>
+    <string name="dialog_permission_cancel">Cancel</string>
 
-
+    <string name="dialog_deny_title">選擇照片功能已被拒絕</string>
+    <string name="dialog_deny_description">請至手機設定 → 應用程式 → %1$s → 權限，將【儲存】開啟</string>
+    <string name="dialog_deny_go_setting">前往設定</string>
 
     <string name="rz_album_all_folder_name">All Photos</string>
     <string name="rz_album_gif">GIF</string>
     <string name="rz_album_folder_count">%1$s (%2$d)</string>
     <string name="rz_album_limit_count">最多選擇%d張</string>
 
-    <string name="rz_album_dia_read_description_denied">選擇照片功能已被拒絕</string>
-    <string name="rz_album_dia_read_message_denied">請至手機設定 → 應用程式 → %1$s → 權限，將【儲存】開啟</string>
-    <string name="rz_album_dia_camera_description_denied">拍攝照片功能已被拒絕</string>
-    <string name="rz_album_dia_camera_message_denied">請至手機設定 → 應用程式 → %1$s → 權限，將【相機】開啟</string>
-    <string name="rz_album_dia_go_setting">前往設定</string>
+
 
     <string name="rz_album_camera_not_found">該設備無相機功能！</string>
     <string name="rz_album_menu_camera">Camera</string>
