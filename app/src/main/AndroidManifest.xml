@@ -83,6 +83,33 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_photo_info" />
         </receiver>
+
+
+        <activity
+            android:name=".photo.RZAlbumActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/RZAppNoActionBarTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+
+        <activity
+            android:name=".photo.view.PreviewPhotoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/RZAppNoActionBarTheme" />
+
+        <!-- Camera Adapter android7.0 up-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rz_file_path"
+                tools:replace="android:resource" />
+        </provider>
+
     </application>
 
 </manifest>

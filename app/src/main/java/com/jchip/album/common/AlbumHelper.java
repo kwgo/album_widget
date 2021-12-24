@@ -15,7 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.jchip.album.R;
-import com.rayzhang.android.rzalbum.RZAlbum;
+import com.jchip.album.photo.RZAlbum;
+//import com.rayzhang.android.rzalbum.RZAlbum;
 
 public class AlbumHelper {
     public static final int ALBUM_REQUEST_CODE = 1;

@@ -15,4 +15,11 @@
     <color name="window_background">#1F2229</color>
 
 
+    <color name="rz_colorPrimary">#ff673ab7</color>
+    <color name="rz_colorPrimaryDark">#ff673ab7</color>
+    <color name="rz_colorAccent">#ffffc107</color>
+
+    <color name="rz_colorOfBlack">#ff4d4d4d</color>
+    <color name="rz_colorOfTransWhite">#d3ffffff</color>
+
 </resources>

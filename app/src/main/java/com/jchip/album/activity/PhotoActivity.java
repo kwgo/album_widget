@@ -9,10 +9,14 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
-import com.rayzhang.android.rzalbum.RZAlbum;
-import com.rayzhang.android.rzalbum.model.AlbumPhoto;
+import com.jchip.album.photo.RZAlbum;
+import com.jchip.album.photo.model.AlbumPhoto;
 
 import java.util.List;
+//import com.rayzhang.android.rzalbum.RZAlbum;
+//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
+//
+//import java.util.List;
 
 public class PhotoActivity extends LayerActivity {
 
