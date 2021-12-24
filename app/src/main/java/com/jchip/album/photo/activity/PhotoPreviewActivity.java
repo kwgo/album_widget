@@ -44,7 +44,7 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_preview_layer);
-        AlbumHelper.setStatusBarColor(this, Color.TRANSPARENT);
+        AlbumHelper.setStatusBarColor(this, android.R.color.transparent);
 
         allPhotos = getIntent().getParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS);
         addPhotos = getIntent().getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);

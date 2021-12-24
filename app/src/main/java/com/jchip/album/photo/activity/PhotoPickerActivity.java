@@ -90,7 +90,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_picker_layer);
-        AlbumHelper.setStatusBarColor(this, Color.TRANSPARENT);
+        AlbumHelper.setStatusBarColor(this, android.R.color.transparent);
 
         PhotoUtils.instance(this.getApplicationContext());
 
