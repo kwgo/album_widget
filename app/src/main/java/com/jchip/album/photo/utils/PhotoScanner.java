@@ -7,9 +7,9 @@ import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 
-import com.jchip.album.photo.common.RZConfig;
-import com.jchip.album.photo.model.AlbumFolder;
-import com.jchip.album.photo.model.AlbumPhoto;
+import com.jchip.album.photo.common.PhotoConfig;
+import com.jchip.album.photo.model.FolderModel;
+import com.jchip.album.photo.model.PhotoModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +27,8 @@ import java.util.Map;
  * AlbumScanner
  */
 
-public final class AlbumScanner {
-    private static final String TAG = AlbumScanner.class.getSimpleName();
+public final class PhotoScanner {
+    private static final String TAG = PhotoScanner.class.getSimpleName();
 
     private String[] PROJECTTION_IMAGES = new String[]{
             MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
@@ -52,27 +52,27 @@ public final class AlbumScanner {
             MediaStore.Images.Media.TITLE,
             MediaStore.Images.Media._ID
     };
-    private static AlbumScanner scanner;
+    private static PhotoScanner scanner;
     private int pickColor;
     private boolean showGif;
 
-    private AlbumScanner(int pickColor, boolean showGif) {
+    private PhotoScanner(int pickColor, boolean showGif) {
         this.pickColor = pickColor;
         this.showGif = showGif;
     }
 
-    public static AlbumScanner instances(int pickColor, boolean showGif) {
+    public static PhotoScanner instances(int pickColor, boolean showGif) {
         if (scanner == null) {
-            synchronized (AlbumScanner.class) {
+            synchronized (PhotoScanner.class) {
                 if (scanner == null) {
-                    scanner = new AlbumScanner(pickColor, showGif);
+                    scanner = new PhotoScanner(pickColor, showGif);
                 }
             }
         }
         return scanner;
     }
 
-    public List<AlbumFolder> getPhotoAlbum(@NonNull Context context, String allFolderName) {
+    public List<FolderModel> getPhotoAlbum(@NonNull Context context, String allFolderName) {
         // INTERNAL_CONTENT_URI ; EXTERNAL_CONTENT_URI
         Cursor mCursor = MediaStore.Images.Media.query(
                 context.getContentResolver(),
@@ -80,11 +80,11 @@ public final class AlbumScanner {
                 PROJECTTION_IMAGES, null, MediaStore.Images.ImageColumns._ID);
         if (mCursor == null) return new ArrayList<>();
 
-        Map<String, AlbumFolder> albumFolderMap = new HashMap<>();
-        AlbumFolder allAlbumFolder = new AlbumFolder();
-        allAlbumFolder.setFolderName(allFolderName);
-        allAlbumFolder.setPickColor(pickColor);
-        allAlbumFolder.setCheck(true);
+        Map<String, FolderModel> albumFolderMap = new HashMap<>();
+        FolderModel allFolderModel = new FolderModel();
+        allFolderModel.setFolderName(allFolderName);
+        allFolderModel.setPickColor(pickColor);
+        allFolderModel.setCheck(true);
 
         while (mCursor.moveToNext()) {
             String imgBucketDisplayName = mCursor.getString(0);
@@ -130,49 +130,49 @@ public final class AlbumScanner {
                 imgId                --> 65
             */
             // 建立每張照片資訊
-            AlbumPhoto photo = new AlbumPhoto(imgBucketDisplayName, imgId, imgDescription, imgLat, imgLng,
+            PhotoModel photo = new PhotoModel(imgBucketDisplayName, imgId, imgDescription, imgLat, imgLng,
                     imgOrientation, imgDateAdded, imgDateModified, imgDisplayName,
                     imgWidth, imgHeight, imgSize, imgMimeType, imgIsPrivate == 1,
                     imgData, false, 0, pickColor);
             // 加入到所有照片的資料夾
             // 是否要顯示.gif
-            if (imgMimeType.equals(RZConfig.GIF) && !showGif) continue;
-            allAlbumFolder.getFolderPhotos().add(photo);
+            if (imgMimeType.equals(PhotoConfig.GIF) && !showGif) continue;
+            allFolderModel.getFolderPhotos().add(photo);
 
             // 取得手機中各別相簿的資料夾
-            AlbumFolder albumFolder = albumFolderMap.get(imgBucketDisplayName);
-            if (albumFolder == null) {
-                albumFolder = new AlbumFolder();
-                albumFolder.setFolderId(imgBucketId);
-                albumFolder.setFolderName(imgBucketDisplayName);
-                albumFolder.getFolderPhotos().add(photo);
-                albumFolder.setPickColor(pickColor);
-                albumFolderMap.put(imgBucketDisplayName, albumFolder);
+            FolderModel folderModel = albumFolderMap.get(imgBucketDisplayName);
+            if (folderModel == null) {
+                folderModel = new FolderModel();
+                folderModel.setFolderId(imgBucketId);
+                folderModel.setFolderName(imgBucketDisplayName);
+                folderModel.getFolderPhotos().add(photo);
+                folderModel.setPickColor(pickColor);
+                albumFolderMap.put(imgBucketDisplayName, folderModel);
             } else {
-                albumFolder.getFolderPhotos().add(photo);
+                folderModel.getFolderPhotos().add(photo);
             }
         }
 
         mCursor.close();
-        List<AlbumFolder> list = new ArrayList<>();
-        list.add(allAlbumFolder);
+        List<FolderModel> list = new ArrayList<>();
+        list.add(allFolderModel);
 
         // 依照資料夾將照片做分類
         // 每張photo都是同1個物件，不會因為資料夾不同，而不同
-        for (Map.Entry<String, AlbumFolder> folderEntry : albumFolderMap.entrySet()) {
-            AlbumFolder albumFolder = folderEntry.getValue();
-            list.add(albumFolder);
+        for (Map.Entry<String, FolderModel> folderEntry : albumFolderMap.entrySet()) {
+            FolderModel folderModel = folderEntry.getValue();
+            list.add(folderModel);
         }
         return list;
     }
 
-    public AlbumPhoto getSinglePhoto(@NonNull Context context, @NonNull Uri uri) {
+    public PhotoModel getSinglePhoto(@NonNull Context context, @NonNull Uri uri) {
         Cursor mCursor = MediaStore.Images.Media.query(
                 context.getContentResolver(),
                 uri, PROJECTTION_IMAGES, null, MediaStore.Images.ImageColumns._ID);
         if (mCursor == null) return null;
 
-        AlbumPhoto photo = null;
+        PhotoModel photo = null;
         while (mCursor.moveToNext()) {
             String imgBucketDisplayName = mCursor.getString(0);
             int imgBucketId = mCursor.getInt(1);
@@ -195,7 +195,7 @@ public final class AlbumScanner {
             String imgTitle = mCursor.getString(18);
             int imgId = mCursor.getInt(19);
 
-            photo = new AlbumPhoto(imgBucketDisplayName, imgId, imgDescription, imgLat, imgLng,
+            photo = new PhotoModel(imgBucketDisplayName, imgId, imgDescription, imgLat, imgLng,
                     imgOrientation, imgDateAdded, imgDateModified, imgDisplayName,
                     imgWidth, imgHeight, imgSize, imgMimeType, imgIsPrivate == 1,
                     imgData, false, 0, pickColor);

@@ -3,7 +3,7 @@ package com.jchip.album.photo.common;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 
-public final class RZConfig {
+public final class PhotoConfig {
     public static final String APP_NAME = "APP_NAME";
     public static final String LIMIT_COUNT = "LIMIT_COUNT";
     public static final String SPAN_COUNT = "SPAN_COUNT";

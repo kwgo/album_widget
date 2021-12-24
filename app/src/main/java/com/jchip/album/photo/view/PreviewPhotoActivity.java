@@ -17,10 +17,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.jchip.album.R;
-import com.jchip.album.photo.common.RZConfig;
-import com.jchip.album.photo.model.AlbumPhoto;
+import com.jchip.album.photo.common.PhotoConfig;
+import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.utils.Utils;
-import com.jchip.album.photo.widget.RZPhotoNumberView;
+import com.jchip.album.photo.widget.PhotoNumberView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,13 +33,13 @@ import java.util.Locale;
 
 public class PreviewPhotoActivity extends AppCompatActivity implements FragPreviewPhoto.OnNumberViewClickListener {
     private TextView rzIndexText;
-    private RZPhotoNumberView rzNumberView;
+    private PhotoNumberView rzNumberView;
 
-    private ArrayList<AlbumPhoto> allPhotos;
-    private ArrayList<AlbumPhoto> addPhotos, deletePhotos;
-    private int pickColor = RZConfig.DEFAULT_PICK_COLOR;
+    private ArrayList<PhotoModel> allPhotos;
+    private ArrayList<PhotoModel> addPhotos, deletePhotos;
+    private int pickColor = PhotoConfig.DEFAULT_PICK_COLOR;
     private int currentItem = 0;
-    private int limitCount = RZConfig.DEFAULT_LIMIT_COUNT;
+    private int limitCount = PhotoConfig.DEFAULT_LIMIT_COUNT;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,15 +48,15 @@ public class PreviewPhotoActivity extends AppCompatActivity implements FragPrevi
 
         Utils.setStatusBarTransparent(this);
 
-        allPhotos = getIntent().getParcelableArrayListExtra(RZConfig.PREVIEW_ALL_PHOTOS);
-        addPhotos = getIntent().getParcelableArrayListExtra(RZConfig.PREVIEW_ADD_PHOTOS);
+        allPhotos = getIntent().getParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS);
+        addPhotos = getIntent().getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);
         deletePhotos = new ArrayList<>();
 
-        currentItem = getIntent().getIntExtra(RZConfig.PREVIEW_ITEM_POSITION, 0);
-        pickColor = getIntent().getIntExtra(RZConfig.PREVIEW_PICK_COLOR, RZConfig.DEFAULT_PICK_COLOR);
-        limitCount = getIntent().getIntExtra(RZConfig.PREVIEW_LIMIT_COUNT, RZConfig.DEFAULT_LIMIT_COUNT);
-        int orientation = getIntent().getIntExtra(RZConfig.PREVIEW_ORIENTATION, RZConfig.DEFAULT_ORIENTATION);
-        if (orientation != RZConfig.ORIENTATION_AUTO) {
+        currentItem = getIntent().getIntExtra(PhotoConfig.PREVIEW_ITEM_POSITION, 0);
+        pickColor = getIntent().getIntExtra(PhotoConfig.PREVIEW_PICK_COLOR, PhotoConfig.DEFAULT_PICK_COLOR);
+        limitCount = getIntent().getIntExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, PhotoConfig.DEFAULT_LIMIT_COUNT);
+        int orientation = getIntent().getIntExtra(PhotoConfig.PREVIEW_ORIENTATION, PhotoConfig.DEFAULT_ORIENTATION);
+        if (orientation != PhotoConfig.ORIENTATION_AUTO) {
             setRequestedOrientation(orientation == 0 ?
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -103,15 +103,15 @@ public class PreviewPhotoActivity extends AppCompatActivity implements FragPrevi
 
     private void finishPreviewPhoto() {
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(RZConfig.PREVIEW_ADD_PHOTOS, addPhotos);
-        intent.putParcelableArrayListExtra(RZConfig.PREVIEW_DELETE_PHOTOS, deletePhotos);
+        intent.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, addPhotos);
+        intent.putParcelableArrayListExtra(PhotoConfig.PREVIEW_DELETE_PHOTOS, deletePhotos);
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(0, 0);
     }
 
     @Override
-    public void onNumberViewClick(View view, AlbumPhoto photo, boolean isAdd) {
+    public void onNumberViewClick(View view, PhotoModel photo, boolean isAdd) {
         if (isAdd) {
             deletePhotos.remove(photo);
             allPhotos.get(currentItem).setPickNumber(photo.getPickNumber());
@@ -137,12 +137,12 @@ public class PreviewPhotoActivity extends AppCompatActivity implements FragPrevi
     }
 
     private static class FragPreviewAdapter extends FragmentStatePagerAdapter {
-        private ArrayList<AlbumPhoto> allPhotos;
-        private ArrayList<AlbumPhoto> addPhotos;
+        private ArrayList<PhotoModel> allPhotos;
+        private ArrayList<PhotoModel> addPhotos;
         private WeakReference<PreviewPhotoActivity> weakReference;
         private int limitCount;
 
-        private FragPreviewAdapter(FragmentManager fm, ArrayList<AlbumPhoto> allPhotos, ArrayList<AlbumPhoto> addPhotos,
+        private FragPreviewAdapter(FragmentManager fm, ArrayList<PhotoModel> allPhotos, ArrayList<PhotoModel> addPhotos,
                                    int limitCount, WeakReference<PreviewPhotoActivity> weakReference) {
             super(fm);
             this.allPhotos = allPhotos;

@@ -1,7 +1,5 @@
 package com.jchip.album.photo;
 
-import com.jchip.album.R;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,35 +12,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-//import android.support.annotation.NonNull;
-//import android.support.design.widget.BottomSheetDialog;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.v4.app.ActivityCompat;
-//import android.support.v4.content.ContextCompat;
-//import android.support.v7.app.AlertDialog;
-//import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.widget.GridLayoutManager;
-//import android.support.v7.widget.LinearLayoutManager;
-//import android.support.v7.widget.RecyclerView;
-//import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-//import com.rayzhang.android.rzalbum.adapter.MultiAdapter;
-//import com.rayzhang.android.rzalbum.adapter.itemdecoration.RecycleItemDecoration;
-//import com.rayzhang.android.rzalbum.adapter.listener.OnMultiItemClickListener;
-//import com.rayzhang.android.rzalbum.common.RZConfig;
-//import com.rayzhang.android.rzalbum.model.AlbumFolder;
-//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
-//import com.rayzhang.android.rzalbum.utils.AlbumScanner;
-//import com.rayzhang.android.rzalbum.utils.AnimationHelper;
-//import com.rayzhang.android.rzalbum.utils.DisplayUtils;
-//import com.rayzhang.android.rzalbum.utils.FileProviderUtils;
-//import com.rayzhang.android.rzalbum.utils.MainHandler;
-//import com.rayzhang.android.rzalbum.utils.Utils;
-//import com.rayzhang.android.rzalbum.view.PreviewPhotoActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -56,13 +29,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jchip.album.R;
 import com.jchip.album.photo.adapter.MultiAdapter;
 import com.jchip.album.photo.adapter.itemdecoration.RecycleItemDecoration;
 import com.jchip.album.photo.adapter.listener.OnMultiItemClickListener;
-import com.jchip.album.photo.common.RZConfig;
-import com.jchip.album.photo.model.AlbumFolder;
-import com.jchip.album.photo.model.AlbumPhoto;
-import com.jchip.album.photo.utils.AlbumScanner;
+import com.jchip.album.photo.common.PhotoConfig;
+import com.jchip.album.photo.model.FolderModel;
+import com.jchip.album.photo.model.PhotoModel;
+import com.jchip.album.photo.utils.PhotoScanner;
 import com.jchip.album.photo.utils.AnimationHelper;
 import com.jchip.album.photo.utils.DisplayUtils;
 import com.jchip.album.photo.utils.FileProviderUtils;
@@ -79,8 +53,8 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class RZAlbumActivity extends AppCompatActivity implements View.OnClickListener {
-    private final String TAG = RZAlbumActivity.class.getSimpleName();
+public class PhotoPickerActivity extends AppCompatActivity implements View.OnClickListener {
+    private final String TAG = PhotoPickerActivity.class.getSimpleName();
     private final String PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
     private final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
     private final int PERMISSION_REQUEST_STORAGE = 6666;
@@ -88,31 +62,31 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
     private final int ACTIVITY_REQUEST_CAMERA = 7777;
     private final int ACTIVITY_REQUEST_PREVIEW = ACTIVITY_REQUEST_CAMERA + 1;
 
-    private String appName = RZConfig.APP_NAME;
-    private String toolBarTitle = RZConfig.TOOLBAR_TITLE;
-    private int spanCount = RZConfig.DEFAULT_SPAN_COUNT;
-    private int limitCount = RZConfig.DEFAULT_LIMIT_COUNT;
-    private int statusBarColor = RZConfig.DEFAULT_STATUS_BAR_COLOR;
-    private int toolBarColor = RZConfig.DEFAULT_TOOLBAR_COLOR;
-    private int pickColor = RZConfig.DEFAULT_PICK_COLOR;
-    private boolean showCamera = RZConfig.DEFAULT_SHOW_CAMERA;
-    private boolean showGif = RZConfig.DEFAULT_SHOW_GIF;
-    private int orientation = RZConfig.DEFAULT_ORIENTATION;
+    private String appName = PhotoConfig.APP_NAME;
+    private String toolBarTitle = PhotoConfig.TOOLBAR_TITLE;
+    private int spanCount = PhotoConfig.DEFAULT_SPAN_COUNT;
+    private int limitCount = PhotoConfig.DEFAULT_LIMIT_COUNT;
+    private int statusBarColor = PhotoConfig.DEFAULT_STATUS_BAR_COLOR;
+    private int toolBarColor = PhotoConfig.DEFAULT_TOOLBAR_COLOR;
+    private int pickColor = PhotoConfig.DEFAULT_PICK_COLOR;
+    private boolean showCamera = PhotoConfig.DEFAULT_SHOW_CAMERA;
+    private boolean showGif = PhotoConfig.DEFAULT_SHOW_GIF;
+    private int orientation = PhotoConfig.DEFAULT_ORIENTATION;
     private String folderName = "";
     private int dialogIcon = -1;
 
-    private RecyclerView.LayoutManager mLayoutManager;
-    private MultiAdapter<AlbumPhoto> mMultiAdapter;
-    private FloatingActionButton mFabMultiBut, mFabFolderBut, mFabDoneBut;
+    private RecyclerView.LayoutManager layoutManager;
+    private MultiAdapter<PhotoModel> multiAdapter;
+    private FloatingActionButton functionButton, folderButton, doneButton;
 
-    private BottomSheetDialog mBottomSheetDialog;
-    private RecyclerView mBottomRecyclerView;
-    private MultiAdapter<AlbumFolder> mBottomAdapter;
+    private BottomSheetDialog bottomSheetDialog;
+    private RecyclerView bottomRecyclerView;
+    private MultiAdapter<FolderModel> bottomAdapter;
 
     // 相簿資料夾
-    private List<AlbumFolder> mAlbumFolders;
+    private List<FolderModel> mFolderModels;
     // 紀錄選擇到的Photo
-    private List<AlbumPhoto> addPhotos;
+    private List<PhotoModel> addPhotos;
     // 儲存照片的路徑
     private String mCameraPath;
 
@@ -121,13 +95,13 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void run() {
             folderName = folderName.isEmpty() ? getResources().getString(R.string.rz_album_all_folder_name) : folderName;
-            mAlbumFolders = AlbumScanner.instances(pickColor, showGif).getPhotoAlbum(RZAlbumActivity.this, folderName);
+            mFolderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerActivity.this, folderName);
             MainHandler.instances().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (isFinishing()) {
-                        mAlbumFolders.clear();
-                        mAlbumFolders = null;
+                        mFolderModels.clear();
+                        mFolderModels = null;
                     } else {
                         showAlbum(0);
                     }
@@ -145,18 +119,18 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            appName = bundle.getString(RZConfig.APP_NAME, RZConfig.DEFAULT_APP_NAME);
-            limitCount = bundle.getInt(RZConfig.LIMIT_COUNT, RZConfig.DEFAULT_LIMIT_COUNT);
-            spanCount = bundle.getInt(RZConfig.SPAN_COUNT, RZConfig.DEFAULT_SPAN_COUNT);
-            statusBarColor = bundle.getInt(RZConfig.STATUS_BAR_COLOR, RZConfig.DEFAULT_STATUS_BAR_COLOR);
-            toolBarTitle = bundle.getString(RZConfig.TOOLBAR_TITLE, RZConfig.DEFAULT_TOOLBAR_TITLE);
-            toolBarColor = bundle.getInt(RZConfig.TOOLBAR_COLOR, RZConfig.DEFAULT_TOOLBAR_COLOR);
-            showCamera = bundle.getBoolean(RZConfig.SHOW_CAMERA, RZConfig.DEFAULT_SHOW_CAMERA);
-            showGif = bundle.getBoolean(RZConfig.SHOW_GIF, RZConfig.DEFAULT_SHOW_GIF);
-            orientation = bundle.getInt(RZConfig.PREVIEW_ORIENTATION, RZConfig.ORIENTATION_AUTO);
-            pickColor = bundle.getInt(RZConfig.PICK_COLOR, RZConfig.DEFAULT_PICK_COLOR);
-            folderName = bundle.getString(RZConfig.ALL_FOLDER_NAME, "");
-            dialogIcon = bundle.getInt(RZConfig.DIALOG_ICON, -1);
+            appName = bundle.getString(PhotoConfig.APP_NAME, PhotoConfig.DEFAULT_APP_NAME);
+            limitCount = bundle.getInt(PhotoConfig.LIMIT_COUNT, PhotoConfig.DEFAULT_LIMIT_COUNT);
+            spanCount = bundle.getInt(PhotoConfig.SPAN_COUNT, PhotoConfig.DEFAULT_SPAN_COUNT);
+            statusBarColor = bundle.getInt(PhotoConfig.STATUS_BAR_COLOR, PhotoConfig.DEFAULT_STATUS_BAR_COLOR);
+            toolBarTitle = bundle.getString(PhotoConfig.TOOLBAR_TITLE, PhotoConfig.DEFAULT_TOOLBAR_TITLE);
+            toolBarColor = bundle.getInt(PhotoConfig.TOOLBAR_COLOR, PhotoConfig.DEFAULT_TOOLBAR_COLOR);
+            showCamera = bundle.getBoolean(PhotoConfig.SHOW_CAMERA, PhotoConfig.DEFAULT_SHOW_CAMERA);
+            showGif = bundle.getBoolean(PhotoConfig.SHOW_GIF, PhotoConfig.DEFAULT_SHOW_GIF);
+            orientation = bundle.getInt(PhotoConfig.PREVIEW_ORIENTATION, PhotoConfig.ORIENTATION_AUTO);
+            pickColor = bundle.getInt(PhotoConfig.PICK_COLOR, PhotoConfig.DEFAULT_PICK_COLOR);
+            folderName = bundle.getString(PhotoConfig.ALL_FOLDER_NAME, "");
+            dialogIcon = bundle.getInt(PhotoConfig.DIALOG_ICON, -1);
         }
 
         mSingleExecutor = Executors.newSingleThreadExecutor();
@@ -194,18 +168,18 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
             });
         }
 
-        RecyclerView mRZRecyclerView = findViewById(R.id.mRZRecyclerView);
-        mLayoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
-        mRZRecyclerView.setLayoutManager(mLayoutManager);
-        mRZRecyclerView.setHasFixedSize(true);
-        mRZRecyclerView.setItemAnimator(null);
+        RecyclerView recyclerView = findViewById(R.id.mRZRecyclerView);
+        layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(null);
         int itemSize = 1;
-        mRZRecyclerView.addItemDecoration(new RecycleItemDecoration(itemSize, Color.argb(255, 255, 255, 255)));
+        recyclerView.addItemDecoration(new RecycleItemDecoration(itemSize, Color.argb(255, 255, 255, 255)));
         int itemWH = (DisplayUtils.screenW - (itemSize * (spanCount - 1))) / spanCount;
-        mMultiAdapter = new MultiAdapter<>(null, itemWH);
-        mRZRecyclerView.setAdapter(mMultiAdapter);
+        multiAdapter = new MultiAdapter<>(null, itemWH);
+        recyclerView.setAdapter(multiAdapter);
 
-        mMultiAdapter.setOnItemClickListener(new OnMultiItemClickListener() {
+        multiAdapter.setOnItemClickListener(new OnMultiItemClickListener() {
             @Override
             public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int viewPosition, int itemPosition) {
                 if (viewPosition == 0) {
@@ -216,25 +190,25 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        mFabMultiBut = findViewById(R.id.mFabMultiBut);
-        mFabFolderBut = findViewById(R.id.mFabFolderBut);
-        mFabDoneBut = findViewById(R.id.mFabDoneBut);
-        mFabMultiBut.setAlpha(.8f);
-        mFabMultiBut.setOnClickListener(this);
-        mFabFolderBut.setOnClickListener(this);
-        mFabDoneBut.setOnClickListener(this);
+        functionButton = findViewById(R.id.mFabMultiBut);
+        folderButton = findViewById(R.id.mFabFolderBut);
+        doneButton = findViewById(R.id.mFabDoneBut);
+        functionButton.setAlpha(.8f);
+        functionButton.setOnClickListener(this);
+        folderButton.setOnClickListener(this);
+        doneButton.setOnClickListener(this);
 
         // Bottom Adapter
-        mBottomRecyclerView = new RecyclerView(this);
-        mBottomRecyclerView.setBackgroundColor(Color.argb(255, 255, 255, 255));
-        mBottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        bottomRecyclerView = new RecyclerView(this);
+        bottomRecyclerView.setBackgroundColor(Color.argb(255, 255, 255, 255));
+        bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mBottomRecyclerView.setLayoutManager(manager);
-        mBottomRecyclerView.setHasFixedSize(true);
-        mBottomRecyclerView.addItemDecoration(new RecycleItemDecoration(1, Color.LTGRAY));
-        mBottomAdapter = new MultiAdapter<>(null);
-        mBottomRecyclerView.setAdapter(mBottomAdapter);
+        bottomRecyclerView.setLayoutManager(manager);
+        bottomRecyclerView.setHasFixedSize(true);
+        bottomRecyclerView.addItemDecoration(new RecycleItemDecoration(1, Color.LTGRAY));
+        bottomAdapter = new MultiAdapter<>(null);
+        bottomRecyclerView.setAdapter(bottomAdapter);
     }
 
     private void requestScanPhotos() {
@@ -278,8 +252,8 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void showAlbum(int index) {
-        mMultiAdapter.resetData(mAlbumFolders.get(index).getFolderPhotos());
-        mLayoutManager.scrollToPosition(0);
+        multiAdapter.resetData(mFolderModels.get(index).getFolderPhotos());
+        layoutManager.scrollToPosition(0);
         //changePhotoStatus();
     }
 
@@ -322,32 +296,32 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
 
     private void photoPreview(int itemPosition) {
         Intent preview = new Intent(this, PreviewPhotoActivity.class);
-        preview.putParcelableArrayListExtra(RZConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) addPhotos);
-        preview.putParcelableArrayListExtra(RZConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) mMultiAdapter.getDatas());
-        preview.putExtra(RZConfig.PREVIEW_ITEM_POSITION, itemPosition);
-        preview.putExtra(RZConfig.PREVIEW_PICK_COLOR, pickColor);
-        preview.putExtra(RZConfig.PREVIEW_LIMIT_COUNT, limitCount);
-        preview.putExtra(RZConfig.PREVIEW_ORIENTATION, orientation);
+        preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) addPhotos);
+        preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) multiAdapter.getDatas());
+        preview.putExtra(PhotoConfig.PREVIEW_ITEM_POSITION, itemPosition);
+        preview.putExtra(PhotoConfig.PREVIEW_PICK_COLOR, pickColor);
+        preview.putExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, limitCount);
+        preview.putExtra(PhotoConfig.PREVIEW_ORIENTATION, orientation);
         startActivityForResult(preview, ACTIVITY_REQUEST_PREVIEW);
         overridePendingTransition(0, 0);
     }
 
     private void photoPick(int itemPosition) {
-        AlbumPhoto photo = mMultiAdapter.getDatas().get(itemPosition);
+        PhotoModel photo = multiAdapter.getDatas().get(itemPosition);
         if (photo.getPickNumber() == 0) {
             if (addPhotos.size() == limitCount) {
-                Toast.makeText(RZAlbumActivity.this, String.format(Locale.TAIWAN, getResources().getString(R.string.rz_album_limit_count), limitCount),
+                Toast.makeText(PhotoPickerActivity.this, String.format(Locale.TAIWAN, getResources().getString(R.string.rz_album_limit_count), limitCount),
                         Toast.LENGTH_SHORT).show();
                 return;
             }
             photo.setPickNumber(addPhotos.size() + 1);
             addPhotos.add(photo);
-            mMultiAdapter.notifyItemChanged(itemPosition);
+            multiAdapter.notifyItemChanged(itemPosition);
         } else {
             if (addPhotos.size() == 0) return;
             addPhotos.remove(photo);
             photo.setPickNumber(0);
-            mMultiAdapter.notifyItemChanged(itemPosition);
+            multiAdapter.notifyItemChanged(itemPosition);
             changePhotoPickNumber();
         }
     }
@@ -356,10 +330,10 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
         // 改變item status & index
         for (int i = 0; i < addPhotos.size(); i++) {
             addPhotos.get(i).setPickNumber(i + 1);
-            int index = mMultiAdapter.getDatas().indexOf(addPhotos.get(i));
+            int index = multiAdapter.getDatas().indexOf(addPhotos.get(i));
             if (index != -1) {
-                mMultiAdapter.getDatas().get(index).setPickNumber(i + 1);
-                mMultiAdapter.notifyItemChanged(index);
+                multiAdapter.getDatas().get(index).setPickNumber(i + 1);
+                multiAdapter.notifyItemChanged(index);
             }
         }
     }
@@ -375,7 +349,7 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 再一次請求
-                        ActivityCompat.requestPermissions(RZAlbumActivity.this,
+                        ActivityCompat.requestPermissions(PhotoPickerActivity.this,
                                 type == 1 ? new String[]{PERMISSION_READ_EXTERNAL_STORAGE} : new String[]{PERMISSION_CAMERA},
                                 type == 1 ? PERMISSION_REQUEST_STORAGE : PERMISSION_REQUEST_CAMERA);
                     }
@@ -384,7 +358,7 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        if (type == 1) RZAlbumActivity.this.finish();
+                        if (type == 1) PhotoPickerActivity.this.finish();
                     }
                 });
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
@@ -413,8 +387,8 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         dialogInterface.dismiss();
-                        Utils.goAppSettingPage(RZAlbumActivity.this);
-                        if (type == 1) RZAlbumActivity.this.finish();
+                        Utils.goAppSettingPage(PhotoPickerActivity.this);
+                        if (type == 1) PhotoPickerActivity.this.finish();
                     }
                 });
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
@@ -431,50 +405,50 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
 
     public void fatButHideAnimation(View view) {
         if (view.isSelected()) {
-            AnimationHelper.hideFabButAnimation(mFabFolderBut, true);
-            AnimationHelper.hideFabButAnimation(mFabDoneBut, false);
+            AnimationHelper.hideFabButAnimation(folderButton, true);
+            AnimationHelper.hideFabButAnimation(doneButton, false);
         } else {
-            AnimationHelper.showFabButAnimation(mFabFolderBut, true);
-            AnimationHelper.showFabButAnimation(mFabDoneBut, false);
+            AnimationHelper.showFabButAnimation(folderButton, true);
+            AnimationHelper.showFabButAnimation(doneButton, false);
         }
         view.setSelected(!view.isSelected());
     }
 
     private void showBottomDialog() {
-        if (mAlbumFolders.get(0).getFolderPhotos().size() == 0) return;
-        if (mBottomSheetDialog == null) {
-            mBottomSheetDialog = new BottomSheetDialog(this);
-            mBottomAdapter.resetData(mAlbumFolders);
-            mBottomAdapter.setOnItemClickListener(new OnMultiItemClickListener() {
+        if (mFolderModels.get(0).getFolderPhotos().size() == 0) return;
+        if (bottomSheetDialog == null) {
+            bottomSheetDialog = new BottomSheetDialog(this);
+            bottomAdapter.resetData(mFolderModels);
+            bottomAdapter.setOnItemClickListener(new OnMultiItemClickListener() {
                 @Override
                 public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int viewPosition, int itemPosition) {
                     showAlbum(itemPosition);
-                    for (int i = 0; i < mBottomAdapter.getItemCount(); i++) {
-                        mBottomAdapter.getDatas().get(i).setCheck(false);
+                    for (int i = 0; i < bottomAdapter.getItemCount(); i++) {
+                        bottomAdapter.getDatas().get(i).setCheck(false);
                     }
-                    mBottomAdapter.getDatas().get(itemPosition).setCheck(true);
-                    mBottomAdapter.notifyItemRangeChanged(0, mBottomAdapter.getItemCount());
-                    mBottomSheetDialog.dismiss();
+                    bottomAdapter.getDatas().get(itemPosition).setCheck(true);
+                    bottomAdapter.notifyItemRangeChanged(0, bottomAdapter.getItemCount());
+                    bottomSheetDialog.dismiss();
                 }
             });
-            mBottomSheetDialog.setContentView(mBottomRecyclerView);
-            mBottomSheetDialog.setCancelable(true);
-            mBottomSheetDialog.setCanceledOnTouchOutside(true);
+            bottomSheetDialog.setContentView(bottomRecyclerView);
+            bottomSheetDialog.setCancelable(true);
+            bottomSheetDialog.setCanceledOnTouchOutside(true);
         }
-        mBottomSheetDialog.show();
+        bottomSheetDialog.show();
     }
 
     @Override
     public void onClick(View view) {
         int tag = view.getId();
         if (tag == R.id.mFabMultiBut) {
-            fatButHideAnimation(mFabMultiBut);
+            fatButHideAnimation(functionButton);
         } else if (tag == R.id.mFabFolderBut) {
             showBottomDialog();
-            fatButHideAnimation(mFabMultiBut);
+            fatButHideAnimation(functionButton);
         } else if (tag == R.id.mFabDoneBut) {
             Intent intent = new Intent();
-            intent.putParcelableArrayListExtra(RZConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) addPhotos);
+            intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) addPhotos);
             setResult(RESULT_OK, intent);
             finish();
         }
@@ -519,23 +493,23 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
             switch (requestCode) {
                 case ACTIVITY_REQUEST_CAMERA:
                     // 拍照完後透過掃描可在手機端發現剛拍完照的檔案 參考資料 : https://www.jianshu.com/p/bc8b04bffddf
-                    MediaScannerConnection.scanFile(this, new String[]{mCameraPath}, new String[]{RZConfig.JPEG},
+                    MediaScannerConnection.scanFile(this, new String[]{mCameraPath}, new String[]{PhotoConfig.JPEG},
                             new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
                                 public void onScanCompleted(String path, final Uri uri) {
                                     mSingleExecutor.execute(new Runnable() {
                                         @Override
                                         public void run() {
-                                            final AlbumPhoto photo = AlbumScanner.instances(pickColor, showGif)
-                                                    .getSinglePhoto(RZAlbumActivity.this, uri);
+                                            final PhotoModel photo = PhotoScanner.instances(pickColor, showGif)
+                                                    .getSinglePhoto(PhotoPickerActivity.this, uri);
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     Intent result = new Intent();
                                                     if (photo != null) {
-                                                        ArrayList<AlbumPhoto> list = new ArrayList<>();
+                                                        ArrayList<PhotoModel> list = new ArrayList<>();
                                                         list.add(photo);
-                                                        result.putParcelableArrayListExtra(RZConfig.RESULT_PHOTOS, list);
+                                                        result.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, list);
                                                     }
                                                     setResult(RESULT_OK, result);
                                                     finish();
@@ -548,21 +522,21 @@ public class RZAlbumActivity extends AppCompatActivity implements View.OnClickLi
                     break;
                 case ACTIVITY_REQUEST_PREVIEW:
                     if (data != null) {
-                        addPhotos = data.getParcelableArrayListExtra(RZConfig.PREVIEW_ADD_PHOTOS);
-                        List<AlbumPhoto> deletePhotos = data.getParcelableArrayListExtra(RZConfig.PREVIEW_DELETE_PHOTOS);
+                        addPhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);
+                        List<PhotoModel> deletePhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_DELETE_PHOTOS);
                         // delete
                         for (int i = 0; i < deletePhotos.size(); i++) {
-                            int index = mMultiAdapter.getDatas().indexOf(deletePhotos.get(i));
-                            mMultiAdapter.getDatas().get(index).setPickNumber(0);
-                            mMultiAdapter.notifyItemChanged(index);
+                            int index = multiAdapter.getDatas().indexOf(deletePhotos.get(i));
+                            multiAdapter.getDatas().get(index).setPickNumber(0);
+                            multiAdapter.notifyItemChanged(index);
                         }
                         // add
                         for (int j = 0; j < addPhotos.size(); j++) {
-                            AlbumPhoto photo = addPhotos.get(j);
-                            int index = mMultiAdapter.getDatas().indexOf(photo);
+                            PhotoModel photo = addPhotos.get(j);
+                            int index = multiAdapter.getDatas().indexOf(photo);
                             if (index != -1) {
-                                mMultiAdapter.getDatas().get(index).setPickNumber(photo.getPickNumber());
-                                mMultiAdapter.notifyItemChanged(index);
+                                multiAdapter.getDatas().get(index).setPickNumber(photo.getPickNumber());
+                                multiAdapter.notifyItemChanged(index);
                             }
                         }
                     }

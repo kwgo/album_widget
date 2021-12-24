@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
  * PhotoView 數字
  */
 
-public class RZPhotoNumberView extends View {
+public class PhotoNumberView extends View {
     private Paint mPaint;
     private boolean isDrawIndex = false;
     // Circle radius : 12dp
@@ -34,21 +34,21 @@ public class RZPhotoNumberView extends View {
     // TextSize : 13sp
     private float textSize = sp2px(13f);
 
-    public RZPhotoNumberView(Context context) {
+    public PhotoNumberView(Context context) {
         this(context, null);
     }
 
-    public RZPhotoNumberView(Context context, @Nullable AttributeSet attrs) {
+    public PhotoNumberView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RZPhotoNumberView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PhotoNumberView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public RZPhotoNumberView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PhotoNumberView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }

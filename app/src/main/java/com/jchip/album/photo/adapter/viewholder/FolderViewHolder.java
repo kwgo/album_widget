@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jchip.album.R;
 import com.jchip.album.photo.adapter.base.BaseViewHolder;
-import com.jchip.album.photo.model.AlbumFolder;
+import com.jchip.album.photo.model.FolderModel;
 import com.jchip.album.photo.utils.DrawableUtils;
 
 import java.util.Locale;
@@ -27,7 +27,7 @@ import java.util.Locale;
  * FolderViewHolder
  */
 
-public class FolderViewHolder extends BaseViewHolder<AlbumFolder> {
+public class FolderViewHolder extends BaseViewHolder<FolderModel> {
     private RelativeLayout rzFolderViewHolder;
     private ImageView rzImgView;
     private TextView rzFolderText;
@@ -53,7 +53,7 @@ public class FolderViewHolder extends BaseViewHolder<AlbumFolder> {
     }
 
     @Override
-    public void bindViewData(Context context, AlbumFolder data, int itemPosition) {
+    public void bindViewData(Context context, FolderModel data, int itemPosition) {
         Glide.with(context)
                 .asBitmap()
                 .load(data.getFolderPhotos().get(0).getPhotoPath())

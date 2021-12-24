@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.jchip.album.R;
-import com.jchip.album.photo.RZAlbum;
+import com.jchip.album.photo.PhotoPicker;
 //import com.rayzhang.android.rzalbum.RZAlbum;
 
 public class AlbumHelper {
@@ -66,7 +66,7 @@ public class AlbumHelper {
          * @param showGif               : (choose)   (default:true)
          * @param start                 : (required)
          */
-        RZAlbum.ofAppName("RZ - Album")
+        PhotoPicker.ofAppName("RZ - Album")
                 .setLimitCount(12)
                 .setSpanCount(3)
                 .setStatusBarColor(Color.parseColor("#AD1457"))

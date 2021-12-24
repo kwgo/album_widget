@@ -5,8 +5,8 @@ import android.view.View;
 import com.jchip.album.photo.adapter.base.BaseViewHolder;
 import com.jchip.album.photo.adapter.viewholder.FolderViewHolder;
 import com.jchip.album.photo.adapter.viewholder.PhotoViewHolder;
-import com.jchip.album.photo.model.AlbumFolder;
-import com.jchip.album.photo.model.AlbumPhoto;
+import com.jchip.album.photo.model.FolderModel;
+import com.jchip.album.photo.model.PhotoModel;
 
 //import com.rayzhang.android.rzalbum.adapter.base.BaseViewHolder;
 //import com.rayzhang.android.rzalbum.adapter.factory.IItemType;
@@ -23,8 +23,8 @@ import com.jchip.album.photo.model.AlbumPhoto;
 public class ItemTypeFactory {
     private static volatile ItemTypeFactory itemTypeFactory;
     private int wh;
-    private static final int PHOTO_ITEM = AlbumPhoto.PHOTO_ITEM;
-    private static final int FOLDER_ITEM = AlbumFolder.FOLDER_ITEM;
+    private static final int PHOTO_ITEM = PhotoModel.PHOTO_ITEM;
+    private static final int FOLDER_ITEM = FolderModel.FOLDER_ITEM;
 
     public static ItemTypeFactory instance(int wh) {
         if (itemTypeFactory == null) itemTypeFactory = new ItemTypeFactory(wh);

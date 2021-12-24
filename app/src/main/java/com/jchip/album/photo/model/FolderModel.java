@@ -16,35 +16,35 @@ import java.util.ArrayList;
  * AlbumFolder
  */
 
-public class AlbumFolder implements Parcelable, IItemType {
+public class FolderModel implements Parcelable, IItemType {
     public static final int FOLDER_ITEM = R.layout.photo_folder_item;
 
     private int folderId;
     private String folderName;
-    private ArrayList<AlbumPhoto> folderPhotos = new ArrayList<>();
+    private ArrayList<PhotoModel> folderPhotos = new ArrayList<>();
     private boolean isCheck;
     private int pickColor;
 
-    public AlbumFolder() {
+    public FolderModel() {
     }
 
-    protected AlbumFolder(Parcel in) {
+    protected FolderModel(Parcel in) {
         folderId = in.readInt();
         folderName = in.readString();
-        folderPhotos = in.createTypedArrayList(AlbumPhoto.CREATOR);
+        folderPhotos = in.createTypedArrayList(PhotoModel.CREATOR);
         isCheck = in.readByte() != 0;
         pickColor = in.readInt();
     }
 
-    public static final Creator<AlbumFolder> CREATOR = new Creator<AlbumFolder>() {
+    public static final Creator<FolderModel> CREATOR = new Creator<FolderModel>() {
         @Override
-        public AlbumFolder createFromParcel(Parcel in) {
-            return new AlbumFolder(in);
+        public FolderModel createFromParcel(Parcel in) {
+            return new FolderModel(in);
         }
 
         @Override
-        public AlbumFolder[] newArray(int size) {
-            return new AlbumFolder[size];
+        public FolderModel[] newArray(int size) {
+            return new FolderModel[size];
         }
     };
 
@@ -64,11 +64,11 @@ public class AlbumFolder implements Parcelable, IItemType {
         this.folderName = folderName;
     }
 
-    public ArrayList<AlbumPhoto> getFolderPhotos() {
+    public ArrayList<PhotoModel> getFolderPhotos() {
         return folderPhotos;
     }
 
-    public void setFolderPhotos(ArrayList<AlbumPhoto> folderPhotos) {
+    public void setFolderPhotos(ArrayList<PhotoModel> folderPhotos) {
         this.folderPhotos = folderPhotos;
     }
 

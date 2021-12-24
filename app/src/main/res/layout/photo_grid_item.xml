@@ -11,7 +11,7 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
-    <com.jchip.album.photo.widget.RZPhotoBorderView
+    <com.jchip.album.photo.widget.PhotoBorderView
         android:id="@+id/rzBorderView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -29,7 +29,7 @@
         android:textSize="12sp"
         tools:text="GIF" />
 
-    <com.jchip.album.photo.widget.RZPhotoNumberView
+    <com.jchip.album.photo.widget.PhotoNumberView
         android:id="@+id/rzNumberView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

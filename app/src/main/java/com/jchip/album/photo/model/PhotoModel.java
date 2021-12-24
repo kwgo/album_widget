@@ -17,7 +17,7 @@ import com.jchip.album.photo.adapter.factory.IItemType;
  * Photo data
  */
 
-public class AlbumPhoto implements Parcelable, Comparable<AlbumPhoto>, IItemType {
+public class PhotoModel implements Parcelable, Comparable<PhotoModel>, IItemType {
     public static final int PHOTO_ITEM = R.layout.photo_grid_item;
 
     private String bucketName;
@@ -39,7 +39,7 @@ public class AlbumPhoto implements Parcelable, Comparable<AlbumPhoto>, IItemType
     private int pickNumber;
     private int pickColor;
 
-    public AlbumPhoto(String bucketName, int photoId, String photoDesc, double photoLat, double photoLng,
+    public PhotoModel(String bucketName, int photoId, String photoDesc, double photoLat, double photoLng,
                       int photoOrientation, long photoDateAdded, long photoDateModified, String photoName,
                       int photoWidth, int photoHeight, long photoSize, String photoMimeType,
                       boolean photoIsPrivate, String photoPath, boolean isPick, int pickNumber, int pickColor) {
@@ -63,7 +63,7 @@ public class AlbumPhoto implements Parcelable, Comparable<AlbumPhoto>, IItemType
         this.pickColor = pickColor;
     }
 
-    protected AlbumPhoto(Parcel in) {
+    protected PhotoModel(Parcel in) {
         bucketName = in.readString();
         photoId = in.readInt();
         photoDesc = in.readString();
@@ -84,15 +84,15 @@ public class AlbumPhoto implements Parcelable, Comparable<AlbumPhoto>, IItemType
         pickColor = in.readInt();
     }
 
-    public static final Creator<AlbumPhoto> CREATOR = new Creator<AlbumPhoto>() {
+    public static final Creator<PhotoModel> CREATOR = new Creator<PhotoModel>() {
         @Override
-        public AlbumPhoto createFromParcel(Parcel in) {
-            return new AlbumPhoto(in);
+        public PhotoModel createFromParcel(Parcel in) {
+            return new PhotoModel(in);
         }
 
         @Override
-        public AlbumPhoto[] newArray(int size) {
-            return new AlbumPhoto[size];
+        public PhotoModel[] newArray(int size) {
+            return new PhotoModel[size];
         }
     };
 
@@ -268,7 +268,7 @@ public class AlbumPhoto implements Parcelable, Comparable<AlbumPhoto>, IItemType
     }
 
     @Override
-    public int compareTo(@NonNull AlbumPhoto other) {
+    public int compareTo(@NonNull PhotoModel other) {
         return other.getPhotoId() - this.getPhotoId();
     }
 
@@ -277,7 +277,7 @@ public class AlbumPhoto implements Parcelable, Comparable<AlbumPhoto>, IItemType
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AlbumPhoto that = (AlbumPhoto) o;
+        PhotoModel that = (PhotoModel) o;
 
         if (photoId != that.photoId) return false;
         if (Double.compare(that.photoLat, photoLat) != 0) return false;

@@ -10,10 +10,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jchip.album.R;
 import com.jchip.album.photo.adapter.base.BaseViewHolder;
-import com.jchip.album.photo.model.AlbumPhoto;
+import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.utils.DrawableUtils;
-import com.jchip.album.photo.widget.RZPhotoBorderView;
-import com.jchip.album.photo.widget.RZPhotoNumberView;
+import com.jchip.album.photo.widget.PhotoBorderView;
+import com.jchip.album.photo.widget.PhotoNumberView;
 //import com.bumptech.glide.request.RequestOptions;
 //import com.rayzhang.android.rzalbum.R;
 //import com.rayzhang.android.rzalbum.adapter.base.BaseViewHolder;
@@ -27,11 +27,11 @@ import com.jchip.album.photo.widget.RZPhotoNumberView;
  * PhotoViewHolder
  */
 
-public class PhotoViewHolder extends BaseViewHolder<AlbumPhoto> {
+public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
     private ImageView rzPhotoImg;
     private TextView rzGifText;
-    private RZPhotoBorderView rzBorderView;
-    private RZPhotoNumberView rzNumberView;
+    private PhotoBorderView rzBorderView;
+    private PhotoNumberView rzNumberView;
 
     private PhotoViewHolder(View itemView) {
         super(itemView);
@@ -42,8 +42,8 @@ public class PhotoViewHolder extends BaseViewHolder<AlbumPhoto> {
 
         rzPhotoImg = (ImageView) getView(R.id.rzPhotoImg);
         rzGifText = (TextView) getView(R.id.rzGifText);
-        rzBorderView = (RZPhotoBorderView) getView(R.id.rzBorderView);
-        rzNumberView = (RZPhotoNumberView) getView(R.id.rzNumberView);
+        rzBorderView = (PhotoBorderView) getView(R.id.rzBorderView);
+        rzNumberView = (PhotoNumberView) getView(R.id.rzNumberView);
 
         if (wh > 0) {
             ViewGroup.LayoutParams lp = itemView.getLayoutParams();
@@ -64,7 +64,7 @@ public class PhotoViewHolder extends BaseViewHolder<AlbumPhoto> {
     }
 
     @Override
-    public void bindViewData(Context context, AlbumPhoto data, int itemPosition) {
+    public void bindViewData(Context context, PhotoModel data, int itemPosition) {
         rzGifText.setText(context.getResources().getString(R.string.rz_album_gif));
 
 //        RequestOptions options = new RequestOptions()

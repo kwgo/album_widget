@@ -22,7 +22,7 @@ import androidx.appcompat.widget.AppCompatImageView;
  * 自訂義可以縮放的Imgview
  */
 
-public class RZZoomImgView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener,
+public class ZoomImageView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener,
         ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
 
     private boolean mFirst;     // 第一次加載 才初始化
@@ -69,15 +69,15 @@ public class RZZoomImgView extends AppCompatImageView implements ViewTreeObserve
     private float mMinScale;        // 縮小的最小的值
     private float mMaxOverScale;    // 超出最大的最大值
 
-    public RZZoomImgView(Context context) {
+    public ZoomImageView(Context context) {
         this(context, null);
     }
 
-    public RZZoomImgView(Context context, AttributeSet attrs) {
+    public ZoomImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RZZoomImgView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ZoomImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         DisplayMetrics metrics = new DisplayMetrics();

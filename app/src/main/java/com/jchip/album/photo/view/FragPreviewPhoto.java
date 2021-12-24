@@ -15,9 +15,9 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.jchip.album.photo.base.BaseLazyFragment;
-import com.jchip.album.photo.model.AlbumPhoto;
-import com.jchip.album.photo.widget.RZPhotoNumberView;
-import com.jchip.album.photo.widget.RZZoomImgView;
+import com.jchip.album.photo.model.PhotoModel;
+import com.jchip.album.photo.widget.PhotoNumberView;
+import com.jchip.album.photo.widget.ZoomImageView;
 //import com.rayzhang.android.rzalbum.R;
 //import com.rayzhang.android.rzalbum.base.BaseLazyFragment;
 //import com.rayzhang.android.rzalbum.model.AlbumPhoto;
@@ -39,14 +39,14 @@ public class FragPreviewPhoto extends BaseLazyFragment {
 
     private FrameLayout rzFrameLayout;
     private ProgressBar rzProgressBar;
-    private RZPhotoNumberView rzNumberView;
+    private PhotoNumberView rzNumberView;
 
-    private AlbumPhoto photo;
-    private ArrayList<AlbumPhoto> addPhotos;
+    private PhotoModel photo;
+    private ArrayList<PhotoModel> addPhotos;
     private int limitCount;
     private OnNumberViewClickListener listener;
 
-    public static FragPreviewPhoto instance(AlbumPhoto photo, ArrayList<AlbumPhoto> addPhotos, int limitCount) {
+    public static FragPreviewPhoto instance(PhotoModel photo, ArrayList<PhotoModel> addPhotos, int limitCount) {
         FragPreviewPhoto fragPreviewPhoto = new FragPreviewPhoto();
         Bundle bundle = new Bundle();
         bundle.putParcelable(FRAG_ALBUM_PHOTO, photo);
@@ -102,7 +102,7 @@ public class FragPreviewPhoto extends BaseLazyFragment {
                         .into(mImgView);
                 rzFrameLayout.addView(mImgView, 0);
             } else {
-                RZZoomImgView mZoomView = new RZZoomImgView(getContext());
+                ZoomImageView mZoomView = new ZoomImageView(getContext());
                 mZoomView.setLayoutParams(lp);
                 Glide.with(getActivity())
                         .asBitmap()
@@ -148,7 +148,7 @@ public class FragPreviewPhoto extends BaseLazyFragment {
     }
 
     public interface OnNumberViewClickListener {
-        void onNumberViewClick(View view, AlbumPhoto photo, boolean isAdd);
+        void onNumberViewClick(View view, PhotoModel photo, boolean isAdd);
     }
 
     public void setOnNumberViewClickListener(OnNumberViewClickListener listener) {

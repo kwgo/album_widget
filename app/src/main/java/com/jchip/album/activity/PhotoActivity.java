@@ -2,15 +2,14 @@ package com.jchip.album.activity;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
-import com.jchip.album.photo.RZAlbum;
-import com.jchip.album.photo.model.AlbumPhoto;
+import com.jchip.album.photo.PhotoPicker;
+import com.jchip.album.photo.model.PhotoModel;
 
 import java.util.List;
 //import com.rayzhang.android.rzalbum.RZAlbum;
@@ -67,9 +66,9 @@ public class PhotoActivity extends LayerActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == AlbumHelper.ALBUM_REQUEST_CODE) {
-            List<AlbumPhoto> albumPhotos = RZAlbum.parseResult(data);
-            if (albumPhotos != null && !albumPhotos.isEmpty()) {
-                this.onSelectedPhotos(albumPhotos);
+            List<PhotoModel> photoModels = PhotoPicker.parseResult(data);
+            if (photoModels != null && !photoModels.isEmpty()) {
+                this.onSelectedPhotos(photoModels);
             }
         }
     }
@@ -118,12 +117,12 @@ public class PhotoActivity extends LayerActivity {
         this.updatePhoto();
     }
 
-    private void onSelectedPhotos(List<AlbumPhoto> albumPhotos) {
-        if (albumPhotos != null && !albumPhotos.isEmpty()) {
+    private void onSelectedPhotos(List<PhotoModel> photoModels) {
+        if (photoModels != null && !photoModels.isEmpty()) {
             this.saveAlbum();
             PhotoData photo = this.photo;
-            for (AlbumPhoto albumPhoto : albumPhotos) {
-                this.photo = new PhotoData(this.album.getAlbumId(), albumPhoto.getPhotoPath());
+            for (PhotoModel photoModel : photoModels) {
+                this.photo = new PhotoData(this.album.getAlbumId(), photoModel.getPhotoPath());
                 if (!this.album.isPhotoPathExisted(this.photo)) {
                     this.photo.setFrameIndex(photo.getFrameIndex());
                     this.album.addPhoto(this.createPhoto());

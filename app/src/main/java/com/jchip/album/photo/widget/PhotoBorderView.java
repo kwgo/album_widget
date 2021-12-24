@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
  * PhotoView 外框
  */
 
-public class RZPhotoBorderView extends View {
+public class PhotoBorderView extends View {
     private Paint mPaint;
     private Path mBorderPath;
     // Draw border
@@ -29,21 +29,21 @@ public class RZPhotoBorderView extends View {
     // Border Color
     private int borderColor = Color.argb(255, 255, 153, 0);
 
-    public RZPhotoBorderView(Context context) {
+    public PhotoBorderView(Context context) {
         this(context, null);
     }
 
-    public RZPhotoBorderView(Context context, @Nullable AttributeSet attrs) {
+    public PhotoBorderView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RZPhotoBorderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PhotoBorderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public RZPhotoBorderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PhotoBorderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
