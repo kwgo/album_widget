@@ -17,13 +17,7 @@ import com.jchip.album.photo.utils.DrawableUtils;
 
 import java.util.Locale;
 
-//import com.rayzhang.android.rzalbum.adapter.base.BaseViewHolder;
-//import com.rayzhang.android.rzalbum.adapter.factory.IItemType;
-//import com.rayzhang.android.rzalbum.model.AlbumFolder;
-//import com.rayzhang.android.rzalbum.utils.DrawableUtils;
-
 /**
- * Created by Ray on 2017/8/19.
  * FolderViewHolder
  */
 

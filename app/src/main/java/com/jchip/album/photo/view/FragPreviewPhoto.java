@@ -1,8 +1,6 @@
 package com.jchip.album.photo.view;
 
 import android.os.Bundle;
-import com.jchip.album.R;
-//import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +12,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.jchip.album.R;
 import com.jchip.album.photo.base.BaseLazyFragment;
 import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.widget.PhotoNumberView;
 import com.jchip.album.photo.widget.ZoomImageView;
-//import com.rayzhang.android.rzalbum.R;
-//import com.rayzhang.android.rzalbum.base.BaseLazyFragment;
-//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
-//import com.rayzhang.android.rzalbum.widget.RZPhotoNumberView;
-//import com.rayzhang.android.rzalbum.widget.RZZoomImgView;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
+//import android.support.annotation.Nullable;
+
 /**
- * Created by Ray on 2017/8/20.
  * Photo preview
  */
 

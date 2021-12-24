@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * Created by Ray on 2017/1/22.
  * MainHandler
  */
 

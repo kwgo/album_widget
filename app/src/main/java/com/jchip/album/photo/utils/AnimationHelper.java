@@ -7,10 +7,7 @@ import android.view.View;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-//import android.support.v4.view.animation.FastOutSlowInInterpolator;
-
 /**
- * Created by Ray on 2017/8/19.
  * AnimationHelper
  */
 

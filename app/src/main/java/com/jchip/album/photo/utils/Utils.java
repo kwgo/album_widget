@@ -14,12 +14,7 @@ import android.view.WindowManager;
 import androidx.annotation.ColorInt;
 import androidx.fragment.app.FragmentActivity;
 
-//import android.support.annotation.ColorInt;
-//import android.support.annotation.Nullable;
-//import android.support.v4.app.FragmentActivity;
-
 /**
- * Created by Ray on 2017/1/7.
  * Utils
  */
 

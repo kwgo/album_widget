@@ -8,12 +8,8 @@ import com.jchip.album.photo.adapter.factory.IItemType;
 
 import java.util.ArrayList;
 
-//import com.rayzhang.android.rzalbum.adapter.factory.IItemType;
-//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
-
 /**
- * Created by Ray on 2016/12/26.
- * AlbumFolder
+ * FolderModel
  */
 
 public class FolderModel implements Parcelable, IItemType {

@@ -14,16 +14,8 @@ import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.utils.DrawableUtils;
 import com.jchip.album.photo.widget.PhotoBorderView;
 import com.jchip.album.photo.widget.PhotoNumberView;
-//import com.bumptech.glide.request.RequestOptions;
-//import com.rayzhang.android.rzalbum.R;
-//import com.rayzhang.android.rzalbum.adapter.base.BaseViewHolder;
-//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
-//import com.rayzhang.android.rzalbum.utils.DrawableUtils;
-//import com.rayzhang.android.rzalbum.widget.RZPhotoBorderView;
-//import com.rayzhang.android.rzalbum.widget.RZPhotoNumberView;
 
 /**
- * Created by Ray on 2017/8/19.
  * PhotoViewHolder
  */
 

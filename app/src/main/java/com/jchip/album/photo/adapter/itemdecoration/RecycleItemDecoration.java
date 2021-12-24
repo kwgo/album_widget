@@ -9,13 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import android.support.annotation.ColorInt;
-//import android.support.v7.widget.GridLayoutManager;
-//import android.support.v7.widget.LinearLayoutManager;
-//import android.support.v7.widget.RecyclerView;
-
 /**
- * Created by Ray on 2017/6/10.
  * RecycleItemDecoration
  */
 
@@ -25,18 +19,18 @@ public class RecycleItemDecoration extends RecyclerView.ItemDecoration {
     public static final int BOTH = Integer.MAX_VALUE - 1;
     public static final int TOP_LEFT = Integer.MAX_VALUE - 2;
     public static final int BOTTOM_RIGHT = Integer.MAX_VALUE - 3;
-    private int mDividerSize;
-    private int mLinearMode = NONE;
+    private int dividerSize;
+    private int linearMode = NONE;
     private Paint mPaint;
 
     public RecycleItemDecoration(int dividerSize, int dividerColor) {
-        mDividerSize = dividerSize;
+        this.dividerSize = dividerSize;
         initPaint(dividerColor);
     }
 
     public RecycleItemDecoration(int dividerSize, int dividerColor, int linearMode) {
-        mDividerSize = dividerSize;
-        mLinearMode = linearMode;
+        this.dividerSize = dividerSize;
+        this.linearMode = linearMode;
         initPaint(dividerColor);
     }
 
@@ -69,28 +63,28 @@ public class RecycleItemDecoration extends RecyclerView.ItemDecoration {
     private void setVerticalItemOutRect(Rect outRect, View view, RecyclerView parent) {
         int count = parent.getAdapter().getItemCount();
         int position = parent.getChildAdapterPosition(view);
-        switch (mLinearMode) {
+        switch (linearMode) {
             case NONE:
                 // 如果不是最後一個Item
-                if (position != count - 1) outRect.set(0, 0, 0, mDividerSize);
+                if (position != count - 1) outRect.set(0, 0, 0, dividerSize);
                 break;
             case BOTH:
                 if (position == 0) {
                     // 如果是第一個Item
-                    outRect.set(0, mDividerSize, 0, mDividerSize);
+                    outRect.set(0, dividerSize, 0, dividerSize);
                 } else {
-                    outRect.set(0, 0, 0, mDividerSize);
+                    outRect.set(0, 0, 0, dividerSize);
                 }
                 break;
             case TOP_LEFT:
                 if (position == 0) {
-                    outRect.set(0, mDividerSize, 0, mDividerSize);
+                    outRect.set(0, dividerSize, 0, dividerSize);
                 } else if (position != count - 1) {
-                    outRect.set(0, 0, 0, mDividerSize);
+                    outRect.set(0, 0, 0, dividerSize);
                 }
                 break;
             case BOTTOM_RIGHT:
-                outRect.set(0, 0, 0, mDividerSize);
+                outRect.set(0, 0, 0, dividerSize);
                 break;
         }
     }
@@ -98,33 +92,33 @@ public class RecycleItemDecoration extends RecyclerView.ItemDecoration {
     private void setHorizontalItemOutRect(Rect outRect, View view, RecyclerView parent) {
         int count = parent.getAdapter().getItemCount();
         int position = parent.getChildAdapterPosition(view);
-        switch (mLinearMode) {
+        switch (linearMode) {
             case NONE:
-                if (position != count - 1) outRect.set(0, 0, mDividerSize, 0);
+                if (position != count - 1) outRect.set(0, 0, dividerSize, 0);
                 break;
             case BOTH:
                 if (position == 0) {
-                    outRect.set(mDividerSize, 0, mDividerSize, 0);
+                    outRect.set(dividerSize, 0, dividerSize, 0);
                 } else {
-                    outRect.set(0, 0, mDividerSize, 0);
+                    outRect.set(0, 0, dividerSize, 0);
                 }
                 break;
             case TOP_LEFT:
                 if (position == 0) {
-                    outRect.set(mDividerSize, 0, mDividerSize, 0);
+                    outRect.set(dividerSize, 0, dividerSize, 0);
                 } else if (position != count - 1) {
-                    outRect.set(0, 0, mDividerSize, 0);
+                    outRect.set(0, 0, dividerSize, 0);
                 }
                 break;
             case BOTTOM_RIGHT:
-                outRect.set(0, 0, mDividerSize, 0);
+                outRect.set(0, 0, dividerSize, 0);
                 break;
         }
     }
 
     private void setGridItemOutRect(Rect outRect, View view, RecyclerView parent) {
-        int right = mDividerSize;
-        int bottom = mDividerSize;
+        int right = dividerSize;
+        int bottom = dividerSize;
         if (isLastSpan(view, parent)) {
             right = 0;
         }
@@ -175,15 +169,15 @@ public class RecycleItemDecoration extends RecyclerView.ItemDecoration {
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-            if (i == 0 && mLinearMode == BOTH || i == 0 && mLinearMode == TOP_LEFT) {
+            if (i == 0 && linearMode == BOTH || i == 0 && linearMode == TOP_LEFT) {
                 // 如果是第一個Item而且LinearMode為：BOTH or TOP_LEFT
                 int top = parent.getPaddingTop() + params.topMargin;
-                int bottom = top + mDividerSize;
+                int bottom = top + dividerSize;
                 c.drawRect(left, top, right, bottom, mPaint);
             }
             // 其他Item
             int top = child.getBottom() + params.bottomMargin;
-            int bottom = top + mDividerSize;
+            int bottom = top + dividerSize;
             c.drawRect(left, top, right, bottom, mPaint);
         }
     }
@@ -196,14 +190,14 @@ public class RecycleItemDecoration extends RecyclerView.ItemDecoration {
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-            if (i == 0 && mLinearMode == BOTH || i == 0 && mLinearMode == TOP_LEFT) {
+            if (i == 0 && linearMode == BOTH || i == 0 && linearMode == TOP_LEFT) {
                 // 如果是第一個Item而且LinearMode為：BOTH or TOP_LEFT
                 int left = parent.getPaddingLeft() + params.leftMargin;
-                int right = left + mDividerSize;
+                int right = left + dividerSize;
                 c.drawRect(left, top, right, bottom, mPaint);
             }
             int left = child.getRight() + params.rightMargin;
-            int right = left + mDividerSize;
+            int right = left + dividerSize;
             c.drawRect(left, top, right, bottom, mPaint);
         }
     }

@@ -16,15 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import android.support.annotation.NonNull;
-//
-//import com.rayzhang.android.rzalbum.common.RZConfig;
-//import com.rayzhang.android.rzalbum.model.AlbumFolder;
-//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
-
 /**
- * Created by Ray on 2016/12/26.
- * AlbumScanner
+ * PhotoScanner
  */
 
 public final class PhotoScanner {

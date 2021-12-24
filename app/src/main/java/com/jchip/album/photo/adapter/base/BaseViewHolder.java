@@ -8,30 +8,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jchip.album.photo.adapter.factory.IItemType;
 
-//import android.support.v7.widget.RecyclerView;
-
-//import com.rayzhang.android.rzalbum.adapter.factory.IItemType;
-
-/*
- * Created by Ray on 2017/4/26.
- * BaseViewHolder
- */
-
 public abstract class BaseViewHolder<T extends IItemType> extends RecyclerView.ViewHolder {
-    private SparseArray<View> mViews;
-    private View mItemView;
+    private SparseArray<View> views;
+    private View itemView;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
-        mItemView = itemView;
-        mViews = new SparseArray<>();
+        this.itemView = itemView;
+        this.views = new SparseArray<>();
     }
 
     protected View getView(int redId) {
-        View view = mViews.get(redId);
+        View view = views.get(redId);
         if (view == null) {
-            view = mItemView.findViewById(redId);
-            mViews.put(redId, view);
+            view = itemView.findViewById(redId);
+            views.put(redId, view);
         }
         return view;
     }

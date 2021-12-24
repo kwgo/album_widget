@@ -4,16 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+
 import com.jchip.album.R;
-
 import com.jchip.album.photo.adapter.factory.IItemType;
-//import android.support.annotation.NonNull;
-
-//import com.rayzhang.android.rzalbum.R;
-//import com.rayzhang.android.rzalbum.adapter.factory.IItemType;
 
 /**
- * Created by Ray on 2016/12/26.
  * Photo data
  */
 

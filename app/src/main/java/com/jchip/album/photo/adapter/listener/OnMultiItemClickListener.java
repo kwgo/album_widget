@@ -1,11 +1,8 @@
 package com.jchip.album.photo.adapter.listener;
 
 /**
- * Created by Ray on 2017/3/5.
- * 實作ViewHolder的點擊事件
+ * ViewHolder click event
  */
-
-//import android.support.v7.widget.RecyclerView;
 
 import android.view.View;
 

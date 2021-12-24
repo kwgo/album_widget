@@ -9,10 +9,8 @@ import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 
 import androidx.annotation.ColorInt;
-//import android.support.annotation.ColorInt;
 
 /**
- * Created by ray on 2017/12/24.
  * DrawableUtils
  */
 

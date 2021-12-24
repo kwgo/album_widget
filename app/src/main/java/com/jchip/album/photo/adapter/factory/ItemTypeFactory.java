@@ -8,16 +8,8 @@ import com.jchip.album.photo.adapter.viewholder.PhotoViewHolder;
 import com.jchip.album.photo.model.FolderModel;
 import com.jchip.album.photo.model.PhotoModel;
 
-//import com.rayzhang.android.rzalbum.adapter.base.BaseViewHolder;
-//import com.rayzhang.android.rzalbum.adapter.factory.IItemType;
-//import com.rayzhang.android.rzalbum.adapter.viewholder.FolderViewHolder;
-//import com.rayzhang.android.rzalbum.adapter.viewholder.PhotoViewHolder;
-//import com.rayzhang.android.rzalbum.model.AlbumFolder;
-//import com.rayzhang.android.rzalbum.model.AlbumPhoto;
-
 /**
- * Created by Ray on 2017/3/5.
- * 統一管理所有ViewHolder的佈局
+ * layout factory
  */
 
 public class ItemTypeFactory {

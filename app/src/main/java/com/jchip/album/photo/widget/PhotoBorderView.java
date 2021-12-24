@@ -12,11 +12,8 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-//import android.support.annotation.Nullable;
-
 /**
- * Created by Ray on 2017/8/19.
- * PhotoView 外框
+ * PhotoView
  */
 
 public class PhotoBorderView extends View {

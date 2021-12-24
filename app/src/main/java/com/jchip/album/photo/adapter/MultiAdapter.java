@@ -21,16 +21,6 @@ import com.jchip.album.photo.adapter.listener.OnMultiItemLongClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-//import android.support.annotation.NonNull;
-//import android.support.annotation.Nullable;
-//import android.support.v7.widget.GridLayoutManager;
-//import android.support.v7.widget.RecyclerView;
-//import com.rayzhang.android.rzalbum.adapter.base.BaseViewHolder;
-//import com.rayzhang.android.rzalbum.adapter.factory.IItemType;
-//import com.rayzhang.android.rzalbum.adapter.factory.ItemTypeFactory;
-//import com.rayzhang.android.rzalbum.adapter.listener.OnMultiItemClickListener;
-//import com.rayzhang.android.rzalbum.adapter.listener.OnMultiItemLongClickListener;
-
 public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<BaseViewHolder<T>> {
     private Context mContext;
     private List<T> mData;

@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * Created by Ray on 2017/8/20.
- * Photo preview
+ * Photo preview activity
  */
 
 public class PreviewPhotoActivity extends AppCompatActivity implements FragPreviewPhoto.OnNumberViewClickListener {

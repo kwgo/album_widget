@@ -5,7 +5,6 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 /**
- * Created by ray on 2017/12/24.
  * DisplayUtil
  */
 

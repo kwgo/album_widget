@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Created by Ray on 2017/6/11.
  * FileProviderUtils
  */
 

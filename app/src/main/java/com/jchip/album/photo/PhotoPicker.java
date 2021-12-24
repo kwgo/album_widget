@@ -1,9 +1,8 @@
 package com.jchip.album.photo;
 
 /*
- * Created by Ray on 2017/2/10.
- * RZAlbum
- * 調用入口類
+ * Photo picker
+ * Invoke entry
  */
 
 import android.app.Activity;

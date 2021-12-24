@@ -18,8 +18,7 @@ import android.view.WindowManager;
 import androidx.appcompat.widget.AppCompatImageView;
 
 /**
- * Created by Ray on 2016/10/15.
- * 自訂義可以縮放的Imgview
+ * Zoom Image View
  */
 
 public class ZoomImageView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener,
