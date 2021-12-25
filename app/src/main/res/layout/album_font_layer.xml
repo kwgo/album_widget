@@ -8,6 +8,8 @@
     android:layout_marginTop="20dp"
     android:layout_marginEnd="20dp"
     android:layout_marginBottom="20dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="horizontal"
     tools:context=".ActivityFont">
 
@@ -38,8 +40,8 @@
                         android:layout_height="200dp"
                         android:layout_weight="1"
                         android:background="@drawable/font_edit_image"
-                        android:padding="2dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:padding="2dp">
 
                         <include layout="@layout/album_photo_item" />
 

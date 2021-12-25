@@ -127,7 +127,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
             finish();
         });
 
-        folderView = this.getLayoutInflater().inflate(R.layout.photo_folder_sheet, null);
+        folderView = this.getLayoutInflater().inflate(R.layout.photo_folder_layer, null);
         RecyclerView bottomRecyclerView = folderView.findViewById(R.id.photo_picker_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         bottomRecyclerView.setLayoutManager(layoutManager);

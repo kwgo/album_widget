@@ -4,35 +4,24 @@
     android:id="@+id/frame_setting_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="1"
     android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="1"
     tools:context=".ActivityFrame">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.84"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:weightSum="1">
-
-        <ListView
-            android:id="@+id/frame_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.62"
-            android:divider="@color/material_blue_grey_800"
-            android:dividerHeight="1dp"
-            android:footerDividersEnabled="false"
-            android:paddingStart="2dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="2dp"
-            android:paddingBottom="4dp" />
-
-    </LinearLayout>
+    <ListView
+        android:id="@+id/frame_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.65"
+        android:divider="@color/material_blue_grey_800"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="false"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="16dp" />
 
 </LinearLayout>
-
 
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 
 import com.jchip.album.R;
-import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
@@ -22,7 +21,7 @@ public class PhotoActivity extends LayerActivity {
 
         GestureHelper.setViewGesture(this.getView(R.id.photo_frame), () -> onSlipPhoto(+1), () -> onSlipPhoto(-1));
 
-        this.getButtonView(R.id.photo_add).setOnClickListener((e) -> onAddPhotos());
+        this.getButtonView(R.id.photo_add).setOnClickListener((e) -> onSelectPhotos());
         this.getButtonView(R.id.photo_delete).setOnClickListener((v) -> this.onDeletePhoto());
 
         this.getButtonView(R.id.photo_scale).setOnClickListener((v) -> this.onScalePhoto(v));
@@ -33,8 +32,15 @@ public class PhotoActivity extends LayerActivity {
         this.getButtonView(R.id.photo_right).setOnClickListener((v) -> this.onSlipPhoto(+1));
     }
 
-    private void onAddPhotos() {
-        this.startActivityForResult(new Intent(this, PhotoPickerActivity.class), AlbumHelper.ALBUM_REQUEST_CODE);
+    private void onSelectPhotos() {
+        this.startActivity(PhotoPickerActivity.class, (intent) -> onSelectedPhotos(intent));
+    }
+
+    protected void onSelectedPhotos(Intent intent) {
+        List<PhotoModel> photoModels = intent.getParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS);
+        if (photoModels != null && !photoModels.isEmpty()) {
+            this.selectPhotos(photoModels);
+        }
     }
 
     private void onDeletePhoto() {
@@ -59,17 +65,6 @@ public class PhotoActivity extends LayerActivity {
         }
         photoIndex = photoIndex < this.album.getPhotoSize() ? photoIndex : this.album.getPhotoSize() - 1;
         this.setAlbumPhoto(this.album.getPhoto(photoIndex >= 0 ? photoIndex : 0));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == AlbumHelper.ALBUM_REQUEST_CODE) {
-            List<PhotoModel> photoModels = data.getParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS);
-            if (photoModels != null && !photoModels.isEmpty()) {
-                this.onSelectedPhotos(photoModels);
-            }
-        }
     }
 
     public void setAlbumPhotos(AlbumData album) {
@@ -99,24 +94,30 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void onScalePhoto(View v) {
-        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
-        this.setPhotoScale(this.getImageView(R.id.photo_image));
-        this.updatePhoto();
+        if (this.photo.isSaved()) {
+            this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
+            this.setPhotoScale(this.getImageView(R.id.photo_image));
+            this.updatePhoto();
+        }
     }
 
     private void onFlipPhoto() {
-        this.photo.setFlipIndex(this.photo.getFlipIndex() == 0 ? 1 : 0);
-        this.setPhotoImage(this.getImageView(R.id.photo_image));
-        this.updatePhoto();
+        if (this.photo.isSaved()) {
+            this.photo.setFlipIndex(this.photo.getFlipIndex() == 0 ? 1 : 0);
+            this.setPhotoImage(this.getImageView(R.id.photo_image));
+            this.updatePhoto();
+        }
     }
 
     protected void onRotatePhoto() {
-        this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
-        this.setPhotoImage(this.getImageView(R.id.photo_image));
-        this.updatePhoto();
+        if (this.photo.isSaved()) {
+            this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
+            this.setPhotoImage(this.getImageView(R.id.photo_image));
+            this.updatePhoto();
+        }
     }
 
-    private void onSelectedPhotos(List<PhotoModel> photoModels) {
+    private void selectPhotos(List<PhotoModel> photoModels) {
         if (photoModels != null && !photoModels.isEmpty()) {
             this.saveAlbum();
             PhotoData photo = this.photo;
