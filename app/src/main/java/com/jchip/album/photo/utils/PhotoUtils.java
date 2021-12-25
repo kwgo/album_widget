@@ -5,9 +5,8 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 /**
- * DisplayUtil
+ * Utilities
  */
-
 public final class PhotoUtils {
     public static int screenW;
     public static int screenH;

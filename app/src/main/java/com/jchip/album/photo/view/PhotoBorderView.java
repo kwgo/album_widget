@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 /**
  * PhotoView
  */
-
 public class PhotoBorderView extends View {
     private Paint mPaint;
     private Path mBorderPath;

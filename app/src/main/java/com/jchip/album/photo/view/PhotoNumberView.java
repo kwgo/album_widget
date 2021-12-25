@@ -14,9 +14,8 @@ import androidx.annotation.Nullable;
 /**
  * PhotoView Number
  */
-
 public class PhotoNumberView extends View {
-    private Paint mPaint;
+    private Paint paint;
     private boolean isDrawIndex = false;
     // Circle radius : 12dp
     private float radius = dp2px(12);
@@ -51,7 +50,7 @@ public class PhotoNumberView extends View {
     }
 
     private void init() {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
     }
 
     @Override
@@ -89,42 +88,42 @@ public class PhotoNumberView extends View {
         if (isDrawIndex) {
             // draw has number
             paintReset();
-            mPaint.setColor(pickColor);
-            mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawCircle(x, y, radius, mPaint);
+            paint.setColor(pickColor);
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            canvas.drawCircle(x, y, radius, paint);
             paintReset();
-            mPaint.setColor(Color.WHITE);
-            mPaint.setTextSize(textSize);
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(textSize);
             String numberStr = String.valueOf(number);
-            Paint.FontMetricsInt fm = mPaint.getFontMetricsInt();
+            Paint.FontMetricsInt fm = paint.getFontMetricsInt();
             int ascent = fm.ascent;
             int descent = fm.descent;
-            // 計算文字高度
+            // calculate text height
             float textHeight = descent - ascent;
-            // 計算文字寬度
-            float textWidth = mPaint.measureText(numberStr);
-            // 計算 x 繪製位置
+            // calculate text width
+            float textWidth = paint.measureText(numberStr);
+            // calculate x position
             x = (width - textWidth) / 2;
-            // 計算 y 繪製位置
+            // calculate y position
             y = height - margin - textHeight / 2;
-            canvas.drawText(numberStr, x, y, mPaint);
+            canvas.drawText(numberStr, x, y, paint);
         } else {
             // draw no number
-            mPaint.setColor(Color.argb(40, 0, 0, 0));
-            mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawCircle(x, y, radius, mPaint);
+            paint.setColor(Color.argb(40, 0, 0, 0));
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            canvas.drawCircle(x, y, radius, paint);
             paintReset();
-            mPaint.setColor(Color.argb(200, 255, 255, 255));
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(strokeWidth);
-            canvas.drawCircle(x, y, radius, mPaint);
+            paint.setColor(Color.argb(200, 255, 255, 255));
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(strokeWidth);
+            canvas.drawCircle(x, y, radius, paint);
         }
     }
 
     private void paintReset() {
-        mPaint.reset();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
+        paint.reset();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
     }
 
     private int dp2px(float dpValue) {

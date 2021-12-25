@@ -19,7 +19,6 @@ import java.util.Map;
 /**
  * PhotoScanner
  */
-
 public final class PhotoScanner {
     private static final String TAG = PhotoScanner.class.getSimpleName();
 
@@ -122,17 +121,17 @@ public final class PhotoScanner {
                 imgTitle             --> mobile01_20171026_6
                 imgId                --> 65
             */
-            // 建立每張照片資訊
+            // photo info.
             PhotoModel photo = new PhotoModel(imgBucketDisplayName, imgId, imgDescription, imgLat, imgLng,
                     imgOrientation, imgDateAdded, imgDateModified, imgDisplayName,
                     imgWidth, imgHeight, imgSize, imgMimeType, imgIsPrivate == 1,
                     imgData, false, 0, pickColor);
-            // 加入到所有照片的資料夾
-            // 是否要顯示.gif
+            // add into all photos folder
+            // if show .gif
             if (imgMimeType.equals(PhotoConfig.GIF) && !showGif) continue;
             allFolderModel.getFolderPhotos().add(photo);
 
-            // 取得手機中各別相簿的資料夾
+            // get all photo folders on the device
             FolderModel folderModel = albumFolderMap.get(imgBucketDisplayName);
             if (folderModel == null) {
                 folderModel = new FolderModel();
@@ -150,8 +149,7 @@ public final class PhotoScanner {
         List<FolderModel> list = new ArrayList<>();
         list.add(allFolderModel);
 
-        // 依照資料夾將照片做分類
-        // 每張photo都是同1個物件，不會因為資料夾不同，而不同
+        // category photo folders
         for (Map.Entry<String, FolderModel> folderEntry : albumFolderMap.entrySet()) {
             FolderModel folderModel = folderEntry.getValue();
             list.add(folderModel);
