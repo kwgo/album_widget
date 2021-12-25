@@ -51,16 +51,13 @@ public class PhotoHelper {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = loadBitmap(photo.getPhotoPath());
-            if (bitmap != null) {
-                bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), maxSize);
-            }
+        }
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(imageView.getResources(), R.drawable.photo_default);
         }
         if (bitmap != null) {
-            imageView.setImageResource(0);
+            bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), maxSize);
             imageView.setImageBitmap(bitmap);
-        } else {
-            imageView.setImageBitmap(null);
-            imageView.setImageResource(R.drawable.photo_default);
         }
     }
 
@@ -133,8 +130,9 @@ public class PhotoHelper {
         List<Integer> fonts = getFonts();
         return fonts.indexOf(fontId) < 0 ? 0 : fonts.indexOf(fontId);
     }
+
     public static List<Integer> getFonts() {
-       return   Arrays.asList(R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
+        return Arrays.asList(R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
                 R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
     }
 }

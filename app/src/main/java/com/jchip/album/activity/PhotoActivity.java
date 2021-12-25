@@ -94,27 +94,21 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void onScalePhoto(View v) {
-        if (this.photo.isSaved()) {
-            this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
-            this.setPhotoScale(this.getImageView(R.id.photo_image));
-            this.updatePhoto();
-        }
+        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
+        this.setPhotoScale(this.getImageView(R.id.photo_image));
+        this.updatePhoto();
     }
 
     private void onFlipPhoto() {
-        if (this.photo.isSaved()) {
-            this.photo.setFlipIndex(this.photo.getFlipIndex() == 0 ? 1 : 0);
-            this.setPhotoImage(this.getImageView(R.id.photo_image));
-            this.updatePhoto();
-        }
+        this.photo.setFlipIndex(this.photo.getFlipIndex() == 0 ? 1 : 0);
+        this.setPhotoImage(this.getImageView(R.id.photo_image));
+        this.updatePhoto();
     }
 
     protected void onRotatePhoto() {
-        if (this.photo.isSaved()) {
-            this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
-            this.setPhotoImage(this.getImageView(R.id.photo_image));
-            this.updatePhoto();
-        }
+        this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
+        this.setPhotoImage(this.getImageView(R.id.photo_image));
+        this.updatePhoto();
     }
 
     private void selectPhotos(List<PhotoModel> photoModels) {
