@@ -100,7 +100,7 @@ public class AlbumActivity extends PhotoActivity {
                         removeAlbum();
                     });
                 } else {
-                    deleteAlbum();
+                    removeAlbum();
                 }
             });
         }
