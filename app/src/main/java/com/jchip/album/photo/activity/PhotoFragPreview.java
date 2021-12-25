@@ -49,7 +49,7 @@ public class PhotoFragPreview extends BaseLazyFragment {
 
     @Override
     public View initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.photo_fragment_preview, container, false);
+        View view = inflater.inflate(R.layout.photo_preview_fragment, container, false);
         if (getArguments() != null) {
             photo = getArguments().getParcelable(FRAG_ALBUM_PHOTO);
             selectedPhotos = getArguments().getParcelableArrayList(FRAG_ALBUM_PHOTOS);

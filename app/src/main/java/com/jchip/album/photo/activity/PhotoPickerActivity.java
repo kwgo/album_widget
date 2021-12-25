@@ -52,13 +52,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private int dialogIcon = -1;
 
     private RecyclerView.LayoutManager layoutManager;
-    private MultiAdapter<PhotoModel> multiAdapter;
+    private MultiAdapter<PhotoModel> photoAdapter;
     private FloatingActionButton functionButton, folderButton, doneButton;
 
-    private Dialog folderSheetDialog;
-    // private RecyclerView bottomRecyclerView;
-    private View bottomView;
-    private MultiAdapter<FolderModel> bottomAdapter;
+    private Dialog folderDialog;
+    private View folderView;
+    private MultiAdapter<FolderModel> folderAdapter;
 
     private List<FolderModel> folderModels;
     private List<PhotoModel> selectedPhotos;
@@ -103,15 +102,15 @@ public class PhotoPickerActivity extends AppCompatActivity {
         int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(16 * 2) - 2;
         int itemSize = (screenWidth - (gapSize * (spanCount - 1))) / spanCount;
 
-        multiAdapter = new MultiAdapter<>(null, itemSize);
-        multiAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
+        photoAdapter = new MultiAdapter<>(null, itemSize);
+        photoAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
             if (viewPosition == 0) {
                 photoPreview(itemPosition);
             } else {
                 photoPick(itemPosition);
             }
         });
-        recyclerView.setAdapter(multiAdapter);
+        recyclerView.setAdapter(photoAdapter);
 
         functionButton = findViewById(R.id.photo_function_button);
         functionButton.setOnClickListener(v -> fatButHideAnimation(functionButton));
@@ -128,18 +127,14 @@ public class PhotoPickerActivity extends AppCompatActivity {
             finish();
         });
 
-        bottomView = this.getLayoutInflater().inflate(R.layout.photo_folder_sheet, null);
-        RecyclerView bottomRecyclerView = bottomView.findViewById(R.id.photo_picker_view);
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
+        folderView = this.getLayoutInflater().inflate(R.layout.photo_folder_sheet, null);
+        RecyclerView bottomRecyclerView = folderView.findViewById(R.id.photo_picker_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        //bottomRecyclerView = new RecyclerView(this);
-        //bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         bottomRecyclerView.setLayoutManager(layoutManager);
         bottomRecyclerView.setHasFixedSize(true);
         bottomRecyclerView.addItemDecoration(new RecycleItemDecoration(1, Color.LTGRAY));
-        bottomAdapter = new MultiAdapter<>(null);
-        bottomRecyclerView.setAdapter(bottomAdapter);
+        folderAdapter = new MultiAdapter<>(null);
+        bottomRecyclerView.setAdapter(folderAdapter);
 
         findViewById(R.id.photo_picker_view).setOnClickListener((v) -> this.finish());
     }
@@ -162,7 +157,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     private void showPhotoGroup(int index) {
-        multiAdapter.resetData(folderModels.get(index).getFolderPhotos());
+        photoAdapter.resetData(folderModels.get(index).getFolderPhotos());
         layoutManager.scrollToPosition(0);
         //changePhotoStatus();
     }
@@ -170,7 +165,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private void photoPreview(int itemPosition) {
         Intent preview = new Intent(this, PhotoPreviewActivity.class);
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
-        preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) multiAdapter.getDatas());
+        preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) photoAdapter.getDatas());
         preview.putExtra(PhotoConfig.PREVIEW_ITEM_POSITION, itemPosition);
         preview.putExtra(PhotoConfig.PREVIEW_PICK_COLOR, pickColor);
         preview.putExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, limitCount);
@@ -179,7 +174,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     private void photoPick(int itemPosition) {
-        PhotoModel photo = multiAdapter.getDatas().get(itemPosition);
+        PhotoModel photo = photoAdapter.getDatas().get(itemPosition);
         if (photo.getPickNumber() == 0) {
             if (selectedPhotos.size() == limitCount) {
                 Toast.makeText(PhotoPickerActivity.this, String.format(getResources().getString(R.string.photo_limit_count), limitCount), Toast.LENGTH_SHORT).show();
@@ -187,12 +182,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
             }
             photo.setPickNumber(selectedPhotos.size() + 1);
             selectedPhotos.add(photo);
-            multiAdapter.notifyItemChanged(itemPosition);
+            photoAdapter.notifyItemChanged(itemPosition);
         } else {
             if (selectedPhotos.size() == 0) return;
             selectedPhotos.remove(photo);
             photo.setPickNumber(0);
-            multiAdapter.notifyItemChanged(itemPosition);
+            photoAdapter.notifyItemChanged(itemPosition);
             changePhotoPickNumber();
         }
     }
@@ -201,10 +196,10 @@ public class PhotoPickerActivity extends AppCompatActivity {
         // change item status & index
         for (int i = 0; i < selectedPhotos.size(); i++) {
             selectedPhotos.get(i).setPickNumber(i + 1);
-            int index = multiAdapter.getDatas().indexOf(selectedPhotos.get(i));
+            int index = photoAdapter.getDatas().indexOf(selectedPhotos.get(i));
             if (index != -1) {
-                multiAdapter.getDatas().get(index).setPickNumber(i + 1);
-                multiAdapter.notifyItemChanged(index);
+                photoAdapter.getDatas().get(index).setPickNumber(i + 1);
+                photoAdapter.notifyItemChanged(index);
             }
         }
     }
@@ -275,26 +270,27 @@ public class PhotoPickerActivity extends AppCompatActivity {
         if (folderModels.get(0).getFolderPhotos().size() == 0) {
             return;
         }
-        if (folderSheetDialog == null) {
-            folderSheetDialog = new Dialog(this, R.style.photo_folder_dialog);
-            bottomAdapter.resetData(folderModels);
-            bottomAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
+        if (folderDialog == null) {
+  //          folderDialog = new Dialog(this, R.style.photo_folder_dialog);
+            folderDialog = new Dialog(this, R.style.photo_folder_dialog);
+            folderAdapter.resetData(folderModels);
+            folderAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
                 showPhotoGroup(itemPosition);
-                for (int i = 0; i < bottomAdapter.getItemCount(); i++) {
-                    bottomAdapter.getDatas().get(i).setCheck(false);
+                for (int i = 0; i < folderAdapter.getItemCount(); i++) {
+                    folderAdapter.getDatas().get(i).setCheck(false);
                 }
-                bottomAdapter.getDatas().get(itemPosition).setCheck(true);
-                bottomAdapter.notifyItemRangeChanged(0, bottomAdapter.getItemCount());
-                folderSheetDialog.dismiss();
+                folderAdapter.getDatas().get(itemPosition).setCheck(true);
+                folderAdapter.notifyItemRangeChanged(0, folderAdapter.getItemCount());
+                folderDialog.dismiss();
             });
-            folderSheetDialog.setContentView(bottomView);
-            folderSheetDialog.setCancelable(true);
-            folderSheetDialog.setCanceledOnTouchOutside(true);
+            folderDialog.setContentView(folderView);
+            folderDialog.setCancelable(true);
+            folderDialog.setCanceledOnTouchOutside(true);
 
-            folderSheetDialog.findViewById(R.id.photo_folder_view).setOnClickListener((view) -> folderSheetDialog.dismiss());
+            folderDialog.findViewById(R.id.photo_folder_view).setOnClickListener((view) -> folderDialog.dismiss());
         }
-        folderSheetDialog.getWindow().setStatusBarColor(Color.TRANSPARENT);
-        folderSheetDialog.show();
+        folderDialog.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        folderDialog.show();
     }
 
     @Override
@@ -329,17 +325,17 @@ public class PhotoPickerActivity extends AppCompatActivity {
                         List<PhotoModel> deletePhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_DELETE_PHOTOS);
                         // delete
                         for (int i = 0; i < deletePhotos.size(); i++) {
-                            int index = multiAdapter.getDatas().indexOf(deletePhotos.get(i));
-                            multiAdapter.getDatas().get(index).setPickNumber(0);
-                            multiAdapter.notifyItemChanged(index);
+                            int index = photoAdapter.getDatas().indexOf(deletePhotos.get(i));
+                            photoAdapter.getDatas().get(index).setPickNumber(0);
+                            photoAdapter.notifyItemChanged(index);
                         }
                         // add
                         for (int j = 0; j < selectedPhotos.size(); j++) {
                             PhotoModel photo = selectedPhotos.get(j);
-                            int index = multiAdapter.getDatas().indexOf(photo);
+                            int index = photoAdapter.getDatas().indexOf(photo);
                             if (index != -1) {
-                                multiAdapter.getDatas().get(index).setPickNumber(photo.getPickNumber());
-                                multiAdapter.notifyItemChanged(index);
+                                photoAdapter.getDatas().get(index).setPickNumber(photo.getPickNumber());
+                                photoAdapter.notifyItemChanged(index);
                             }
                         }
                     }

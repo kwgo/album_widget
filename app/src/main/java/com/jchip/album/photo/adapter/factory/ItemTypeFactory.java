@@ -28,7 +28,7 @@ public class ItemTypeFactory {
 
     @SuppressWarnings("unchecked")
     public <T extends IItemType> BaseViewHolder<T> createViewHolder(int type, View itemView) {
-        if (type == R.layout.photo_grid_item) {
+        if (type == R.layout.photo_picker_item) {
             return (BaseViewHolder<T>) new PhotoViewHolder(itemView, size);
         } else if (type == R.layout.photo_folder_item) {
             return (BaseViewHolder<T>) new FolderViewHolder(itemView);

@@ -343,6 +343,6 @@ public class PhotoModel implements Parcelable, Comparable<PhotoModel>, IItemType
 
     @Override
     public int itemLayout() {
-        return R.layout.photo_grid_item;
+        return R.layout.photo_picker_item;
     }
 }
