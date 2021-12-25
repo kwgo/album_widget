@@ -45,10 +45,7 @@ public class FolderViewHolder extends BaseViewHolder<FolderModel> {
 
     @Override
     public void bindViewData(Context context, FolderModel data, int itemPosition) {
-        Glide.with(context)
-                .asBitmap()
-                .load(data.getFolderPhotos().get(0).getPhotoPath())
-                .into(imageView);
+        Glide.with(context).asBitmap().load(data.getFolderPhotos().get(0).getPhotoPath()).into(imageView);
 
         folderText.setText(String.format(context.getResources().getString(R.string.photo_folder_count), data.getFolderName(), data.getFolderPhotos().size()));
         radioButton.setChecked(data.isCheck());
