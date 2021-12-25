@@ -68,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_margin="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_left" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -77,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_margin="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_right" />
 
         <Space
@@ -91,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_delete" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -100,6 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_flip" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -109,6 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_rotation" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -118,6 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_fit" />
 
     </LinearLayout>
@@ -160,6 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|top"
                 android:layout_margin="16dp"
+                android:contentDescription="@null"
                 android:gravity="start|top"
                 android:src="@drawable/photo_help" />
         </LinearLayout>
@@ -178,6 +185,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:contentDescription="@null"
                 android:gravity="end|bottom"
                 android:src="@drawable/photo_font" />
         </LinearLayout>
@@ -196,6 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:contentDescription="@null"
                 android:gravity="start|bottom"
                 android:src="@drawable/photo_frame" />
         </LinearLayout>
@@ -216,6 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|top"
                 android:layout_margin="16dp"
+                android:contentDescription="@null"
                 android:gravity="end"
                 android:src="@drawable/photo_add" />
         </LinearLayout>

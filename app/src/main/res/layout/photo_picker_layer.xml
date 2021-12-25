@@ -13,7 +13,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.65"
+        android:layout_weight="0.64"
         android:paddingStart="16dp"
         android:paddingTop="0dp"
         android:paddingEnd="16dp"
@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="4dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_fab_folder"
             android:visibility="invisible" />
 
@@ -43,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="4dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_fab_done"
             android:visibility="invisible" />
 
@@ -53,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="4dp"
+            android:contentDescription="@null"
             android:src="@drawable/photo_fab_function"
             app:layout_behavior="@string/photo_fat_button_behavior" />
 

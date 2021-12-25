@@ -15,7 +15,7 @@ public class ActivityAbout extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.about_layer);
+        super.setContentView(R.layout.album_about_layer);
         super.setStatusBarColor(android.R.color.transparent);
     }
 

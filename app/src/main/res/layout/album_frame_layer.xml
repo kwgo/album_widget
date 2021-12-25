@@ -13,14 +13,14 @@
         android:id="@+id/frame_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.65"
+        android:layout_weight="0.64"
         android:divider="@color/material_blue_grey_800"
         android:dividerHeight="1dp"
         android:footerDividersEnabled="false"
         android:paddingStart="32dp"
-        android:paddingTop="16dp"
+        android:paddingTop="0dp"
         android:paddingEnd="32dp"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="8dp" />
 
 </LinearLayout>
 
