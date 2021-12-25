@@ -16,14 +16,14 @@ import androidx.annotation.Nullable;
  * PhotoView
  */
 public class PhotoBorderView extends View {
-    private Paint mPaint;
-    private Path mBorderPath;
-    // Draw border
+    private Paint paint;
+    private Path borderPath;
+    // draw border
     private boolean isDraw = false;
-    // Border StrokeWidth : 5dp
+    // border stroke width : 5dp
     private float strokeWidth = dp2px(2.5f);
-    // Border Color
-    private int borderColor = Color.argb(255, 255, 153, 0);
+    // border color
+    private int borderColor = Color.argb(200, 255, 153, 0);
 
     public PhotoBorderView(Context context) {
         this(context, null);
@@ -45,8 +45,8 @@ public class PhotoBorderView extends View {
     }
 
     private void init() {
-        mPaint = new Paint();
-        mBorderPath = new Path();
+        paint = new Paint();
+        borderPath = new Path();
     }
 
     @Override
@@ -59,32 +59,32 @@ public class PhotoBorderView extends View {
         if (isDraw) {
             // draw background
             paintReset();
-            mPaint.setStyle(Paint.Style.FILL);
-            mPaint.setColor(Color.argb(140, 0, 0, 0));
-            canvas.drawRect(0, 0, width, height, mPaint);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.argb(140, 0, 0, 0));
+            canvas.drawRect(0, 0, width, height, paint);
             // draw border use path
             paintReset();
-            mPaint.setColor(borderColor);
+            paint.setColor(borderColor);
             // top
-            mBorderPath.addRect(0, 0, width, strokeWidth, Path.Direction.CCW);
+            borderPath.addRect(0, 0, width, strokeWidth, Path.Direction.CCW);
             // bottom
-            mBorderPath.addRect(0, height - strokeWidth, width, height, Path.Direction.CCW);
+            borderPath.addRect(0, height - strokeWidth, width, height, Path.Direction.CCW);
             // left
-            mBorderPath.addRect(0, strokeWidth, strokeWidth, height - strokeWidth, Path.Direction.CCW);
+            borderPath.addRect(0, strokeWidth, strokeWidth, height - strokeWidth, Path.Direction.CCW);
             // right
-            mBorderPath.addRect(width - strokeWidth, strokeWidth, width, height - strokeWidth, Path.Direction.CCW);
-            mBorderPath.addRect(0, strokeWidth, strokeWidth, height, Path.Direction.CCW);
-            canvas.drawPath(mBorderPath, mPaint);
+            borderPath.addRect(width - strokeWidth, strokeWidth, width, height - strokeWidth, Path.Direction.CCW);
+            borderPath.addRect(0, strokeWidth, strokeWidth, height, Path.Direction.CCW);
+            canvas.drawPath(borderPath, paint);
         } else {
-            mPaint.setAlpha(0);
-            canvas.drawRect(0, 0, width, height, mPaint);
+            paint.setAlpha(0);
+            canvas.drawRect(0, 0, width, height, paint);
         }
     }
 
     private void paintReset() {
-        mPaint.reset();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
+        paint.reset();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
     }
 
     private int dp2px(float dpValue) {
