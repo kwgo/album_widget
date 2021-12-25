@@ -11,10 +11,7 @@ import java.util.ArrayList;
 /**
  * FolderModel
  */
-
 public class FolderModel implements Parcelable, IItemType {
-    public static final int FOLDER_ITEM = R.layout.photo_folder_item;
-
     private int folderId;
     private String folderName;
     private ArrayList<PhotoModel> folderPhotos = new ArrayList<>();
@@ -111,6 +108,6 @@ public class FolderModel implements Parcelable, IItemType {
 
     @Override
     public int itemLayout() {
-        return FOLDER_ITEM;
+        return R.layout.photo_folder_item;
     }
 }

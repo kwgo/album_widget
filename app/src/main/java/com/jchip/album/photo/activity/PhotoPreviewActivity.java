@@ -58,7 +58,7 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
 
         setViewPager();
 
-        findViewById(R.id.photo_preview_view).setOnClickListener((view) -> finishPreviewPhoto());
+        findViewById(R.id.photo_preview_view).setOnClickListener((view) -> finishPhotoPreview());
     }
 
     private void setViewPager() {
@@ -95,7 +95,7 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
         });
     }
 
-    private void finishPreviewPhoto() {
+    private void finishPhotoPreview() {
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, selectedPhotos);
         intent.putParcelableArrayListExtra(PhotoConfig.PREVIEW_DELETE_PHOTOS, deletePhotos);
@@ -127,7 +127,7 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finishPreviewPhoto();
+        finishPhotoPreview();
     }
 
     private static class FragPreviewAdapter extends FragmentStatePagerAdapter {

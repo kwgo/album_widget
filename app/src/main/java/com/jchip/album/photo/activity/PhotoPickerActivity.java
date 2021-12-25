@@ -1,7 +1,7 @@
 package com.jchip.album.photo.activity;
 
 import android.Manifest;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
@@ -57,31 +55,26 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private MultiAdapter<PhotoModel> multiAdapter;
     private FloatingActionButton functionButton, folderButton, doneButton;
 
-    private BottomSheetDialog bottomSheetDialog;
-    private RecyclerView bottomRecyclerView;
+    private Dialog folderSheetDialog;
+    // private RecyclerView bottomRecyclerView;
+    private View bottomView;
     private MultiAdapter<FolderModel> bottomAdapter;
 
     private List<FolderModel> folderModels;
     private List<PhotoModel> selectedPhotos;
 
     private ExecutorService singleExecutor;
-    private Runnable scanPhotoRunnable = new Runnable() {
-        @Override
-        public void run() {
-            folderName = folderName.isEmpty() ? getResources().getString(R.string.photo_all_folder) : folderName;
-            folderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerActivity.this, folderName);
-            MainHandler.instances().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (isFinishing()) {
-                        folderModels.clear();
-                        folderModels = null;
-                    } else {
-                        showPhotoGroup(0);
-                    }
-                }
-            }, 200L);
-        }
+    private Runnable scanPhotoRunnable = () -> {
+        folderName = folderName.isEmpty() ? getResources().getString(R.string.photo_all_folder) : folderName;
+        folderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerActivity.this, folderName);
+        MainHandler.instances().postDelayed(() -> {
+            if (isFinishing()) {
+                folderModels.clear();
+                folderModels = null;
+            } else {
+                showPhotoGroup(0);
+            }
+        }, 200L);
     };
 
     @Override
@@ -135,10 +128,14 @@ public class PhotoPickerActivity extends AppCompatActivity {
             finish();
         });
 
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        bottomRecyclerView = new RecyclerView(this);
-        bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        bottomRecyclerView.setLayoutManager(manager);
+        bottomView = this.getLayoutInflater().inflate(R.layout.photo_folder_sheet, null);
+        RecyclerView bottomRecyclerView = bottomView.findViewById(R.id.photo_picker_view);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        //bottomRecyclerView = new RecyclerView(this);
+        //bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        bottomRecyclerView.setLayoutManager(layoutManager);
         bottomRecyclerView.setHasFixedSize(true);
         bottomRecyclerView.addItemDecoration(new RecycleItemDecoration(1, Color.LTGRAY));
         bottomAdapter = new MultiAdapter<>(null);
@@ -154,9 +151,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     showDescriptionDialog(1);
                 } else {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            PERMISSION_REQUEST_STORAGE);
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
                 }
             } else {
                 singleExecutor.execute(scanPhotoRunnable);
@@ -187,8 +182,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         PhotoModel photo = multiAdapter.getDatas().get(itemPosition);
         if (photo.getPickNumber() == 0) {
             if (selectedPhotos.size() == limitCount) {
-                Toast.makeText(PhotoPickerActivity.this, String.format(getResources().getString(R.string.photo_limit_count), limitCount),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(PhotoPickerActivity.this, String.format(getResources().getString(R.string.photo_limit_count), limitCount), Toast.LENGTH_SHORT).show();
                 return;
             }
             photo.setPickNumber(selectedPhotos.size() + 1);
@@ -233,12 +227,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
 
         final AlertDialog dialog = builder.create();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(pickColor);
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(pickColor);
-            }
+        dialog.setOnShowListener((dialogInterface) -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(pickColor);
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(pickColor);
         });
         dialog.show();
     }
@@ -263,11 +254,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
 
         final AlertDialog dialog = builder.create();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(pickColor);
-            }
+        dialog.setOnShowListener((dialogInterface) -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(pickColor);
         });
         dialog.show();
     }
@@ -287,8 +275,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
         if (folderModels.get(0).getFolderPhotos().size() == 0) {
             return;
         }
-        if (bottomSheetDialog == null) {
-            bottomSheetDialog = new BottomSheetDialog(this);
+        if (folderSheetDialog == null) {
+            folderSheetDialog = new Dialog(this, R.style.photo_folder_dialog);
             bottomAdapter.resetData(folderModels);
             bottomAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
                 showPhotoGroup(itemPosition);
@@ -297,13 +285,16 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 }
                 bottomAdapter.getDatas().get(itemPosition).setCheck(true);
                 bottomAdapter.notifyItemRangeChanged(0, bottomAdapter.getItemCount());
-                bottomSheetDialog.dismiss();
+                folderSheetDialog.dismiss();
             });
-            bottomSheetDialog.setContentView(bottomRecyclerView);
-            bottomSheetDialog.setCancelable(true);
-            bottomSheetDialog.setCanceledOnTouchOutside(true);
+            folderSheetDialog.setContentView(bottomView);
+            folderSheetDialog.setCancelable(true);
+            folderSheetDialog.setCanceledOnTouchOutside(true);
+
+            folderSheetDialog.findViewById(R.id.photo_folder_view).setOnClickListener((view) -> folderSheetDialog.dismiss());
         }
-        bottomSheetDialog.show();
+        folderSheetDialog.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        folderSheetDialog.show();
     }
 
     @Override

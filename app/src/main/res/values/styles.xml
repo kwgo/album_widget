@@ -71,6 +71,11 @@
         <item name="android:background">@color/photo_board</item>
     </style>
 
+    <style name="photo_folder_dialog">
+        <item name="android:windowBackground">#81000000</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
     <style name="widget_setting" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

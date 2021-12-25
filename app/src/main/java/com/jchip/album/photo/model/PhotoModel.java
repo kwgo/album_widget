@@ -13,8 +13,6 @@ import com.jchip.album.photo.adapter.factory.IItemType;
  */
 
 public class PhotoModel implements Parcelable, Comparable<PhotoModel>, IItemType {
-    public static final int PHOTO_ITEM = R.layout.photo_grid_item;
-
     private String bucketName;
     private int photoId;
     private String photoDesc;
@@ -345,6 +343,6 @@ public class PhotoModel implements Parcelable, Comparable<PhotoModel>, IItemType
 
     @Override
     public int itemLayout() {
-        return PHOTO_ITEM;
+        return R.layout.photo_grid_item;
     }
 }
