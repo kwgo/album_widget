@@ -11,14 +11,9 @@ import androidx.fragment.app.Fragment;
 /**
  * lazy load
  */
-
 public abstract class BaseLazyFragment extends Fragment {
-    protected static final String TAG = BaseLazyFragment.class.getSimpleName();
-    // 當前的fragment 是否可見
     protected boolean isVisiable = false;
-    // 當前的fragment是否已初始化完成
     public boolean isPrepared = false;
-    // 當前的fragment是否已加載數據完成
     public boolean isLoadData = false;
 
     @Override
@@ -59,7 +54,6 @@ public abstract class BaseLazyFragment extends Fragment {
     }
 
     private void onVisiable() {
-        // 加載數據
         loadData();
     }
 

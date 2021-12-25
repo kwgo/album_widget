@@ -29,7 +29,6 @@ import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.photo.adapter.MultiAdapter;
 import com.jchip.album.photo.adapter.itemdecoration.RecycleItemDecoration;
-import com.jchip.album.photo.adapter.listener.OnMultiItemClickListener;
 import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.FolderModel;
 import com.jchip.album.photo.model.PhotoModel;
@@ -51,7 +50,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private int limitCount = PhotoConfig.DEFAULT_LIMIT_COUNT;
     private int pickColor = PhotoConfig.DEFAULT_PICK_COLOR;
     private boolean showGif = PhotoConfig.DEFAULT_SHOW_GIF;
-    private int orientation = PhotoConfig.DEFAULT_ORIENTATION;
     private String folderName = "";
     private int dialogIcon = -1;
 
@@ -79,7 +77,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                         folderModels.clear();
                         folderModels = null;
                     } else {
-                        showAlbum(0);
+                        showPhotoGroup(0);
                     }
                 }
             }, 200L);
@@ -137,11 +135,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
             finish();
         });
 
-        // Bottom Adapter
-        bottomRecyclerView = new RecyclerView(this);
-        //bottomRecyclerView.setBackgroundColor(Color.argb(255, 255, 255, 255));
-        bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        bottomRecyclerView = new RecyclerView(this);
+        bottomRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         bottomRecyclerView.setLayoutManager(manager);
         bottomRecyclerView.setHasFixedSize(true);
         bottomRecyclerView.addItemDecoration(new RecycleItemDecoration(1, Color.LTGRAY));
@@ -170,7 +166,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         }
     }
 
-    private void showAlbum(int index) {
+    private void showPhotoGroup(int index) {
         multiAdapter.resetData(folderModels.get(index).getFolderPhotos());
         layoutManager.scrollToPosition(0);
         //changePhotoStatus();
@@ -183,7 +179,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
         preview.putExtra(PhotoConfig.PREVIEW_ITEM_POSITION, itemPosition);
         preview.putExtra(PhotoConfig.PREVIEW_PICK_COLOR, pickColor);
         preview.putExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, limitCount);
-        preview.putExtra(PhotoConfig.PREVIEW_ORIENTATION, orientation);
         startActivityForResult(preview, ACTIVITY_REQUEST_PREVIEW);
         overridePendingTransition(0, 0);
     }
@@ -209,7 +204,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     private void changePhotoPickNumber() {
-        // 改變item status & index
+        // change item status & index
         for (int i = 0; i < selectedPhotos.size(); i++) {
             selectedPhotos.get(i).setPickNumber(i + 1);
             int index = multiAdapter.getDatas().indexOf(selectedPhotos.get(i));
@@ -289,21 +284,20 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     private void showBottomDialog() {
-        if (folderModels.get(0).getFolderPhotos().size() == 0) return;
+        if (folderModels.get(0).getFolderPhotos().size() == 0) {
+            return;
+        }
         if (bottomSheetDialog == null) {
             bottomSheetDialog = new BottomSheetDialog(this);
             bottomAdapter.resetData(folderModels);
-            bottomAdapter.setOnItemClickListener(new OnMultiItemClickListener() {
-                @Override
-                public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int viewPosition, int itemPosition) {
-                    showAlbum(itemPosition);
-                    for (int i = 0; i < bottomAdapter.getItemCount(); i++) {
-                        bottomAdapter.getDatas().get(i).setCheck(false);
-                    }
-                    bottomAdapter.getDatas().get(itemPosition).setCheck(true);
-                    bottomAdapter.notifyItemRangeChanged(0, bottomAdapter.getItemCount());
-                    bottomSheetDialog.dismiss();
+            bottomAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {
+                showPhotoGroup(itemPosition);
+                for (int i = 0; i < bottomAdapter.getItemCount(); i++) {
+                    bottomAdapter.getDatas().get(i).setCheck(false);
                 }
+                bottomAdapter.getDatas().get(itemPosition).setCheck(true);
+                bottomAdapter.notifyItemRangeChanged(0, bottomAdapter.getItemCount());
+                bottomSheetDialog.dismiss();
             });
             bottomSheetDialog.setContentView(bottomRecyclerView);
             bottomSheetDialog.setCancelable(true);

@@ -18,7 +18,6 @@ import com.jchip.album.photo.utils.DrawableUtils;
 /**
  * FolderViewHolder
  */
-
 public class FolderViewHolder extends BaseViewHolder<FolderModel> {
     private RelativeLayout folderViewHolder;
     private ImageView imageView;

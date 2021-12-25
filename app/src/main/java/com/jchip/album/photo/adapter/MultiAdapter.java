@@ -42,10 +42,10 @@ public class MultiAdapter<T extends IItemType> extends RecyclerView.Adapter<Base
         footerViews = new SparseArray<>();
     }
 
-    public MultiAdapter(@Nullable List<T> list, int wh) {
+    public MultiAdapter(@Nullable List<T> list, int size) {
         data = new ArrayList<>();
         if (list != null) data.addAll(list);
-        itemTypeFactory = ItemTypeFactory.instance(wh);
+        itemTypeFactory = ItemTypeFactory.instance(size);
         headerViews = new SparseArray<>();
         footerViews = new SparseArray<>();
     }

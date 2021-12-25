@@ -18,18 +18,13 @@ import com.jchip.album.photo.view.PhotoNumberView;
 /**
  * PhotoViewHolder
  */
-
 public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
     private ImageView photoImage;
     private TextView gifText;
     private PhotoBorderView photoBorderView;
     private PhotoNumberView photoNumberView;
 
-    private PhotoViewHolder(View itemView) {
-        super(itemView);
-    }
-
-    public PhotoViewHolder(int wh, View itemView) {
+    public PhotoViewHolder(View itemView, int size) {
         super(itemView);
 
         photoImage = (ImageView) getView(R.id.grid_photo_image);
@@ -37,11 +32,11 @@ public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
         photoBorderView = (PhotoBorderView) getView(R.id.grid_border_view);
         photoNumberView = (PhotoNumberView) getView(R.id.photo_number_view);
 
-        if (wh > 0) {
-            ViewGroup.LayoutParams lp = itemView.getLayoutParams();
-            lp.width = wh;
-            lp.height = wh;
-            itemView.setLayoutParams(lp);
+        if (size > 0) {
+            ViewGroup.LayoutParams params = itemView.getLayoutParams();
+            params.width = size;
+            params.height = size;
+            itemView.setLayoutParams(params);
         }
     }
 
@@ -62,11 +57,7 @@ public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
 //        RequestOptions options = new RequestOptions()
 //                .placeholder(R.drawable.ic_place_img_50dp)
 //                .error(R.drawable.ic_place_img_50dp);
-        Glide.with(context)
-                .asBitmap()
-                .load(data.getPhotoPath())
-                //.apply(options)
-                .into(photoImage);
+        Glide.with(context).asBitmap().load(data.getPhotoPath()).into(photoImage); //.apply(options)
 
         if (data.getPhotoPath().endsWith(".gif") || data.getPhotoPath().endsWith(".GIF")) {
             float radius = gifText.getWidth() / 2;

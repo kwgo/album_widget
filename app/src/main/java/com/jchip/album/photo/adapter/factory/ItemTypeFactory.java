@@ -14,7 +14,7 @@ import com.jchip.album.photo.model.PhotoModel;
 
 public class ItemTypeFactory {
     private static volatile ItemTypeFactory itemTypeFactory;
-    private int wh;
+    private int size;
     private static final int PHOTO_ITEM = PhotoModel.PHOTO_ITEM;
     private static final int FOLDER_ITEM = FolderModel.FOLDER_ITEM;
 
@@ -23,14 +23,14 @@ public class ItemTypeFactory {
         return itemTypeFactory;
     }
 
-    private ItemTypeFactory(int wh) {
-        this.wh = wh;
+    private ItemTypeFactory(int size) {
+        this.size = size;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends IItemType> BaseViewHolder<T> createViewHolder(int type, View itemView) {
         if (type == PHOTO_ITEM) {
-            return (BaseViewHolder<T>) new PhotoViewHolder(wh, itemView);
+            return (BaseViewHolder<T>) new PhotoViewHolder(itemView, size);
         } else if (type == FOLDER_ITEM) {
             return (BaseViewHolder<T>) new FolderViewHolder(itemView);
         } else {
