@@ -20,7 +20,7 @@ public class AlbumActivity extends PhotoActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.album_layer);
+        super.setContentView(R.layout.album_photo_layer);
     }
 
     @Override
