@@ -29,8 +29,8 @@ import java.util.List;
 
 public abstract class AbstractActivity extends AppCompatActivity {
     public static final String FRAME_INDEX = "frameIndex";
-    public static final String FRAME_RESOURCE = "frameResource";
-    public static final String FRAME_LOOK = "frameLook";
+    public static final String FRAME_ID = "frameId";
+    public static final String SHELL_ID = "shellId";
 
     protected AlbumData album = new AlbumData();
     protected PhotoData photo = new PhotoData();

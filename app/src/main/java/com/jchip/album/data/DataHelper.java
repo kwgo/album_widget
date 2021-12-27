@@ -327,7 +327,7 @@ public class DataHelper extends DataHandler {
         contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
 
         contentValues.put(PhotoData.fieldFrame, photoData.getFrameIndex());
-        contentValues.put(PhotoData.fieldLook, photoData.getFrameLook());
+        contentValues.put(PhotoData.fieldShell, photoData.getFrameShell());
         contentValues.put(PhotoData.fieldScale, photoData.getScaleIndex());
         contentValues.put(PhotoData.fieldFlip, photoData.getFlipIndex());
         contentValues.put(PhotoData.fieldRotation, photoData.getRotationIndex());
@@ -347,7 +347,7 @@ public class DataHelper extends DataHandler {
         photoData.setPhotoPath((String) rowData.get(PhotoData.fieldPhotoPath));
 
         photoData.setFrameIndex((Integer) rowData.get(PhotoData.fieldFrame));
-        photoData.setFrameLook((Integer) rowData.get(PhotoData.fieldLook));
+        photoData.setFrameShell((Integer) rowData.get(PhotoData.fieldShell));
         photoData.setScaleIndex((Integer) rowData.get(PhotoData.fieldScale));
         photoData.setFlipIndex((Integer) rowData.get(PhotoData.fieldFlip));
         photoData.setRotationIndex((Integer) rowData.get(PhotoData.fieldRotation));

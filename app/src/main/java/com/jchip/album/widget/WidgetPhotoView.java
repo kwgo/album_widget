@@ -79,7 +79,7 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoFrame(int photoFrameId) {
-        int frameId = this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default;
+        int frameId = this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : PhotoHelper.DEFAULT_FRAME_ID;
         this.views.setInt(photoFrameId, "setBackgroundResource", frameId);
     }
 

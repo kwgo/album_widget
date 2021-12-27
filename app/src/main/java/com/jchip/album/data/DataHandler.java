@@ -15,7 +15,7 @@ import java.util.Map;
 public abstract class DataHandler extends SQLiteOpenHelper {
 
     // database version
-    protected static final int DATABASE_VERSION = 12;
+    protected static final int DATABASE_VERSION = 13;
     // database name
     protected static final String DATABASE_NAME = "album";
 
@@ -157,7 +157,7 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         contentValues.put(PhotoData.fieldPhotoPath, "TEXT");
 
         contentValues.put(PhotoData.fieldFrame, "INT");
-        contentValues.put(PhotoData.fieldLook, "INT");
+        contentValues.put(PhotoData.fieldShell, "INT");
         contentValues.put(PhotoData.fieldScale, "INT");
         contentValues.put(PhotoData.fieldFlip, "INT");
         contentValues.put(PhotoData.fieldRotation, "INT");

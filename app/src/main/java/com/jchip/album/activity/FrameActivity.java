@@ -17,7 +17,7 @@ public class FrameActivity extends RecyclerActivity {
     private static final int MAX_FRAME_NUMBER = 200;
 
     private List<Integer> frames;
-    private List<Integer> frameLooks;
+    private List<Integer> frameShells;
 
     private Bitmap photoImage;
 
@@ -35,13 +35,13 @@ public class FrameActivity extends RecyclerActivity {
         this.photo = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
 
         this.frames = new ArrayList<>();
-        this.frameLooks = new ArrayList<>();
+        this.frameShells = new ArrayList<>();
         for (int index = 0; index < MAX_FRAME_NUMBER; index++) {
             int frameId = this.getResources().getIdentifier("frame_item_" + index, "drawable", this.getPackageName());
-            int lookId = this.getResources().getIdentifier("frame_look_" + index, "drawable", this.getPackageName());
+            int shellId = this.getResources().getIdentifier("frame_shell_" + index, "drawable", this.getPackageName());
             if (frameId > 0) {
                 this.frames.add(frameId);
-                this.frameLooks.add(lookId <= 0 ? frameId : lookId);
+                this.frameShells.add(shellId <= 0 ? frameId : shellId);
             }
         }
 
@@ -53,15 +53,15 @@ public class FrameActivity extends RecyclerActivity {
     @Override
     protected void bindItemView(View itemView, int position) {
         this.photo.setFrameIndex(frames.get(position));
-        this.photo.setFrameLook(frameLooks.get(position));
+        this.photo.setFrameShell(frameShells.get(position));
 
         View photoView = itemView.findViewById(R.id.photo_view);
         this.setPhotoView(photoView, true, false, true);
         photoView.setOnClickListener((view) -> {
             Intent intent = new Intent();
             intent.putExtra(FRAME_INDEX, position);
-            intent.putExtra(FRAME_RESOURCE, (Integer) this.frames.get(position));
-            intent.putExtra(FRAME_LOOK, (Integer) this.frameLooks.get(position));
+            intent.putExtra(FRAME_ID, (Integer) this.frames.get(position));
+            intent.putExtra(SHELL_ID, (Integer) this.frameShells.get(position));
             this.setResult(RESULT_OK, intent);
             this.finish();
         });

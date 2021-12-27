@@ -21,6 +21,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PhotoHelper {
+    public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
+    public static final int DEFAULT_SHELL_ID = R.drawable.frame_item_0;
+
     public static void setPhotoView(Context context, View view, PhotoData photo, boolean frame, boolean image, boolean label) {
         setPhotoFrame(view.findViewById(R.id.photo_container), photo, frame);
         setPhotoFrame(view.findViewById(R.id.photo_frame), photo, frame);
@@ -37,7 +40,7 @@ public class PhotoHelper {
         setPhotoImage(imageView, photo, getScreenHeight());
     }
 
-    public static void setPhotoImageLook(ImageView imageView, PhotoData photo) {
+    public static void setShellImage(ImageView imageView, PhotoData photo) {
         setPhotoImage(imageView, photo, getScreenHeight() / 2);
     }
 
@@ -92,8 +95,8 @@ public class PhotoHelper {
 
 
     public static void setPhotoFrame(View view, PhotoData photo, boolean frame) {
-        int frameId = frame ? photo.getFrameIndex() : photo.getFrameLook();
-        frameId = frameId > 0 ? frameId : (frame ? R.drawable.frame_default : R.drawable.frame_look_default);
+        int frameId = frame ? photo.getFrameIndex() : photo.getFrameShell();
+        frameId = frameId > 0 ? frameId : (frame ? DEFAULT_FRAME_ID : DEFAULT_SHELL_ID);
         view.setBackgroundResource(frameId);
     }
 

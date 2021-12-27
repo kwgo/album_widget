@@ -33,11 +33,11 @@ public class LayerActivity extends DataActivity {
     }
 
     public void onFrameChange(Intent intent) {
-        int frameId = intent.getIntExtra(FRAME_RESOURCE, -1);
-        int frameLookId = intent.getIntExtra(FRAME_LOOK, -1);
+        int frameId = intent.getIntExtra(FRAME_ID, -1);
+        int shellId = intent.getIntExtra(SHELL_ID, -1);
         if (frameId >= 0) {
             this.photo.setFrameIndex(frameId);
-            this.photo.setFrameLook(frameLookId);
+            this.photo.setFrameShell(shellId);
             this.setPhotoFrame(this.getView(R.id.photo_container));
             this.setPhotoFrame(this.getView(R.id.photo_frame));
             this.updatePhoto();
