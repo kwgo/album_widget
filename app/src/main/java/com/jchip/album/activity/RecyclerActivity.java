@@ -5,17 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jchip.album.R;
-import com.jchip.album.common.PhotoHelper;
-import com.jchip.album.photo.adapter.itemdecoration.RecycleItemDecoration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class RecyclerActivity extends AbstractActivity {
     private final static int COLUMN_NUMBER = 1;
 
     protected RecyclerView recyclerView;
+
+    private Map<Integer, View> itemViews = new HashMap<>();
 
     public void initRecyclerView(int recyclerId, int itemId, int itemCount) {
         this.recyclerView = (RecyclerView) this.findViewById(recyclerId);
@@ -23,8 +27,9 @@ public abstract class RecyclerActivity extends AbstractActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
-        int color = this.getResources().getColor(R.color.material_blue_grey_800);
-        recyclerView.addItemDecoration(new RecycleItemDecoration(PhotoHelper.dpToPx(1), color));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(this.getDrawable(R.drawable.album_view_divider));
+        recyclerView.addItemDecoration(dividerItemDecoration);
         RecyclerViewAdapter viewAdapter = new RecyclerViewAdapter(this, itemId, itemCount);
         recyclerView.setAdapter(viewAdapter);
     }
@@ -53,7 +58,11 @@ public abstract class RecyclerActivity extends AbstractActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.bind(position);
+            View itemView = itemViews.get(position);
+            if (itemView == null) {
+                holder.bindView(position);
+                itemViews.put(position, holder.getItemView());
+            }
         }
 
         @Override
@@ -69,13 +78,17 @@ public abstract class RecyclerActivity extends AbstractActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             private View itemView;
 
-            public void bind(int position) {
+            public void bindView(int position) {
                 bindItemView(this.itemView, position);
             }
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 this.itemView = itemView;
+            }
+
+            public View getItemView() {
+                return this.itemView;
             }
         }
     }
