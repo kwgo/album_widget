@@ -38,8 +38,7 @@ public class LayerActivity extends DataActivity {
         if (frameId >= 0) {
             this.photo.setFrameIndex(frameId);
             this.photo.setFrameShell(shellId);
-            this.setPhotoFrame(this.getView(R.id.photo_container));
-            this.setPhotoFrame(this.getView(R.id.photo_frame));
+            this.setPhotoFrame(this.getView(R.id.photo_container), this.getView(R.id.photo_frame));
             this.updatePhoto();
         }
     }

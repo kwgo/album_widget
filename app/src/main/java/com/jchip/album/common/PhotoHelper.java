@@ -25,8 +25,7 @@ public class PhotoHelper {
     public static final int DEFAULT_SHELL_ID = R.drawable.frame_item_0;
 
     public static void setPhotoView(Context context, View view, PhotoData photo, boolean frame, boolean image, boolean label) {
-        setPhotoFrame(view.findViewById(R.id.photo_container), photo, frame);
-        setPhotoFrame(view.findViewById(R.id.photo_frame), photo, frame);
+        setPhotoFrame(view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame), photo, frame);
         if (image) {
             setPhotoImage(view.findViewById(R.id.photo_image), photo);
             setPhotoScale(view.findViewById(R.id.photo_image), photo, frame);
@@ -94,10 +93,11 @@ public class PhotoHelper {
     }
 
 
-    public static void setPhotoFrame(View view, PhotoData photo, boolean frame) {
+    public static void setPhotoFrame(View containerView, View frameView, PhotoData photo, boolean frame) {
         int frameId = frame ? photo.getFrameIndex() : photo.getFrameShell();
         frameId = frameId > 0 ? frameId : (frame ? DEFAULT_FRAME_ID : DEFAULT_SHELL_ID);
-        view.setBackgroundResource(frameId);
+        containerView.setBackgroundResource(frameId);
+        frameView.setBackgroundResource(frameId);
     }
 
     public static void setFontLocation(TextView view, PhotoData photo) {

@@ -100,8 +100,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setPhotoFont(this, textView, this.photo);
     }
 
-    public void setPhotoFrame(View view) {
-        PhotoHelper.setPhotoFrame(view, this.photo, true);
+    public void setPhotoFrame(View containerView, View frameView) {
+        PhotoHelper.setPhotoFrame(containerView, frameView, this.photo, true);
     }
 
     public void setFontLocation(TextView textView) {
