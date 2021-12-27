@@ -3,7 +3,6 @@ package com.jchip.album.widget;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -80,8 +79,8 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoFrame(int photoFrameId) {
-        int frameIndex = this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default;
-        this.views.setInt(photoFrameId, "setBackgroundResource", frameIndex);
+        int frameId = this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : R.drawable.frame_default;
+        this.views.setInt(photoFrameId, "setBackgroundResource", frameId);
     }
 
     private void setPhotoLabel() {
@@ -104,10 +103,13 @@ public class WidgetPhotoView {
     }
 
     private void setLabelFont(int photoLabelId) {
-        this.views.setTextViewText(photoLabelId, photo.getFontText());
-        this.views.setTextColor(photoLabelId, photo.getFontColor());
-        this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
-        this.views.setViewVisibility(photoLabelId, View.VISIBLE);
+        this.views.setViewVisibility(photoLabelId, View.INVISIBLE);
+        if (photo.getFontText() != null && !photo.getFontText().trim().isEmpty()) {
+            this.views.setTextViewText(photoLabelId, photo.getFontText());
+            this.views.setTextColor(photoLabelId, photo.getFontColor());
+            this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
+            this.views.setViewVisibility(photoLabelId, View.VISIBLE);
+        }
     }
 
     private void setLabelLocation(int labelContainerId) {

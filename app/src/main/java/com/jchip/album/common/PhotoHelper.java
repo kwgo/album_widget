@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
@@ -75,13 +74,15 @@ public class PhotoHelper {
     }
 
     public static void setPhotoLabel(Context context, TextView textView, PhotoData photo) {
-        textView.setTextColor(Color.TRANSPARENT);
+        textView.setVisibility(View.INVISIBLE);
         if (photo.getFontText() != null && !photo.getFontText().trim().isEmpty()) {
             textView.setText(photo.getFontText());
             textView.setTextColor(photo.getFontColor());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
             setPhotoFont(context, textView, photo);
             setFontLocation(textView, photo);
+            textView.setVisibility(View.VISIBLE);
+            ;
         }
     }
 
