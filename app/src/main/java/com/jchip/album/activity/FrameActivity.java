@@ -115,14 +115,6 @@ public class FrameActivity extends AbstractActivity {
                 }
                 imageView.setImageBitmap(photoImage);
 
-//              view.findViewById(R.id.photo_container).setBackgroundResource(frameLooks.get(position));
-//              view.findViewById(R.id.photo_frame).setBackgroundResource(frameLooks.get(position));
-//              view.findViewById(R.id.photo_board).setBackgroundColor(Color.TRANSPARENT);
-//
-//              ImageView photoView = view.findViewById(R.id.photo_image);
-//              photoView.setScaleType(ImageView.ScaleType.CENTER);
-//              photoView.setImageResource(R.drawable.photo_default);
-
                 this.views.put(position, view);
             }
             return view;
