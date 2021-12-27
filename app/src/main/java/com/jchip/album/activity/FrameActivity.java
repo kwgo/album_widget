@@ -1,27 +1,25 @@
 package com.jchip.album.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.jchip.album.R;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class FrameActivity extends AbstractActivity {
+public class FrameActivity extends RecyclerActivity {
     private static final int MAX_FRAME_NUMBER = 200;
+
+    private List<Integer> frames;
+    private List<Integer> frameLooks;
+
+    private Bitmap photoImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,88 +34,42 @@ public class FrameActivity extends AbstractActivity {
 
         this.photo = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
 
-        ListView frameView = this.getListView(R.id.frame_list_view);
-        ListViewAdapter listViewAdapter = new ListViewAdapter(getApplicationContext());
-        frameView.setAdapter(listViewAdapter);
-        frameView.setOnItemClickListener((adapterView, view, position, id) -> {
-            Intent intent = new Intent();
-            intent.putExtra(FRAME_INDEX, position);
-            intent.putExtra(FRAME_RESOURCE, (Integer) listViewAdapter.getItem(position));
-            intent.putExtra(FRAME_LOOK, (Integer) listViewAdapter.getLook(position));
-            this.setResult(RESULT_OK, intent);
-            this.finish();
-        });
+        this.frames = new ArrayList<>();
+        this.frameLooks = new ArrayList<>();
+        for (int index = 0; index < MAX_FRAME_NUMBER; index++) {
+            int frameId = this.getResources().getIdentifier("frame_item_" + index, "drawable", this.getPackageName());
+            int lookId = this.getResources().getIdentifier("frame_look_" + index, "drawable", this.getPackageName());
+            if (frameId > 0) {
+                this.frames.add(frameId);
+                this.frameLooks.add(lookId <= 0 ? frameId : lookId);
+            }
+        }
+
+        this.initRecyclerView(R.id.album_frame_view, R.layout.album_frame_item, frames.size());
+
         this.getView(R.id.frame_setting_view).setOnClickListener((v) -> this.finish());
     }
 
-    public class ListViewAdapter extends BaseAdapter {
-        private Context context;
-        private LayoutInflater inflater;
+    @Override
+    protected void bindItemView(View itemView, int position) {
+        this.photo.setFrameIndex(frames.get(position));
+        this.photo.setFrameLook(frameLooks.get(position));
 
-        private Map<Integer, View> views = new HashMap<>();
+        View photoView = itemView.findViewById(R.id.photo_view);
+        this.setPhotoView(photoView, true, false, true);
+        photoView.setOnClickListener((view) -> {
+            Intent intent = new Intent();
+            intent.putExtra(FRAME_INDEX, position);
+            intent.putExtra(FRAME_RESOURCE, (Integer) this.frames.get(position));
+            intent.putExtra(FRAME_LOOK, (Integer) this.frameLooks.get(position));
+            this.setResult(RESULT_OK, intent);
+            this.finish();
+        });
 
-        private List<Integer> frames;
-        private List<Integer> frameLooks;
-
-        private Bitmap photoImage;
-
-        public ListViewAdapter(Context context) {
-            this.context = context;
-            this.inflater = (LayoutInflater.from(context));
-
-            this.frames = new ArrayList<>();
-            this.frameLooks = new ArrayList<>();
-            for (int index = 0; index < MAX_FRAME_NUMBER; index++) {
-                String sourceFrame = "frame_item_" + index;
-                int sourceId = context.getResources().getIdentifier(sourceFrame, "drawable", context.getPackageName());
-                if (sourceId > 0) {
-                    this.frames.add(sourceId);
-                    sourceFrame = "frame_look_" + index;
-                    int lookId = context.getResources().getIdentifier(sourceFrame, "drawable", context.getPackageName());
-                    this.frameLooks.add(lookId <= 0 ? sourceId : lookId);
-                }
-            }
+        ImageView imageView = itemView.findViewById(R.id.photo_image);
+        if (this.photoImage == null) {
+            this.photoImage = PhotoHelper.loadPhotoImage(imageView, this.photo, PhotoHelper.getScreenWidth() / 2);
         }
-
-        @Override
-        public int getCount() {
-            return this.frames.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return this.frames.get(position);
-        }
-
-        public Object getLook(int position) {
-            return this.frameLooks.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup viewGroup) {
-            view = this.views.get(position);
-            if (view == null) {
-                view = inflater.inflate(R.layout.album_frame_item, null);
-
-                photo.setFrameIndex(frames.get(position));
-                photo.setFrameLook(frameLooks.get(position));
-
-                setPhotoView(view.findViewById(R.id.photo_view), true, false, true);
-
-                ImageView imageView = view.findViewById(R.id.photo_image);
-                if (this.photoImage == null) {
-                    this.photoImage = PhotoHelper.loadPhotoImage(imageView, photo, PhotoHelper.getScreenWidth() / 2);
-                }
-                imageView.setImageBitmap(photoImage);
-
-                this.views.put(position, view);
-            }
-            return view;
-        }
+        imageView.setImageBitmap(photoImage);
     }
 }

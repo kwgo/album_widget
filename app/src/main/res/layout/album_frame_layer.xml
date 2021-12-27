@@ -9,14 +9,11 @@
     android:weightSum="1"
     tools:context=".ActivityFrame">
 
-    <ListView
-        android:id="@+id/frame_list_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/album_frame_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.64"
-        android:divider="@color/material_blue_grey_800"
-        android:dividerHeight="1dp"
-        android:footerDividersEnabled="false"
         android:paddingStart="16dp"
         android:paddingTop="0dp"
         android:paddingEnd="16dp"
