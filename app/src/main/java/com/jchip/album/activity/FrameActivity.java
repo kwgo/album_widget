@@ -7,13 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.jchip.album.R;
+import com.jchip.album.data.PhotoData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FrameActivity extends AbstractActivity {
     private static final int MAX_FRAME_NUMBER = 200;
@@ -28,6 +30,8 @@ public class FrameActivity extends AbstractActivity {
     @Override
     public void initContentView() {
         super.initContentView();
+
+        this.photo = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
 
         ListView frameView = this.getListView(R.id.frame_list_view);
         ListViewAdapter listViewAdapter = new ListViewAdapter(getApplicationContext());
@@ -46,6 +50,8 @@ public class FrameActivity extends AbstractActivity {
     public class ListViewAdapter extends BaseAdapter {
         private Context context;
         private LayoutInflater inflater;
+
+        private Map<Integer, View> views = new HashMap<>();
 
         private List<Integer> frames;
         private List<Integer> frameLooks;
@@ -89,15 +95,24 @@ public class FrameActivity extends AbstractActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
-            view = inflater.inflate(R.layout.album_frame_item, null);
+            view = this.views.get(position);
+            if (view == null) {
+                view = inflater.inflate(R.layout.album_frame_item, null);
 
-            view.findViewById(R.id.photo_container).setBackgroundResource(frameLooks.get(position));
-            view.findViewById(R.id.photo_frame).setBackgroundResource(frameLooks.get(position));
+                photo.setFrameIndex(frames.get(position));
+                photo.setFrameLook(frameLooks.get(position));
+                setPhotoLook(view.findViewById(R.id.photo_view), true);
 
-            ImageView photoView = view.findViewById(R.id.photo_image);
-            photoView.setScaleType(ImageView.ScaleType.CENTER);
-            photoView.setImageResource(R.drawable.photo_default);
+//              view.findViewById(R.id.photo_container).setBackgroundResource(frameLooks.get(position));
+//              view.findViewById(R.id.photo_frame).setBackgroundResource(frameLooks.get(position));
+//              view.findViewById(R.id.photo_board).setBackgroundColor(Color.TRANSPARENT);
+//
+//              ImageView photoView = view.findViewById(R.id.photo_image);
+//              photoView.setScaleType(ImageView.ScaleType.CENTER);
+//              photoView.setImageResource(R.drawable.photo_default);
 
+                this.views.put(position, view);
+            }
             return view;
         }
     }

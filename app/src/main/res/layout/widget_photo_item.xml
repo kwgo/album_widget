@@ -12,20 +12,20 @@
         <FrameLayout
             android:id="@+id/photo_container"
             android:layout_width="match_parent"
-            android:background="@drawable/frame_default"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/frame_default">
 
-            <RelativeLayout
-                style="@style/photo_board"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/photo_board">
 
                 <ImageView
                     android:id="@+id/photo_image_0"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/photo_default"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/photo_default" />
 
                 <ImageView
                     android:id="@+id/photo_image_1"
@@ -48,23 +48,30 @@
                     android:scaleType="center"
                     android:visibility="invisible" />
 
-                <LinearLayout
-                    android:id="@+id/label_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <include layout="@layout/widget_photo_label" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
+            </FrameLayout>
 
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/photo_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/photo_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/label_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/widget_photo_label" />
+            </LinearLayout>
+
+        </FrameLayout>
+
     </FrameLayout>
 
 </LinearLayout>

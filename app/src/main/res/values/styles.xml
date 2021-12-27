@@ -67,10 +67,6 @@
         <item name="android:paddingBottom">0dp</item>
     </style>
 
-    <style name="photo_board">
-        <item name="android:background">@color/photo_board</item>
-    </style>
-
     <style name="photo_folder_dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>

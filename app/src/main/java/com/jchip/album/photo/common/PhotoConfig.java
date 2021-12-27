@@ -13,7 +13,7 @@ public final class PhotoConfig {
     public static final String PREVIEW_LIMIT_COUNT = "PREVIEW_LIMIT_COUNT";
 
     public static final int DEFAULT_PICK_COLOR = Color.parseColor("#ffffc107");
-    public static final int DEFAULT_LIMIT_COUNT = 5;
+    public static final int DEFAULT_LIMIT_COUNT = 300;
     public static final int DEFAULT_SPAN_COUNT = 3;
     public static final boolean DEFAULT_SHOW_GIF = true;
     public static final int DEFAULT_ORIENTATION = 99999;
