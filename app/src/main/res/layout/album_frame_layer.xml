@@ -17,9 +17,9 @@
         android:divider="@color/material_blue_grey_800"
         android:dividerHeight="1dp"
         android:footerDividersEnabled="false"
-        android:paddingStart="32dp"
+        android:paddingStart="16dp"
         android:paddingTop="0dp"
-        android:paddingEnd="32dp"
+        android:paddingEnd="16dp"
         android:paddingBottom="0dp" />
 
 </LinearLayout>

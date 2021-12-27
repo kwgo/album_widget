@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FrameActivity extends AbstractActivity {
-    private static final int MAX_FRAME_NUMBER = 100;
+    private static final int MAX_FRAME_NUMBER = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +57,13 @@ public class FrameActivity extends AbstractActivity {
             this.frames = new ArrayList<>();
             this.frameLooks = new ArrayList<>();
             for (int index = 0; index < MAX_FRAME_NUMBER; index++) {
-                String sourceFrame = "frame_" + index;
+                String sourceFrame = "frame_item_" + index;
                 int sourceId = context.getResources().getIdentifier(sourceFrame, "drawable", context.getPackageName());
                 if (sourceId > 0) {
                     this.frames.add(sourceId);
                     sourceFrame = "frame_look_" + index;
-                    sourceId = context.getResources().getIdentifier(sourceFrame, "drawable", context.getPackageName());
-                    this.frameLooks.add(sourceId);
+                    int lookId = context.getResources().getIdentifier(sourceFrame, "drawable", context.getPackageName());
+                    this.frameLooks.add(lookId <= 0 ? sourceId : lookId);
                 }
             }
         }
@@ -90,8 +90,14 @@ public class FrameActivity extends AbstractActivity {
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.album_frame_item, null);
-            ImageView imageView = view.findViewById(R.id.frame_item_image);
-            imageView.setImageResource(frameLooks.get(position));
+
+            view.findViewById(R.id.photo_container).setBackgroundResource(frameLooks.get(position));
+            view.findViewById(R.id.photo_frame).setBackgroundResource(frameLooks.get(position));
+
+            ImageView photoView = view.findViewById(R.id.photo_image);
+            photoView.setScaleType(ImageView.ScaleType.CENTER);
+            photoView.setImageResource(R.drawable.photo_default);
+
             return view;
         }
     }
