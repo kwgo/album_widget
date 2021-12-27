@@ -87,7 +87,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
                 albumName.setText(albumData.getAlbumName());
                 PhotoData photoData = albumData.getPhoto(0);
                 View photoView = view.findViewById(R.id.photo_view);
-                PhotoHelper.setPhotoLook(context, photoView, photoData, false);
+                PhotoHelper.setPhotoView(context, photoView, photoData, false, true, false);
                 this.views.put(position, view);
             }
             return view;

@@ -54,7 +54,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
 
             this.albums = new ArrayList<>();
             for (AlbumData albumData : DataHelper.getInstance(context).queryAlbumPhotos()) {
-                 this.albums.add(albumData);
+                this.albums.add(albumData);
 
                 AlbumData photoAlbum = new AlbumData();
                 for (int index = 0; index < albumData.getPhotoSize(); index++) {
@@ -94,7 +94,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
                     for (int index = 0; index < albumData.getPhotoSize(); index++) {
                         PhotoData photoData = albumData.getPhoto(index);
                         View photoView = view.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
-                        PhotoHelper.setPhotoLook(context, photoView, photoData, false);
+                        PhotoHelper.setPhotoView(context, photoView, photoData, false, true, false);
                         photoView.setVisibility(View.VISIBLE);
                         photoView.setOnClickListener((v) -> {
                             WidgetData widgetData = new WidgetData();

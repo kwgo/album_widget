@@ -76,12 +76,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
         this.activityResultLauncher.launch(intent);
     }
 
-    public void setPhotoView(View view) {
-        PhotoHelper.setPhotoView(this, view, this.photo);
-    }
-
-    public void setPhotoLook(View view, boolean label) {
-        PhotoHelper.setPhotoLook(this, view, this.photo, label);
+    public void setPhotoView(View view, boolean frame, boolean image, boolean label) {
+        PhotoHelper.setPhotoView(this, view, this.photo, frame, image, label);
     }
 
     public void setPhotoImage(ImageView imageView) {
@@ -105,7 +101,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void setPhotoFrame(View view) {
-        PhotoHelper.setPhotoFrame(view, this.photo);
+        PhotoHelper.setPhotoFrame(view, this.photo, true);
     }
 
     public void setFontLocation(TextView textView) {

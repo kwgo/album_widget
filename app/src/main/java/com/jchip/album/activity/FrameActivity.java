@@ -2,14 +2,17 @@ package com.jchip.album.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.jchip.album.R;
+import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 
 import java.util.ArrayList;
@@ -56,6 +59,8 @@ public class FrameActivity extends AbstractActivity {
         private List<Integer> frames;
         private List<Integer> frameLooks;
 
+        private Bitmap photoImage;
+
         public ListViewAdapter(Context context) {
             this.context = context;
             this.inflater = (LayoutInflater.from(context));
@@ -101,7 +106,14 @@ public class FrameActivity extends AbstractActivity {
 
                 photo.setFrameIndex(frames.get(position));
                 photo.setFrameLook(frameLooks.get(position));
-                setPhotoLook(view.findViewById(R.id.photo_view), true);
+
+                setPhotoView(view.findViewById(R.id.photo_view), true, false, true);
+
+                ImageView imageView = view.findViewById(R.id.photo_image);
+                if (this.photoImage == null) {
+                    this.photoImage = PhotoHelper.loadPhotoImage(imageView, photo, PhotoHelper.getScreenWidth() / 2);
+                }
+                imageView.setImageBitmap(photoImage);
 
 //              view.findViewById(R.id.photo_container).setBackgroundResource(frameLooks.get(position));
 //              view.findViewById(R.id.photo_frame).setBackgroundResource(frameLooks.get(position));
