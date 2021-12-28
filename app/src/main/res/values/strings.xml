@@ -26,14 +26,14 @@
     <string name="dialog_permission_ok">OK</string>
     <string name="dialog_permission_cancel">Cancel</string>
 
-    <string name="dialog_deny_title">選擇照片功能已被拒絕</string>
-    <string name="dialog_deny_description">請至手機設定 → 應用程式 → %1$s → 權限，將【儲存】開啟</string>
-    <string name="dialog_deny_go_setting">前往設定</string>
+    <string name="dialog_deny_title">Select photo function has been rejected</string>
+    <string name="dialog_deny_description">Please go to phone settings → Application → %1$s → Permission, turn on Storage</string>
+    <string name="dialog_deny_go_setting">Go to settings</string>
 
     <string name="photo_all_folder">All Photos</string>
     <string name="photo_type_gif">GIF</string>
     <string name="photo_folder_count">%1$s (%2$d)</string>
-    <string name="photo_limit_count">最多選擇%d張</string>
+    <string name="photo_limit_count">Select at most %d sheets</string>
 
     <string name="photo_fat_button_behavior" translatable="false">com.jchip.album.photo.behavior.FatButtonScrollHideBehavior</string>
 

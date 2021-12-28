@@ -13,7 +13,7 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/photos_view"
@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:visibility="invisible">
 
             <include layout="@layout/album_photo_item" />
@@ -45,7 +45,7 @@
             android:layout_marginStart="1px"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:visibility="invisible">
 
             <include layout="@layout/album_photo_item" />

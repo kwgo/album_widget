@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.R;
-import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
@@ -16,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WidgetPhotoSetting extends WidgetSetting {
-    private static final int DENSITY_FACTOR = 8;
+    protected static final int PHOTO_DENSITY_FACTOR = 8;
+
     private static final int PHOTO_NUMBER = 2;
 
     private List<AlbumData> albums;
@@ -58,17 +58,16 @@ public class WidgetPhotoSetting extends WidgetSetting {
             for (int index = 0; index < albumData.getPhotoSize(); index++) {
                 PhotoData photoData = albumData.getPhoto(index);
                 View photoView = itemView.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
-                PhotoHelper.setPhotoView(this, photoView, photoData, DENSITY_FACTOR, true, false, false);
+                this.setPhotoView(photoView, photoData, PHOTO_DENSITY_FACTOR);
                 photoView.setVisibility(View.VISIBLE);
 
                 photoView.setOnClickListener((view) -> {
                     WidgetData widgetData = new WidgetData();
-                    widgetData.setWidgetId(appWidgetId);
                     widgetData.setAlbumId(photoData.getAlbumId());
                     widgetData.setPhotoId(photoData.getPhotoId());
-                    saveWidget(widgetData);
-                    updateWidget(ActivityPhotoSetting.PhotoProvider.class);
-                    finish();
+                    this.saveWidget(widgetData);
+                    this.updateWidget(ActivityPhotoSetting.PhotoProvider.class);
+                    this.finish();
                 });
             }
         }

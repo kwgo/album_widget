@@ -5,7 +5,7 @@
         <item name="android:colorBackground">@color/window_background</item>
         <item name="colorPrimary">@color/window_background</item>
         <item name="colorPrimaryDark">@color/window_background</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="layer_theme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -15,7 +15,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="album_name_menu">

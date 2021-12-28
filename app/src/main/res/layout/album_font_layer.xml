@@ -16,11 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <FrameLayout
@@ -99,14 +101,15 @@
             android:id="@+id/photo_text"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_centerVertical="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="5dp"
             android:alpha="0.95"
+            android:autofillHints="@string/font_sample"
             android:background="@drawable/font_edit_text"
             android:hint="@string/font_sample"
+            android:inputType="text"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:textColor="#F8FFFFFF"
