@@ -8,7 +8,7 @@ import com.jchip.album.ActivityFrame;
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 
-public class LayerActivity extends DataActivity {
+public abstract class LayerActivity extends DataActivity {
 
     @Override
     public void initContentView() {

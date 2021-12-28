@@ -13,6 +13,7 @@ import com.jchip.album.R;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.AlbumViewAdapter;
+import com.jchip.album.view.PhotoView;
 
 public class AlbumActivity extends PhotoActivity {
     private AlbumView albumView;
@@ -20,7 +21,7 @@ public class AlbumActivity extends PhotoActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.album_photo_layer);
+        super.setContentView(PhotoView.LAYER_ALBUM_PHOTO, R.layout.album_photo_layer);
     }
 
     @Override

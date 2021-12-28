@@ -9,8 +9,8 @@ import com.jchip.album.ActivityAlbumSetting;
 import com.jchip.album.R;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
-import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
+import com.jchip.album.view.PhotoView;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.widget_album_setting);
+        super.setContentView(PhotoView.WIDGET_ALBUM_SETTING, R.layout.widget_album_setting);
     }
 
     @Override
@@ -41,9 +41,9 @@ public class WidgetAlbumSetting extends WidgetSetting {
         AlbumData albumData = this.albums.get(position);
         TextView albumName = itemView.findViewById(R.id.album_name);
         albumName.setText(albumData.getAlbumName());
-        PhotoData photoData = albumData.getPhoto(0);
+        this.photo = albumData.getPhoto(0);
         View photoView = itemView.findViewById(R.id.photo_view);
-        this.setPhotoView(photoView, photoData, ALBUM_DENSITY_FACTOR);
+        this.setPhotoView(photoView);
 
         itemView.setOnClickListener((view) -> {
             WidgetData widgetData = new WidgetData();

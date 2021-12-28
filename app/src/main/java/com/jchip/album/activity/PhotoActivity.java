@@ -78,7 +78,7 @@ public class PhotoActivity extends LayerActivity {
 
     public void setAlbumPhoto(PhotoData photo) {
         this.photo = photo;
-        this.setPhotoView(this.getView(R.id.photos_view), true, true, true);
+        this.setPhotoView(this.getView(R.id.photos_view));
     }
 
     private boolean onSlipPhoto(int offset) {

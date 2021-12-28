@@ -9,8 +9,8 @@ import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.R;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
-import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
+import com.jchip.album.view.PhotoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.widget_photo_setting);
+        super.setContentView(PhotoView.WIDGET_PHOTO_SETTING, R.layout.widget_photo_setting);
     }
 
     @Override
@@ -57,15 +57,15 @@ public class WidgetPhotoSetting extends WidgetSetting {
             albumName.setText(albumData.getAlbumName());
         } else {
             for (int index = 0; index < albumData.getPhotoSize(); index++) {
-                PhotoData photoData = albumData.getPhoto(index);
+                this.photo = albumData.getPhoto(index);
                 View photoView = itemView.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
-                this.setPhotoView(photoView, photoData, PHOTO_DENSITY_FACTOR);
+                this.setPhotoView(photoView);
                 photoView.setVisibility(View.VISIBLE);
 
                 photoView.setOnClickListener((view) -> {
                     WidgetData widgetData = new WidgetData();
-                    widgetData.setAlbumId(photoData.getAlbumId());
-                    widgetData.setPhotoId(photoData.getPhotoId());
+                    widgetData.setAlbumId(this.photo.getAlbumId());
+                    widgetData.setPhotoId(this.photo.getPhotoId());
                     this.saveWidget(widgetData);
                     this.updateWidget(ActivityPhotoSetting.PhotoProvider.class);
                     this.finish();

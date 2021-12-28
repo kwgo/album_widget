@@ -1,10 +1,7 @@
 package com.jchip.album.common;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
@@ -12,127 +9,80 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
-
 import com.jchip.album.R;
-import com.jchip.album.data.PhotoData;
+import com.jchip.album.view.PhotoView;
 
-import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
 public class PhotoHelper {
-    public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
 
-    public static void setPhotoView(Context context, View view, PhotoData photo, int frame, boolean image, boolean label, boolean gap) {
-        setPhotoFrame(context, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame), photo, frame);
-        if (image) {
-            setPhotoImage(view.findViewById(R.id.photo_image), photo);
-            setPhotoScale(view.findViewById(R.id.photo_image), photo, gap);
+    public static void setPhotoView(PhotoView photoView, View view) {
+        if (photoView.isFrameOn()) {
+            setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame));
         }
-        if (label) {
-            setPhotoLabel(context, view.findViewById(R.id.photo_label), photo);
+        if (photoView.isImageOn()) {
+            setPhotoImage(photoView, view.findViewById(R.id.photo_image));
+            setPhotoScale(photoView, view.findViewById(R.id.photo_image));
+        }
+        if (photoView.isLabelOn()) {
+            setPhotoLabel(photoView, view.findViewById(R.id.photo_label));
         }
     }
 
-    public static void setPhotoImage(ImageView imageView, PhotoData photo) {
-        setPhotoImage(imageView, photo, getScreenHeight());
-    }
-
-    public static void setPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {
-        Bitmap bitmap = loadPhotoImage(imageView, photo, maxSize);
+    public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
+        Bitmap bitmap = photoView.getPhotoImage();
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
     }
 
-    public static Bitmap loadPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {
-        Bitmap bitmap = null;
-        if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            bitmap = loadBitmap(photo.getPhotoPath());
-        }
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(imageView.getResources(), R.drawable.photo_default);
-        }
-        if (bitmap != null) {
-            bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), maxSize);
-        }
-        return bitmap;
+
+    public static void setPhotoScale(PhotoView photoView, ImageView imageView) {
+        int gap = dpToPx(photoView.getImageGap());
+        imageView.setPadding(gap, gap, gap, gap);
+        imageView.setScaleType(photoView.getPhotoScale());
     }
 
-    public static void setPhotoScale(ImageView imageView, PhotoData photo, boolean gap) {
-        ImageView.ScaleType[] scale = {
-                ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
-                ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
-        };
-        int FIT_PADDING = dpToPx(gap ? 16 : 2);
-        int gapBorder = scale[photo.getScaleIndex()] == ImageView.ScaleType.FIT_CENTER ? FIT_PADDING : 0;
-        imageView.setPadding(gapBorder, gapBorder, gapBorder, gapBorder);
-        imageView.setScaleType(scale[photo.getScaleIndex()]);
-    }
-
-    public static void setPhotoLabel(Context context, TextView textView, PhotoData photo) {
+    public static void setPhotoLabel(PhotoView photoView, TextView textView) {
         textView.setVisibility(View.INVISIBLE);
-        if (photo.getFontText() != null && !photo.getFontText().trim().isEmpty()) {
-            textView.setText(photo.getFontText());
-            textView.setTextColor(photo.getFontColor());
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photo.getFontSize());
-            setPhotoFont(context, textView, photo);
-            setFontLocation(textView, photo);
+        if (photoView.getFontText() != null && !photoView.getFontText().trim().isEmpty()) {
+            textView.setText(photoView.getFontText());
+            textView.setTextColor(photoView.getFontColor());
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontSize());
+            setPhotoFont(photoView, textView);
+            setFontLocation(photoView, textView);
             textView.setVisibility(View.VISIBLE);
         }
     }
 
-    public static void setPhotoFont(Context context, TextView textView, PhotoData photo) {
-        textView.setTypeface(getFontTypeface(context, photo.getFontType()));
+    public static void setPhotoFont(PhotoView photoView, TextView textView) {
+        textView.setTypeface(photoView.getPhotoFontType());
     }
 
 
-    public static void setPhotoFrame(Context context, View containerView, View frameView, PhotoData photo, int density) {
-        int frameId = photo.getFrameIndex() > 0 ? photo.getFrameIndex() : DEFAULT_FRAME_ID;
-        // x 40 to change density
-        Drawable drawable = NinePatchHelper.getImageDrawable(context, frameId, density);
+    public static void setPhotoFrame(PhotoView photoView, View containerView, View frameView) {
+        Drawable drawable = photoView.getFrameDrawable();
         if (drawable != null) {
             containerView.setBackground(drawable);
             frameView.setBackground(drawable);
         } else {
+            int frameId = photoView.getFrameIndex();
             containerView.setBackgroundResource(frameId);
             frameView.setBackgroundResource(frameId);
         }
     }
 
-    public static void setFontLocation(TextView view, PhotoData photo) {
-        view.setGravity(photo.getFontLocation());
-        ((LinearLayout) view.getParent()).setGravity(photo.getFontLocation());
+    public static void setFontLocation(PhotoView photoView, TextView textView) {
+        int fontLocation = photoView.getFontLocation();
+        textView.setGravity(fontLocation);
+        ((LinearLayout) textView.getParent()).setGravity(fontLocation);
     }
 
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public static Bitmap loadBitmap(String path) {
-        try (FileInputStream inputStream = new FileInputStream(path)) {
-            return BitmapFactory.decodeStream(inputStream);
-        } catch (Exception ignored) {
-        }
-        return null;
-    }
-
-    public static int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
-    public static int getScreenHeight() {
-        return Resources.getSystem().getDisplayMetrics().heightPixels;
-    }
-
-    public static Typeface getFontTypeface(Context context, int fontId) {
-        try {
-            return ResourcesCompat.getFont(context, fontId);
-        } catch (Exception ignored) {
-        }
-        return null;
-    }
 
     public static int getFontIndex(int fontId) {
         List<Integer> fonts = getFonts();
@@ -143,4 +93,5 @@ public class PhotoHelper {
         return Arrays.asList(R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
                 R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
     }
+
 }

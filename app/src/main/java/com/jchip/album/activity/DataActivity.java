@@ -8,11 +8,6 @@ import java.util.List;
 
 public class DataActivity extends AbstractActivity {
 
-    @Override
-    public void initContentView() {
-        super.initContentView();
-    }
-
     protected List<AlbumData> queryAlbums() {
         return DataHelper.getInstance(this).queryAlbums();
     }

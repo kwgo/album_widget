@@ -3,13 +3,10 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.jchip.album.activity.ListActivity;
-import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.DataHelper;
-import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
 
 public abstract class WidgetSetting extends ListActivity {
@@ -35,10 +32,6 @@ public abstract class WidgetSetting extends ListActivity {
         if (this.appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
         }
-    }
-
-    protected void setPhotoView(View photoView, PhotoData photoData, int density) {
-        PhotoHelper.setPhotoView(this, photoView, photoData, density, true, false, false);
     }
 
     protected void notifyWidget(int value) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jchip.album.R;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.view.PhotoView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,20 +23,18 @@ public class FontActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.album_font_layer);
+        super.setContentView(PhotoView.LAYER_FONT_SETTING, R.layout.album_font_layer);
         super.setStatusBarColor(android.R.color.transparent);
     }
 
     @Override
     public void initContentView() {
-        super.initContentView();
-
         Intent intent = this.getIntent();
         this.setResult(RESULT_OK, intent);
 
         this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
 
-        this.setPhotoView(this.getView(R.id.photo_view), false, true, true);
+        this.setPhotoView(this.getView(R.id.photo_view));
 
         this.getTextView(R.id.photo_text).setText(this.photo.getFontText());
         this.getSeekView(R.id.font_color_a).setProgress((this.photo.getFontColor() >> 24) & 0xFF);

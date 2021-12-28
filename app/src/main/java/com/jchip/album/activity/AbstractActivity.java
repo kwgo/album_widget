@@ -3,6 +3,7 @@ package com.jchip.album.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,14 +22,12 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.view.PhotoView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractActivity extends AppCompatActivity {
-    private static final int FRAME_DENSITY_FACTOR = 1;
-    private static final int SHELL_DENSITY_FACTOR = 4;
-
     public static final String FRAME_INDEX = "frameIndex";
     public static final String FRAME_ID = "frameId";
     public static final String SHELL_ID = "shellId";
@@ -40,6 +39,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ActivityCallBack activityCallBack;
 
+    private int layer = -1;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -47,11 +48,18 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
+        this.setContentView(this.layer, layoutResID);
+    }
+
+    public void setContentView(int layer, @LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
+        this.layer = layer;
+        Log.d("", "setContentView layer === " + layer);
         this.initContentView();
     }
 
-    public void initContentView() {
+    protected void initContentView() {
+        Log.d("", "initContentView parent set activityResultLauncher === " + layer);
         this.activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -77,34 +85,38 @@ public abstract class AbstractActivity extends AppCompatActivity {
         this.activityResultLauncher.launch(intent);
     }
 
-    public void setPhotoView(View view, boolean frame, boolean image, boolean label) {
-        int density = frame ? FRAME_DENSITY_FACTOR : SHELL_DENSITY_FACTOR;
-        PhotoHelper.setPhotoView(this, view, this.photo, density, image, label, true);
+    public PhotoView getPhotoView() {
+        return new PhotoView(this, this.photo, this.layer);
+    }
+
+    public void setPhotoView(View view) {
+        PhotoHelper.setPhotoView(this.getPhotoView(), view);
     }
 
     public void setPhotoImage(ImageView imageView) {
-        PhotoHelper.setPhotoImage(imageView, this.photo);
+        PhotoHelper.setPhotoImage(this.getPhotoView(), imageView);
     }
 
     public void setPhotoScale(ImageView imageView) {
-        PhotoHelper.setPhotoScale(imageView, this.photo, true);
+        PhotoHelper.setPhotoScale(this.getPhotoView(), imageView);
     }
 
     public void setPhotoLabel(TextView textView) {
-        PhotoHelper.setPhotoLabel(this, textView, this.photo);
+        PhotoHelper.setPhotoLabel(this.getPhotoView(), textView);
     }
 
     public void setPhotoFont(TextView textView) {
-        PhotoHelper.setPhotoFont(this, textView, this.photo);
+        PhotoHelper.setPhotoFont(this.getPhotoView(), textView);
     }
 
     public void setPhotoFrame(View containerView, View frameView) {
-        PhotoHelper.setPhotoFrame(this, containerView, frameView, this.photo, FRAME_DENSITY_FACTOR);
+        PhotoHelper.setPhotoFrame(this.getPhotoView(), containerView, frameView);
     }
 
     public void setFontLocation(TextView textView) {
-        PhotoHelper.setFontLocation(textView, this.photo);
+        PhotoHelper.setFontLocation(this.getPhotoView(), textView);
     }
+
 
     public void alert(int titleId, int detailId, Runnable work) {
         AlbumHelper.alert(this, titleId, detailId, work);

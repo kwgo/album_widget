@@ -16,11 +16,11 @@ import java.nio.ByteOrder;
 public class NinePatchHelper {
     private static final int SCALE_NUMBER = 40;
 
-    public static Drawable getImageDrawable(Context context, int imageId, int densityFactor) {
+    public static Drawable getImageDrawable(Context context, int imageId, int densitySize) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = true;
-            options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densityFactor;
+            options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = context.getResources().getDisplayMetrics().densityDpi;
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imageId, options);
             return NinePatchHelper.getDrawable(context, bitmap);

@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.jchip.album.R;
-import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.view.PhotoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +24,14 @@ public class FrameActivity extends RecyclerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.album_frame_layer);
+        super.setContentView(PhotoView.LAYER_FRAME_SETTING, R.layout.album_frame_layer);
         super.setStatusBarColor(android.R.color.transparent);
     }
 
     @Override
     public void initContentView() {
-        super.initContentView();
-
         this.photo = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
+        this.photoImage = this.getPhotoView().getPhotoImage();
 
         this.frames = new ArrayList<>();
         this.frameShells = new ArrayList<>();
@@ -45,6 +44,7 @@ public class FrameActivity extends RecyclerActivity {
             }
         }
 
+
         this.initRecyclerView(R.id.album_frame_view, R.layout.album_frame_item, this.frames.size());
 
         this.getView(R.id.frame_setting_view).setOnClickListener((v) -> this.finish());
@@ -55,9 +55,9 @@ public class FrameActivity extends RecyclerActivity {
         this.photo.setFrameIndex(frames.get(position));
         this.photo.setFrameShell(frameShells.get(position));
 
-        View photoView = itemView.findViewById(R.id.photo_view);
-        this.setPhotoView(photoView, false, false, true);
-        photoView.setOnClickListener((view) -> {
+        View view = itemView.findViewById(R.id.photo_view);
+        this.setPhotoView(view);
+        view.setOnClickListener((v) -> {
             Intent intent = new Intent();
             intent.putExtra(FRAME_INDEX, position);
             intent.putExtra(FRAME_ID, (Integer) this.frames.get(position));
@@ -66,10 +66,17 @@ public class FrameActivity extends RecyclerActivity {
             this.finish();
         });
 
+//       if (this.photoImage == null) {
+//           PhotoView photoView = this.getPhotoView();
+//           this.photoImage = photoView.getPhotoImage();
+//       }
         ImageView imageView = itemView.findViewById(R.id.photo_image);
-        if (this.photoImage == null) {
-            this.photoImage = PhotoHelper.loadPhotoImage(imageView, this.photo, PhotoHelper.getScreenWidth() / 2);
-        }
-        imageView.setImageBitmap(photoImage);
+        imageView.setImageBitmap(this.photoImage);
+
+//        ImageView imageView = itemView.findViewById(R.id.photo_image);
+//        if (this.photoImage == null) {
+//            this.photoImage = PhotoHelper.loadPhotoImage(imageView, this.photo, PhotoHelper.getScreenWidth() / 2);
+//        }
+//        imageView.setImageBitmap(photoImage);
     }
 }
