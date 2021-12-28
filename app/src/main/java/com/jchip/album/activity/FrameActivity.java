@@ -45,7 +45,7 @@ public class FrameActivity extends RecyclerActivity {
             }
         }
 
-        this.initRecyclerView(R.id.album_frame_view, R.layout.album_frame_item, frames.size());
+        this.initRecyclerView(R.id.album_frame_view, R.layout.album_frame_item, this.frames.size());
 
         this.getView(R.id.frame_setting_view).setOnClickListener((v) -> this.finish());
     }

@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.jchip.album.activity.AbstractActivity;
+import com.jchip.album.activity.RecyclerActivity;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
 
-public class WidgetSetting extends AbstractActivity {
+public abstract class WidgetSetting extends RecyclerActivity {
 
     protected int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 

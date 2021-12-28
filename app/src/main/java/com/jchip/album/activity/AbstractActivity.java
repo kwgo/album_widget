@@ -2,12 +2,10 @@ package com.jchip.album.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -28,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractActivity extends AppCompatActivity {
+    private static final int FRAME_DENSITY_FACTOR = 1;
+    private static final int SHELL_DENSITY_FACTOR = 4;
+
     public static final String FRAME_INDEX = "frameIndex";
     public static final String FRAME_ID = "frameId";
     public static final String SHELL_ID = "shellId";
@@ -77,7 +78,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void setPhotoView(View view, boolean frame, boolean image, boolean label) {
-        PhotoHelper.setPhotoView(this, view, this.photo, frame, image, label);
+        int density = frame ? FRAME_DENSITY_FACTOR : SHELL_DENSITY_FACTOR;
+        PhotoHelper.setPhotoView(this, view, this.photo, density, image, label, true);
     }
 
     public void setPhotoImage(ImageView imageView) {
@@ -97,7 +99,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void setPhotoFrame(View containerView, View frameView) {
-        PhotoHelper.setPhotoFrame(this, containerView, frameView, this.photo, true);
+        PhotoHelper.setPhotoFrame(this, containerView, frameView, this.photo, FRAME_DENSITY_FACTOR);
     }
 
     public void setFontLocation(TextView textView) {
@@ -128,25 +130,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return (SeekBar) findViewById(sourceId);
     }
 
-    public ListView getListView(int sourceId) {
-        return (ListView) findViewById(sourceId);
-    }
-
     public FloatingActionButton getButtonView(int sourceId) {
         return (FloatingActionButton) findViewById(sourceId);
-    }
-
-    public boolean isPortrait() {
-        int orientation = this.getResources().getConfiguration().orientation;
-        return orientation == Configuration.ORIENTATION_PORTRAIT;
-    }
-
-    public boolean isLandscape() {
-        return !this.isPortrait();
-    }
-
-    public int dpToPx(int dp) {
-        return PhotoHelper.dpToPx(dp);
     }
 
     public void updateWidget() {
@@ -159,7 +144,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public interface ActivityCallBack {
-        public void call(Intent intent);
+        void call(Intent intent);
     }
-
 }

@@ -23,13 +23,12 @@ import java.util.List;
 
 public class PhotoHelper {
     public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
-    public static final int DEFAULT_SHELL_ID = R.drawable.frame_item_0;
 
-    public static void setPhotoView(Context context, View view, PhotoData photo, boolean frame, boolean image, boolean label) {
+    public static void setPhotoView(Context context, View view, PhotoData photo, int frame, boolean image, boolean label, boolean gap) {
         setPhotoFrame(context, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame), photo, frame);
         if (image) {
             setPhotoImage(view.findViewById(R.id.photo_image), photo);
-            setPhotoScale(view.findViewById(R.id.photo_image), photo, frame);
+            setPhotoScale(view.findViewById(R.id.photo_image), photo, gap);
         }
         if (label) {
             setPhotoLabel(context, view.findViewById(R.id.photo_label), photo);
@@ -38,10 +37,6 @@ public class PhotoHelper {
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo) {
         setPhotoImage(imageView, photo, getScreenHeight());
-    }
-
-    public static void setShellImage(ImageView imageView, PhotoData photo) {
-        setPhotoImage(imageView, photo, getScreenHeight() / 2);
     }
 
     public static void setPhotoImage(ImageView imageView, PhotoData photo, int maxSize) {
@@ -85,7 +80,6 @@ public class PhotoHelper {
             setPhotoFont(context, textView, photo);
             setFontLocation(textView, photo);
             textView.setVisibility(View.VISIBLE);
-            ;
         }
     }
 
@@ -94,11 +88,10 @@ public class PhotoHelper {
     }
 
 
-    public static void setPhotoFrame(Context context, View containerView, View frameView, PhotoData photo, boolean frame) {
-        int frameId = frame ? photo.getFrameIndex() : photo.getFrameShell();
-        frameId = frameId > 0 ? frameId : (frame ? DEFAULT_FRAME_ID : DEFAULT_SHELL_ID);
-        int densityFactor = frame ? 1 : 4; // x40 to change density
-        Drawable drawable = NinePatchHelper.getImageDrawable(context, frameId, densityFactor);
+    public static void setPhotoFrame(Context context, View containerView, View frameView, PhotoData photo, int density) {
+        int frameId = photo.getFrameIndex() > 0 ? photo.getFrameIndex() : DEFAULT_FRAME_ID;
+        // x 40 to change density
+        Drawable drawable = NinePatchHelper.getImageDrawable(context, frameId, density);
         if (drawable != null) {
             containerView.setBackground(drawable);
             frameView.setBackground(drawable);
@@ -120,7 +113,7 @@ public class PhotoHelper {
     public static Bitmap loadBitmap(String path) {
         try (FileInputStream inputStream = new FileInputStream(path)) {
             return BitmapFactory.decodeStream(inputStream);
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -136,14 +129,14 @@ public class PhotoHelper {
     public static Typeface getFontTypeface(Context context, int fontId) {
         try {
             return ResourcesCompat.getFont(context, fontId);
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
         return null;
     }
 
     public static int getFontIndex(int fontId) {
         List<Integer> fonts = getFonts();
-        return fonts.indexOf(fontId) < 0 ? 0 : fonts.indexOf(fontId);
+        return fonts.contains(fontId) ? fonts.indexOf(fontId) : 0;
     }
 
     public static List<Integer> getFonts() {
