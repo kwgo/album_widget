@@ -56,7 +56,7 @@ public class FrameActivity extends RecyclerActivity {
         this.photo.setFrameShell(frameShells.get(position));
 
         View photoView = itemView.findViewById(R.id.photo_view);
-        this.setPhotoView(photoView, true, false, true);
+        this.setPhotoView(photoView, false, false, true);
         photoView.setOnClickListener((view) -> {
             Intent intent = new Intent();
             intent.putExtra(FRAME_INDEX, position);

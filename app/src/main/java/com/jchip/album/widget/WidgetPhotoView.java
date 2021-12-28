@@ -74,13 +74,13 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoFrame() {
-        this.setPhotoFrame(R.id.photo_container);
-        this.setPhotoFrame(R.id.photo_frame);
+        this.setPhotoFrame(R.id.photo_container, R.id.photo_frame);
     }
 
-    private void setPhotoFrame(int photoFrameId) {
+    private void setPhotoFrame(int containerViewId, int frameViewId) {
         int frameId = this.photo.getFrameIndex() > 0 ? this.photo.getFrameIndex() : PhotoHelper.DEFAULT_FRAME_ID;
-        this.views.setInt(photoFrameId, "setBackgroundResource", frameId);
+        this.views.setInt(containerViewId, "setBackgroundResource", frameId);
+        this.views.setInt(frameViewId, "setBackgroundResource", frameId);
     }
 
     private void setPhotoLabel() {

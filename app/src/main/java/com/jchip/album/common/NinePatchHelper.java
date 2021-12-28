@@ -1,27 +1,46 @@
 package com.jchip.album.common;
 
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.NinePatch;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
+import android.util.DisplayMetrics;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class NinePatchHelper {
-    public NinePatchDrawable getDrawable(Bitmap bitmap) {
+    private static final int SCALE_NUMBER = 40;
+
+    public static Drawable getImageDrawable(Context context, int imageId, int densityFactor) {
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = true;
+            options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densityFactor;
+            options.inTargetDensity = context.getResources().getDisplayMetrics().densityDpi;
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imageId, options);
+            return NinePatchHelper.getDrawable(context, bitmap);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+
+    public static NinePatchDrawable getDrawable(Context context, Bitmap bitmap) {
         final byte[] chunk = bitmap.getNinePatchChunk();
         if (NinePatch.isNinePatchChunk(chunk)) {
             NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
-            //NinePatchDrawable drawable = new NinePatchDrawable(Resources.getSystem(), bitmap, chunk, ninePatchChunk.getPadding(), null);
-            return new NinePatchDrawable(Resources.getSystem(), bitmap, chunk, ninePatchChunk.getPadding(), null);
+            // return new NinePatchDrawable(Resources.getSystem(), bitmap, chunk, ninePatchChunk.getPadding(), null);
+            return new NinePatchDrawable(context.getResources(), bitmap, chunk, ninePatchChunk.getPadding(), null);
         }
         return null;
     }
 
-    public class NinePatchChunk {
+    public static class NinePatchChunk {
         private final Rect padding = new Rect();
         private int divX[];
         private int divY[];

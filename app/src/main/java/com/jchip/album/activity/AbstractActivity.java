@@ -84,10 +84,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setPhotoImage(imageView, this.photo);
     }
 
-//    public void setPhotoImage(ImageView imageView, int maxSize) {
-//        PhotoHelper.setPhotoImage(imageView, this.photo, maxSize);
-//    }
-
     public void setPhotoScale(ImageView imageView) {
         PhotoHelper.setPhotoScale(imageView, this.photo, true);
     }
@@ -101,7 +97,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public void setPhotoFrame(View containerView, View frameView) {
-        PhotoHelper.setPhotoFrame(containerView, frameView, this.photo, true);
+        PhotoHelper.setPhotoFrame(this, containerView, frameView, this.photo, true);
     }
 
     public void setFontLocation(TextView textView) {

@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +26,7 @@ public class PhotoHelper {
     public static final int DEFAULT_SHELL_ID = R.drawable.frame_item_0;
 
     public static void setPhotoView(Context context, View view, PhotoData photo, boolean frame, boolean image, boolean label) {
-        setPhotoFrame(view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame), photo, frame);
+        setPhotoFrame(context, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame), photo, frame);
         if (image) {
             setPhotoImage(view.findViewById(R.id.photo_image), photo);
             setPhotoScale(view.findViewById(R.id.photo_image), photo, frame);
@@ -93,11 +94,18 @@ public class PhotoHelper {
     }
 
 
-    public static void setPhotoFrame(View containerView, View frameView, PhotoData photo, boolean frame) {
+    public static void setPhotoFrame(Context context, View containerView, View frameView, PhotoData photo, boolean frame) {
         int frameId = frame ? photo.getFrameIndex() : photo.getFrameShell();
         frameId = frameId > 0 ? frameId : (frame ? DEFAULT_FRAME_ID : DEFAULT_SHELL_ID);
-        containerView.setBackgroundResource(frameId);
-        frameView.setBackgroundResource(frameId);
+        int densityFactor = frame ? 1 : 4; // x40 to change density
+        Drawable drawable = NinePatchHelper.getImageDrawable(context, frameId, densityFactor);
+        if (drawable != null) {
+            containerView.setBackground(drawable);
+            frameView.setBackground(drawable);
+        } else {
+            containerView.setBackgroundResource(frameId);
+            frameView.setBackgroundResource(frameId);
+        }
     }
 
     public static void setFontLocation(TextView view, PhotoData photo) {
