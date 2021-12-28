@@ -22,11 +22,23 @@ public abstract class RecyclerActivity extends AbstractActivity {
     private Map<Integer, View> itemViews = new HashMap<>();
 
     public void initRecyclerView(int recyclerId, int itemId, int itemCount) {
+        this.initRecyclerView(recyclerId, itemId, itemCount, COLUMN_NUMBER);
+    }
+
+    public void initRecyclerView(int recyclerId, int itemId, int itemCount, int spanCount) {
         this.recyclerView = (RecyclerView) this.findViewById(recyclerId);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, COLUMN_NUMBER, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return RecyclerActivity.this.getSpanSize(position);
+            }
+        });
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(this.getDrawable(R.drawable.album_view_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
@@ -94,4 +106,8 @@ public abstract class RecyclerActivity extends AbstractActivity {
     }
 
     protected abstract void bindItemView(View itemView, int position);
+
+    protected int getSpanSize(int position) {
+        return 1;
+    }
 }

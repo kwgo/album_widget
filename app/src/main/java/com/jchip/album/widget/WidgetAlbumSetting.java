@@ -1,6 +1,7 @@
 package com.jchip.album.widget;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,7 +31,9 @@ public class WidgetAlbumSetting extends WidgetSetting {
 
         this.albums = DataHelper.getInstance(this).queryPhotoAlbum();
 
-        this.initRecyclerView(R.id.album_setting_view, R.layout.widget_album_setting_item, this.albums.size());
+        Log.d("", "*** start init album list size = " + this.albums.size());
+
+        this.initListView(R.id.album_setting_view, R.layout.widget_album_setting_item, this.albums.size());
     }
 
     @Override

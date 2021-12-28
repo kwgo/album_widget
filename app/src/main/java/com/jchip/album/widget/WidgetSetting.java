@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.jchip.album.activity.RecyclerActivity;
+import com.jchip.album.activity.ListActivity;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.WidgetData;
 
-public abstract class WidgetSetting extends RecyclerActivity {
+public abstract class WidgetSetting extends ListActivity {
     protected int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     protected int resultValue = RESULT_CANCELED;
