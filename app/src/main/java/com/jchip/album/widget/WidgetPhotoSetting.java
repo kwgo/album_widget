@@ -73,6 +73,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
             }
         }
         itemView.findViewById(R.id.album_name).setVisibility(albumData.isSaved() ? View.VISIBLE : View.GONE);
-        itemView.findViewById(R.id.photos_view).setVisibility(albumData.isSaved() ? View.GONE : View.VISIBLE);
+        itemView.findViewById(R.id.photo_left_view).setVisibility(albumData.isSaved() ? View.GONE : View.VISIBLE);
+        itemView.findViewById(R.id.photo_right_view).setVisibility(albumData.isSaved() ? View.GONE : View.VISIBLE);
     }
 }
