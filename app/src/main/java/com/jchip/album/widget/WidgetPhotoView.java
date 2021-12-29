@@ -94,7 +94,7 @@ public class WidgetPhotoView {
         if (!this.photoView.isFontEmpty()) {
             this.views.setTextViewText(photoLabelId, this.photoView.getFontText());
             this.views.setTextColor(photoLabelId, this.photoView.getFontColor());
-            this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, this.photoView.getFontSize());
+            this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, this.photoView.getFontTextSize());
             this.views.setViewVisibility(photoLabelId, View.VISIBLE);
         }
     }

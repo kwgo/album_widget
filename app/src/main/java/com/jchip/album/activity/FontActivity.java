@@ -87,9 +87,8 @@ public class FontActivity extends AbstractActivity {
     }
 
     private void onFontTypeChange() {
-        List<Integer> fonts = this.getFonts();
-        int fontIndex = this.getFontIndex();
-        fontIndex = fontIndex < 0 ? 0 : fontIndex;
+        List<Integer> fonts = this.getPhotoView().getFonts();
+        int fontIndex = this.getPhotoView().getFontIndex();
         this.photo.setFontType(fonts.get((fontIndex + 1) % fonts.size()));
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
@@ -100,15 +99,14 @@ public class FontActivity extends AbstractActivity {
                 Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
                 Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
         );
-        int fontLocation = this.photo.getFontLocation();
-        fontLocation = fontLocation >= 0 ? fontLocation : Gravity.CENTER;
+        int fontLocation = this.getPhotoView().getFontLocation();
         int locationIndex = locations.contains(fontLocation) ? locations.indexOf(fontLocation) : 4;
         this.photo.setFontLocation(locations.get((locationIndex + 1) % locations.size()));
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onSizeChange(int change) {
-        float fontSize = this.photo.getFontSize() + change * PhotoHelper.dpToPx(2);
+        float fontSize = this.getPhotoView().getFontSize() + change * PhotoHelper.dpToPx(2);
         if (fontSize > PhotoHelper.dpToPx(10) && fontSize < PhotoHelper.dpToPx(100)) {
             this.photo.setFontSize((int) fontSize);
             this.setPhotoFont(this.getTextView(R.id.photo_label));

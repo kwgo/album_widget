@@ -45,7 +45,7 @@ public class PhotoHelper {
         if (!photoView.isFontEmpty()) {
             textView.setText(photoView.getFontText());
             textView.setTextColor(photoView.getFontColor());
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontSize());
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontTextSize());
             textView.setTypeface(photoView.getFontFaceType());
             textView.setGravity(photoView.getFontLocation());
             ((LinearLayout) textView.getParent()).setGravity(photoView.getFontLocation());

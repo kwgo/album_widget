@@ -171,6 +171,10 @@ public class PhotoView {
         return photo.getFontColor() >= 0 && photo.getFontColor() <= 255 ? photo.getFontColor() : DEFAULT_FONT_COLOR;
     }
 
+    public int getFontSize() {
+        return photo.getFontSize() > 0 ? photo.getFontSize() : DEFAULT_FONT_SIZE;
+    }
+
     public int getFrameDensitySize() {
         return layer == LAYER_ALBUM_PHOTO ? 1 :
                 layer == LAYER_FRAME_SETTING ? 4 :
@@ -180,15 +184,14 @@ public class PhotoView {
                                                 layer == WIDGET_PHOTO_SETTING ? 12 : 0;
     }
 
-    public int getFontSize() {
+    public int getFontTextSize() {
         float factor = layer == LAYER_ALBUM_PHOTO ? 0.75f :
                 layer == LAYER_FRAME_SETTING ? 0.45f :
                         layer == LAYER_FONT_SETTING ? 0.45f :
                                 layer == WIDGET_ALBUM_PHOTO ? 1.0f :
                                         layer == WIDGET_ALBUM_SETTING ? 0.1f :
                                                 layer == WIDGET_PHOTO_SETTING ? 0.21f : 1.0f;
-        int fontSize = photo.getFontSize() > 0 ? photo.getFontSize() : DEFAULT_FONT_SIZE;
-        return (int) (factor * fontSize);
+        return (int) (factor * this.getFontSize());
     }
 
     public int getScreenWidth() {
