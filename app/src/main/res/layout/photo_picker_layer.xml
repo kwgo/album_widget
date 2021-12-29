@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.64"
-        android:paddingStart="16dp"
+        android:paddingStart="24dp"
         android:paddingTop="0dp"
-        android:paddingEnd="16dp"
+        android:paddingEnd="24dp"
         android:paddingBottom="0dp">
 
         <androidx.recyclerview.widget.RecyclerView

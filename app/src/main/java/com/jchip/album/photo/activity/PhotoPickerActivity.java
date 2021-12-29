@@ -99,7 +99,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         int gapSize = 3;
         recyclerView.addItemDecoration(new RecycleItemDecoration(gapSize, Color.TRANSPARENT));
 
-        int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(16 * 2) - 2;
+        int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(24 * 2) - 2;
         int itemSize = (screenWidth - (gapSize * (spanCount - 1))) / spanCount;
 
         photoAdapter = new MultiAdapter<>(null, itemSize);

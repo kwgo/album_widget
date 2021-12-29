@@ -16,7 +16,6 @@ public final class PhotoConfig {
     public static final int DEFAULT_LIMIT_COUNT = 300;
     public static final int DEFAULT_SPAN_COUNT = 3;
     public static final boolean DEFAULT_SHOW_GIF = true;
-    public static final int DEFAULT_ORIENTATION = 99999;
 
     // public static final String JPEG = "image/jpeg";
     public static final String GIF = "image/gif";
