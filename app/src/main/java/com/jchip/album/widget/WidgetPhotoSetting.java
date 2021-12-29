@@ -1,7 +1,6 @@
 package com.jchip.album.widget;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,36 +43,36 @@ public class WidgetPhotoSetting extends WidgetSetting {
                 photoAlbum.addPhoto(albumData.getPhoto(index));
             }
         }
-
-        Log.d("", "**** start init photo list size = " + this.albums.size());
         this.initListView(R.id.photo_setting_view, R.layout.widget_photo_setting_item, this.albums.size());
     }
 
     @Override
-    protected void bindItemView(View itemView, int position) {
+    protected void bindItemView(View itemView, final int position) {
         AlbumData albumData = this.albums.get(position);
         if (albumData.isSaved()) {
             TextView albumName = itemView.findViewById(R.id.album_name);
             albumName.setText(albumData.getAlbumName());
+            albumName.setVisibility(View.VISIBLE);
         } else {
+            itemView.findViewById(R.id.photo_left_view).setVisibility(View.INVISIBLE);
+            itemView.findViewById(R.id.photo_right_view).setVisibility(View.INVISIBLE);
             for (int index = 0; index < albumData.getPhotoSize(); index++) {
                 this.photo = albumData.getPhoto(index);
                 View photoView = itemView.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
                 this.setPhotoView(photoView);
                 photoView.setVisibility(View.VISIBLE);
 
+                final int albumId = this.photo.getAlbumId();
+                final int photoId = this.photo.getPhotoId();
                 photoView.setOnClickListener((view) -> {
                     WidgetData widgetData = new WidgetData();
-                    widgetData.setAlbumId(this.photo.getAlbumId());
-                    widgetData.setPhotoId(this.photo.getPhotoId());
+                    widgetData.setAlbumId(albumId);
+                    widgetData.setPhotoId(photoId);
                     this.saveWidget(widgetData);
                     this.updateWidget(ActivityPhotoSetting.PhotoProvider.class);
                     this.finish();
                 });
             }
         }
-        itemView.findViewById(R.id.album_name).setVisibility(albumData.isSaved() ? View.VISIBLE : View.GONE);
-        itemView.findViewById(R.id.photo_left_view).setVisibility(albumData.isSaved() ? View.GONE : View.VISIBLE);
-        itemView.findViewById(R.id.photo_right_view).setVisibility(albumData.isSaved() ? View.GONE : View.VISIBLE);
     }
 }

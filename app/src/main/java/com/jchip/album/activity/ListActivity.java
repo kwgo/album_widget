@@ -61,5 +61,5 @@ public abstract class ListActivity extends AbstractActivity {
         }
     }
 
-    protected abstract void bindItemView(View itemView, int position);
+    protected abstract void bindItemView(View itemView, final int position);
 }

@@ -37,7 +37,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
     }
 
     @Override
-    protected void bindItemView(View itemView, int position) {
+    protected void bindItemView(View itemView, final int position) {
         AlbumData albumData = this.albums.get(position);
         TextView albumName = itemView.findViewById(R.id.album_name);
         albumName.setText(albumData.getAlbumName());
@@ -47,6 +47,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
 
         itemView.setOnClickListener((view) -> {
             WidgetData widgetData = new WidgetData();
+            widgetData.setWidgetId(this.appWidgetId);
             widgetData.setAlbumId(albumData.getAlbumId());
             this.saveWidget(widgetData);
             this.updateWidget(ActivityAlbumSetting.AlbumProvider.class);

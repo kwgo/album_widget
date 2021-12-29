@@ -105,9 +105,9 @@ public abstract class RecyclerActivity extends AbstractActivity {
         }
     }
 
-    protected abstract void bindItemView(View itemView, int position);
+    protected abstract void bindItemView(View itemView, final int position);
 
-    protected int getSpanSize(int position) {
+    protected int getSpanSize(final int position) {
         return 1;
     }
 }

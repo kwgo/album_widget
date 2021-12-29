@@ -50,7 +50,7 @@ public class FrameActivity extends RecyclerActivity {
     }
 
     @Override
-    protected void bindItemView(View itemView, int position) {
+    protected void bindItemView(View itemView, final int position) {
         this.photo.setFrameIndex(frames.get(position));
         this.photo.setFrameShell(frameShells.get(position));
 

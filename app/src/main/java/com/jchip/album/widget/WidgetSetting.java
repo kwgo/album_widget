@@ -75,7 +75,7 @@ public abstract class WidgetSetting extends ListActivity {
     }
 
     protected void saveWidget(WidgetData widgetData) {
-        widgetData.setWidgetId(appWidgetId);
+        widgetData.setWidgetId(this.appWidgetId);
         DataHelper.getInstance(this).saveWidget(widgetData);
     }
 }
