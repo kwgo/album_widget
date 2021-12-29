@@ -40,6 +40,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     private ActivityCallBack activityCallBack;
 
     private int layer = -1;
+    private PhotoView photoView;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -117,6 +118,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setFontLocation(this.getPhotoView(), textView);
     }
 
+    public int getFontIndex() {
+        return this.getPhotoView().getFontIndex();
+    }
+
+    public List<Integer> getFonts() {
+        return this.getPhotoView().getFonts();
+    }
 
     public void alert(int titleId, int detailId, Runnable work) {
         AlbumHelper.alert(this, titleId, detailId, work);

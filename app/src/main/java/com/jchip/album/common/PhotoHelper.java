@@ -3,6 +3,7 @@ package com.jchip.album.common;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,9 +13,6 @@ import android.widget.TextView;
 import com.jchip.album.R;
 import com.jchip.album.view.PhotoView;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
@@ -23,9 +21,8 @@ public class PhotoHelper {
         }
         if (photoView.isImageOn()) {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
-            setPhotoScale(photoView, view.findViewById(R.id.photo_image));
         }
-        if (photoView.isLabelOn()) {
+        if (photoView.isFontOn()) {
             setPhotoLabel(photoView, view.findViewById(R.id.photo_label));
         }
     }
@@ -35,6 +32,7 @@ public class PhotoHelper {
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
+        setPhotoScale(photoView, imageView);
     }
 
 
@@ -45,8 +43,10 @@ public class PhotoHelper {
     }
 
     public static void setPhotoLabel(PhotoView photoView, TextView textView) {
-        textView.setVisibility(View.INVISIBLE);
-        if (photoView.getFontText() != null && !photoView.getFontText().trim().isEmpty()) {
+        Log.d("","setPhotoLabel   =====   "+photoView.getFontText());
+        textView.setVisibility(View.GONE);
+        if (!photoView.isFontEmpty()) {
+            Log.d("","setPhotoLabel  xxxx =====   "+photoView.getFontText());
             textView.setText(photoView.getFontText());
             textView.setTextColor(photoView.getFontColor());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontSize());
@@ -57,7 +57,7 @@ public class PhotoHelper {
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
-        textView.setTypeface(photoView.getPhotoFontType());
+        textView.setTypeface(photoView.getFontFaceType());
     }
 
 
@@ -82,16 +82,4 @@ public class PhotoHelper {
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-
-
-    public static int getFontIndex(int fontId) {
-        List<Integer> fonts = getFonts();
-        return fonts.contains(fontId) ? fonts.indexOf(fontId) : 0;
-    }
-
-    public static List<Integer> getFonts() {
-        return Arrays.asList(R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
-                R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
-    }
-
 }

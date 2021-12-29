@@ -89,8 +89,8 @@ public class FontActivity extends AbstractActivity {
     }
 
     private void onFontTypeChange() {
-        List<Integer> fonts = PhotoHelper.getFonts();
-        int fontIndex = PhotoHelper.getFontIndex(this.photo.getFontType());
+        List<Integer> fonts = this.getFonts();
+        int fontIndex = this.getFontIndex();
         fontIndex = fontIndex < 0 ? 0 : fontIndex;
         this.photo.setFontType(fonts.get((fontIndex + 1) % fonts.size()));
         this.setPhotoFont(this.getTextView(R.id.photo_label));

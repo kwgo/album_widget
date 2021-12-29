@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
-import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 
@@ -73,7 +72,6 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoLabel() {
-        int alignCount = 3;
         int[] labelIds = {
                 R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
                 R.id.photo_label_3, R.id.photo_label_4, R.id.photo_label_5,
@@ -85,15 +83,15 @@ public class WidgetPhotoView {
         for (int labelId : labelIds) {
             this.views.setViewVisibility(labelId, View.GONE);
         }
-        int fontIndex = PhotoHelper.getFontIndex(this.photoView.getFontType());
+        int alignCount = 3;
+        int fontIndex = photoView.getFontIndex();
         int labelIndex = fontIndex * alignCount + fontIndex % alignCount;
         this.setLabelFont(labelIds[labelIndex]);
         this.setLabelLocation();
     }
 
     private void setLabelFont(int photoLabelId) {
-        this.views.setViewVisibility(photoLabelId, View.INVISIBLE);
-        if (this.photoView.getFontText() != null && !this.photoView.getFontText().trim().isEmpty()) {
+        if (!this.photoView.isFontEmpty()) {
             this.views.setTextViewText(photoLabelId, this.photoView.getFontText());
             this.views.setTextColor(photoLabelId, this.photoView.getFontColor());
             this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, this.photoView.getFontSize());

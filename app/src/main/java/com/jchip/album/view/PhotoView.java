@@ -16,6 +16,9 @@ import com.jchip.album.common.ImageHelper;
 import com.jchip.album.common.NinePatchHelper;
 import com.jchip.album.data.PhotoData;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PhotoView {
     public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
     public static final int DEFAULT_PHOTO_ID = R.drawable.photo_default;
@@ -33,6 +36,10 @@ public class PhotoView {
             ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
     };
 
+    public static final List<Integer> fonts = Arrays.asList(
+            R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
+            R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
+
     private final Context context;
     private final PhotoData photo;
     private final int layer;
@@ -46,7 +53,7 @@ public class PhotoView {
     public Drawable getFrameDrawable() {
         Log.d("", " this.getLayer()===" + this.getLayer());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
-        Log.d("", " this.getImageDensitySize()===" + this.getImageDensitySize());
+        Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
 
         Log.d("", " this.getImageMaxSize()===" + this.getImageMaxSize());
         Log.d("", " this.getScreenWidth()===" + this.getScreenWidth());
@@ -54,7 +61,7 @@ public class PhotoView {
 
         int frameId = photo.getFrameIndex() > 0 ? photo.getFrameIndex() : DEFAULT_FRAME_ID;
         // x 40 to change density
-        int densitySize = this.getImageDensitySize();
+        int densitySize = this.getFrameDensitySize();
         return NinePatchHelper.getImageDrawable(context, frameId, densitySize);
     }
 
@@ -75,17 +82,31 @@ public class PhotoView {
             bitmap = ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
         }
         if (bitmap != null) {
-            bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize());
+            return ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize());
         }
-        return bitmap;
+        return null;
     }
 
-    public Typeface getPhotoFontType() {
+    public List<Integer> getFonts() {
+        return this.fonts;
+    }
+
+    public int getFontIndex() {
+        int fontIndex = this.fonts.indexOf(photo.getFontType());
+        return fontIndex < 0 ? 0 : fontIndex;
+    }
+
+    public Typeface getFontFaceType() {
         try {
-            return ResourcesCompat.getFont(context, photo.getFontType());
+            int fontIndex = this.getFontIndex();
+            return ResourcesCompat.getFont(context, this.fonts.get(fontIndex));
         } catch (Exception ignored) {
         }
         return null;
+    }
+
+    public boolean isFontEmpty() {
+        return this.getFontText() == null || this.getFontText().trim().isEmpty();
     }
 
     public boolean isImageOn() {
@@ -96,8 +117,9 @@ public class PhotoView {
         return true;
     }
 
-    public boolean isLabelOn() {
-        return layer == WIDGET_ALBUM_SETTING || layer == WIDGET_PHOTO_SETTING;
+    public boolean isFontOn() {
+        //return layer != WIDGET_ALBUM_SETTING && layer != WIDGET_PHOTO_SETTING;
+        return true;
     }
 
     public int getLayer() {
@@ -109,12 +131,12 @@ public class PhotoView {
                 layer == LAYER_FRAME_SETTING ? this.getScreenWidth() :
                         layer == LAYER_FONT_SETTING ? this.getScreenWidth() :
                                 layer == WIDGET_ALBUM_PHOTO ? (int) (0.70 * this.getScreenHeight()) :
-                                        layer == WIDGET_ALBUM_SETTING ? this.getScreenWidth() / 4 :
+                                        layer == WIDGET_ALBUM_SETTING ? this.getScreenWidth() / 5 :
                                                 layer == WIDGET_PHOTO_SETTING ? this.getScreenWidth() / 2 : 0;
     }
 
     public int getImageGap() {
-        return ImageView.ScaleType.FIT_CENTER != getPhotoScale() ? 0 :
+        return ImageView.ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 :
                 layer == LAYER_ALBUM_PHOTO ? 16 :
                         layer == LAYER_FRAME_SETTING ? 8 :
                                 layer == LAYER_FONT_SETTING ? 8 :
@@ -123,29 +145,24 @@ public class PhotoView {
                                                         layer == WIDGET_PHOTO_SETTING ? 4 : 0;
     }
 
-    public int getImageDensitySize() {
+    public int getFrameDensitySize() {
         return layer == LAYER_ALBUM_PHOTO ? 1 :
                 layer == LAYER_FRAME_SETTING ? 4 :
                         layer == LAYER_FONT_SETTING ? 4 :
-                                layer == WIDGET_ALBUM_PHOTO ? 12 :
-                                        layer == WIDGET_ALBUM_SETTING ? 0 :
-                                                layer == WIDGET_PHOTO_SETTING ? 8 : 0;
+                                layer == WIDGET_ALBUM_PHOTO ? 0 :
+                                        layer == WIDGET_ALBUM_SETTING ? 25 :
+                                                layer == WIDGET_PHOTO_SETTING ? 12 : 0;
     }
 
-    public int getScreenWidth() {
-        try {
-            return Resources.getSystem().getDisplayMetrics().widthPixels;
-        } catch (Exception ex) {
-            return 0;
-        }
-    }
+    public int getFontSize() {
+        float factor = layer == LAYER_ALBUM_PHOTO ? 0.75f :
+                layer == LAYER_FRAME_SETTING ? 0.45f :
+                        layer == LAYER_FONT_SETTING ? 0.45f :
+                                layer == WIDGET_ALBUM_PHOTO ? 1.0f :
+                                        layer == WIDGET_ALBUM_SETTING ? 0.1f :
+                                                layer == WIDGET_PHOTO_SETTING ? 0.21f : 1.0f;
 
-    public int getScreenHeight() {
-        try {
-            return Resources.getSystem().getDisplayMetrics().heightPixels;
-        } catch (Exception ex) {
-            return 0;
-        }
+        return (int) (factor * photo.getFontSize());
     }
 
     public void setScaleIndex(int scaleIndex) {
@@ -164,10 +181,6 @@ public class PhotoView {
         return photo.getFontLocation();
     }
 
-    public int getFontType() {
-        return photo.getFontType();
-    }
-
     public String getFontText() {
         return photo.getFontText();
     }
@@ -176,7 +189,19 @@ public class PhotoView {
         return photo.getFontColor();
     }
 
-    public int getFontSize() {
-        return photo.getFontSize();
+    public int getScreenWidth() {
+        try {
+            return Resources.getSystem().getDisplayMetrics().widthPixels;
+        } catch (Exception ex) {
+            return 0;
+        }
+    }
+
+    public int getScreenHeight() {
+        try {
+            return Resources.getSystem().getDisplayMetrics().heightPixels;
+        } catch (Exception ex) {
+            return 0;
+        }
     }
 }
