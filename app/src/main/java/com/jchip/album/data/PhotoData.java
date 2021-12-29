@@ -22,15 +22,15 @@ public class PhotoData extends AbstractData {
     private int albumId = -1;
     private String photoPath;
 
-    private int frameIndex = 0;
-    private int frameShell = 0;
+    private int frameIndex = -1;
+    private int frameShell = -1;
     private int scaleIndex = 0;
     private int flipIndex = 0;
     private int rotationIndex = 0;
 
-    private int fontType = 0;
-    private int fontSize = 100;
-    private int fontColor = 0xFFFFFFFF;
+    private int fontType = -1;
+    private int fontSize = -1;
+    private int fontColor = -1;
     private int fontLocation = -1;
     private String fontText = "";
 

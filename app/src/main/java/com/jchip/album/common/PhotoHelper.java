@@ -40,18 +40,13 @@ public class PhotoHelper {
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
         textView.setVisibility(View.GONE);
-        if (!photoView.isFontEmpty()) {
+         if (!photoView.isFontEmpty()) {
             textView.setText(photoView.getFontText());
             textView.setTextColor(photoView.getFontColor());
-            Log.d("", "textView.setTextColor ===========================");
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontSize());
             textView.setTypeface(photoView.getFontFaceType());
-
-            int fontLocation = photoView.getFontLocation();
-            fontLocation = fontLocation >= 0 ? fontLocation : Gravity.CENTER;
-            textView.setGravity(fontLocation);
-            ((LinearLayout) textView.getParent()).setGravity(fontLocation);
-
+            textView.setGravity(photoView.getFontLocation());
+            ((LinearLayout) textView.getParent()).setGravity(photoView.getFontLocation());
             textView.setVisibility(View.VISIBLE);
         }
     }

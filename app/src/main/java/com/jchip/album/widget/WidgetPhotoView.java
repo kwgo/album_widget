@@ -66,7 +66,7 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoFrame() {
-        int frameId = this.photoView.getFrameIndex() > 0 ? this.photoView.getFrameIndex() : PhotoView.DEFAULT_FRAME_ID;
+        int frameId = this.photoView.getFrameIndex();
         this.views.setInt(R.id.photo_container, "setBackgroundResource", frameId);
         this.views.setInt(R.id.photo_frame, "setBackgroundResource", frameId);
     }

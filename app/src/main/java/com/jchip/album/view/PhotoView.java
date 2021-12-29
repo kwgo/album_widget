@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
@@ -22,6 +23,11 @@ import java.util.List;
 public class PhotoView {
     public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
     public static final int DEFAULT_PHOTO_ID = R.drawable.photo_default;
+
+    public static final int DEFAULT_FONT_INDEX = 1;
+    public static final int DEFAULT_FONT_LOCATION = Gravity.CENTER;
+    public static final int DEFAULT_FONT_SIZE = 120;
+    public static final int DEFAULT_FONT_COLOR = 0xFFFFFFFF;
 
     public static final int LAYER_ALBUM_PHOTO = 0;
     public static final int LAYER_FRAME_SETTING = 1;
@@ -51,18 +57,17 @@ public class PhotoView {
     }
 
     public Drawable getFrameDrawable() {
-        Log.d("", " this.getLayer()===" + this.getLayer());
+        //Log.d("", " this.getLayer()===" + this.getLayer());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
         Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
 
         Log.d("", " this.getImageMaxSize()===" + this.getImageMaxSize());
         Log.d("", " this.getScreenWidth()===" + this.getScreenWidth());
         Log.d("", " this.getScreenHeight()===" + this.getScreenHeight());
-
-        int frameId = photo.getFrameIndex() > 0 ? photo.getFrameIndex() : DEFAULT_FRAME_ID;
+        
         // x 40 to change density
         int densitySize = this.getFrameDensitySize();
-        return NinePatchHelper.getImageDrawable(context, frameId, densitySize);
+        return NinePatchHelper.getImageDrawable(context, this.getFrameIndex(), densitySize);
     }
 
     public ScaleType getPhotoScale() {
@@ -87,23 +92,6 @@ public class PhotoView {
         return null;
     }
 
-    public List<Integer> getFonts() {
-        return this.fonts;
-    }
-
-    public int getFontIndex() {
-        int fontIndex = this.fonts.indexOf(photo.getFontType());
-        return fontIndex < 0 ? 0 : fontIndex;
-    }
-
-    public Typeface getFontFaceType() {
-        try {
-            int fontIndex = this.getFontIndex();
-            return ResourcesCompat.getFont(context, this.fonts.get(fontIndex));
-        } catch (Exception ignored) {
-        }
-        return null;
-    }
 
     public boolean isFontEmpty() {
         return this.getFontText() == null || this.getFontText().trim().isEmpty();
@@ -118,12 +106,7 @@ public class PhotoView {
     }
 
     public boolean isFontOn() {
-        //return layer != WIDGET_ALBUM_SETTING && layer != WIDGET_PHOTO_SETTING;
         return true;
-    }
-
-    public int getLayer() {
-        return layer;
     }
 
     public int getImageMaxSize() {
@@ -145,6 +128,49 @@ public class PhotoView {
                                                         layer == WIDGET_PHOTO_SETTING ? 4 : 0;
     }
 
+
+    public List<Integer> getFonts() {
+        return this.fonts;
+    }
+
+    public int getFontIndex() {
+        int fontIndex = this.fonts.indexOf(photo.getFontType());
+        return fontIndex < 0 ? DEFAULT_FONT_INDEX : fontIndex;
+    }
+
+    public Typeface getFontFaceType() {
+        try {
+            int fontIndex = this.getFontIndex();
+            return ResourcesCompat.getFont(context, this.fonts.get(fontIndex));
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    public void setScaleIndex(int scaleIndex) {
+        photo.setScaleIndex(scaleIndex);
+    }
+
+    public int getScaleIndex() {
+        return photo.getScaleIndex();
+    }
+
+    public int getFrameIndex() {
+        return photo.getFrameIndex() > 0 ? photo.getFrameIndex() : DEFAULT_FRAME_ID;
+    }
+
+    public int getFontLocation() {
+        return photo.getFontLocation() >= 0 ? photo.getFontLocation() : DEFAULT_FONT_LOCATION;
+    }
+
+    public String getFontText() {
+        return photo.getFontText();
+    }
+
+    public int getFontColor() {
+        return photo.getFontColor() >= 0 && photo.getFontColor() <= 255 ? photo.getFontColor() : DEFAULT_FONT_COLOR;
+    }
+
     public int getFrameDensitySize() {
         return layer == LAYER_ALBUM_PHOTO ? 1 :
                 layer == LAYER_FRAME_SETTING ? 4 :
@@ -161,32 +187,8 @@ public class PhotoView {
                                 layer == WIDGET_ALBUM_PHOTO ? 1.0f :
                                         layer == WIDGET_ALBUM_SETTING ? 0.1f :
                                                 layer == WIDGET_PHOTO_SETTING ? 0.21f : 1.0f;
-
-        return (int) (factor * photo.getFontSize());
-    }
-
-    public void setScaleIndex(int scaleIndex) {
-        photo.setScaleIndex(scaleIndex);
-    }
-
-    public int getScaleIndex() {
-        return photo.getScaleIndex();
-    }
-
-    public int getFrameIndex() {
-        return photo.getFrameIndex();
-    }
-
-    public int getFontLocation() {
-        return photo.getFontLocation();
-    }
-
-    public String getFontText() {
-        return photo.getFontText();
-    }
-
-    public int getFontColor() {
-        return photo.getFontColor();
+        int fontSize = photo.getFontSize() > 0 ? photo.getFontSize() : DEFAULT_FONT_SIZE;
+        return (int) (factor * fontSize);
     }
 
     public int getScreenWidth() {
