@@ -44,34 +44,33 @@ public class ImageHelper {
 
     public static Bitmap loadBitmap(Resources resources, int imageId, boolean inScaled) {
         try {
-//            BitmapFactory.Options options = new BitmapFactory.Options();
-//            options.inScaled = inScaled;
-//            return BitmapFactory.decodeResource(resources, imageId, options);
-            return BitmapFactory.decodeResource(resources, imageId);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = inScaled;
+            return BitmapFactory.decodeResource(resources, imageId, options);
+//            return BitmapFactory.decodeResource(resources, imageId);
         } catch (Exception ignored) {
             return null;
         }
     }
 
     public static Bitmap decodeBitmap(String url, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
         try (FileInputStream inputStream = new FileInputStream(url)) {
             Log.d("", "decodeBitmap from url start .....");
-
             // First decode with inJustDecodeBounds=true to check dimensions
-            BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(inputStream, null, options);
             Log.d("", "decode from url options.outWidth  ....." + options.outWidth);
             Log.d("", "decode from url options.outHeight  ....." + options.outHeight);
+        } catch (Exception ignored) {
+            return null;
+        }
+        try (FileInputStream inputStream = new FileInputStream(url)) {
             // Calculate inSampleSize
             options.inSampleSize = calculateInSampleSize(options, width, height);
             Log.d("", "decode from url   options.inSampleSize  ....." + options.inSampleSize);
             // Decode bitmap with inSampleSize set
             options.inJustDecodeBounds = false;
-            options.inScaled = false;
-
-
-            options = new BitmapFactory.Options();
             options.inScaled = false;
 
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);

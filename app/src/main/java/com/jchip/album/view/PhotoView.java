@@ -81,8 +81,8 @@ public class PhotoView {
     private Bitmap loadPhotoImage() {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            bitmap = ImageHelper.loadBitmap(photo.getPhotoPath(), false);
-            // bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), this.getImageMaxSize(), this.getImageMaxSize());
+            //bitmap = ImageHelper.loadBitmap(photo.getPhotoPath(), false);
+             bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), this.getImageMaxSize(), this.getImageMaxSize());
         }
         if (bitmap == null) {
             bitmap = ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
