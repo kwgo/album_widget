@@ -3,7 +3,6 @@ package com.jchip.album.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,7 +39,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
     private ActivityCallBack activityCallBack;
 
     private int layer = -1;
-    private PhotoView photoView;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -55,12 +53,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
     public void setContentView(int layer, @LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         this.layer = layer;
-        Log.d("", "setContentView layer === " + layer);
         this.initContentView();
     }
 
     protected void initContentView() {
-        Log.d("", "initContentView parent set activityResultLauncher === " + layer);
         this.activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -98,24 +94,12 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setPhotoImage(this.getPhotoView(), imageView);
     }
 
-    public void setPhotoScale(ImageView imageView) {
-        PhotoHelper.setPhotoScale(this.getPhotoView(), imageView);
-    }
-
-    public void setPhotoLabel(TextView textView) {
-        PhotoHelper.setPhotoLabel(this.getPhotoView(), textView);
-    }
-
     public void setPhotoFont(TextView textView) {
         PhotoHelper.setPhotoFont(this.getPhotoView(), textView);
     }
 
     public void setPhotoFrame(View containerView, View frameView) {
         PhotoHelper.setPhotoFrame(this.getPhotoView(), containerView, frameView);
-    }
-
-    public void setFontLocation(TextView textView) {
-        PhotoHelper.setFontLocation(this.getPhotoView(), textView);
     }
 
     public int getFontIndex() {

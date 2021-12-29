@@ -31,7 +31,7 @@ public class PhotoData extends AbstractData {
     private int fontType = 0;
     private int fontSize = 100;
     private int fontColor = 0xFFFFFFFF;
-    private int fontLocation = 4;
+    private int fontLocation = -1;
     private String fontText = "";
 
     public PhotoData() {

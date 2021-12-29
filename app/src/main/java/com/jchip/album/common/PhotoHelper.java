@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +24,7 @@ public class PhotoHelper {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
         }
         if (photoView.isFontOn()) {
-            setPhotoLabel(photoView, view.findViewById(R.id.photo_label));
+            setPhotoFont(photoView, view.findViewById(R.id.photo_label));
         }
     }
 
@@ -32,34 +33,28 @@ public class PhotoHelper {
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
-        setPhotoScale(photoView, imageView);
-    }
-
-
-    public static void setPhotoScale(PhotoView photoView, ImageView imageView) {
         int gap = dpToPx(photoView.getImageGap());
         imageView.setPadding(gap, gap, gap, gap);
         imageView.setScaleType(photoView.getPhotoScale());
     }
 
-    public static void setPhotoLabel(PhotoView photoView, TextView textView) {
-        Log.d("","setPhotoLabel   =====   "+photoView.getFontText());
+    public static void setPhotoFont(PhotoView photoView, TextView textView) {
         textView.setVisibility(View.GONE);
         if (!photoView.isFontEmpty()) {
-            Log.d("","setPhotoLabel  xxxx =====   "+photoView.getFontText());
             textView.setText(photoView.getFontText());
             textView.setTextColor(photoView.getFontColor());
+            Log.d("", "textView.setTextColor ===========================");
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontSize());
-            setPhotoFont(photoView, textView);
-            setFontLocation(photoView, textView);
+            textView.setTypeface(photoView.getFontFaceType());
+
+            int fontLocation = photoView.getFontLocation();
+            fontLocation = fontLocation >= 0 ? fontLocation : Gravity.CENTER;
+            textView.setGravity(fontLocation);
+            ((LinearLayout) textView.getParent()).setGravity(fontLocation);
+
             textView.setVisibility(View.VISIBLE);
         }
     }
-
-    public static void setPhotoFont(PhotoView photoView, TextView textView) {
-        textView.setTypeface(photoView.getFontFaceType());
-    }
-
 
     public static void setPhotoFrame(PhotoView photoView, View containerView, View frameView) {
         Drawable drawable = photoView.getFrameDrawable();
@@ -71,12 +66,6 @@ public class PhotoHelper {
             containerView.setBackgroundResource(frameId);
             frameView.setBackgroundResource(frameId);
         }
-    }
-
-    public static void setFontLocation(PhotoView photoView, TextView textView) {
-        int fontLocation = photoView.getFontLocation();
-        textView.setGravity(fontLocation);
-        ((LinearLayout) textView.getParent()).setGravity(fontLocation);
     }
 
     public static int dpToPx(int dp) {

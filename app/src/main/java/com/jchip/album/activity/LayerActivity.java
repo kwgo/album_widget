@@ -52,7 +52,7 @@ public abstract class LayerActivity extends DataActivity {
             this.photo.setFontLocation(photo.getFontLocation());
             this.photo.setFontText(photo.getFontText());
             this.updatePhoto();
-            this.setPhotoLabel(this.getTextView(R.id.photo_label));
+            this.setPhotoFont(this.getTextView(R.id.photo_label));
         }
     }
 }

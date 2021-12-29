@@ -65,8 +65,8 @@ public class FrameActivity extends RecyclerActivity {
             this.finish();
         });
 
-        ImageView imageView = itemView.findViewById(R.id.photo_image);
-        imageView.setImageBitmap(this.photoImage);
-        this.setPhotoScale(imageView);
+//        ImageView imageView = itemView.findViewById(R.id.photo_image);
+//        imageView.setImageBitmap(this.photoImage);
+//        this.setPhotoScale(imageView);
     }
 }

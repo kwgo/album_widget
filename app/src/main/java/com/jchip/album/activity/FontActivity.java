@@ -5,10 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.jchip.album.R;
 import com.jchip.album.common.PhotoHelper;
@@ -102,18 +100,18 @@ public class FontActivity extends AbstractActivity {
                 Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
                 Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
         );
-        int locationIndex = locations.indexOf(this.photo.getFontLocation());
-        locationIndex = locationIndex < 0 ? 0 : locationIndex;
+        int fontLocation = this.photo.getFontLocation();
+        fontLocation = fontLocation >= 0 ? fontLocation : Gravity.CENTER;
+        int locationIndex = locations.contains(fontLocation) ? locations.indexOf(fontLocation) : 4;
         this.photo.setFontLocation(locations.get((locationIndex + 1) % locations.size()));
-        this.setFontLocation(this.getTextView(R.id.photo_label));
+        this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onSizeChange(int change) {
-        TextView textView = this.getTextView(R.id.photo_label);
-        float fontSize = textView.getTextSize() + change * PhotoHelper.dpToPx(2);
+        float fontSize = this.photo.getFontSize() + change * PhotoHelper.dpToPx(2);
         if (fontSize > PhotoHelper.dpToPx(10) && fontSize < PhotoHelper.dpToPx(100)) {
             this.photo.setFontSize((int) fontSize);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
+            this.setPhotoFont(this.getTextView(R.id.photo_label));
         }
     }
 
@@ -123,12 +121,12 @@ public class FontActivity extends AbstractActivity {
         int g = this.getSeekView(R.id.font_color_g).getProgress();
         int b = this.getSeekView(R.id.font_color_b).getProgress();
         this.photo.setFontColor(Color.argb(a, r, g, b));
-        this.getTextView(R.id.photo_label).setTextColor(Color.argb(a, r, g, b));
+        this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onTextChange(String text) {
         this.photo.setFontText(text);
-        this.getTextView(R.id.photo_label).setText(text);
+        this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     @Override
