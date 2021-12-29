@@ -85,14 +85,14 @@ public class PhotoView {
             //bitmap = ImageHelper.loadBitmap(photo.getPhotoPath(), false);
             bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), this.getImageMaxWidth(), this.getImageMaxHeight());
         }
+        if (bitmap == null) {
+            bitmap = ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
+            // bitmap = ImageHelper.decodeResource(context.getResources(), DEFAULT_PHOTO_ID, this.getImageMaxSize(), this.getImageMaxSize());
+        }
         if (bitmap != null) {
             bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
-            //bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxWidth(), this.getImageMaxHeight());
-            //bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize(), this.getImageMaxSize());
-        }
-        if (bitmap == null) {
-            return ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
-            // return ImageHelper.decodeResource(context.getResources(), DEFAULT_PHOTO_ID, this.getImageMaxSize(), this.getImageMaxSize());
+            // bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxWidth(), this.getImageMaxHeight());
+            //bitmap =  ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize(), this.getImageMaxSize());
         }
         return bitmap;
     }

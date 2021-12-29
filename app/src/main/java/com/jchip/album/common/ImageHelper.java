@@ -20,11 +20,15 @@ public class ImageHelper {
             float maxRatio = Math.max(ratioWidth, ratioHeight);
             ratio = ratio * (maxRatio > 0 && maxRatio < 1 ? maxRatio : 1.0f);
         }
-        Matrix matrix = new Matrix();
-        matrix.postRotate(rotation * 90);
-        matrix.postScale(flip == 0 ? ratio : -ratio, ratio);
         if (rotation > 0 || flip != 0 || Math.abs(ratio - 1.0f) > 0.01f) {
-            Log.d("", "create new bitmap with new rotation= " + rotation + " and ratio= " + ratio);
+            Matrix matrix = new Matrix();
+            if (rotation > 0) {
+                matrix.postRotate(rotation * 90);
+            }
+            if (flip != 0 || Math.abs(ratio - 1.0f) > 0.01f) {
+                matrix.postScale(flip == 0 ? ratio : -ratio, ratio);
+            }
+            Log.d("", "create new bitmap with = " + rotation + " and flip= " + flip + " and ratio= " + ratio);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
         }
         Log.d("", "end convert bitmap - width= " + width + " height= " + height + " maxWidth== " + maxWidth + " maxHeight== " + maxHeight);
@@ -32,14 +36,10 @@ public class ImageHelper {
     }
 
     public static Bitmap loadBitmap(String url, boolean inScaled) {
-        Log.d("", "load bitmap by path start ....." + inScaled);
         try (FileInputStream inputStream = new FileInputStream(url)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = inScaled;
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
-//          Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            Log.d("", "load bitmap by path end .. width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
-            return bitmap;
+            return BitmapFactory.decodeStream(inputStream, null, options);
         } catch (Exception ignored) {
             return null;
         }
@@ -50,7 +50,6 @@ public class ImageHelper {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = inScaled;
             return BitmapFactory.decodeResource(resources, imageId, options);
-//            return BitmapFactory.decodeResource(resources, imageId);
         } catch (Exception ignored) {
             return null;
         }
@@ -60,6 +59,7 @@ public class ImageHelper {
         BitmapFactory.Options options = new BitmapFactory.Options();
         try (FileInputStream inputStream = new FileInputStream(url)) {
 
+            Log.d("", "decode from url start .... url= " + url);
             Log.d("", "decode from url start .... require width= " + width + " height= " + height);
             // First decode with inJustDecodeBounds=true to check dimensions
             options.inJustDecodeBounds = true;
