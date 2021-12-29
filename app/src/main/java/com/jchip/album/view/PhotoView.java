@@ -82,9 +82,11 @@ public class PhotoView {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = ImageHelper.loadBitmap(photo.getPhotoPath(), false);
+            // bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), this.getImageMaxSize(), this.getImageMaxSize());
         }
         if (bitmap == null) {
             bitmap = ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
+            //bitmap = ImageHelper.decodeResource(context.getResources(), DEFAULT_PHOTO_ID, this.getImageMaxSize(), this.getImageMaxSize());
         }
         if (bitmap != null) {
             return ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize());
