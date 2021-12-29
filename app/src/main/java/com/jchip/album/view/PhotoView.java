@@ -64,7 +64,7 @@ public class PhotoView {
         Log.d("", " this.getImageMaxSize()===" + this.getImageMaxSize());
         Log.d("", " this.getScreenWidth()===" + this.getScreenWidth());
         Log.d("", " this.getScreenHeight()===" + this.getScreenHeight());
-        
+
         // x 40 to change density
         int densitySize = this.getFrameDensitySize();
         return NinePatchHelper.getImageDrawable(context, this.getFrameIndex(), densitySize);

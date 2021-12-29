@@ -3,7 +3,6 @@ package com.jchip.album.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -95,9 +94,11 @@ public abstract class AbstractActivity extends AppCompatActivity {
         PhotoHelper.setPhotoImage(this.getPhotoView(), imageView);
     }
 
-    public void setPhotoFont(TextView textView) {
-        Log.d("","Po fontSize this.photo.getFontSize(class)===="+this.photo);
+    public void setPhotoScale(ImageView imageView) {
+        PhotoHelper.setPhotoScale(this.getPhotoView(), imageView);
+    }
 
+    public void setPhotoFont(TextView textView) {
         PhotoHelper.setPhotoFont(this.getPhotoView(), textView);
     }
 

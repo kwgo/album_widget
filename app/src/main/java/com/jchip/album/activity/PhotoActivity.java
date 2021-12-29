@@ -95,7 +95,7 @@ public class PhotoActivity extends LayerActivity {
 
     private void onScalePhoto(View v) {
         this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
-        this.setPhotoImage(this.getImageView(R.id.photo_image));
+        this.setPhotoScale(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 

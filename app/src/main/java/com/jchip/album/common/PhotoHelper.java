@@ -3,9 +3,7 @@ package com.jchip.album.common;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +31,10 @@ public class PhotoHelper {
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
+        setPhotoScale(photoView, imageView);
+    }
+
+    public static void setPhotoScale(PhotoView photoView, ImageView imageView) {
         int gap = dpToPx(photoView.getImageGap());
         imageView.setPadding(gap, gap, gap, gap);
         imageView.setScaleType(photoView.getPhotoScale());
@@ -40,7 +42,7 @@ public class PhotoHelper {
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
         textView.setVisibility(View.GONE);
-         if (!photoView.isFontEmpty()) {
+        if (!photoView.isFontEmpty()) {
             textView.setText(photoView.getFontText());
             textView.setTextColor(photoView.getFontColor());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontSize());
