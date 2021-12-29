@@ -168,7 +168,7 @@ public class PhotoView {
     }
 
     public int getFontColor() {
-        return photo.getFontColor() >= 0 && photo.getFontColor() <= 255 ? photo.getFontColor() : DEFAULT_FONT_COLOR;
+        return photo.getFontColor();
     }
 
     public int getFontSize() {
