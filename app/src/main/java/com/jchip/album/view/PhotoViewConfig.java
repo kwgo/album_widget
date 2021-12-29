@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PhotoViewConfig {
+    public static final float DEFAULT_IMAGE_ZOOM = 0.5f;
 
     private static final Map<Integer, Integer> densitySizeFactors = new HashMap<Integer, Integer>() {{
         this.put(PhotoView.LAYER_ALBUM_PHOTO, 1);
@@ -60,11 +61,11 @@ public class PhotoViewConfig {
 
     public static int getImageMaxWidth(int layer) {
         Integer value = imageMaxWidths.get(layer);
-        return value != null ? pxTodp(value) : 0;
+        return value != null ? (int) (value * DEFAULT_IMAGE_ZOOM) : 0;
     }
 
     private static final Map<Integer, Integer> imageMaxHeights = new HashMap<Integer, Integer>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, (int) (0.64 * getScreenHeight()));
+        this.put(PhotoView.LAYER_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
         this.put(PhotoView.LAYER_FRAME_SETTING, dpToPx(220));
         this.put(PhotoView.LAYER_FONT_SETTING, dpToPx(220));
         this.put(PhotoView.WIDGET_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
@@ -74,7 +75,7 @@ public class PhotoViewConfig {
 
     public static int getImageMaxHeight(int layer) {
         Integer value = imageMaxHeights.get(layer);
-        return value != null ? pxTodp(value) : 0;
+        return value != null ? (int) (value * DEFAULT_IMAGE_ZOOM) : 0;
     }
 
     private static final Map<Integer, Boolean> defaultImageRotations = new HashMap<Integer, Boolean>() {{
@@ -114,5 +115,10 @@ public class PhotoViewConfig {
     public static int pxTodp(int px) {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
+
+    public static float getDensity() {
+        return Resources.getSystem().getDisplayMetrics().density;
+    }
+
 
 }

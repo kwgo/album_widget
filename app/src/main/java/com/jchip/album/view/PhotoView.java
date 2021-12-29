@@ -27,8 +27,6 @@ public class PhotoView {
     public static final int DEFAULT_FONT_LOCATION = Gravity.CENTER;
     public static final int DEFAULT_FONT_SIZE = 120;
 
-    public static final float DEFAULT_IMAGE_ZOOM = 2.0f;
-
     public static final int LAYER_ALBUM_PHOTO = 0;
     public static final int LAYER_FRAME_SETTING = 1;
     public static final int LAYER_FONT_SETTING = 2;
@@ -58,6 +56,7 @@ public class PhotoView {
 
     public Drawable getFrameDrawable() {
         Log.d("", " this.getLayer()===" + this.layer);
+        Log.d("", " this.getDensity()===" + PhotoViewConfig.getDensity());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
         Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
         Log.d("", " this.getImageMaxWidth()===" + this.getImageMaxWidth());
@@ -173,11 +172,11 @@ public class PhotoView {
     }
 
     public int getImageMaxWidth() {
-        return (int) (DEFAULT_IMAGE_ZOOM * PhotoViewConfig.getImageMaxWidth(layer));
+        return PhotoViewConfig.getImageMaxWidth(layer);
     }
 
     public int getImageMaxHeight() {
-        return (int) (DEFAULT_IMAGE_ZOOM * PhotoViewConfig.getImageMaxHeight(layer));
+        return PhotoViewConfig.getImageMaxHeight(layer);
     }
 
     public boolean getDefaultImageRotation() {
