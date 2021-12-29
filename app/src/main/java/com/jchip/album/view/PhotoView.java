@@ -1,7 +1,6 @@
 package com.jchip.album.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -57,13 +56,15 @@ public class PhotoView {
     }
 
     public Drawable getFrameDrawable() {
-        //Log.d("", " this.getLayer()===" + this.getLayer());
+        Log.d("", " this.getLayer()===" + this.layer);
         Log.d("", " this.getImageGap()===" + this.getImageGap());
         Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
-
-        Log.d("", " this.getImageMaxSize()===" + this.getImageMaxSize());
-        Log.d("", " this.getScreenWidth()===" + this.getScreenWidth());
-        Log.d("", " this.getScreenHeight()===" + this.getScreenHeight());
+        Log.d("", " this.getImageMaxWidth()===" + this.getImageMaxWidth());
+        Log.d("", " this.getImageMaxHeight()===" + this.getImageMaxHeight());
+        //Log.d("", " this.getImageMaxSize()===" + this.getImageMaxSize());
+        Log.d("", " this.getScreenWidth()===" + PhotoViewConfig.getScreenWidth());
+        Log.d("", " this.getScreenHeight()===" + PhotoViewConfig.getScreenHeight());
+        Log.d("", " ---------");
 
         // x 40 to change density
         int densitySize = this.getFrameDensitySize();
@@ -82,16 +83,18 @@ public class PhotoView {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             //bitmap = ImageHelper.loadBitmap(photo.getPhotoPath(), false);
-             bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), this.getImageMaxSize(), this.getImageMaxSize());
-        }
-        if (bitmap == null) {
-            bitmap = ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
-            //bitmap = ImageHelper.decodeResource(context.getResources(), DEFAULT_PHOTO_ID, this.getImageMaxSize(), this.getImageMaxSize());
+            bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), this.getImageMaxWidth(), this.getImageMaxHeight());
         }
         if (bitmap != null) {
-            return ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize());
+            bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
+            //bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxWidth(), this.getImageMaxHeight());
+            //bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize(), this.getImageMaxSize());
         }
-        return null;
+        if (bitmap == null) {
+            return ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
+            // return ImageHelper.decodeResource(context.getResources(), DEFAULT_PHOTO_ID, this.getImageMaxSize(), this.getImageMaxSize());
+        }
+        return bitmap;
     }
 
 
@@ -109,25 +112,6 @@ public class PhotoView {
 
     public boolean isFontOn() {
         return true;
-    }
-
-    public int getImageMaxSize() {
-        return layer == LAYER_ALBUM_PHOTO ? (int) (0.64 * this.getScreenHeight()) :
-                layer == LAYER_FRAME_SETTING ? this.getScreenWidth() :
-                        layer == LAYER_FONT_SETTING ? this.getScreenWidth() :
-                                layer == WIDGET_ALBUM_PHOTO ? (int) (0.70 * this.getScreenHeight()) :
-                                        layer == WIDGET_ALBUM_SETTING ? this.getScreenWidth() / 5 :
-                                                layer == WIDGET_PHOTO_SETTING ? this.getScreenWidth() / 2 : 0;
-    }
-
-    public int getImageGap() {
-        return ImageView.ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 :
-                layer == LAYER_ALBUM_PHOTO ? 16 :
-                        layer == LAYER_FRAME_SETTING ? 8 :
-                                layer == LAYER_FONT_SETTING ? 8 :
-                                        layer == WIDGET_ALBUM_PHOTO ? 12 :
-                                                layer == WIDGET_ALBUM_SETTING ? 2 :
-                                                        layer == WIDGET_PHOTO_SETTING ? 4 : 0;
     }
 
 
@@ -178,37 +162,26 @@ public class PhotoView {
     }
 
     public int getFrameDensitySize() {
-        return layer == LAYER_ALBUM_PHOTO ? 1 :
-                layer == LAYER_FRAME_SETTING ? 4 :
-                        layer == LAYER_FONT_SETTING ? 4 :
-                                layer == WIDGET_ALBUM_PHOTO ? 0 :
-                                        layer == WIDGET_ALBUM_SETTING ? 25 :
-                                                layer == WIDGET_PHOTO_SETTING ? 12 : 0;
+        return PhotoViewConfig.getDensitySizeFactor(layer);
     }
 
     public int getFontTextSize() {
-        float factor = layer == LAYER_ALBUM_PHOTO ? 0.75f :
-                layer == LAYER_FRAME_SETTING ? 0.45f :
-                        layer == LAYER_FONT_SETTING ? 0.45f :
-                                layer == WIDGET_ALBUM_PHOTO ? 1.0f :
-                                        layer == WIDGET_ALBUM_SETTING ? 0.1f :
-                                                layer == WIDGET_PHOTO_SETTING ? 0.21f : 1.0f;
-        return (int) (factor * this.getFontSize());
+        return (int) (PhotoViewConfig.getFontSizeFactor(layer) * this.getFontSize());
     }
 
-    public int getScreenWidth() {
-        try {
-            return Resources.getSystem().getDisplayMetrics().widthPixels;
-        } catch (Exception ex) {
-            return 0;
-        }
+    public int getImageGap() {
+        return ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 : PhotoViewConfig.getImageGap(layer);
     }
 
-    public int getScreenHeight() {
-        try {
-            return Resources.getSystem().getDisplayMetrics().heightPixels;
-        } catch (Exception ex) {
-            return 0;
-        }
+    public int getImageMaxWidth() {
+        return PhotoViewConfig.getImageMaxWidth(layer);
     }
+
+    public int getImageMaxHeight() {
+        return PhotoViewConfig.getImageMaxHeight(layer);
+    }
+
+//    public int getImageMaxSize() {
+//        return PhotoViewConfig.getImageMaxSize(layer);
+//    }
 }

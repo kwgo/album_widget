@@ -1,6 +1,5 @@
 package com.jchip.album.common;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.jchip.album.R;
 import com.jchip.album.view.PhotoView;
+import com.jchip.album.view.PhotoViewConfig;
 
 public class PhotoHelper {
 
@@ -35,7 +35,7 @@ public class PhotoHelper {
     }
 
     public static void setPhotoScale(PhotoView photoView, ImageView imageView) {
-        int gap = dpToPx(photoView.getImageGap());
+        int gap = photoView.getImageGap();
         imageView.setPadding(gap, gap, gap, gap);
         imageView.setScaleType(photoView.getPhotoScale());
     }
@@ -66,6 +66,7 @@ public class PhotoHelper {
     }
 
     public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+        return PhotoViewConfig.dpToPx(dp);
     }
+
 }
