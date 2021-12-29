@@ -54,7 +54,7 @@
                     android:alpha="0.85"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     tools:text="1/1000" />
 
                 <com.jchip.album.photo.view.PhotoNumberView
