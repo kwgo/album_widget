@@ -26,7 +26,8 @@ public class PhotoView {
     public static final int DEFAULT_FONT_INDEX = 1;
     public static final int DEFAULT_FONT_LOCATION = Gravity.CENTER;
     public static final int DEFAULT_FONT_SIZE = 120;
-    public static final int DEFAULT_FONT_COLOR = 0xFFFFFFFF;
+
+    public static final float DEFAULT_IMAGE_ZOOM = 2.0f;
 
     public static final int LAYER_ALBUM_PHOTO = 0;
     public static final int LAYER_FRAME_SETTING = 1;
@@ -82,17 +83,15 @@ public class PhotoView {
     private Bitmap loadPhotoImage() {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            //bitmap = ImageHelper.loadBitmap(photo.getPhotoPath(), false);
             bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), this.getImageMaxWidth(), this.getImageMaxHeight());
         }
         if (bitmap == null) {
             bitmap = ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
-            // bitmap = ImageHelper.decodeResource(context.getResources(), DEFAULT_PHOTO_ID, this.getImageMaxSize(), this.getImageMaxSize());
-        }
-        if (bitmap != null) {
+            if (this.getDefaultImageRotation() == true) {
+                bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
+            }
+        } else {
             bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
-            // bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxWidth(), this.getImageMaxHeight());
-            //bitmap =  ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), this.getImageMaxSize(), this.getImageMaxSize());
         }
         return bitmap;
     }
@@ -174,14 +173,14 @@ public class PhotoView {
     }
 
     public int getImageMaxWidth() {
-        return PhotoViewConfig.getImageMaxWidth(layer);
+        return (int) (DEFAULT_IMAGE_ZOOM * PhotoViewConfig.getImageMaxWidth(layer));
     }
 
     public int getImageMaxHeight() {
-        return PhotoViewConfig.getImageMaxHeight(layer);
+        return (int) (DEFAULT_IMAGE_ZOOM * PhotoViewConfig.getImageMaxHeight(layer));
     }
 
-//    public int getImageMaxSize() {
-//        return PhotoViewConfig.getImageMaxSize(layer);
-//    }
+    public boolean getDefaultImageRotation() {
+        return PhotoViewConfig.getDefaultImageRotation(layer);
+    }
 }

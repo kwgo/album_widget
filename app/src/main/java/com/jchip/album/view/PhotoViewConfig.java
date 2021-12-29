@@ -77,18 +77,18 @@ public class PhotoViewConfig {
         return value != null ? pxTodp(value) : 0;
     }
 
-    private static final Map<Integer, Integer> imageMaxSizes = new HashMap<Integer, Integer>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, (int) (0.64 * getScreenHeight()));
-        this.put(PhotoView.LAYER_FRAME_SETTING, getScreenWidth());
-        this.put(PhotoView.LAYER_FONT_SETTING, getScreenWidth());
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
-        this.put(PhotoView.WIDGET_ALBUM_SETTING, getScreenWidth() / 5);
-        this.put(PhotoView.WIDGET_PHOTO_SETTING, getScreenWidth() / 2);
+    private static final Map<Integer, Boolean> defaultImageRotations = new HashMap<Integer, Boolean>() {{
+        this.put(PhotoView.LAYER_ALBUM_PHOTO, true);
+        this.put(PhotoView.LAYER_FRAME_SETTING, true);
+        this.put(PhotoView.LAYER_FONT_SETTING, true);
+        this.put(PhotoView.WIDGET_ALBUM_PHOTO, false);
+        this.put(PhotoView.WIDGET_ALBUM_SETTING, false);
+        this.put(PhotoView.WIDGET_PHOTO_SETTING, false);
     }};
 
-    public static int getImageMaxSize(int layer) {
-        Integer value = imageMaxSizes.get(layer);
-        return value != null ? value : 0;
+    public static boolean getDefaultImageRotation(int layer) {
+        Boolean value = defaultImageRotations.get(layer);
+        return value != null ? value : true;
     }
 
     public static int getScreenWidth() {
