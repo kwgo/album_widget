@@ -48,6 +48,8 @@ public class ImageHelper {
     public static Bitmap decodeBitmap(String url, int bitmapWidth, int bitmapHeight, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         try (FileInputStream inputStream = new FileInputStream(url)) {
+            Log.d("", "decode from url start .... url= " + url);
+            Log.d("", "decode from url start .... require width= " + width + " height= " + height);
             if (bitmapWidth <= 0 || bitmapHeight <= 0) {
                 Log.d("", "decode from url start .... url= " + url);
                 Log.d("", "decode from url start .... require width= " + width + " height= " + height);
@@ -79,16 +81,27 @@ public class ImageHelper {
             }
             return bitmap;
         } catch (Exception ignored) {
+            ignored.printStackTrace();
             return null;
         }
     }
 
     //Given the bitmap size and View size calculate a subsampling size (powers of 2)
     public static int calculateInSampleSize(BitmapFactory.Options options, int width, int height) {
+        Log.d("", "calculateInSampleSize options.outWidth = " + options.outWidth);
+        Log.d("", "calculateInSampleSize options.outHeight = " + options.outHeight);
         float ratioWidth = width > 0 ? 1.0f * width / options.outWidth : 1.0f;
         float ratioHeight = height > 0 ? 1.0f * height / options.outHeight : 1.0f;
+        Log.d("", "before ratioWidth  ++= " + ratioWidth);
+        Log.d("", "before ratioHeight  ++= " + ratioHeight);
         float ratio = Math.max(ratioWidth, ratioHeight);
-        int inSampleSize = ratio < 1.0f && ratio != 0 ? (int) (1.0f / ratio - 0.5f) : 1;
+        Log.d("", "before ratio  ++= " + ratio);
+        int inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio) : 1;
+        Log.d("", "before inSampleSize ++ ++ ++= " + inSampleSize);
+        if (options.outWidth * options.outHeight / inSampleSize / inSampleSize > width * height) {
+            Log.d("", "BcalculateInSampleSize inSampleSize ++ ++ ++= " + inSampleSize);
+            inSampleSize++;
+        }
         Log.d("", "BcalculateInSampleSize inSampleSize= " + inSampleSize);
         return inSampleSize;
     }

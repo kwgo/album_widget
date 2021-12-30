@@ -35,7 +35,6 @@ public class WidgetPhotoSetting extends WidgetSetting {
         this.albums = new ArrayList<>();
         for (AlbumData albumData : DataHelper.getInstance(this).queryAlbumPhotos()) {
             this.albums.add(albumData);
-
             AlbumData photoAlbum = new AlbumData();
             for (int index = 0; index < albumData.getPhotoSize(); index++) {
                 if (index % PHOTO_NUMBER == 0) {
@@ -43,6 +42,10 @@ public class WidgetPhotoSetting extends WidgetSetting {
                 }
                 photoAlbum.addPhoto(albumData.getPhoto(index));
             }
+        }
+        if (this.albums == null || this.albums.isEmpty()) {
+            this.startApp();
+            this.finish();
         }
         this.initListView(R.id.photo_setting_view, R.layout.widget_photo_setting_item, this.albums.size());
     }

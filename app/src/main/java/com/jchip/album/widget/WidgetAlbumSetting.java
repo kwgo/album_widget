@@ -30,7 +30,10 @@ public class WidgetAlbumSetting extends WidgetSetting {
         super.initContentView();
 
         this.albums = DataHelper.getInstance(this).queryPhotoAlbum();
-
+        if (this.albums == null || this.albums.isEmpty()) {
+            this.startApp();
+            this.finish();
+        }
         Log.d("", "*** start init album list size = " + this.albums.size());
 
         this.initListView(R.id.album_setting_view, R.layout.widget_album_setting_item, this.albums.size());

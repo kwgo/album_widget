@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PhotoViewConfig {
-    public static final float DEFAULT_IMAGE_ZOOM = 0.5f;
+    public static final float DEFAULT_IMAGE_ZOOM = 0.95f;
 
     private static final Map<Integer, Integer> densitySizeFactors = new HashMap<Integer, Integer>() {{
         this.put(PhotoView.LAYER_ALBUM_PHOTO, 1);

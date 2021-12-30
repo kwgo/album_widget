@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.jchip.album.layer.ListLayer;
+import com.jchip.album.ActivityAlbum;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
+import com.jchip.album.layer.ListLayer;
 
 public abstract class WidgetSetting extends ListLayer {
     protected int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
@@ -77,5 +78,9 @@ public abstract class WidgetSetting extends ListLayer {
     protected void saveWidget(WidgetData widgetData) {
         widgetData.setWidgetId(this.appWidgetId);
         DataHelper.getInstance(this).saveWidget(widgetData);
+    }
+
+    protected void startApp() {
+        this.startActivity(new Intent(this, ActivityAlbum.class));
     }
 }
