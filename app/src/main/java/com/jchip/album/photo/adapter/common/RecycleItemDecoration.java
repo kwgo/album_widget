@@ -1,4 +1,4 @@
-package com.jchip.album.photo.adapter.itemdecoration;
+package com.jchip.album.photo.adapter.common;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

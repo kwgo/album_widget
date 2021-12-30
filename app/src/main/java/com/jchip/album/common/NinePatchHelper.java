@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -34,6 +35,8 @@ public class NinePatchHelper {
         final byte[] chunk = bitmap.getNinePatchChunk();
         if (NinePatch.isNinePatchChunk(chunk)) {
             NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
+            
+            Log.d("", "nine patch padding: " + ninePatchChunk.getPadding());
             // return new NinePatchDrawable(Resources.getSystem(), bitmap, chunk, ninePatchChunk.getPadding(), null);
             return new NinePatchDrawable(context.getResources(), bitmap, chunk, ninePatchChunk.getPadding(), null);
         }

@@ -1,4 +1,4 @@
-package com.jchip.album.photo.utils;
+package com.jchip.album.photo.helper;
 
 import android.content.Context;
 import android.database.Cursor;

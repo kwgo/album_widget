@@ -1,4 +1,4 @@
-package com.jchip.album.photo.adapter;
+package com.jchip.album.photo.adapter.common;
 
 import android.content.Context;
 import android.os.Build;
@@ -12,11 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jchip.album.photo.adapter.base.BaseViewHolder;
 import com.jchip.album.photo.adapter.factory.IItemType;
 import com.jchip.album.photo.adapter.factory.ItemTypeFactory;
-import com.jchip.album.photo.adapter.listener.OnMultiItemClickListener;
-import com.jchip.album.photo.adapter.listener.OnMultiItemLongClickListener;
+import com.jchip.album.photo.adapter.holder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

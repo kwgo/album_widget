@@ -1,4 +1,4 @@
-package com.jchip.album.photo.utils;
+package com.jchip.album.photo.helper;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -10,11 +10,13 @@ public final class MainHandler extends Handler {
     private static MainHandler instance;
 
     public static MainHandler instances() {
-        if (instance == null)
+        if (instance == null) {
             synchronized (MainHandler.class) {
-                if (instance == null)
+                if (instance == null) {
                     instance = new MainHandler();
+                }
             }
+        }
         return instance;
     }
 

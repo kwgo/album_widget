@@ -81,16 +81,14 @@ public class PhotoLayer extends ActivityLayer {
         this.setPhotoView(this.getView(R.id.photos_view));
     }
 
-    private boolean onSlipPhoto(int offset) {
+    private void onSlipPhoto(int offset) {
         if (!this.album.isPhotoEmpty()) {
             int postion = this.album.getPhotoIndex(this.photo);
             postion = postion < 0 ? 0 : postion + offset;
             if (postion >= 0 && postion < this.album.getPhotoSize()) {
                 this.setAlbumPhoto(this.album.getPhoto(postion));
-                return true;
             }
         }
-        return false;
     }
 
     private void onScalePhoto(View v) {

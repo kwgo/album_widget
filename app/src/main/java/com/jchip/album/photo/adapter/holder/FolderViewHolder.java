@@ -1,4 +1,4 @@
-package com.jchip.album.photo.adapter.viewholder;
+package com.jchip.album.photo.adapter.holder;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jchip.album.R;
-import com.jchip.album.photo.adapter.base.BaseViewHolder;
 import com.jchip.album.photo.model.FolderModel;
-import com.jchip.album.photo.utils.DrawableUtils;
+import com.jchip.album.photo.helper.DrawableUtils;
 
 /**
  * FolderViewHolder

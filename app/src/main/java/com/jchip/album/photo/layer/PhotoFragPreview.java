@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.jchip.album.R;
-import com.jchip.album.photo.base.BaseLazyFragment;
+import com.jchip.album.photo.common.BaseLazyFragment;
 import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.view.PhotoNumberView;
 import com.jchip.album.photo.view.ZoomImageView;

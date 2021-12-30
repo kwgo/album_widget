@@ -1,4 +1,4 @@
-package com.jchip.album.photo.adapter.base;
+package com.jchip.album.photo.adapter.holder;
 
 import android.content.Context;
 import android.util.SparseArray;

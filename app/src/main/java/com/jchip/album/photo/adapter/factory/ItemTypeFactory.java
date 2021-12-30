@@ -3,9 +3,9 @@ package com.jchip.album.photo.adapter.factory;
 import android.view.View;
 
 import com.jchip.album.R;
-import com.jchip.album.photo.adapter.base.BaseViewHolder;
-import com.jchip.album.photo.adapter.viewholder.FolderViewHolder;
-import com.jchip.album.photo.adapter.viewholder.PhotoViewHolder;
+import com.jchip.album.photo.adapter.holder.BaseViewHolder;
+import com.jchip.album.photo.adapter.holder.FolderViewHolder;
+import com.jchip.album.photo.adapter.holder.PhotoViewHolder;
 
 /**
  * layout factory

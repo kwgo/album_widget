@@ -1,4 +1,4 @@
-package com.jchip.album.photo.behavior;
+package com.jchip.album.photo.common;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;

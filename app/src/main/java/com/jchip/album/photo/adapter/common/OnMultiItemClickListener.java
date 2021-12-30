@@ -1,4 +1,4 @@
-package com.jchip.album.photo.adapter.listener;
+package com.jchip.album.photo.adapter.common;
 
 /**
  * ViewHolder click event
