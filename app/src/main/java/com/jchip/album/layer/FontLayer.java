@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,7 +16,7 @@ import com.jchip.album.view.PhotoView;
 import java.util.Arrays;
 import java.util.List;
 
-public class FontActivity extends AbstractActivity {
+public class FontLayer extends AbstractLayer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

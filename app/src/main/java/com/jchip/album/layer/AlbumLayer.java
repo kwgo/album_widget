@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.AlbumViewAdapter;
 import com.jchip.album.view.PhotoView;
 
-public class AlbumActivity extends PhotoActivity {
+public class AlbumLayer extends PhotoLayer {
     private AlbumView albumView;
 
     @Override

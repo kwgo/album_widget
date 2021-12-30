@@ -11,7 +11,7 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
-    <com.jchip.album.photo.view.PhotoBorderView
+    <com.jchip.album.ViewPhotoBorder
         android:id="@+id/grid_border_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

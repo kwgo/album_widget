@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="com.jchip.album.photo.activity.PhotoPickerActivity">
+    tools:context=".ActivityPhotoPicker">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:layout_marginBottom="4dp"
             android:contentDescription="@null"
             android:src="@drawable/photo_fab_function"
-            app:layout_behavior="@string/photo_fat_button_behavior" />
+            app:layout_behavior="com.jchip.album.ViewButtonBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

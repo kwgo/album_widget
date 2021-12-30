@@ -1,7 +1,7 @@
 package com.jchip.album;
 
-import com.jchip.album.activity.FrameActivity;
+import com.jchip.album.layer.FrameLayer;
 
-public class ActivityFrame extends FrameActivity {
+public class ActivityFrame extends FrameLayer {
 
 }

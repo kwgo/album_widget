@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jchip.album.activity.AbstractActivity;
+import com.jchip.album.layer.AbstractLayer;
 
 
-public class ActivityAbout extends AbstractActivity {
+public class ActivityAbout extends AbstractLayer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

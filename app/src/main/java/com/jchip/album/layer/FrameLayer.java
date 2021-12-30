@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,7 +13,7 @@ import com.jchip.album.view.PhotoView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrameActivity extends RecyclerActivity {
+public class FrameLayer extends RecyclerLayer {
     private static final int MAX_FRAME_NUMBER = 200;
 
     private List<Integer> frames;

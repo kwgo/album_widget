@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,7 +26,7 @@ import com.jchip.album.view.PhotoView;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractActivity extends AppCompatActivity {
+public abstract class AbstractLayer extends AppCompatActivity {
     public static final String FRAME_INDEX = "frameIndex";
     public static final String FRAME_ID = "frameId";
     public static final String SHELL_ID = "shellId";

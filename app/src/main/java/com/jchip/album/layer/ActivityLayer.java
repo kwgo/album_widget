@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.content.Intent;
 
@@ -8,7 +8,7 @@ import com.jchip.album.ActivityFrame;
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 
-public abstract class LayerActivity extends DataActivity {
+public abstract class ActivityLayer extends DataLayer {
 
     @Override
     public void initContentView() {

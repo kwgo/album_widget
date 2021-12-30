@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.jchip.album.activity.ListActivity;
+import com.jchip.album.layer.ListLayer;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
 
-public abstract class WidgetSetting extends ListActivity {
+public abstract class WidgetSetting extends ListLayer {
     protected int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     protected int resultValue = RESULT_CANCELED;

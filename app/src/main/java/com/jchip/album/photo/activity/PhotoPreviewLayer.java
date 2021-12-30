@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Photo preview activity
  */
 
-public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFragPreview.OnNumberViewClickListener {
+public class PhotoPreviewLayer extends AppCompatActivity implements PhotoFragPreview.OnNumberViewClickListener {
     private TextView indexText;
     private PhotoNumberView photoNumberView;
 
@@ -133,11 +133,11 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoFrag
     private static class FragPreviewAdapter extends FragmentStatePagerAdapter {
         private ArrayList<PhotoModel> allPhotos;
         private ArrayList<PhotoModel> addPhotos;
-        private WeakReference<PhotoPreviewActivity> weakReference;
+        private WeakReference<PhotoPreviewLayer> weakReference;
         private int limitCount;
 
         private FragPreviewAdapter(FragmentManager manager, ArrayList<PhotoModel> allPhotos, ArrayList<PhotoModel> addPhotos,
-                                   int limitCount, WeakReference<PhotoPreviewActivity> weakReference) {
+                                   int limitCount, WeakReference<PhotoPreviewLayer> weakReference) {
             super(manager);
             this.allPhotos = allPhotos;
             this.addPhotos = addPhotos;

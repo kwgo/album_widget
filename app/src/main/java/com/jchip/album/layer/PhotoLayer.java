@@ -1,19 +1,19 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.content.Intent;
 import android.view.View;
 
+import com.jchip.album.ActivityPhotoPicker;
 import com.jchip.album.R;
 import com.jchip.album.common.GestureHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
-import com.jchip.album.photo.activity.PhotoPickerActivity;
 import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.PhotoModel;
 
 import java.util.List;
 
-public class PhotoActivity extends LayerActivity {
+public class PhotoLayer extends ActivityLayer {
 
     @Override
     public void initContentView() {
@@ -33,7 +33,7 @@ public class PhotoActivity extends LayerActivity {
     }
 
     private void onSelectPhotos() {
-        this.startActivity(PhotoPickerActivity.class, (intent) -> onSelectedPhotos(intent));
+        this.startActivity(ActivityPhotoPicker.class, (intent) -> onSelectedPhotos(intent));
     }
 
     protected void onSelectedPhotos(Intent intent) {
@@ -124,7 +124,7 @@ public class PhotoActivity extends LayerActivity {
             }
             this.photo = photo;
             this.setAlbumPhoto(this.album.getPhoto(this.album.getPhotoSize() > 0 ? this.album.getPhotoSize() - 1 : 0));
-            ((AlbumActivity) this).reloadAlbumList();
+            ((AlbumLayer) this).reloadAlbumList();
         }
     }
 }

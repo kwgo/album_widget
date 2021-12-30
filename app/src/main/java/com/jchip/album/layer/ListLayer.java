@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ListActivity extends AbstractActivity {
+public abstract class ListLayer extends AbstractLayer {
 
     protected ListView listView;
     private final Map<Integer, View> itemViews = new HashMap<>();

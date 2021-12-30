@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jchip.album.ActivityPhotoPreview;
 import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.photo.adapter.MultiAdapter;
@@ -40,7 +41,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class PhotoPickerActivity extends AppCompatActivity {
+public class PhotoPickerLayer extends AppCompatActivity {
     private final int PERMISSION_REQUEST_STORAGE = 6666;
     private final int ACTIVITY_REQUEST_PREVIEW = 7778;
 
@@ -65,7 +66,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private ExecutorService singleExecutor;
     private Runnable scanPhotoRunnable = () -> {
         folderName = folderName.isEmpty() ? getResources().getString(R.string.photo_all_folder) : folderName;
-        folderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerActivity.this, folderName);
+        folderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerLayer.this, folderName);
         MainHandler.instances().postDelayed(() -> {
             if (isFinishing()) {
                 folderModels.clear();
@@ -163,7 +164,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     private void photoPreview(int itemPosition) {
-        Intent preview = new Intent(this, PhotoPreviewActivity.class);
+        Intent preview = new Intent(this, ActivityPhotoPreview.class);
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) photoAdapter.getDatas());
         preview.putExtra(PhotoConfig.PREVIEW_ITEM_POSITION, itemPosition);
@@ -177,7 +178,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         PhotoModel photo = photoAdapter.getDatas().get(itemPosition);
         if (photo.getPickNumber() == 0) {
             if (selectedPhotos.size() == limitCount) {
-                Toast.makeText(PhotoPickerActivity.this, String.format(getResources().getString(R.string.photo_limit_count), limitCount), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PhotoPickerLayer.this, String.format(getResources().getString(R.string.photo_limit_count), limitCount), Toast.LENGTH_SHORT).show();
                 return;
             }
             photo.setPickNumber(selectedPhotos.size() + 1);
@@ -212,12 +213,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(R.string.dialog_permission_ok, (dialog, which) -> {
-                    ActivityCompat.requestPermissions(PhotoPickerActivity.this,
+                    ActivityCompat.requestPermissions(PhotoPickerLayer.this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
                 })
                 .setNegativeButton(R.string.dialog_permission_cancel, (dialog, which) -> {
                     dialog.dismiss();
-                    PhotoPickerActivity.this.finish();
+                    PhotoPickerLayer.this.finish();
                 });
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
 
@@ -244,7 +245,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     this.startActivity(intent);
 
-                    if (type == 1) PhotoPickerActivity.this.finish();
+                    if (type == 1) PhotoPickerLayer.this.finish();
                 });
         if (dialogIcon != -1) builder.setIcon(dialogIcon);
 
@@ -271,7 +272,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
             return;
         }
         if (folderDialog == null) {
-  //          folderDialog = new Dialog(this, R.style.photo_folder_dialog);
+            //          folderDialog = new Dialog(this, R.style.photo_folder_dialog);
             folderDialog = new Dialog(this, R.style.photo_folder_dialog);
             folderAdapter.resetData(folderModels);
             folderAdapter.setOnItemClickListener((viewHolder, view, viewPosition, itemPosition) -> {

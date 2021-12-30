@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.jchip.album.R;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RecyclerActivity extends AbstractActivity {
+public abstract class RecyclerLayer extends AbstractLayer {
     private final static int COLUMN_NUMBER = 1;
 
     protected RecyclerView recyclerView;
@@ -31,7 +31,7 @@ public abstract class RecyclerActivity extends AbstractActivity {
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return RecyclerActivity.this.getSpanSize(position);
+                return RecyclerLayer.this.getSpanSize(position);
             }
         });
 

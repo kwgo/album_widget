@@ -16,7 +16,7 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 /**
  * FatButtonScrollHideBehavior
  */
-class FatButtonScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
+public class FatButtonScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
     private static final String TAG = FatButtonScrollHideBehavior.class.getSimpleName();
     private static final Interpolator INTERPOLATOR = new FastOutLinearInInterpolator();
 

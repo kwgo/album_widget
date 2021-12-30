@@ -2,9 +2,9 @@ package com.jchip.album;
 
 import android.os.Bundle;
 
-import com.jchip.album.activity.AbstractActivity;
+import com.jchip.album.layer.AbstractLayer;
 
-public class ActivitySplash extends AbstractActivity {
+public class ActivitySplash extends AbstractLayer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

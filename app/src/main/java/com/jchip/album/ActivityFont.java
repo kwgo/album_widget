@@ -1,7 +1,7 @@
 package com.jchip.album;
 
-import com.jchip.album.activity.FontActivity;
+import com.jchip.album.layer.FontLayer;
 
-public class ActivityFont extends FontActivity {
+public class ActivityFont extends FontLayer {
 
 }

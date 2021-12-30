@@ -1,4 +1,4 @@
-package com.jchip.album.activity;
+package com.jchip.album.layer;
 
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
@@ -6,7 +6,7 @@ import com.jchip.album.data.PhotoData;
 
 import java.util.List;
 
-public class DataActivity extends AbstractActivity {
+public class DataLayer extends AbstractLayer {
 
     protected List<AlbumData> queryAlbums() {
         return DataHelper.getInstance(this).queryAlbums();
