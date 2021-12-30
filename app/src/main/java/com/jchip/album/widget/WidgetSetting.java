@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.jchip.album.ActivityAlbum;
+import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
 import com.jchip.album.layer.ListLayer;
@@ -14,6 +15,7 @@ public abstract class WidgetSetting extends ListLayer {
     protected int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     protected int resultValue = RESULT_CANCELED;
+    protected boolean appStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public abstract class WidgetSetting extends ListLayer {
         Intent intent = new Intent();
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, this.appWidgetId);
         setResult(value, intent);
+
+        this.exitSetting();
     }
 
     @Override
@@ -81,6 +85,13 @@ public abstract class WidgetSetting extends ListLayer {
     }
 
     protected void startApp() {
+        this.appStarted = true;
         this.startActivity(new Intent(this, ActivityAlbum.class));
+    }
+
+    protected void exitSetting() {
+        if (!appStarted) {
+            AlbumHelper.exitApp(this);
+        }
     }
 }
