@@ -1,4 +1,4 @@
-package com.jchip.album.photo.activity;
+package com.jchip.album.photo.layer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

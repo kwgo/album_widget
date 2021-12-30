@@ -1,6 +1,6 @@
 package com.jchip.album;
 
-import com.jchip.album.photo.activity.PhotoPickerLayer;
+import com.jchip.album.photo.layer.PhotoPickerLayer;
 
 public class ActivityPhotoPicker extends PhotoPickerLayer {
 

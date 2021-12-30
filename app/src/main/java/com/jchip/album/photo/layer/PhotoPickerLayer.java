@@ -1,4 +1,4 @@
-package com.jchip.album.photo.activity;
+package com.jchip.album.photo.layer;
 
 import android.Manifest;
 import android.app.Dialog;
