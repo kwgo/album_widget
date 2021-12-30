@@ -45,12 +45,11 @@ public class PhotoPickerLayer extends AppCompatActivity {
     private final int PERMISSION_REQUEST_STORAGE = 6666;
     private final int ACTIVITY_REQUEST_PREVIEW = 7778;
 
-    private int spanCount = PhotoConfig.DEFAULT_SPAN_COUNT;
-    private int limitCount = PhotoConfig.DEFAULT_LIMIT_COUNT;
-    private int pickColor = PhotoConfig.DEFAULT_PICK_COLOR;
-    private boolean showGif = PhotoConfig.DEFAULT_SHOW_GIF;
+    //    private int spanCount = PhotoConfig.DEFAULT_SPAN_COUNT;
+//    private int limitCount = PhotoConfig.DEFAULT_LIMIT_COUNT;
+//    private int pickColor = PhotoConfig.DEFAULT_PICK_COLOR;
+//    private boolean showGif = PhotoConfig.DEFAULT_SHOW_GIF;
     private String folderName = "";
-    private int dialogIcon = -1;
 
     private RecyclerView.LayoutManager layoutManager;
     private MultiAdapter<PhotoModel> photoAdapter;
@@ -66,7 +65,7 @@ public class PhotoPickerLayer extends AppCompatActivity {
     private ExecutorService singleExecutor;
     private Runnable scanPhotoRunnable = () -> {
         folderName = folderName.isEmpty() ? getResources().getString(R.string.photo_all_folder) : folderName;
-        folderModels = PhotoScanner.instances(pickColor, showGif).getPhotoAlbum(PhotoPickerLayer.this, folderName);
+        folderModels = PhotoScanner.instances(PhotoConfig.PICK_COLOR, PhotoConfig.SHOW_GIF).getPhotoAlbum(PhotoPickerLayer.this, folderName);
         MainHandler.instances().postDelayed(() -> {
             if (isFinishing()) {
                 folderModels.clear();
@@ -92,15 +91,16 @@ public class PhotoPickerLayer extends AppCompatActivity {
     }
 
     private void setupView() {
+        int spanCount = PhotoConfig.SPAN_COUNT;
         RecyclerView recyclerView = findViewById(R.id.photo_grid_view);
         layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
-        int gapSize = 3;
-        recyclerView.addItemDecoration(new RecycleItemDecoration(gapSize, Color.TRANSPARENT));
 
-        int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(24 * 2) - 2;
+        int gapSize = PhotoConfig.PHOTO_VIEW_GAP;
+        recyclerView.addItemDecoration(new RecycleItemDecoration(gapSize, Color.TRANSPARENT));
+        int screenWidth = PhotoUtils.screenW - PhotoUtils.dp2px(PhotoConfig.PHOTO_VIEW_BORDER * 2) - 2;
         int itemSize = (screenWidth - (gapSize * (spanCount - 1))) / spanCount;
 
         photoAdapter = new MultiAdapter<>(null, itemSize);
@@ -123,7 +123,7 @@ public class PhotoPickerLayer extends AppCompatActivity {
         doneButton = findViewById(R.id.photo_done_button);
         doneButton.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.putParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
+            intent.putParcelableArrayListExtra(PhotoConfig.SELECTED_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
             setResult(RESULT_OK, intent);
             finish();
         });
@@ -168,8 +168,8 @@ public class PhotoPickerLayer extends AppCompatActivity {
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS, (ArrayList<? extends Parcelable>) selectedPhotos);
         preview.putParcelableArrayListExtra(PhotoConfig.PREVIEW_ALL_PHOTOS, (ArrayList<? extends Parcelable>) photoAdapter.getDatas());
         preview.putExtra(PhotoConfig.PREVIEW_ITEM_POSITION, itemPosition);
-        preview.putExtra(PhotoConfig.PREVIEW_PICK_COLOR, pickColor);
-        preview.putExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, limitCount);
+        preview.putExtra(PhotoConfig.PREVIEW_PICK_COLOR, PhotoConfig.PICK_COLOR);
+        preview.putExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, PhotoConfig.LIMIT_COUNT);
         startActivityForResult(preview, ACTIVITY_REQUEST_PREVIEW);
         overridePendingTransition(0, 0);
     }
@@ -177,8 +177,8 @@ public class PhotoPickerLayer extends AppCompatActivity {
     private void photoPick(int itemPosition) {
         PhotoModel photo = photoAdapter.getDatas().get(itemPosition);
         if (photo.getPickNumber() == 0) {
-            if (selectedPhotos.size() == limitCount) {
-                Toast.makeText(PhotoPickerLayer.this, String.format(getResources().getString(R.string.photo_limit_count), limitCount), Toast.LENGTH_SHORT).show();
+            if (selectedPhotos.size() == PhotoConfig.LIMIT_COUNT) {
+                Toast.makeText(PhotoPickerLayer.this, String.format(getResources().getString(R.string.photo_limit_count), PhotoConfig.LIMIT_COUNT), Toast.LENGTH_SHORT).show();
                 return;
             }
             photo.setPickNumber(selectedPhotos.size() + 1);
@@ -220,12 +220,10 @@ public class PhotoPickerLayer extends AppCompatActivity {
                     dialog.dismiss();
                     PhotoPickerLayer.this.finish();
                 });
-        if (dialogIcon != -1) builder.setIcon(dialogIcon);
-
         final AlertDialog dialog = builder.create();
         dialog.setOnShowListener((dialogInterface) -> {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(pickColor);
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(pickColor);
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(PhotoConfig.PICK_COLOR);
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(PhotoConfig.PICK_COLOR);
         });
         dialog.show();
     }
@@ -247,11 +245,9 @@ public class PhotoPickerLayer extends AppCompatActivity {
 
                     if (type == 1) PhotoPickerLayer.this.finish();
                 });
-        if (dialogIcon != -1) builder.setIcon(dialogIcon);
-
         final AlertDialog dialog = builder.create();
         dialog.setOnShowListener((dialogInterface) -> {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(pickColor);
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(PhotoConfig.PICK_COLOR);
         });
         dialog.show();
     }
@@ -297,21 +293,18 @@ public class PhotoPickerLayer extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         int permissionResult = grantResults[0];
-        switch (requestCode) {
-            case PERMISSION_REQUEST_STORAGE:
-                if (permissionResult == PackageManager.PERMISSION_GRANTED) {
-                    singleExecutor.execute(scanPhotoRunnable);
+        if (requestCode == PERMISSION_REQUEST_STORAGE) {
+            if (permissionResult == PackageManager.PERMISSION_GRANTED) {
+                singleExecutor.execute(scanPhotoRunnable);
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
+                    showDescriptionDialog(1);
                 } else {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-                        showDescriptionDialog(1);
-                    } else {
-                        showDeniedDialog(1);
-                    }
+                    showDeniedDialog(1);
                 }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                break;
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -319,28 +312,26 @@ public class PhotoPickerLayer extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case ACTIVITY_REQUEST_PREVIEW:
-                    if (data != null) {
-                        selectedPhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);
-                        List<PhotoModel> deletePhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_DELETE_PHOTOS);
-                        // delete
-                        for (int i = 0; i < deletePhotos.size(); i++) {
-                            int index = photoAdapter.getDatas().indexOf(deletePhotos.get(i));
-                            photoAdapter.getDatas().get(index).setPickNumber(0);
+            if (requestCode == ACTIVITY_REQUEST_PREVIEW) {
+                if (data != null) {
+                    selectedPhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_ADD_PHOTOS);
+                    List<PhotoModel> deletePhotos = data.getParcelableArrayListExtra(PhotoConfig.PREVIEW_DELETE_PHOTOS);
+                    // delete
+                    for (int i = 0; i < deletePhotos.size(); i++) {
+                        int index = photoAdapter.getDatas().indexOf(deletePhotos.get(i));
+                        photoAdapter.getDatas().get(index).setPickNumber(0);
+                        photoAdapter.notifyItemChanged(index);
+                    }
+                    // add
+                    for (int j = 0; j < selectedPhotos.size(); j++) {
+                        PhotoModel photo = selectedPhotos.get(j);
+                        int index = photoAdapter.getDatas().indexOf(photo);
+                        if (index != -1) {
+                            photoAdapter.getDatas().get(index).setPickNumber(photo.getPickNumber());
                             photoAdapter.notifyItemChanged(index);
                         }
-                        // add
-                        for (int j = 0; j < selectedPhotos.size(); j++) {
-                            PhotoModel photo = selectedPhotos.get(j);
-                            int index = photoAdapter.getDatas().indexOf(photo);
-                            if (index != -1) {
-                                photoAdapter.getDatas().get(index).setPickNumber(photo.getPickNumber());
-                                photoAdapter.notifyItemChanged(index);
-                            }
-                        }
                     }
-                    break;
+                }
             }
         }
     }

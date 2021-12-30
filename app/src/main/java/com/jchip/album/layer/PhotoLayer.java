@@ -37,7 +37,7 @@ public class PhotoLayer extends ActivityLayer {
     }
 
     protected void onSelectedPhotos(Intent intent) {
-        List<PhotoModel> photoModels = intent.getParcelableArrayListExtra(PhotoConfig.RESULT_PHOTOS);
+        List<PhotoModel> photoModels = intent.getParcelableArrayListExtra(PhotoConfig.SELECTED_PHOTOS);
         if (photoModels != null && !photoModels.isEmpty()) {
             this.selectPhotos(photoModels);
         }
@@ -117,6 +117,7 @@ public class PhotoLayer extends ActivityLayer {
             PhotoData photo = this.photo;
             for (PhotoModel photoModel : photoModels) {
                 this.photo = new PhotoData(this.album.getAlbumId(), photoModel.getPhotoPath());
+                this.photo.setRotationIndex(photoModel.getPhotoOrientation() % 360 / 90);
                 if (!this.album.isPhotoPathExisted(this.photo)) {
                     this.photo.setFrameIndex(photo.getFrameIndex());
                     this.album.addPhoto(this.createPhoto());

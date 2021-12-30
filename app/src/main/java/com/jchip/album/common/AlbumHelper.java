@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -57,33 +56,6 @@ public class AlbumHelper {
         }).show();
     }
 
-    public static String createFont() {
-        String[] font = {
-                "niconne_regular", "anton_regular", "macondo_egular",
-                "frederickathe_great", "ole_regular", "wind_song_medium"
-        };
-        String[] align = {"start|center_vertical", "center", "end|center_vertical"};
-
-        StringBuilder sb = new StringBuilder();
-        for (int fontIndex = 0; fontIndex < font.length; fontIndex++) {
-            sb.append(" <LinearLayout");
-            sb.append(" android:id=\"@+id/label_font_").append(fontIndex).append("\"");
-            sb.append(" android:layout_width=\"wrap_content\"");
-            sb.append(" android:layout_height=\"wrap_content\"");
-            sb.append(" android:orientation=\"vertical\">");
-            for (int alignIndex = 0; alignIndex < align.length; alignIndex++) {
-                sb.append(" <TextView");
-                sb.append(" android:id=\"@+id/photo_label_").append(fontIndex * align.length + alignIndex).append("\"");
-                sb.append(" android:gravity=\"").append(align[alignIndex]).append("\"");
-                sb.append(" android:fontFamily=\"@font/").append(font[fontIndex]).append("\"");
-                sb.append(" style=\"@style/widget_photo_label\"/>");
-            }
-            sb.append(" </LinearLayout>");
-        }
-        Log.d("", sb.toString());
-        return sb.toString();
-    }
-
     public static void updateWidget(Context context, Class widgetProvider) {
         try {
             Intent intent = new Intent(context, widgetProvider);
@@ -100,6 +72,20 @@ public class AlbumHelper {
         try {
             activity.getWindow().setStatusBarColor(activity.getResources().getColor(colorId));
         } catch (Exception ex) {
+        }
+    }
+
+    public static void exitApp(Activity activity) {
+        try {
+            activity.moveTaskToBack(true);
+        } catch (Exception e) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+            } catch (Exception ex) {
+            }
         }
     }
 }

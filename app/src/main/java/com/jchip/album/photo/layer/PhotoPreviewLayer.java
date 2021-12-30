@@ -33,8 +33,8 @@ public class PhotoPreviewLayer extends AppCompatActivity implements PhotoFragPre
 
     private ArrayList<PhotoModel> allPhotos;
     private ArrayList<PhotoModel> selectedPhotos, deletePhotos;
-    private int pickColor = PhotoConfig.DEFAULT_PICK_COLOR;
-    private int limitCount = PhotoConfig.DEFAULT_LIMIT_COUNT;
+    private int pickColor = PhotoConfig.PICK_COLOR;
+    private int limitCount = PhotoConfig.LIMIT_COUNT;
     private int currentItem = 0;
 
     @Override
@@ -48,8 +48,8 @@ public class PhotoPreviewLayer extends AppCompatActivity implements PhotoFragPre
         deletePhotos = new ArrayList<>();
 
         currentItem = getIntent().getIntExtra(PhotoConfig.PREVIEW_ITEM_POSITION, 0);
-        pickColor = getIntent().getIntExtra(PhotoConfig.PREVIEW_PICK_COLOR, PhotoConfig.DEFAULT_PICK_COLOR);
-        limitCount = getIntent().getIntExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, PhotoConfig.DEFAULT_LIMIT_COUNT);
+        pickColor = getIntent().getIntExtra(PhotoConfig.PREVIEW_PICK_COLOR, PhotoConfig.PICK_COLOR);
+        limitCount = getIntent().getIntExtra(PhotoConfig.PREVIEW_LIMIT_COUNT, PhotoConfig.LIMIT_COUNT);
 
         // int orientation = getIntent().getIntExtra(PhotoConfig.PREVIEW_ORIENTATION, PhotoConfig.DEFAULT_ORIENTATION);
         // if (orientation != PhotoConfig.ORIENTATION_AUTO) {
