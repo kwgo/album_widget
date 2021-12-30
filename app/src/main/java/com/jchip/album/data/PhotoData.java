@@ -9,7 +9,6 @@ public class PhotoData extends AbstractData {
     public static final String fieldPhotoPath = "path";
 
     public static final String fieldFrame = "frame";
-    public static final String fieldShell = "shell";
     public static final String fieldScale = "scale";
     public static final String fieldFlip = "flip";
     public static final String fieldRotation = "rotation";
@@ -24,10 +23,9 @@ public class PhotoData extends AbstractData {
     private int albumId = -1;
     private int photoWidth = 0;
     private int photoHeight = 0;
-    private String photoPath;
+    private String photoPath = "";
 
     private int frameIndex = -1;
-    private int frameShell = -1;
     private int scaleIndex = 0;
     private int flipIndex = 0;
     private int rotationIndex = 0;
@@ -96,14 +94,6 @@ public class PhotoData extends AbstractData {
 
     public void setFrameIndex(int frameIndex) {
         this.frameIndex = frameIndex;
-    }
-
-    public int getFrameShell() {
-        return frameShell;
-    }
-
-    public void setFrameShell(int frameShell) {
-        this.frameShell = frameShell;
     }
 
     public int getScaleIndex() {

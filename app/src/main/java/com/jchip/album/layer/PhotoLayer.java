@@ -6,14 +6,14 @@ import android.view.View;
 import com.jchip.album.ActivityPhotoPicker;
 import com.jchip.album.R;
 import com.jchip.album.common.GestureHelper;
-import com.jchip.album.data.AlbumData;
-import com.jchip.album.data.PhotoData;
 import com.jchip.album.photo.common.PhotoConfig;
 import com.jchip.album.photo.model.PhotoModel;
+import com.jchip.album.view.AlbumView;
+import com.jchip.album.view.PhotoView;
 
 import java.util.List;
 
-public class PhotoLayer extends ActivityLayer {
+public class PhotoLayer extends FlowLayer {
 
     @Override
     public void initContentView() {
@@ -24,7 +24,7 @@ public class PhotoLayer extends ActivityLayer {
         this.getButtonView(R.id.photo_add).setOnClickListener((e) -> onSelectPhotos());
         this.getButtonView(R.id.photo_delete).setOnClickListener((v) -> this.onDeletePhoto());
 
-        this.getButtonView(R.id.photo_scale).setOnClickListener((v) -> this.onScalePhoto(v));
+        this.getButtonView(R.id.photo_scale).setOnClickListener(this::onScalePhoto);
         this.getButtonView(R.id.photo_rotation).setOnClickListener((v) -> this.onRotatePhoto());
         this.getButtonView(R.id.photo_flip).setOnClickListener((v) -> this.onFlipPhoto());
 
@@ -33,7 +33,7 @@ public class PhotoLayer extends ActivityLayer {
     }
 
     private void onSelectPhotos() {
-        this.startActivity(ActivityPhotoPicker.class, (intent) -> onSelectedPhotos(intent));
+        this.startActivity(ActivityPhotoPicker.class, this::onSelectedPhotos);
     }
 
     protected void onSelectedPhotos(Intent intent) {
@@ -47,9 +47,7 @@ public class PhotoLayer extends ActivityLayer {
         if (this.photo.isSaved()) {
             this.alert(R.string.photo_title, R.string.album_alert_delete, () -> {
                 if (this.existPhotoWidget()) {
-                    this.alert(R.string.photo_title, R.string.album_alert_link, () -> {
-                        removePhoto();
-                    });
+                    this.alert(R.string.photo_title, R.string.album_alert_link, this::removePhoto);
                 } else {
                     removePhoto();
                 }
@@ -58,53 +56,53 @@ public class PhotoLayer extends ActivityLayer {
     }
 
     private void removePhoto() {
-        int photoIndex = this.album.getPhotos().indexOf(photo);
+        int photoIndex = this.album.getPhotoViews().indexOf(photo);
         if (this.photo.isSaved()) {
-            this.album.removePhoto(this.photo);
+            this.album.removePhotoView(this.photo);
             this.deletePhoto();
         }
         photoIndex = photoIndex < this.album.getPhotoSize() ? photoIndex : this.album.getPhotoSize() - 1;
-        this.setAlbumPhoto(this.album.getPhoto(photoIndex >= 0 ? photoIndex : 0));
+        this.setAlbumPhoto(this.album.getPhotoView(photoIndex));
     }
 
-    public void setAlbumPhotos(AlbumData album) {
+    public void setAlbumPhotos(AlbumView album) {
         this.album = album;
-        this.album.clearPhotos();
         if (album.isSaved()) {
-            this.album.setPhotos(this.queryPhotos());
+            this.album.setPhotoViews(this.queryPhotos());
         }
-        this.setAlbumPhoto(this.album.getPhoto(0));
+        this.setAlbumPhoto(this.album.getPhotoView(0));
     }
 
-    public void setAlbumPhoto(PhotoData photo) {
+    public void setAlbumPhoto(PhotoView photo) {
         this.photo = photo;
         this.setPhotoView(this.getView(R.id.photos_view));
     }
 
     private void onSlipPhoto(int offset) {
-        if (!this.album.isPhotoEmpty()) {
-            int postion = this.album.getPhotoIndex(this.photo);
+        if (this.album.getPhotoSize() > 0) {
+            List<PhotoView> photos = this.album.getPhotoViews();
+            int postion = photos.indexOf(this.photo);
             postion = postion < 0 ? 0 : postion + offset;
             if (postion >= 0 && postion < this.album.getPhotoSize()) {
-                this.setAlbumPhoto(this.album.getPhoto(postion));
+                this.setAlbumPhoto(photos.get(postion));
             }
         }
     }
 
     private void onScalePhoto(View v) {
-        this.photo.setScaleIndex((this.photo.getScaleIndex() + 1) % 4);
+        this.photo.setPhotoImage(-1, -1, (this.photo.getScaleIndex() + 1) % 4);
         this.setPhotoScale(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 
     private void onFlipPhoto() {
-        this.photo.setFlipIndex(this.photo.getFlipIndex() == 0 ? 1 : 0);
+        this.photo.setPhotoImage(this.photo.getFlipIndex() == 0 ? 1 : 0, -1, -1);
         this.setPhotoImage(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 
     protected void onRotatePhoto() {
-        this.photo.setRotationIndex((this.photo.getRotationIndex() + 1) % 4);
+        this.photo.setPhotoImage(-1, (this.photo.getRotationIndex() + 1) % 4, -1);
         this.setPhotoImage(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
@@ -112,19 +110,17 @@ public class PhotoLayer extends ActivityLayer {
     private void selectPhotos(List<PhotoModel> photoModels) {
         if (photoModels != null && !photoModels.isEmpty()) {
             this.saveAlbum();
-            PhotoData photo = this.photo;
+            PhotoView photoView = this.photo;
             for (PhotoModel photoModel : photoModels) {
-                this.photo = new PhotoData(this.album.getAlbumId(), photoModel.getPhotoPath());
-                this.photo.setRotationIndex(photoModel.getPhotoOrientation() % 360 / 90);
-                this.photo.setPhotoWidth(photoModel.getPhotoWidth());
-                this.photo.setPhotoHeight(photoModel.getPhotoHeight());
-                if (!this.album.isPhotoPathExisted(this.photo)) {
-                    this.photo.setFrameIndex(photo.getFrameIndex());
-                    this.album.addPhoto(this.createPhoto());
+                this.photo = new PhotoView(this, this.layer);
+                this.photo.setPhotoInfo(this.album.getAlbumId(), photoModel.getPhotoPath(), photoModel.getPhotoWidth(), photoModel.getPhotoHeight());
+                if (!this.album.isPhotoExisted(this.photo)) {
+                    this.photo.setPhotoImage(-1, photoModel.getPhotoOrientation() % 360 / 90, -1);
+                    this.photo.setPhotoFrame(photoView.getFrameIndex());
+                    this.album.addPhotoView(this.createPhoto());
                 }
             }
-            this.photo = photo;
-            this.setAlbumPhoto(this.album.getPhoto(this.album.getPhotoSize() > 0 ? this.album.getPhotoSize() - 1 : 0));
+            this.setAlbumPhoto(this.album.getPhotoView(this.album.getPhotoSize() - 1));
             ((AlbumLayer) this).reloadAlbumList();
         }
     }

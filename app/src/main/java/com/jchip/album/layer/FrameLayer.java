@@ -1,6 +1,5 @@
 package com.jchip.album.layer;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.ImageView;
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
+import com.jchip.album.view.PhotoViewConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +19,22 @@ public class FrameLayer extends RecyclerLayer {
     private List<Integer> frames;
     private List<Integer> frameShells;
 
+    private PhotoView photoView;
     private Bitmap photoImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(PhotoView.LAYER_FRAME_SETTING, R.layout.album_frame_layer);
+        super.setContentView(PhotoViewConfig.LAYER_FRAME_SETTING, R.layout.album_frame_layer);
         super.setStatusBarColor(android.R.color.transparent);
     }
 
     @Override
     public void initContentView() {
-        this.photo = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
-        this.photoImage = this.getPhotoView().getPhotoImage();
+        PhotoData photoData = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
+        this.photoView = new PhotoView(this, photoData, this.layer);
+        this.photoImage = this.photoView.getPhotoImage();
+        this.photoImage = this.photoView.getPhotoImage();
 
         this.frames = new ArrayList<>();
         this.frameShells = new ArrayList<>();
@@ -51,17 +54,14 @@ public class FrameLayer extends RecyclerLayer {
 
     @Override
     protected void bindItemView(View itemView, final int position) {
-        this.photo.setFrameIndex(frames.get(position));
-        this.photo.setFrameShell(frameShells.get(position));
+        this.photo = new PhotoView(this, this.photoView.getPhotoData(), this.layer);
+        this.photo.setPhotoFrame(frames.get(position));
 
         View view = itemView.findViewById(R.id.photo_view);
         this.setPhotoView(view);
         view.setOnClickListener((v) -> {
-            Intent intent = new Intent();
-            intent.putExtra(FRAME_INDEX, position);
-            intent.putExtra(FRAME_ID, (Integer) this.frames.get(position));
-            intent.putExtra(SHELL_ID, (Integer) this.frameShells.get(position));
-            this.setResult(RESULT_OK, intent);
+            this.photoView.setPhotoFrame(frames.get(position));
+            this.setResult(RESULT_OK, this.getIntent());
             this.finish();
         });
 

@@ -5,53 +5,31 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.Gravity;
-import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import androidx.core.content.res.ResourcesCompat;
 
-import com.jchip.album.R;
 import com.jchip.album.common.ImageHelper;
 import com.jchip.album.common.NinePatchHelper;
 import com.jchip.album.data.PhotoData;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class PhotoView {
-    public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
-    public static final int DEFAULT_PHOTO_ID = R.drawable.photo_default;
-
-    public static final int DEFAULT_FONT_INDEX = 1;
-    public static final int DEFAULT_FONT_LOCATION = Gravity.CENTER;
-    public static final int DEFAULT_FONT_SIZE = 120;
-
-    public static final int LAYER_ALBUM_PHOTO = 0;
-    public static final int LAYER_FRAME_SETTING = 1;
-    public static final int LAYER_FONT_SETTING = 2;
-
-    public static final int WIDGET_ALBUM_PHOTO = 3;
-    public static final int WIDGET_ALBUM_SETTING = 4;
-    public static final int WIDGET_PHOTO_SETTING = 5;
-
-    public static final ScaleType[] scaleTypes = {
-            ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
-            ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
-    };
-
-    public static final List<Integer> fonts = Arrays.asList(
-            R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
-            R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
-
     private final Context context;
     private final PhotoData photo;
     private final int layer;
+
+    public PhotoView(Context context, int layer) {
+        this(context, new PhotoData(), layer);
+    }
 
     public PhotoView(Context context, PhotoData photo, int layer) {
         this.context = context;
         this.photo = photo;
         this.layer = layer;
+    }
+
+    public PhotoData getPhotoData() {
+        return this.photo;
     }
 
     public Drawable getFrameDrawable() {
@@ -72,7 +50,7 @@ public class PhotoView {
     }
 
     public ScaleType getPhotoScale() {
-        return scaleTypes[photo.getScaleIndex()];
+        return PhotoViewConfig.scaleTypes[photo.getScaleIndex()];
     }
 
     public Bitmap getPhotoImage() {
@@ -85,8 +63,8 @@ public class PhotoView {
             bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), photo.getPhotoWidth(), photo.getPhotoHeight(), this.getImageMaxWidth(), this.getImageMaxHeight());
         }
         if (bitmap == null) {
-            bitmap = ImageHelper.loadBitmap(context.getResources(), DEFAULT_PHOTO_ID, false);
-            if (this.getDefaultImageRotation() == true) {
+            bitmap = ImageHelper.loadBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, false);
+            if (this.getDefaultImageRotation()) {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
             }
         } else {
@@ -95,13 +73,24 @@ public class PhotoView {
         return bitmap;
     }
 
+    public boolean isSaved() {
+        return this.photo.isSaved();
+    }
+
+    public int getAlbumId() {
+        return this.photo.getAlbumId();
+    }
+
+    public int getPhotoId() {
+        return this.photo.getPhotoId();
+    }
 
     public boolean isFontEmpty() {
-        return this.getFontText() == null || this.getFontText().trim().isEmpty();
+        return this.getFontText() != null && !this.getFontText().trim().isEmpty();
     }
 
     public boolean isImageOn() {
-        return layer != LAYER_FRAME_SETTING;
+        return layer != PhotoViewConfig.LAYER_FRAME_SETTING;
     }
 
     public boolean isFrameOn() {
@@ -112,39 +101,50 @@ public class PhotoView {
         return true;
     }
 
-
-    public List<Integer> getFonts() {
-        return this.fonts;
-    }
-
     public int getFontIndex() {
-        int fontIndex = this.fonts.indexOf(photo.getFontType());
-        return fontIndex < 0 ? DEFAULT_FONT_INDEX : fontIndex;
+        int fontIndex = PhotoViewConfig.fonts.indexOf(photo.getFontType());
+        return fontIndex < 0 ? PhotoViewConfig.DEFAULT_FONT_INDEX : fontIndex;
     }
 
     public Typeface getFontFaceType() {
         try {
             int fontIndex = this.getFontIndex();
-            return ResourcesCompat.getFont(context, this.fonts.get(fontIndex));
+            return ResourcesCompat.getFont(context, PhotoViewConfig.fonts.get(fontIndex));
         } catch (Exception ignored) {
         }
         return null;
     }
 
-    public void setScaleIndex(int scaleIndex) {
-        photo.setScaleIndex(scaleIndex);
+
+    public int getFlipIndex() {
+        return photo.getFlipIndex() >= 0 ? photo.getFlipIndex() : 0;
+    }
+
+    public int getRotationIndex() {
+        return photo.getRotationIndex() >= 0 ? photo.getRotationIndex() : 0;
     }
 
     public int getScaleIndex() {
-        return photo.getScaleIndex();
+        return photo.getScaleIndex() >= 0 ? photo.getScaleIndex() : 0;
     }
 
     public int getFrameIndex() {
-        return photo.getFrameIndex() > 0 ? photo.getFrameIndex() : DEFAULT_FRAME_ID;
+        return photo.getFrameIndex() > 0 ? photo.getFrameIndex() : PhotoViewConfig.DEFAULT_FRAME_ID;
+    }
+
+    public int getLocationIndex() {
+        int locationIndex = PhotoViewConfig.locations.indexOf(photo.getFontLocation());
+        return locationIndex < 0 ? PhotoViewConfig.DEFAULT_FONT_LOCATION : locationIndex;
     }
 
     public int getFontLocation() {
-        return photo.getFontLocation() >= 0 ? photo.getFontLocation() : DEFAULT_FONT_LOCATION;
+        int locationIndex = this.getLocationIndex();
+        return PhotoViewConfig.locations.get(locationIndex);
+    }
+
+    public int getFontType() {
+        int fontIndex = PhotoViewConfig.fonts.indexOf(photo.getFontType());
+        return fontIndex >= 0 ? fontIndex : PhotoViewConfig.fonts.get(PhotoViewConfig.DEFAULT_FONT_INDEX);
     }
 
     public String getFontText() {
@@ -156,7 +156,7 @@ public class PhotoView {
     }
 
     public int getFontSize() {
-        return photo.getFontSize() > 0 ? photo.getFontSize() : DEFAULT_FONT_SIZE;
+        return photo.getFontSize() > 0 ? photo.getFontSize() : PhotoViewConfig.DEFAULT_FONT_SIZE;
     }
 
     public int getFrameDensitySize() {
@@ -182,4 +182,41 @@ public class PhotoView {
     public boolean getDefaultImageRotation() {
         return PhotoViewConfig.getDefaultImageRotation(layer);
     }
+
+    public void setPhotoInfo(int albumId, String path, int width, int height) {
+        this.photo.setAlbumId(albumId >= 0 ? albumId : this.photo.getAlbumId());
+        this.photo.setPhotoWidth(width > 0 ? width : this.photo.getPhotoWidth());
+        this.photo.setPhotoHeight(height > 0 ? height : this.photo.getPhotoHeight());
+        this.photo.setPhotoPath(path != null ? path : this.photo.getPhotoPath());
+    }
+
+    public void setPhotoFrame(int frameIndex) {
+        this.photo.setFrameIndex(frameIndex);
+    }
+
+    public void setPhotoImage(int flip, int rotation, int scale) {
+        this.photo.setFlipIndex(flip >= 0 ? flip : this.photo.getFlipIndex());
+        this.photo.setRotationIndex(rotation >= 0 ? rotation : this.photo.getRotationIndex());
+        this.photo.setScaleIndex(scale >= 0 ? scale : this.photo.getScaleIndex());
+    }
+
+    public void setPhotoFont(int type, int size, int color, int location, String text) {
+        this.photo.setFontType(type >= 0 ? type : this.photo.getFontType());
+        this.photo.setFontSize(size >= 0 ? size : this.photo.getFontSize());
+        this.photo.setFontColor(color != -1 ? color : this.photo.getFontColor());
+        this.photo.setFontLocation(location >= 0 ? location : this.photo.getFontLocation());
+
+        this.photo.setFontText(text != null ? text : this.photo.getFontText());
+    }
+
+    public void setPhotoView(PhotoView photoView) {
+        this.photo.setFrameIndex(photoView.getFrameIndex());
+
+        this.photo.setFontType(photoView.getFontType());
+        this.photo.setFontSize(photoView.getFontSize());
+        this.photo.setFontColor(photoView.getFontColor());
+        this.photo.setFontLocation(photoView.getFontLocation());
+        this.photo.setFontText(photoView.getFontText());
+    }
+
 }

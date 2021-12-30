@@ -3,48 +3,63 @@ package com.jchip.album.layer;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.view.AlbumView;
+import com.jchip.album.view.PhotoView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataLayer extends AbstractLayer {
 
-    protected List<AlbumData> queryAlbums() {
-        return DataHelper.getInstance(this).queryAlbums();
+    protected List<AlbumView> queryAlbums() {
+        List<AlbumView> albumViews = new ArrayList<>();
+        for (AlbumData albumData : DataHelper.getInstance(this).queryAlbums()) {
+            AlbumView albumView = new AlbumView(this, albumData, this.layer);
+            albumViews.add(albumView);
+        }
+        return albumViews;
     }
 
-    protected AlbumData saveAlbum() {
+    protected AlbumView saveAlbum() {
+        DataHelper.getInstance(this).saveAlbum(this.album.getAlbumData());
+        return this.album;
+    }
+
+    protected AlbumView updateAlbum() {
         // this.updateWidget();
-        return DataHelper.getInstance(this).saveAlbum(this.album);
+        DataHelper.getInstance(this).updateAlbum(this.album.getAlbumData());
+        return this.album;
     }
 
-    protected AlbumData updateAlbum() {
-        // this.updateWidget();
-        return DataHelper.getInstance(this).updateAlbum(this.album);
-    }
-
-    protected AlbumData deleteAlbum() {
+    protected AlbumView deleteAlbum() {
         this.updateWidget();
-        return DataHelper.getInstance(this).deleteAlbum(this.album);
+        DataHelper.getInstance(this).deleteAlbum(this.album.getAlbumData());
+        return this.album;
     }
 
-    protected List<PhotoData> queryPhotos() {
-        return DataHelper.getInstance(this).queryPhotos(this.album.getAlbumId());
+    protected List<PhotoView> queryPhotos() {
+        List<PhotoView> photoViews = new ArrayList<>();
+        for (PhotoData photoData : DataHelper.getInstance(this).queryPhotos(this.album.getAlbumId())) {
+            PhotoView PhotoView = new PhotoView(this, photoData, this.layer);
+            photoViews.add(PhotoView);
+        }
+        return photoViews;
     }
 
-    protected PhotoData createPhoto() {
-        DataHelper.getInstance(this).createPhoto(this.photo);
+    protected PhotoView createPhoto() {
+        DataHelper.getInstance(this).createPhoto(this.photo.getPhotoData());
         this.updateWidget();
         return this.photo;
     }
 
-    protected PhotoData deletePhoto() {
-        DataHelper.getInstance(this).deletePhoto(this.photo);
+    protected PhotoView deletePhoto() {
+        DataHelper.getInstance(this).deletePhoto(this.photo.getPhotoData());
         this.updateWidget();
         return this.photo;
     }
 
-    protected PhotoData updatePhoto() {
-        DataHelper.getInstance(this).updatePhoto(this.photo);
+    protected PhotoView updatePhoto() {
+        DataHelper.getInstance(this).updatePhoto(this.photo.getPhotoData());
         this.updateWidget();
         return this.photo;
     }
@@ -57,4 +72,21 @@ public class DataLayer extends AbstractLayer {
         return DataHelper.getInstance(this).existPhotoWidget(this.photo.getPhotoId());
     }
 
+    protected List<AlbumView> queryPhotoAlbum() {
+        List<AlbumView> albumViews = new ArrayList<>();
+        for (AlbumData albumData : DataHelper.getInstance(this).queryPhotoAlbum()) {
+            AlbumView albumView = new AlbumView(this, albumData, this.layer);
+            albumViews.add(albumView);
+        }
+        return albumViews;
+    }
+
+    protected List<AlbumView> queryAlbumPhotos() {
+        List<AlbumView> albumViews = new ArrayList<>();
+        for (AlbumData albumData : DataHelper.getInstance(this).queryAlbumPhotos()) {
+            AlbumView albumView = new AlbumView(this, albumData, this.layer);
+            albumViews.add(albumView);
+        }
+        return albumViews;
+    }
 }

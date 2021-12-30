@@ -21,24 +21,17 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.PhotoView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class AbstractLayer extends AppCompatActivity {
-    public static final String FRAME_INDEX = "frameIndex";
-    public static final String FRAME_ID = "frameId";
-    public static final String SHELL_ID = "shellId";
+    protected int layer = -1;
 
-    protected AlbumData album = new AlbumData();
-    protected PhotoData photo = new PhotoData();
-    protected List<AlbumData> albums = new ArrayList<>();
+    protected AlbumView album;
+    protected PhotoView photo;
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ActivityCallBack activityCallBack;
-
-    private int layer = -1;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -53,13 +46,11 @@ public abstract class AbstractLayer extends AppCompatActivity {
     public void setContentView(int layer, @LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         this.layer = layer;
-        this.initContentView();
-    }
+        this.album = new AlbumView(this, this.layer);
+        this.photo = new PhotoView(this, this.layer);
 
-    protected void initContentView() {
         this.activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
+                new ActivityResultContracts.StartActivityForResult(), result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         if (activityCallBack != null) {
@@ -67,7 +58,13 @@ public abstract class AbstractLayer extends AppCompatActivity {
                             activityCallBack = null;
                         }
                     }
-                });
+                }
+        );
+
+        this.initContentView();
+    }
+
+    protected void initContentView() {
     }
 
     public void startActivity(Class<?> clazz) {
@@ -77,33 +74,29 @@ public abstract class AbstractLayer extends AppCompatActivity {
     public void startActivity(Class<?> clazz, ActivityCallBack activityCallBack) {
         this.activityCallBack = activityCallBack;
         Intent intent = new Intent(this, clazz);
-        intent.putExtra(AlbumData.tableName, this.album);
-        intent.putExtra(PhotoData.tableName, this.photo);
+        intent.putExtra(AlbumData.tableName, this.album.getAlbumData());
+        intent.putExtra(PhotoData.tableName, this.photo.getPhotoData());
         this.activityResultLauncher.launch(intent);
     }
 
-    public PhotoView getPhotoView() {
-        return new PhotoView(this, this.photo, this.layer);
-    }
-
     public void setPhotoView(View view) {
-        PhotoHelper.setPhotoView(this.getPhotoView(), view);
+        PhotoHelper.setPhotoView(this.photo, view);
     }
 
     public void setPhotoImage(ImageView imageView) {
-        PhotoHelper.setPhotoImage(this.getPhotoView(), imageView);
+        PhotoHelper.setPhotoImage(this.photo, imageView);
     }
 
     public void setPhotoScale(ImageView imageView) {
-        PhotoHelper.setPhotoScale(this.getPhotoView(), imageView);
+        PhotoHelper.setPhotoScale(this.photo, imageView);
     }
 
     public void setPhotoFont(TextView textView) {
-        PhotoHelper.setPhotoFont(this.getPhotoView(), textView);
+        PhotoHelper.setPhotoFont(this.photo, textView);
     }
 
     public void setPhotoFrame(View containerView, View frameView) {
-        PhotoHelper.setPhotoFrame(this.getPhotoView(), containerView, frameView);
+        PhotoHelper.setPhotoFrame(this.photo, containerView, frameView);
     }
 
     public void alert(int titleId, int detailId, Runnable work) {

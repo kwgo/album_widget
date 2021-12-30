@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
+import com.jchip.album.view.PhotoViewConfig;
 
 public class WidgetPhotoView {
     private final Context context;
@@ -18,7 +19,7 @@ public class WidgetPhotoView {
     public WidgetPhotoView(Context context, RemoteViews views, PhotoData photoData) {
         this.context = context;
         this.views = views;
-        this.photoView = new PhotoView(context, photoData, PhotoView.WIDGET_ALBUM_PHOTO);
+        this.photoView = new PhotoView(context, photoData, PhotoViewConfig.WIDGET_ALBUM_PHOTO);
     }
 
     public void updateView() {
@@ -30,7 +31,7 @@ public class WidgetPhotoView {
     }
 
     public void updatePhotoScale() {
-        this.photoView.setScaleIndex((this.photoView.getScaleIndex() + 1) % 4);
+        this.photoView.setPhotoImage(-1, -1, (this.photoView.getScaleIndex() + 1) % 4);
         this.setPhotoImage();
     }
 
@@ -60,7 +61,7 @@ public class WidgetPhotoView {
         if (bitmap != null) {
             this.views.setImageViewBitmap(photoImageId, bitmap);
         } else {
-            this.views.setImageViewResource(photoImageId, PhotoView.DEFAULT_PHOTO_ID);
+            this.views.setImageViewResource(photoImageId, PhotoViewConfig.DEFAULT_PHOTO_ID);
         }
         this.views.setViewVisibility(photoImageId, View.VISIBLE);
     }
@@ -91,7 +92,7 @@ public class WidgetPhotoView {
     }
 
     private void setLabelFont(int photoLabelId) {
-        if (!this.photoView.isFontEmpty()) {
+        if (this.photoView.isFontEmpty()) {
             this.views.setTextViewText(photoLabelId, this.photoView.getFontText());
             this.views.setTextColor(photoLabelId, this.photoView.getFontColor());
             this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, this.photoView.getFontTextSize());

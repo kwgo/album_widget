@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ListLayer extends AbstractLayer {
+public abstract class ListLayer extends DataLayer {
 
     protected ListView listView;
     private final Map<Integer, View> itemViews = new HashMap<>();

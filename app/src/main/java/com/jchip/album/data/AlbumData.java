@@ -9,9 +9,9 @@ public class AlbumData extends AbstractData {
     public static final String fieldAlbumName = "name";
 
     private int albumId = -1;
-    private String albumName;
+    private String albumName = "";
 
-    private List<PhotoData> photos;
+    private List<PhotoData> photos = new ArrayList<>();
 
     public AlbumData() {
     }
@@ -40,58 +40,50 @@ public class AlbumData extends AbstractData {
         this.albumName = albumName;
     }
 
-    public List<PhotoData> getPhotos() {
-        return photos == null ? new ArrayList<>() : photos;
-    }
-
+    //    public List<PhotoData> getPhotos() {
+//        return photos == null ? new ArrayList<>() : photos;
+//    }
+//
     public void setPhotos(List<PhotoData> photos) {
         this.photos = photos;
     }
 
     public void addPhoto(PhotoData photo) {
-        if (photos == null) {
-            photos = new ArrayList<>();
-        }
         photos.add(photo);
     }
 
     public void removePhoto(PhotoData photo) {
-        if (photos != null) {
-            photos.remove(photo);
-        }
+        photos.remove(photo);
     }
 
-    public void clearPhotos() {
-        if (photos != null) {
-            photos.clear();
-        }
-    }
+//    public void clearPhotos() {
+//        if (photos != null) {
+//            photos.clear();
+//        }
+//    }
 
     public PhotoData getPhoto(int index) {
-        if (photos != null && index >= 0 && index < photos.size()) {
-            return photos.get(index);
-        }
-        return new PhotoData();
+        return index >= 0 && index < photos.size() ? photos.get(index) : new PhotoData();
     }
-
-    public boolean isPhotoEmpty() {
-        return photos == null || photos.isEmpty();
-    }
-
-    public int getPhotoIndex(PhotoData photo) {
-        if (photos != null) {
-            return photos.indexOf(photo);
-        }
-        return -1;
-    }
+//
+//    public boolean isPhotoEmpty() {
+//        return photos == null || photos.isEmpty();
+//    }
+//
+//    public int getPhotoIndex(PhotoData photo) {
+//        if (photos != null) {
+//            return photos.indexOf(photo);
+//        }
+//        return -1;
+//    }
 
     public int getPhotoSize() {
         return photos == null ? 0 : photos.size();
     }
 
-    public boolean isPhotoPathExisted(PhotoData photo) {
-        if (photos != null && photo.getPhotoPath() != null) {
-            for (PhotoData photoData : photos) {
+    public boolean isPhotoExisted(PhotoData photoData) {
+        if (photoData.getPhotoPath() != null) {
+            for (PhotoData photo : photos) {
                 if (photo.getPhotoPath().equals(photoData.getPhotoPath())) {
                     return true;
                 }
@@ -99,5 +91,4 @@ public class AlbumData extends AbstractData {
         }
         return false;
     }
-
 }

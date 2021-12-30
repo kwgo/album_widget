@@ -3,25 +3,27 @@ package com.jchip.album.layer;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.jchip.album.R;
-import com.jchip.album.data.AlbumData;
+import com.jchip.album.view.AlbumNameAdapter;
+import com.jchip.album.view.AlbumNameView;
 import com.jchip.album.view.AlbumView;
-import com.jchip.album.view.AlbumViewAdapter;
-import com.jchip.album.view.PhotoView;
+import com.jchip.album.view.PhotoViewConfig;
+
+import java.util.List;
 
 public class AlbumLayer extends PhotoLayer {
-    private AlbumView albumView;
+    private AlbumNameView albumNameView;
+    private List<AlbumView> albums;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(PhotoView.LAYER_ALBUM_PHOTO, R.layout.album_photo_layer);
+        super.setContentView(PhotoViewConfig.LAYER_ALBUM_PHOTO, R.layout.album_photo_layer);
     }
 
     @Override
@@ -32,19 +34,19 @@ public class AlbumLayer extends PhotoLayer {
         this.reloadAlbumList();
         this.setAlbumPhotos(albums.get(0));
 
-        this.albumView = (AlbumView) findViewById(R.id.album_name_text);
-        this.albumView.setAdapter(new AlbumViewAdapter(this, this.albums));
-        this.albumView.setEnabled(false);
-        this.albumView.setText(this.album.getAlbumName(), false);
-        this.albumView.addTextChangedListener(text -> this.onAlbumNameChanged(text));
-        this.albumView.setOnItemClickListener((adapterView, view, position, id) -> this.onSelectAlbum(position));
+        this.albumNameView = findViewById(R.id.album_name_text);
+        this.albumNameView.setAdapter(new AlbumNameAdapter(this, this.albums));
+        this.albumNameView.setEnabled(false);
+        this.albumNameView.setText(this.album.getAlbumName(), false);
+        this.albumNameView.addTextChangedListener(this::onAlbumNameChanged);
+        this.albumNameView.setOnItemClickListener((adapterView, view, position, id) -> this.onSelectAlbum(position));
 
-        this.getView(R.id.album_name_menu).setOnClickListener((v) -> this.showMenu(v));
+        this.getView(R.id.album_name_menu).setOnClickListener(this::showMenu);
     }
 
     protected void reloadAlbumList() {
         boolean allSaved = true;
-        for (AlbumData album : this.albums) {
+        for (AlbumView album : this.albums) {
             if (!album.isSaved()) {
                 allSaved = false;
                 break;
@@ -52,23 +54,22 @@ public class AlbumLayer extends PhotoLayer {
         }
         if (allSaved) {
             String albumName = this.getString(R.string.album_default_name);
-            this.albums.add(0, new AlbumData(albumName + (this.albums.size() + 1)));
+            AlbumView albumView = new AlbumView(this, this.layer);
+            albumView.setAlbumName(albumName + (this.albums.size() + 1));
+            this.albums.add(0, albumView);
         }
     }
 
     public void showMenu(View view) {
         Context contextThemeWrapper = new ContextThemeWrapper(this, R.style.album_name_menu);
         PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, view);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.album_name_edit) {
-                    albumView.setEnabled(true);
-                } else if (item.getItemId() == R.id.album_name_delete) {
-                    onDeleteAlbum();
-                }
-                return true;
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.album_name_edit) {
+                albumNameView.setEnabled(true);
+            } else if (item.getItemId() == R.id.album_name_delete) {
+                onDeleteAlbum();
             }
+            return true;
         });
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.album_name_menu, popupMenu.getMenu());
@@ -97,9 +98,7 @@ public class AlbumLayer extends PhotoLayer {
         if (this.album.isSaved()) {
             this.alert(R.string.album_title, R.string.album_alert_delete, () -> {
                 if (this.existAlbumWidget()) {
-                    this.alert(R.string.album_title, R.string.album_alert_link, () -> {
-                        removeAlbum();
-                    });
+                    this.alert(R.string.album_title, R.string.album_alert_link, this::removeAlbum);
                 } else {
                     removeAlbum();
                 }

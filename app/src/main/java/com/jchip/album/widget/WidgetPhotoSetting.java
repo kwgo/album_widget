@@ -7,25 +7,22 @@ import android.widget.TextView;
 
 import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.R;
-import com.jchip.album.data.AlbumData;
-import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
-import com.jchip.album.view.PhotoView;
+import com.jchip.album.view.AlbumView;
+import com.jchip.album.view.PhotoViewConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WidgetPhotoSetting extends WidgetSetting {
-    protected static final int PHOTO_DENSITY_FACTOR = 8;
-
     private static final int PHOTO_NUMBER = 2;
 
-    private List<AlbumData> albums;
+    private List<AlbumView> albums;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(PhotoView.WIDGET_PHOTO_SETTING, R.layout.widget_photo_setting);
+        super.setContentView(PhotoViewConfig.WIDGET_PHOTO_SETTING, R.layout.widget_photo_setting);
     }
 
     @Override
@@ -33,14 +30,14 @@ public class WidgetPhotoSetting extends WidgetSetting {
         super.initContentView();
 
         this.albums = new ArrayList<>();
-        for (AlbumData albumData : DataHelper.getInstance(this).queryAlbumPhotos()) {
-            this.albums.add(albumData);
-            AlbumData photoAlbum = new AlbumData();
-            for (int index = 0; index < albumData.getPhotoSize(); index++) {
+        for (AlbumView albumView : this.queryAlbumPhotos()) {
+            this.albums.add(albumView);
+            AlbumView photoAlbumView = new AlbumView(this, this.layer);
+            for (int index = 0; index < albumView.getPhotoSize(); index++) {
                 if (index % PHOTO_NUMBER == 0) {
-                    this.albums.add(photoAlbum = new AlbumData());
+                    this.albums.add(photoAlbumView = new AlbumView(this, this.layer));
                 }
-                photoAlbum.addPhoto(albumData.getPhoto(index));
+                photoAlbumView.addPhotoView(albumView.getPhotoView(index));
             }
         }
         if (this.albums == null || this.albums.isEmpty()) {
@@ -53,16 +50,16 @@ public class WidgetPhotoSetting extends WidgetSetting {
     @Override
     protected void bindItemView(View itemView, final int position) {
         Log.d("", "-------------------showing item view position = " + position);
-        AlbumData albumData = this.albums.get(position);
-        if (albumData.isSaved()) {
+        AlbumView albumView = this.albums.get(position);
+        if (albumView.isSaved()) {
             TextView albumName = itemView.findViewById(R.id.album_name);
-            albumName.setText(albumData.getAlbumName());
+            albumName.setText(albumView.getAlbumName());
             albumName.setVisibility(View.VISIBLE);
         } else {
             itemView.findViewById(R.id.photo_left_view).setVisibility(View.INVISIBLE);
             itemView.findViewById(R.id.photo_right_view).setVisibility(View.INVISIBLE);
-            for (int index = 0; index < albumData.getPhotoSize(); index++) {
-                this.photo = albumData.getPhoto(index);
+            for (int index = 0; index < albumView.getPhotoSize(); index++) {
+                this.photo = albumView.getPhotoView(index);
                 View photoView = itemView.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
                 this.setPhotoView(photoView);
                 photoView.setVisibility(View.VISIBLE);

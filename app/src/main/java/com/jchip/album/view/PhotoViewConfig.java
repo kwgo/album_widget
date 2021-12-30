@@ -1,20 +1,56 @@
 package com.jchip.album.view;
 
 import android.content.res.Resources;
+import android.view.Gravity;
+import android.widget.ImageView;
 
+import com.jchip.album.R;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PhotoViewConfig {
     public static final float DEFAULT_IMAGE_ZOOM = 0.95f;
 
+    public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
+    public static final int DEFAULT_PHOTO_ID = R.drawable.photo_default;
+
+    public static final int DEFAULT_FONT_INDEX = 1;
+    public static final int DEFAULT_FONT_LOCATION = 4;
+    public static final int DEFAULT_FONT_SIZE = 120;
+
+    public static final int LAYER_ALBUM_PHOTO = 0;
+    public static final int LAYER_FRAME_SETTING = 1;
+    public static final int LAYER_FONT_SETTING = 2;
+
+    public static final int WIDGET_ALBUM_PHOTO = 3;
+    public static final int WIDGET_ALBUM_SETTING = 4;
+    public static final int WIDGET_PHOTO_SETTING = 5;
+
+    public static final ImageView.ScaleType[] scaleTypes = {
+            ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
+            ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
+    };
+
+    public static final List<Integer> fonts = Arrays.asList(
+            R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
+            R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
+
+    public static final List<Integer> locations = Arrays.asList(
+            Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
+            Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
+            Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
+    );
+
     private static final Map<Integer, Integer> densitySizeFactors = new HashMap<Integer, Integer>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, 1);
-        this.put(PhotoView.LAYER_FRAME_SETTING, 4);
-        this.put(PhotoView.LAYER_FONT_SETTING, 4);
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, 0);
-        this.put(PhotoView.WIDGET_ALBUM_SETTING, 25);
-        this.put(PhotoView.WIDGET_PHOTO_SETTING, 12);
+        this.put(LAYER_ALBUM_PHOTO, 1);
+        this.put(LAYER_FRAME_SETTING, 4);
+        this.put(LAYER_FONT_SETTING, 4);
+        this.put(WIDGET_ALBUM_PHOTO, 0);
+        this.put(WIDGET_ALBUM_SETTING, 25);
+        this.put(WIDGET_PHOTO_SETTING, 12);
     }};
 
     public static int getDensitySizeFactor(int layer) {
@@ -23,12 +59,12 @@ public class PhotoViewConfig {
     }
 
     private static final Map<Integer, Float> fontSizeFactors = new HashMap<Integer, Float>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, 0.70f);
-        this.put(PhotoView.LAYER_FRAME_SETTING, 0.45f);
-        this.put(PhotoView.LAYER_FONT_SETTING, 0.45f);
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, 0.85f);
-        this.put(PhotoView.WIDGET_ALBUM_SETTING, 0.1f);
-        this.put(PhotoView.WIDGET_PHOTO_SETTING, 0.21f);
+        this.put(LAYER_ALBUM_PHOTO, 0.70f);
+        this.put(LAYER_FRAME_SETTING, 0.45f);
+        this.put(LAYER_FONT_SETTING, 0.45f);
+        this.put(WIDGET_ALBUM_PHOTO, 0.85f);
+        this.put(WIDGET_ALBUM_SETTING, 0.1f);
+        this.put(WIDGET_PHOTO_SETTING, 0.21f);
     }};
 
     public static float getFontSizeFactor(int layer) {
@@ -37,12 +73,12 @@ public class PhotoViewConfig {
     }
 
     private static final Map<Integer, Integer> imageGaps = new HashMap<Integer, Integer>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, 16);
-        this.put(PhotoView.LAYER_FRAME_SETTING, 8);
-        this.put(PhotoView.LAYER_FONT_SETTING, 8);
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, 12);
-        this.put(PhotoView.WIDGET_ALBUM_SETTING, 2);
-        this.put(PhotoView.WIDGET_PHOTO_SETTING, 4);
+        this.put(LAYER_ALBUM_PHOTO, 16);
+        this.put(LAYER_FRAME_SETTING, 8);
+        this.put(LAYER_FONT_SETTING, 8);
+        this.put(WIDGET_ALBUM_PHOTO, 12);
+        this.put(WIDGET_ALBUM_SETTING, 2);
+        this.put(WIDGET_PHOTO_SETTING, 4);
     }};
 
     public static int getImageGap(int layer) {
@@ -51,12 +87,12 @@ public class PhotoViewConfig {
     }
 
     private static final Map<Integer, Integer> imageMaxWidths = new HashMap<Integer, Integer>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, getScreenWidth());
-        this.put(PhotoView.LAYER_FRAME_SETTING, getScreenWidth());
-        this.put(PhotoView.LAYER_FONT_SETTING, getScreenWidth());
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, getScreenWidth());
-        this.put(PhotoView.WIDGET_ALBUM_SETTING, getScreenWidth() / 5);
-        this.put(PhotoView.WIDGET_PHOTO_SETTING, getScreenWidth() / 2);
+        this.put(LAYER_ALBUM_PHOTO, getScreenWidth());
+        this.put(LAYER_FRAME_SETTING, getScreenWidth());
+        this.put(LAYER_FONT_SETTING, getScreenWidth());
+        this.put(WIDGET_ALBUM_PHOTO, getScreenWidth());
+        this.put(WIDGET_ALBUM_SETTING, getScreenWidth() / 5);
+        this.put(WIDGET_PHOTO_SETTING, getScreenWidth() / 2);
     }};
 
     public static int getImageMaxWidth(int layer) {
@@ -65,12 +101,12 @@ public class PhotoViewConfig {
     }
 
     private static final Map<Integer, Integer> imageMaxHeights = new HashMap<Integer, Integer>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
-        this.put(PhotoView.LAYER_FRAME_SETTING, dpToPx(220));
-        this.put(PhotoView.LAYER_FONT_SETTING, dpToPx(220));
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
-        this.put(PhotoView.WIDGET_ALBUM_SETTING, dpToPx(45));
-        this.put(PhotoView.WIDGET_PHOTO_SETTING, dpToPx(100));
+        this.put(LAYER_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
+        this.put(LAYER_FRAME_SETTING, dpToPx(220));
+        this.put(LAYER_FONT_SETTING, dpToPx(220));
+        this.put(WIDGET_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
+        this.put(WIDGET_ALBUM_SETTING, dpToPx(45));
+        this.put(WIDGET_PHOTO_SETTING, dpToPx(100));
     }};
 
     public static int getImageMaxHeight(int layer) {
@@ -79,12 +115,12 @@ public class PhotoViewConfig {
     }
 
     private static final Map<Integer, Boolean> defaultImageRotations = new HashMap<Integer, Boolean>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, true);
-        this.put(PhotoView.LAYER_FRAME_SETTING, true);
-        this.put(PhotoView.LAYER_FONT_SETTING, true);
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, false);
-        this.put(PhotoView.WIDGET_ALBUM_SETTING, false);
-        this.put(PhotoView.WIDGET_PHOTO_SETTING, false);
+        this.put(LAYER_ALBUM_PHOTO, true);
+        this.put(LAYER_FRAME_SETTING, true);
+        this.put(LAYER_FONT_SETTING, true);
+        this.put(WIDGET_ALBUM_PHOTO, false);
+        this.put(WIDGET_ALBUM_SETTING, false);
+        this.put(WIDGET_PHOTO_SETTING, false);
     }};
 
     public static boolean getDefaultImageRotation(int layer) {

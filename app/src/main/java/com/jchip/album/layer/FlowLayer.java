@@ -1,14 +1,16 @@
 package com.jchip.album.layer;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.jchip.album.ActivityAbout;
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.view.PhotoView;
 
-public abstract class ActivityLayer extends DataLayer {
+public abstract class FlowLayer extends DataLayer {
 
     @Override
     public void initContentView() {
@@ -25,32 +27,26 @@ public abstract class ActivityLayer extends DataLayer {
     }
 
     public void onFontSetting() {
-        this.startActivity(ActivityFont.class, (intent) -> onFontChange(intent));
+        this.startActivity(ActivityFont.class, this::onFontChange);
     }
 
     public void onFrameSelect() {
-        this.startActivity(ActivityFrame.class, (intent) -> onFrameChange(intent));
+        this.startActivity(ActivityFrame.class, this::onFrameChange);
     }
 
     public void onFrameChange(Intent intent) {
-        int frameId = intent.getIntExtra(FRAME_ID, -1);
-        int shellId = intent.getIntExtra(SHELL_ID, -1);
-        if (frameId >= 0) {
-            this.photo.setFrameIndex(frameId);
-            this.photo.setFrameShell(shellId);
-            this.setPhotoFrame(this.getView(R.id.photo_container), this.getView(R.id.photo_frame));
+         PhotoData photoData = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
+        if (photoData != null) {
+            this.photo.setPhotoView(new PhotoView(this, photoData, this.layer));
             this.updatePhoto();
+            this.setPhotoFrame(this.getView(R.id.photo_container), this.getView(R.id.photo_frame));
         }
     }
 
     public void onFontChange(Intent intent) {
-        PhotoData photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
-        if (photo != null) {
-            this.photo.setFontType(photo.getFontType());
-            this.photo.setFontSize(photo.getFontSize());
-            this.photo.setFontColor(photo.getFontColor());
-            this.photo.setFontLocation(photo.getFontLocation());
-            this.photo.setFontText(photo.getFontText());
+        PhotoData photoData = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
+        if (photoData != null) {
+            this.photo.setPhotoView(new PhotoView(this, photoData, this.layer));
             this.updatePhoto();
             this.setPhotoFont(this.getTextView(R.id.photo_label));
         }

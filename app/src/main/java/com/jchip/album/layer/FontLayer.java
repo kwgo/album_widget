@@ -5,15 +5,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.widget.SeekBar;
 
 import com.jchip.album.R;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
+import com.jchip.album.view.PhotoViewConfig;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class FontLayer extends AbstractLayer {
@@ -21,7 +20,7 @@ public class FontLayer extends AbstractLayer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(PhotoView.LAYER_FONT_SETTING, R.layout.album_font_layer);
+        super.setContentView(PhotoViewConfig.LAYER_FONT_SETTING, R.layout.album_font_layer);
         super.setStatusBarColor(android.R.color.transparent);
     }
 
@@ -30,7 +29,8 @@ public class FontLayer extends AbstractLayer {
         Intent intent = this.getIntent();
         this.setResult(RESULT_OK, intent);
 
-        this.photo = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
+        PhotoData photoData = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
+        this.photo = new PhotoView(this, photoData, this.layer);
 
         this.setPhotoView(this.getView(R.id.photo_view));
 
@@ -87,28 +87,23 @@ public class FontLayer extends AbstractLayer {
     }
 
     private void onFontTypeChange() {
-        List<Integer> fonts = this.getPhotoView().getFonts();
-        int fontIndex = this.getPhotoView().getFontIndex();
-        this.photo.setFontType(fonts.get((fontIndex + 1) % fonts.size()));
+        List<Integer> fonts = PhotoViewConfig.fonts;
+        int fontIndex = (this.photo.getFontIndex() + 1) % fonts.size();
+        this.photo.setPhotoFont(fonts.get(fontIndex), -1, -1, -1, null);
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onLocationChange() {
-        List<Integer> locations = Arrays.asList(
-                Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
-                Gravity.START | Gravity.CENTER_VERTICAL, Gravity.CENTER, Gravity.END | Gravity.CENTER_VERTICAL,
-                Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
-        );
-        int fontLocation = this.getPhotoView().getFontLocation();
-        int locationIndex = locations.contains(fontLocation) ? locations.indexOf(fontLocation) : 4;
-        this.photo.setFontLocation(locations.get((locationIndex + 1) % locations.size()));
+        List<Integer> locations = PhotoViewConfig.locations;
+        int locationIndex = (this.photo.getLocationIndex() + 1) % locations.size();
+        this.photo.setPhotoFont(-1, -1, -1, locations.get(locationIndex), null);
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onSizeChange(int change) {
-        float fontSize = this.getPhotoView().getFontSize() + change * PhotoHelper.dpToPx(2);
+        float fontSize = this.photo.getFontSize() + change * PhotoHelper.dpToPx(2);
         if (fontSize > PhotoHelper.dpToPx(10) && fontSize < PhotoHelper.dpToPx(100)) {
-            this.photo.setFontSize((int) fontSize);
+            this.photo.setPhotoFont(-1, (int) fontSize, -1, -1, null);
             this.setPhotoFont(this.getTextView(R.id.photo_label));
         }
     }
@@ -118,12 +113,12 @@ public class FontLayer extends AbstractLayer {
         int r = this.getSeekView(R.id.font_color_r).getProgress();
         int g = this.getSeekView(R.id.font_color_g).getProgress();
         int b = this.getSeekView(R.id.font_color_b).getProgress();
-        this.photo.setFontColor(Color.argb(a, r, g, b));
+        this.photo.setPhotoFont(-1, -1, Color.argb(a, r, g, b), -1, null);
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 
     private void onTextChange(String text) {
-        this.photo.setFontText(text);
+        this.photo.setPhotoFont(-1, -1, -1, -1, text);
         this.setPhotoFont(this.getTextView(R.id.photo_label));
     }
 

@@ -14,12 +14,12 @@ import com.jchip.album.data.AlbumData;
 
 import java.util.List;
 
-public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
+public class AlbumNameAdapter extends ArrayAdapter<AlbumView> {
 
     private Context context;
-    private List<AlbumData> albums;
+    private List<AlbumView> albums;
 
-    public AlbumViewAdapter(Context context, List<AlbumData> albums) {
+    public AlbumNameAdapter(Context context, List<AlbumView> albums) {
         super(context, R.layout.album_name_item, albums);
         this.context = context;
         this.albums = albums;
@@ -34,7 +34,7 @@ public class AlbumViewAdapter extends ArrayAdapter<AlbumData> {
                 convertView = inflater.inflate(R.layout.album_name_item, parent, false);
             }
             // object item based on the position
-            AlbumData album = albums.get(position);
+            AlbumView album = albums.get(position);
             TextView textViewItem = (TextView) convertView.findViewById(R.id.textViewItem);
             textViewItem.setText(album.getAlbumName());
             // in case you want to add some style, you can do something like:
