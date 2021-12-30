@@ -23,10 +23,10 @@ public class PhotoViewConfig {
     }
 
     private static final Map<Integer, Float> fontSizeFactors = new HashMap<Integer, Float>() {{
-        this.put(PhotoView.LAYER_ALBUM_PHOTO, 0.75f);
+        this.put(PhotoView.LAYER_ALBUM_PHOTO, 0.70f);
         this.put(PhotoView.LAYER_FRAME_SETTING, 0.45f);
         this.put(PhotoView.LAYER_FONT_SETTING, 0.45f);
-        this.put(PhotoView.WIDGET_ALBUM_PHOTO, 1.0f);
+        this.put(PhotoView.WIDGET_ALBUM_PHOTO, 0.85f);
         this.put(PhotoView.WIDGET_ALBUM_SETTING, 0.1f);
         this.put(PhotoView.WIDGET_PHOTO_SETTING, 0.21f);
     }};

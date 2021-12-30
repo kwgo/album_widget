@@ -35,16 +35,6 @@ public class ImageHelper {
         return bitmap;
     }
 
-    public static Bitmap loadBitmap(String url, boolean inScaled) {
-        try (FileInputStream inputStream = new FileInputStream(url)) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = inScaled;
-            return BitmapFactory.decodeStream(inputStream, null, options);
-        } catch (Exception ignored) {
-            return null;
-        }
-    }
-
     public static Bitmap loadBitmap(Resources resources, int imageId, boolean inScaled) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -55,17 +45,24 @@ public class ImageHelper {
         }
     }
 
-    public static Bitmap decodeBitmap(String url, int width, int height) {
+    public static Bitmap decodeBitmap(String url, int bitmapWidth, int bitmapHeight, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         try (FileInputStream inputStream = new FileInputStream(url)) {
+            if (bitmapWidth <= 0 || bitmapHeight <= 0) {
+                Log.d("", "decode from url start .... url= " + url);
+                Log.d("", "decode from url start .... require width= " + width + " height= " + height);
+                // First decode with inJustDecodeBounds=true to check dimensions
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(inputStream, null, options);
+                Log.d("", "decode from url options.outWidth  ....." + options.outWidth);
+                Log.d("", "decode from url options.outHeight  ....." + options.outHeight);
 
-            Log.d("", "decode from url start .... url= " + url);
-            Log.d("", "decode from url start .... require width= " + width + " height= " + height);
-            // First decode with inJustDecodeBounds=true to check dimensions
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(inputStream, null, options);
-            Log.d("", "decode from url options.outWidth  ....." + options.outWidth);
-            Log.d("", "decode from url options.outHeight  ....." + options.outHeight);
+                inputStream.getChannel().position(0);
+            } else {
+                Log.d("", "as we know the bitmap info.... bitmap width= " + bitmapWidth + " height= " + bitmapHeight);
+                options.outWidth = bitmapWidth;
+                options.outHeight = bitmapHeight;
+            }
 
             // Calculate inSampleSize
             options.inSampleSize = calculateInSampleSize(options, width, height);
@@ -76,38 +73,10 @@ public class ImageHelper {
             options.inJustDecodeBounds = false;
             options.inScaled = false;
 
-            inputStream.getChannel().position(0);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
             if (bitmap != null) {
                 Log.d("", "decodeBitmap end .....bitmap width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
             }
-            return bitmap;
-        } catch (Exception ignored) {
-            return null;
-        }
-    }
-
-    //Load a bitmap from a resource with a target size
-    public static Bitmap decodeResource(Resources resources, int imageId, int width, int height) {
-        try {
-            Log.d("", "decode from resource start .....");
-            // First decode with inJustDecodeBounds=true to check dimensions
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(resources, imageId, options);
-
-            Log.d("", "decode from resource options.outWidth  ....." + options.outWidth);
-            Log.d("", "decode from resource options.outHeight  ....." + options.outHeight);
-
-            // Calculate inSampleSize
-            options.inSampleSize = calculateInSampleSize(options, width, height);
-            Log.d("", "Bitmap bitmap =    options.inSampleSize  ....." + options.inSampleSize);
-            // Decode bitmap with inSampleSize set
-            options.inJustDecodeBounds = false;
-
-            options.inScaled = false;
-            Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
-            Log.d("", "Bitmap bitmap =  end .....bitmap width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
             return bitmap;
         } catch (Exception ignored) {
             return null;

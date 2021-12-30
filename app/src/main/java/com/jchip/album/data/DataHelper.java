@@ -324,6 +324,8 @@ public class DataHelper extends DataHandler {
             contentValues.put(PhotoData.fieldPhotoId, photoData.getPhotoId());
         }
         contentValues.put(PhotoData.fieldAlbumId, photoData.getAlbumId());
+        contentValues.put(PhotoData.fieldPhotoWidth, photoData.getPhotoWidth());
+        contentValues.put(PhotoData.fieldPhotoHeight, photoData.getPhotoHeight());
         contentValues.put(PhotoData.fieldPhotoPath, photoData.getPhotoPath());
 
         contentValues.put(PhotoData.fieldFrame, photoData.getFrameIndex());
@@ -344,6 +346,8 @@ public class DataHelper extends DataHandler {
         PhotoData photoData = new PhotoData();
         photoData.setPhotoId((Integer) rowData.get(PhotoData.fieldPhotoId));
         photoData.setAlbumId((Integer) rowData.get(PhotoData.fieldAlbumId));
+        photoData.setPhotoWidth((Integer) rowData.get(PhotoData.fieldPhotoWidth));
+        photoData.setPhotoHeight((Integer) rowData.get(PhotoData.fieldPhotoHeight));
         photoData.setPhotoPath((String) rowData.get(PhotoData.fieldPhotoPath));
 
         photoData.setFrameIndex((Integer) rowData.get(PhotoData.fieldFrame));

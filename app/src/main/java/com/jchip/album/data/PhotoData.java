@@ -4,6 +4,8 @@ public class PhotoData extends AbstractData {
     public static final String tableName = "photo";
     public static final String fieldPhotoId = "id";
     public static final String fieldAlbumId = "albumId";
+    public static final String fieldPhotoWidth = "width";
+    public static final String fieldPhotoHeight = "height";
     public static final String fieldPhotoPath = "path";
 
     public static final String fieldFrame = "frame";
@@ -20,6 +22,8 @@ public class PhotoData extends AbstractData {
 
     private int photoId = -1;
     private int albumId = -1;
+    private int photoWidth = 0;
+    private int photoHeight = 0;
     private String photoPath;
 
     private int frameIndex = -1;
@@ -60,6 +64,22 @@ public class PhotoData extends AbstractData {
 
     public void setAlbumId(int albumId) {
         this.albumId = albumId;
+    }
+
+    public int getPhotoWidth() {
+        return photoWidth;
+    }
+
+    public void setPhotoWidth(int photoWidth) {
+        this.photoWidth = photoWidth;
+    }
+
+    public int getPhotoHeight() {
+        return photoHeight;
+    }
+
+    public void setPhotoHeight(int photoHeight) {
+        this.photoHeight = photoHeight;
     }
 
     public String getPhotoPath() {

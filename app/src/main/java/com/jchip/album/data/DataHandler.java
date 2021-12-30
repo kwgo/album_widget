@@ -15,7 +15,7 @@ import java.util.Map;
 public abstract class DataHandler extends SQLiteOpenHelper {
 
     // database version
-    protected static final int DATABASE_VERSION = 13;
+    protected static final int DATABASE_VERSION = 14;
     // database name
     protected static final String DATABASE_NAME = "album";
 
@@ -154,6 +154,8 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(PhotoData.fieldPhotoId, "INTEGER PRIMARY KEY AUTOINCREMENT");
         contentValues.put(PhotoData.fieldAlbumId, "INT");
+        contentValues.put(PhotoData.fieldPhotoWidth, "INT");
+        contentValues.put(PhotoData.fieldPhotoHeight, "INT");
         contentValues.put(PhotoData.fieldPhotoPath, "TEXT");
 
         contentValues.put(PhotoData.fieldFrame, "INT");

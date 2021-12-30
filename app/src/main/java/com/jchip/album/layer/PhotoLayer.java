@@ -118,6 +118,8 @@ public class PhotoLayer extends ActivityLayer {
             for (PhotoModel photoModel : photoModels) {
                 this.photo = new PhotoData(this.album.getAlbumId(), photoModel.getPhotoPath());
                 this.photo.setRotationIndex(photoModel.getPhotoOrientation() % 360 / 90);
+                this.photo.setPhotoWidth(photoModel.getPhotoWidth());
+                this.photo.setPhotoHeight(photoModel.getPhotoHeight());
                 if (!this.album.isPhotoPathExisted(this.photo)) {
                     this.photo.setFrameIndex(photo.getFrameIndex());
                     this.album.addPhoto(this.createPhoto());
