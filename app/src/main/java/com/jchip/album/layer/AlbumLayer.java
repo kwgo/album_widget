@@ -82,7 +82,7 @@ public class AlbumLayer extends PhotoLayer {
     }
 
     private void onSelectAlbum(int position) {
-        this.setAlbumPhotos(albums.get(position));
+         this.setAlbumPhotos(albums.get(position));
     }
 
     private void removeAlbum() {

@@ -75,6 +75,9 @@ public class PhotoLayer extends FlowLayer {
 
     public void setAlbumPhoto(PhotoView photo) {
         this.photo = photo;
+
+        // to set image view size
+        this.photo.setFrameRect(this.getViewRect(R.id.photos_view));
         this.setPhotoView(this.getView(R.id.photos_view));
     }
 
@@ -91,7 +94,8 @@ public class PhotoLayer extends FlowLayer {
 
     private void onScalePhoto(View v) {
         this.photo.setPhotoImage(-1, -1, (this.photo.getScaleIndex() + 1) % 4);
-        this.setPhotoScale(this.getImageView(R.id.photo_image));
+  //      this.setPhotoScale(this.getImageView(R.id.photo_image));
+        this.setPhotoImage(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
 

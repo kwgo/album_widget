@@ -1,7 +1,7 @@
 package com.jchip.album.common;
 
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.NinePatch;
@@ -17,28 +17,32 @@ import java.nio.ByteOrder;
 public class NinePatchHelper {
     private static final int SCALE_NUMBER = 40;
 
-    public static Drawable getImageDrawable(Context context, int imageId, int densitySize) {
+    public static Drawable getImageDrawable(Resources resources, int imageId, int densitySize, Rect padding) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = true;
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
-            options.inTargetDensity = context.getResources().getDisplayMetrics().densityDpi;
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imageId, options);
-            return NinePatchHelper.getDrawable(context, bitmap);
+            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
+
+            return NinePatchHelper.getDrawable(resources, bitmap, padding);
         } catch (Exception ex) {
             return null;
         }
     }
 
-
-    public static NinePatchDrawable getDrawable(Context context, Bitmap bitmap) {
+    public static NinePatchDrawable getDrawable(Resources resources, Bitmap bitmap, Rect padding) {
         final byte[] chunk = bitmap.getNinePatchChunk();
         if (NinePatch.isNinePatchChunk(chunk)) {
+            Log.d("", "nine patch bitmap width: " + bitmap.getWidth());
+            Log.d("", "nine patch bitmap height: " + bitmap.getHeight());
             NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
-            
-            Log.d("", "nine patch padding: " + ninePatchChunk.getPadding());
-            // return new NinePatchDrawable(Resources.getSystem(), bitmap, chunk, ninePatchChunk.getPadding(), null);
-            return new NinePatchDrawable(context.getResources(), bitmap, chunk, ninePatchChunk.getPadding(), null);
+            Rect ninePatchPadding = ninePatchChunk.getPadding();
+            Log.d("", "nine patch ok padding: " + ninePatchPadding);
+            if (padding != null) {
+                padding.set(ninePatchPadding);
+            }
+            return new NinePatchDrawable(resources, bitmap, chunk, ninePatchPadding, null);
         }
         return null;
     }

@@ -2,6 +2,7 @@ package com.jchip.album.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -14,22 +15,39 @@ import com.jchip.album.common.NinePatchHelper;
 import com.jchip.album.data.PhotoData;
 
 public class PhotoView {
+    private final int layer;
     private final Context context;
     private final PhotoData photo;
-    private final int layer;
+    private Rect frameRect;
+    private Rect photoRect;
+
 
     public PhotoView(Context context, int layer) {
         this(context, new PhotoData(), layer);
     }
 
     public PhotoView(Context context, PhotoData photo, int layer) {
+        this.layer = layer;
         this.context = context;
         this.photo = photo;
-        this.layer = layer;
+        this.frameRect = new Rect();
+        this.photoRect = new Rect();
     }
 
     public PhotoData getPhotoData() {
         return this.photo;
+    }
+
+    public void setFrameRect(Rect frameRect) {
+        this.frameRect = frameRect;
+        Log.d("", "set this.frameRectRect() object ===" + this.frameRect.hashCode());
+        Log.d("", "set this.frameRectRect()===" + this.frameRect);
+    }
+
+    public void setPhotoRect(Rect photoRect) {
+        this.photoRect = photoRect;
+        Log.d("", "set this.photoRect() object ===" + this.photoRect.hashCode());
+        Log.d("", "set this.photoRect()===" + this.photoRect);
     }
 
     public Drawable getFrameDrawable() {
@@ -42,11 +60,21 @@ public class PhotoView {
         //Log.d("", " this.getImageMaxSize()===" + this.getImageMaxSize());
         Log.d("", " this.getScreenWidth()===" + PhotoViewConfig.getScreenWidth());
         Log.d("", " this.getScreenHeight()===" + PhotoViewConfig.getScreenHeight());
+
+        Log.d("", " this.getFrameRect()===" + this.frameRect);
+        Log.d("", " this.getPhotoRect()===" + this.photoRect);
         Log.d("", " ---------");
 
         // x 40 to change density
         int densitySize = this.getFrameDensitySize();
-        return NinePatchHelper.getImageDrawable(context, this.getFrameIndex(), densitySize);
+        Rect padding = new Rect();
+
+        Drawable drawable = NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
+        Log.d("", "after nine padding===" + padding);
+        this.frameRect.left = padding.left + padding.right;
+        this.frameRect.top = padding.top + padding.bottom;
+        Log.d("", "after nine this.getFrame()===" + this.frameRect);
+        return drawable;
     }
 
     public ScaleType getPhotoScale() {
@@ -68,7 +96,10 @@ public class PhotoView {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
             }
         } else {
-            bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
+            int width = PhotoViewConfig.pxToDp(frameRect.right);
+            int height = PhotoViewConfig.pxToDp(frameRect.bottom);
+            bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getScaleIndex(), photo.getRotationIndex(), photo.getFlipIndex(), width, height);
+            //bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
         }
         return bitmap;
     }
@@ -188,6 +219,9 @@ public class PhotoView {
         this.photo.setPhotoWidth(width > 0 ? width : this.photo.getPhotoWidth());
         this.photo.setPhotoHeight(height > 0 ? height : this.photo.getPhotoHeight());
         this.photo.setPhotoPath(path != null ? path : this.photo.getPhotoPath());
+
+        Log.d("", "image width = " + width);
+        Log.d("", "image height = " + height);
     }
 
     public void setPhotoFrame(int frameIndex) {

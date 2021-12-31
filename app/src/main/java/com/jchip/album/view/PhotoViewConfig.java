@@ -148,7 +148,7 @@ public class PhotoViewConfig {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public static int pxTodp(int px) {
+    public static int pxToDp(int px) {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 

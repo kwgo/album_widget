@@ -16,7 +16,7 @@ public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
         if (photoView.isFrameOn()) {
-            setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame));
+            //setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame));
         }
         if (photoView.isImageOn()) {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
@@ -37,7 +37,7 @@ public class PhotoHelper {
     public static void setPhotoScale(PhotoView photoView, ImageView imageView) {
         int gap = photoView.getImageGap();
         imageView.setPadding(gap, gap, gap, gap);
-        imageView.setScaleType(photoView.getPhotoScale());
+      //  imageView.setScaleType(photoView.getPhotoScale());
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {

@@ -2,6 +2,7 @@ package com.jchip.album.layer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -52,9 +53,8 @@ public abstract class AbstractLayer extends AppCompatActivity {
         this.activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
                         if (activityCallBack != null) {
-                            activityCallBack.call(data);
+                            activityCallBack.call(result.getData());
                             activityCallBack = null;
                         }
                     }
@@ -83,6 +83,10 @@ public abstract class AbstractLayer extends AppCompatActivity {
         PhotoHelper.setPhotoView(this.photo, view);
     }
 
+    public void setPhotoFrame(View containerView, View frameView) {
+        PhotoHelper.setPhotoFrame(this.photo, containerView, frameView);
+    }
+
     public void setPhotoImage(ImageView imageView) {
         PhotoHelper.setPhotoImage(this.photo, imageView);
     }
@@ -95,12 +99,10 @@ public abstract class AbstractLayer extends AppCompatActivity {
         PhotoHelper.setPhotoFont(this.photo, textView);
     }
 
-    public void setPhotoFrame(View containerView, View frameView) {
-        PhotoHelper.setPhotoFrame(this.photo, containerView, frameView);
-    }
-
-    public void alert(int titleId, int detailId, Runnable work) {
-        AlbumHelper.alert(this, titleId, detailId, work);
+    public Rect getViewRect(int sourceId) {
+        View view = findViewById(sourceId);
+        //return new Rect(0, 0, PhotoViewConfig.pxToDp(view.getWidth()), PhotoViewConfig.pxToDp(view.getHeight()));
+        return new Rect(0, 0, view.getWidth(), view.getHeight());
     }
 
     public View getView(int sourceId) {
@@ -134,6 +136,10 @@ public abstract class AbstractLayer extends AppCompatActivity {
 
     public void setStatusBarColor(int colorId) {
         AlbumHelper.setStatusBarColor(this, colorId);
+    }
+
+    public void alert(int titleId, int detailId, Runnable work) {
+        AlbumHelper.alert(this, titleId, detailId, work);
     }
 
     public interface ActivityCallBack {
