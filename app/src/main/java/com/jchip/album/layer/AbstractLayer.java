@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,8 +16,6 @@ import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jchip.album.ActivityAlbumSetting;
-import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
@@ -81,7 +78,6 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     public void setPhotoView(View view) {
-        Log.d("", "oooooooooooooooooooooooooooooooo ii ooooooooooooooooooooooooo");
         PhotoHelper.setPhotoView(this.photo, view);
     }
 
@@ -90,7 +86,6 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     public void setPhotoImage(ImageView imageView) {
-        Log.d("","~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 000 000");
         PhotoHelper.setPhotoImage(this.photo, imageView);
     }
 
@@ -133,9 +128,8 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     public void updateWidget() {
-        Log.d("", "updateWidget -----------------------------------------------------updateWidget");
-        AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
-        AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
+        //AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
+        //AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
     }
 
     public void setStatusBarColor(int colorId) {

@@ -55,7 +55,6 @@ public class PhotoView {
     }
 
     public Bitmap getPhotoImage() {
-        Log.d("","getPhotoImage ================================= why ? 0 ");
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
             bitmap = decodePhotoImage(photo.getPhotoPath().trim());

@@ -26,14 +26,13 @@ public class DataLayer extends AbstractLayer {
     }
 
     protected AlbumView updateAlbum() {
-        // this.updateWidget();
         DataHelper.getInstance(this).updateAlbum(this.album.getAlbumData());
         return this.album;
     }
 
     protected AlbumView deleteAlbum() {
-        this.updateWidget();
         DataHelper.getInstance(this).deleteAlbum(this.album.getAlbumData());
+        this.updateWidget();
         return this.album;
     }
 
@@ -48,7 +47,6 @@ public class DataLayer extends AbstractLayer {
 
     protected PhotoView createPhoto() {
         DataHelper.getInstance(this).createPhoto(this.photo.getPhotoData());
-        this.updateWidget();
         return this.photo;
     }
 

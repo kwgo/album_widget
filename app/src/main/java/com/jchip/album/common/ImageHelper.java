@@ -12,44 +12,49 @@ public class ImageHelper {
     public static Bitmap convertBitmap(Bitmap bitmap, float scale, int fit, int rotation, int flip, int width, int height) {
         int imageWidth = bitmap.getWidth(), imageHeight = bitmap.getHeight();
 
+        Log.d("", " convert bitmap fit = " + fit + " rotation = " + rotation);
+        Log.d("", " convert bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
         int px = 0, py = 0;
-        int newWidth = imageWidth, newHeight = imageHeight;
-
+        int cropWidth = imageWidth, cropHeight = imageHeight;
         float scaleWidth = scale, scaleHeight = scale;
-
-        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fit = " + fit);
-        Log.d("", "convert bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
         if (width > 0 && height > 0) {
+            width = rotation % 2 == 0 ? width : height;
+            height = rotation % 2 == 0 ? height : width;
             scaleWidth = scaleWidth * width / imageWidth;
             scaleHeight = scaleHeight * height / imageHeight;
             Log.d("", " convert scaleWidth= " + scaleWidth + " scaleHeight= " + scaleHeight);
             if (fit == 0) { // centerCrop
                 scaleWidth = scaleHeight = Math.max(scaleWidth, scaleHeight);
+                cropWidth = (int) (1.0f * width / scaleWidth);
+                cropHeight = (int) (1.0f * height / scaleHeight);
             } else if (fit == 1) { // fitCenter
                 scaleWidth = scaleHeight = Math.min(scaleWidth, scaleHeight);
-//          } else if (fit == 2) { // fitXY
+                cropWidth = Math.min((int) (1.0f * width / scaleWidth), imageWidth);
+                cropHeight = Math.min((int) (1.0f * height / scaleHeight), imageHeight);
+            } else if (fit == 2) { // fitXY
+                cropWidth = imageWidth;
+                cropHeight = imageHeight;
             } else if (fit == 3) { // center
                 scaleWidth = scaleHeight = scale;
+                cropWidth = Math.min((int) (1.0f * width / scaleWidth), imageWidth);
+                cropHeight = Math.min((int) (1.0f * height / scaleHeight), imageHeight);
             }
-            newWidth = Math.min((int) (1.0f * width / scaleWidth), imageWidth);
-            newHeight = Math.min((int) (1.0f * height / scaleHeight), imageHeight);
-            px = (imageWidth - newWidth) / 2;
-            py = (imageHeight - newHeight) / 2;
+            px = (imageWidth - cropWidth) / 2;
+            py = (imageHeight - cropHeight) / 2;
         }
         Matrix matrix = new Matrix();
         matrix.postRotate(rotation * 90);
         matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
 
         Log.d("", " convert by scaleWidth= " + scaleWidth + " scaleHeight= " + scaleHeight);
-        Log.d("", " convert to width= " + width + " height= " + height);
-
+        Log.d("", " convert to cropWidth= " + cropWidth + " cropHeight= " + cropHeight);
         Log.d("", " convert from point px= " + px + " py= " + py);
-        Log.d("", " convert to size newWidth= " + newWidth + " newHeight= " + newHeight);
 
         try {
-            bitmap = Bitmap.createBitmap(bitmap, px, py, newWidth, newHeight, matrix, true);
+            bitmap = Bitmap.createBitmap(bitmap, px, py, cropWidth, cropHeight, matrix, true);
             Log.d("", "new converted bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
         } catch (Exception ignore) {
+            ignore.printStackTrace();
         }
         Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END " + fit);
         return bitmap;
@@ -153,7 +158,7 @@ public class ImageHelper {
             Log.d("", "before ratioHeight = " + ratioHeight);
             float ratio = Math.max(ratioWidth, ratioHeight);
             Log.d("", "before ratio = " + ratio);
-            inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio + 0.5) : 1;
+            inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio - 0.5) : 1;
             Log.d("", "before inSampleSize ++ ++ ++= " + inSampleSize);
         }
         Log.d("", "calculated inSampleSize= " + inSampleSize);
@@ -169,87 +174,4 @@ public class ImageHelper {
             return null;
         }
     }
-/*
-
-
-    public static Bitmap decodeBitmap(String url, int bitmapWidth, int bitmapHeight, int width, int height) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        try (FileInputStream inputStream = new FileInputStream(url)) {
-            Log.d("", "decode from url start .... url= " + url);
-            Log.d("", "decode from url start .... require width= " + width + " height= " + height);
-            if (bitmapWidth <= 0 || bitmapHeight <= 0) {
-                Log.d("", "decode from url start .... url= " + url);
-                Log.d("", "decode from url start .... require width= " + width + " height= " + height);
-                // First decode with inJustDecodeBounds=true to check dimensions
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeStream(inputStream, null, options);
-                Log.d("", "decode from url options.outWidth  ....." + options.outWidth);
-                Log.d("", "decode from url options.outHeight  ....." + options.outHeight);
-
-                inputStream.getChannel().position(0);
-            } else {
-                Log.d("", "as we know the bitmap info.... bitmap width= " + bitmapWidth + " height= " + bitmapHeight);
-                options.outWidth = bitmapWidth;
-                options.outHeight = bitmapHeight;
-            }
-
-            // Calculate inSampleSize
-            options.inSampleSize = calculateInSampleSize(options, width, height);
-            //  options.inSampleSize = 3;
-            Log.d("", "decode from url   options.inSampleSize  ....." + options.inSampleSize);
-
-            // Decode bitmap with inSampleSize set
-            options.inJustDecodeBounds = false;
-            options.inScaled = false;
-
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
-            if (bitmap != null) {
-                Log.d("", "decodeBitmap end .....bitmap width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
-            }
-            return bitmap;
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
-            return null;
-        }
-    }
-
-    //Given the bitmap size and View size calculate a subsampling size (powers of 2)
-    public static int calculateInSampleSize(BitmapFactory.Options options, int width, int height) {
-        Log.d("", "calculateInSampleSize options.outWidth = " + options.outWidth);
-        Log.d("", "calculateInSampleSize options.outHeight = " + options.outHeight);
-        float ratioWidth = width > 0 ? 1.0f * width / options.outWidth : 1.0f;
-        float ratioHeight = height > 0 ? 1.0f * height / options.outHeight : 1.0f;
-        Log.d("", "before ratioWidth  ++= " + ratioWidth);
-        Log.d("", "before ratioHeight  ++= " + ratioHeight);
-        float ratio = Math.max(ratioWidth, ratioHeight);
-        Log.d("", "before ratio  ++= " + ratio);
-        int inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio + 0.5) : 1;
-        Log.d("", "before inSampleSize ++ ++ ++= " + inSampleSize);
-//        if (options.outWidth * options.outHeight / inSampleSize / inSampleSize > width * height) {
-//            Log.d("", "BcalculateInSampleSize inSampleSize ++ ++ ++= " + inSampleSize);
-//            inSampleSize++;
-//        }
-        Log.d("", "BcalculateInSampleSize inSampleSize= " + inSampleSize);
-        return inSampleSize;
-    }
-
-    //Given the bitmap size and View size calculate a subsampling size (powers of 2)
-    public static int calculateInSampleSize1(BitmapFactory.Options options, int width,
-                                             int height) {
-        int inSampleSize = 1;   //Default subsampling size
-        // See if image raw height and width is bigger than that of required view
-        if (options.outHeight > height || options.outWidth > width) {
-            //bigger
-            final int halfHeight = options.outHeight / 2;
-            final int halfWidth = options.outWidth / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > height && (halfWidth / inSampleSize) > width) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
-
- */
 }

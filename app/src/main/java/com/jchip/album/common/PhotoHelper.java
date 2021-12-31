@@ -29,16 +29,11 @@ public class PhotoHelper {
     }
 
     public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
-        Log.d("","setPhotoImage ========================== photo helper use");
         Bitmap bitmap = photoView.getPhotoImage();
         if (bitmap != null) {
-            Log.d("","setPhotoImage ==================ddddddd=========");
             imageView.setImageBitmap(bitmap);
-            Log.d("","setPhotoImage ==================hhhhhh=========");
         }
-        Log.d("","setPhotoImage =========gggddd=========");
         setPhotoScale(photoView, imageView);
-        Log.d("","setPhotoImage ===============ttttt============");
     }
 
     public static void setPhotoScale(PhotoView photoView, ImageView imageView) {

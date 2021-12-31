@@ -1,6 +1,5 @@
 package com.jchip.album.common;
 
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +8,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -33,11 +31,8 @@ public class NinePatchHelper {
     public static NinePatchDrawable getDrawable(Resources resources, Bitmap bitmap, Rect padding) {
         final byte[] chunk = bitmap.getNinePatchChunk();
         if (NinePatch.isNinePatchChunk(chunk)) {
-            Log.d("", "nine patch bitmap width: " + bitmap.getWidth());
-            Log.d("", "nine patch bitmap height: " + bitmap.getHeight());
             NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
             Rect ninePatchPadding = ninePatchChunk.getPadding();
-            Log.d("", "nine patch ok padding: " + ninePatchPadding);
             if (padding != null) {
                 padding.set(ninePatchPadding);
             }
