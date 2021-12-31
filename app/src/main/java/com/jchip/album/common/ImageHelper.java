@@ -11,89 +11,47 @@ import java.io.FileInputStream;
 
 public class ImageHelper {
     public static Bitmap convertBitmap(Bitmap bitmap, float scale, int fit, int rotation, int flip, float width, float height) {
-        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ " + scale);
-        Log.d("", "new convertBitmap fit= " + fit);
-        float pointX = 0;
-        float pointY = 0;
+        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fit = " + fit);
 
-        float imageWidth = bitmap.getWidth();
-        float imageHeight = bitmap.getHeight();
-        float scaleWidth = scale;
-        float scaleHeight = scale;
+        int px = 0, py = 0;
+        int newWidth = bitmap.getWidth(), newHeight = bitmap.getHeight();
 
-        Log.d("", "new convert bitmap - width= " + imageWidth + " height= " + imageHeight + " View Width== " + width + " Height== " + height);
+        float imageWidth = bitmap.getWidth(), imageHeight = bitmap.getHeight();
+        float scaleWidth = scale, scaleHeight = scale;
+
+
+        Log.d("", "convert bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
         if (width > 0 && height > 0) {
-            scaleWidth = scale * width / imageWidth;
-            scaleHeight = scale * height / imageHeight;
-            float minScale = Math.min(scaleWidth, scaleHeight);
-            float maxScale = Math.max(scaleWidth, scaleHeight);
-            Log.d("", " in middle fit=" + fit + " 0 minScale= " + minScale + " maxScale= " + maxScale);
+            scaleWidth *= width / imageWidth;
+            scaleHeight *= height / imageHeight;
+            Log.d("", " convert scaleWidth= " + scaleWidth + " scaleHeight= " + scaleHeight);
             if (fit == 0) {
-                Log.d("", "start fit==0");
-                scaleWidth = scaleHeight = maxScale;
-                imageWidth = imageWidth * scaleWidth;
-                imageHeight = imageHeight * scaleHeight;
-                Log.d("", " in middle fit=0 1 imageWidth= " + imageWidth + " imageHeight= " + imageHeight);
-                pointX = imageWidth > width ? Math.abs(imageWidth - width) / 2 : 0;
-                pointY = imageHeight > height ? Math.abs(imageHeight - height) / 2 : 0;
-                Log.d("", " in middle fit=0 2 pointX= " + pointX + " pointY= " + pointY);
-                imageWidth = (imageWidth > width ? width : imageWidth) / scaleWidth;
-                imageHeight = (imageHeight > height ? height : imageHeight) / scaleHeight;
-                Log.d("", " in middle fit=0 3 imageWidth= " + imageWidth + " imageHeight= " + imageHeight);
+                scaleWidth = scaleHeight = Math.max(scaleWidth, scaleHeight);
             } else if (fit == 1) {
-                Log.d("", "start fit==1");
-                scaleWidth = scaleHeight = minScale;
-                imageWidth = imageWidth * scaleWidth;
-                imageHeight = imageHeight * scaleHeight;
-                Log.d("", " in middle fit=1 1 imageWidth= " + imageWidth + " imageHeight= " + imageHeight);
-                pointX = imageWidth > width ? Math.abs(imageWidth - width) / 2 : 0;
-                pointY = imageHeight > height ? Math.abs(imageHeight - height) / 2 : 0;
-                Log.d("", " in middle fit=1 2 pointX= " + pointX + " pointY= " + pointY);
-                imageWidth = (imageWidth > width ? width : imageWidth) / scaleWidth;
-                imageHeight = (imageHeight > height ? height : imageHeight) / scaleHeight;
-                Log.d("", " in middle fit=1 3 pointX= " + pointX + " pointY= " + pointY);
+                scaleWidth = scaleHeight = Math.min(scaleWidth, scaleHeight);
             } else if (fit == 2) {
-                Log.d("", "start fit==2");
             } else if (fit == 3) {
-                Log.d("", "start fit==3");
                 scaleWidth = scaleHeight = scale;
-
-                imageWidth = imageWidth * scaleWidth;
-                imageHeight = imageHeight * scaleHeight;
-                Log.d("", " in middle fit=3 1 imageWidth= " + imageWidth + " imageHeight= " + imageHeight);
-                float newWidth = Math.min(imageWidth, width);
-                float newHeight = Math.min(imageHeight, height);
-                Log.d("", " in middle fit=3 2 newWidth= " + newWidth + " newHeight= " + newHeight);
-
-                pointX = newWidth == width ? Math.abs(imageWidth - width) / 2 : 0;
-                pointY = newHeight == height ? Math.abs(imageHeight - height) / 2 : 0;
-
-                imageWidth = newWidth / scaleWidth;
-                imageHeight = newHeight / scaleHeight;
-                Log.d("", " in middle fit=3 3 imageWidth= " + imageWidth + " imageHeight= " + imageHeight);
-
             }
-        }
-        scaleWidth = flip == 0 ? scaleWidth : -scaleWidth;
-        Log.d("", " new bitmap  scaleWidth= " + scaleWidth + " and scaleHeight= " + scaleHeight);
+            newWidth = (int) Math.min(width / scaleWidth, imageWidth);
+            newHeight = (int) Math.min(height / scaleHeight, imageHeight);
+            Log.d("", " convert by scaleWidth= " + scaleWidth + " scaleHeight= " + scaleHeight);
+            Log.d("", " convert to width= " + width + " height= " + height);
 
+            px = ((int) imageWidth - newWidth) / 2;
+            py = ((int) imageHeight - newHeight) / 2;
+        }
         Matrix matrix = new Matrix();
         matrix.postRotate(rotation * 90);
-        matrix.postScale(scaleWidth, scaleHeight);
+        matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
 
-        width = width > 0 ? width : imageWidth;
-        height = height > 0 ? height : imageHeight;
+        Log.d("", " convert from point px= " + px + " py= " + py);
+        Log.d("", " convert to size newWidth= " + newWidth + " newHeight= " + newHeight);
 
-        Log.d("", " old screen view width= " + width + " height= " + height);
-        Log.d("", " old bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
-        Log.d("", " new bitmap with x= " + pointX + " y= " + pointY);
-        Log.d("", " new bitmap with imageWidth= " + imageWidth + " imageHeight= " + imageHeight);
-        Log.d("", " new bitmap with x + width= " + (pointX + imageWidth) + " y + height= " + (pointY + imageHeight));
-        Log.d("", " new bitmap width scaleWidth= " + scaleWidth + " and scaleHeight= " + scaleHeight);
-        bitmap = Bitmap.createBitmap(bitmap, (int) pointX, (int) pointY, (int) imageWidth, (int) imageHeight, matrix, true);
+        bitmap = Bitmap.createBitmap(bitmap, px, py, newWidth, newHeight, matrix, true);
 
-        Log.d("", "end new converted bitmap - width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
-        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END ");
+        Log.d("", "new converted bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
+        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END " + fit);
         return bitmap;
     }
 
