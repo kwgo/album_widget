@@ -35,7 +35,8 @@ public class FrameLayer extends RecyclerLayer {
     public void initContentView() {
         PhotoData photoData = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
         this.photoView = new PhotoView(this, photoData, this.layer);
-        this.photoImage = this.photoView.getPhotoImage();
+
+        Log.d("", "frame layer use ......");
         this.photoImage = this.photoView.getPhotoImage();
 
         this.frames = new ArrayList<>();

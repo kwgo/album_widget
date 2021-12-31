@@ -24,7 +24,6 @@ public class NinePatchHelper {
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
-
             return NinePatchHelper.getDrawable(resources, bitmap, padding);
         } catch (Exception ex) {
             return null;

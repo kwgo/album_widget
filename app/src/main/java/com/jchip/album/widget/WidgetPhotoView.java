@@ -2,6 +2,7 @@ package com.jchip.album.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -57,6 +58,7 @@ public class WidgetPhotoView {
         int gap = this.photoView.getImageGap();
         this.views.setViewPadding(photoImageId, gap, gap, gap, gap);
 
+        Log.d("", "widget use ......");
         Bitmap bitmap = this.photoView.getPhotoImage();
         if (bitmap != null) {
             this.views.setImageViewBitmap(photoImageId, bitmap);

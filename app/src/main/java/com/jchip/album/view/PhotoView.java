@@ -19,8 +19,6 @@ public class PhotoView {
     private final Context context;
     private final PhotoData photo;
     private Rect frameRect;
-    private Rect photoRect;
-
 
     public PhotoView(Context context, int layer) {
         this(context, new PhotoData(), layer);
@@ -31,23 +29,6 @@ public class PhotoView {
         this.context = context;
         this.photo = photo;
         this.frameRect = new Rect();
-        this.photoRect = new Rect();
-    }
-
-    public PhotoData getPhotoData() {
-        return this.photo;
-    }
-
-    public void setFrameRect(Rect frameRect) {
-        this.frameRect = frameRect;
-        Log.d("", "set this.frameRectRect() object ===" + this.frameRect.hashCode());
-        Log.d("", "set this.frameRectRect()===" + this.frameRect);
-    }
-
-    public void setPhotoRect(Rect photoRect) {
-        this.photoRect = photoRect;
-        Log.d("", "set this.photoRect() object ===" + this.photoRect.hashCode());
-        Log.d("", "set this.photoRect()===" + this.photoRect);
     }
 
     public Drawable getFrameDrawable() {
@@ -55,20 +36,16 @@ public class PhotoView {
         Log.d("", " this.getDensity()===" + PhotoViewConfig.getDensity());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
         Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
-        Log.d("", " this.getImageMaxWidth()===" + this.getImageMaxWidth());
-        Log.d("", " this.getImageMaxHeight()===" + this.getImageMaxHeight());
-        //Log.d("", " this.getImageMaxSize()===" + this.getImageMaxSize());
+        Log.d("", " this.getImageMaxWidth()===" + PhotoViewConfig.getImageMaxWidth(layer));
+        Log.d("", " this.getImageMaxHeight()===" + PhotoViewConfig.getImageMaxHeight(layer));
         Log.d("", " this.getScreenWidth()===" + PhotoViewConfig.getScreenWidth());
         Log.d("", " this.getScreenHeight()===" + PhotoViewConfig.getScreenHeight());
-
         Log.d("", " this.getFrameRect()===" + this.frameRect);
-        Log.d("", " this.getPhotoRect()===" + this.photoRect);
         Log.d("", " ---------");
 
         // x 40 to change density
         int densitySize = this.getFrameDensitySize();
         Rect padding = new Rect();
-
         Drawable drawable = NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
         Log.d("", "after nine padding===" + padding);
         this.frameRect.left = padding.left + padding.right;
@@ -77,33 +54,39 @@ public class PhotoView {
         return drawable;
     }
 
-    public ScaleType getPhotoScale() {
-        return PhotoViewConfig.scaleTypes[photo.getScaleIndex()];
-    }
-
     public Bitmap getPhotoImage() {
-        return this.loadPhotoImage();
-    }
-
-    private Bitmap loadPhotoImage() {
+        Log.d("","getPhotoImage ================================= why ? 0 ");
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            bitmap = ImageHelper.decodeBitmap(photo.getPhotoPath(), photo.getPhotoWidth(), photo.getPhotoHeight(), this.getImageMaxWidth(), this.getImageMaxHeight());
+            bitmap = decodePhotoImage(photo.getPhotoPath().trim());
         }
         if (bitmap == null) {
             bitmap = ImageHelper.loadBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, false);
-            if (this.getDefaultImageRotation()) {
-                bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
+            if (PhotoViewConfig.isDefaultImageRotation(this.layer)) {
+                return this.convertPhotoImage(bitmap);
             }
         } else {
-      //      int width = PhotoViewConfig.pxToDp(frameRect.right);
-       //     int height = PhotoViewConfig.pxToDp(frameRect.bottom);
-            int width = frameRect.right;
-            int height = frameRect.bottom;
-            bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getScaleIndex(), photo.getRotationIndex(), photo.getFlipIndex(), width, height);
-            //bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
+            return this.convertPhotoImage(bitmap);
         }
         return bitmap;
+    }
+
+    private Bitmap decodePhotoImage(String imageUrl) {
+        int width = frameRect.right > 0 ? frameRect.right : PhotoViewConfig.getScreenWidth() - frameRect.left;
+        int height = frameRect.bottom > 0 ? frameRect.bottom : PhotoViewConfig.getScreenHeight() - frameRect.top;
+        return ImageHelper.decodeBitmap(imageUrl, photo.getPhotoWidth(), photo.getPhotoHeight(), width, height);
+    }
+
+    private Bitmap convertPhotoImage(Bitmap bitmap) {
+        int width = frameRect.right > 0 ? frameRect.right : PhotoViewConfig.getScreenWidth() - frameRect.left;
+        int height = frameRect.bottom > 0 ? frameRect.bottom : PhotoViewConfig.getScreenHeight() - frameRect.top;
+        return ImageHelper.convertBitmap(bitmap, 1f, photo.getScaleIndex(), photo.getRotationIndex(), photo.getFlipIndex(), width, height);
+    }
+
+    public void setFrameRect(Rect frameRect) {
+        this.frameRect = frameRect;
+        Log.d("", "set this.frameRectRect() object ===" + this.frameRect.hashCode());
+        Log.d("", "set this.frameRectRect()===" + this.frameRect);
     }
 
     public boolean isSaved() {
@@ -148,17 +131,20 @@ public class PhotoView {
         return null;
     }
 
-
     public int getFlipIndex() {
-        return photo.getFlipIndex() >= 0 ? photo.getFlipIndex() : 0;
+        return Math.max(photo.getFlipIndex(), 0);
     }
 
     public int getRotationIndex() {
-        return photo.getRotationIndex() >= 0 ? photo.getRotationIndex() : 0;
+        return Math.max(photo.getRotationIndex(), 0);
     }
 
     public int getScaleIndex() {
-        return photo.getScaleIndex() >= 0 ? photo.getScaleIndex() : 0;
+        return photo.getScaleIndex() >= 0 && photo.getScaleIndex() < PhotoViewConfig.scaleTypes.size() ? photo.getScaleIndex() : 0;
+    }
+
+    public ScaleType getPhotoScale() {
+        return PhotoViewConfig.scaleTypes.get(this.getScaleIndex());
     }
 
     public int getFrameIndex() {
@@ -204,18 +190,6 @@ public class PhotoView {
         return ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 : PhotoViewConfig.getImageGap(layer);
     }
 
-    public int getImageMaxWidth() {
-        return PhotoViewConfig.getImageMaxWidth(layer);
-    }
-
-    public int getImageMaxHeight() {
-        return PhotoViewConfig.getImageMaxHeight(layer);
-    }
-
-    public boolean getDefaultImageRotation() {
-        return PhotoViewConfig.getDefaultImageRotation(layer);
-    }
-
     public void setPhotoInfo(int albumId, String path, int width, int height) {
         this.photo.setAlbumId(albumId >= 0 ? albumId : this.photo.getAlbumId());
         this.photo.setPhotoWidth(width > 0 ? width : this.photo.getPhotoWidth());
@@ -255,4 +229,7 @@ public class PhotoView {
         this.photo.setFontText(photoView.getFontText());
     }
 
+    public PhotoData getPhotoData() {
+        return this.photo;
+    }
 }

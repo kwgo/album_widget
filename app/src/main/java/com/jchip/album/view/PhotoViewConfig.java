@@ -29,14 +29,15 @@ public class PhotoViewConfig {
     public static final int WIDGET_ALBUM_SETTING = 4;
     public static final int WIDGET_PHOTO_SETTING = 5;
 
-    public static final ImageView.ScaleType[] scaleTypes = {
+    public static final List<ImageView.ScaleType> scaleTypes = Arrays.asList(
             ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER,
             ImageView.ScaleType.FIT_XY, ImageView.ScaleType.CENTER
-    };
+    );
 
     public static final List<Integer> fonts = Arrays.asList(
             R.font.niconne_regular, R.font.anton_regular, R.font.macondo_egular,
-            R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium);
+            R.font.abril_fatface_regular, R.font.ole_regular, R.font.wind_song_medium
+    );
 
     public static final List<Integer> locations = Arrays.asList(
             Gravity.START | Gravity.TOP, Gravity.CENTER_HORIZONTAL | Gravity.TOP, Gravity.END | Gravity.TOP,
@@ -123,7 +124,7 @@ public class PhotoViewConfig {
         this.put(WIDGET_PHOTO_SETTING, false);
     }};
 
-    public static boolean getDefaultImageRotation(int layer) {
+    public static boolean isDefaultImageRotation(int layer) {
         Boolean value = defaultImageRotations.get(layer);
         return value != null ? value : true;
     }

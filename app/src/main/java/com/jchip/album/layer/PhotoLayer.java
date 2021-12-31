@@ -1,6 +1,7 @@
 package com.jchip.album.layer;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import com.jchip.album.ActivityPhotoPicker;
@@ -101,6 +102,7 @@ public class PhotoLayer extends FlowLayer {
 
     private void onFlipPhoto() {
         this.photo.setPhotoImage(this.photo.getFlipIndex() == 0 ? 1 : 0, -1, -1);
+        Log.d("","-------------------------------YYYYYYYYYYYYYy-");
         this.setPhotoImage(this.getImageView(R.id.photo_image));
         this.updatePhoto();
     }
