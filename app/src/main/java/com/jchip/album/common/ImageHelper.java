@@ -84,10 +84,12 @@ public class ImageHelper {
         width = width > 0 ? width : imageWidth;
         height = height > 0 ? height : imageHeight;
 
+        Log.d("", " old screen view width= " + width + " height= " + height);
+        Log.d("", " old bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
         Log.d("", " new bitmap with x= " + pointX + " y= " + pointY);
-        Log.d("", " new bitmap with width= " + width + " height= " + height);
         Log.d("", " new bitmap with imageWidth= " + imageWidth + " imageHeight= " + imageHeight);
-        Log.d("", " new bitmap width = " + width + " and height= " + height + " and scaleWidth= " + scaleWidth + " and scaleHeight= " + scaleHeight);
+        Log.d("", " new bitmap with x + width= " + (pointX + imageWidth) + " y + height= " + (pointY + imageHeight));
+        Log.d("", " new bitmap width scaleWidth= " + scaleWidth + " and scaleHeight= " + scaleHeight);
         bitmap = Bitmap.createBitmap(bitmap, (int) pointX, (int) pointY, (int) imageWidth, (int) imageHeight, matrix, true);
 
         Log.d("", "end new converted bitmap - width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());

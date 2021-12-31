@@ -96,8 +96,10 @@ public class PhotoView {
                 bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
             }
         } else {
-            int width = PhotoViewConfig.pxToDp(frameRect.right);
-            int height = PhotoViewConfig.pxToDp(frameRect.bottom);
+      //      int width = PhotoViewConfig.pxToDp(frameRect.right);
+       //     int height = PhotoViewConfig.pxToDp(frameRect.bottom);
+            int width = frameRect.right;
+            int height = frameRect.bottom;
             bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getScaleIndex(), photo.getRotationIndex(), photo.getFlipIndex(), width, height);
             //bitmap = ImageHelper.convertBitmap(bitmap, 1f, photo.getRotationIndex(), photo.getFlipIndex(), 0, 0);
         }
