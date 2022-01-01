@@ -123,19 +123,18 @@ public class PhotoView {
 
     public Typeface getFontFaceType() {
         try {
-            int fontIndex = this.getFontIndex();
-            return ResourcesCompat.getFont(context, PhotoViewConfig.fonts.get(fontIndex));
+            return ResourcesCompat.getFont(context, PhotoViewConfig.fonts.get(this.getFontIndex()));
         } catch (Exception ignored) {
         }
         return null;
     }
 
     public int getFlipIndex() {
-        return Math.max(photo.getFlipIndex(), 0);
+        return photo.getFlipIndex() == 0 ? 0 : 1;
     }
 
     public int getRotationIndex() {
-        return Math.max(photo.getRotationIndex(), 0);
+        return photo.getRotationIndex() >= 0 && photo.getRotationIndex() < (360 / 90) ? photo.getRotationIndex() : 0;
     }
 
     public int getScaleIndex() {
@@ -162,7 +161,7 @@ public class PhotoView {
 
     public int getFontType() {
         int fontIndex = PhotoViewConfig.fonts.indexOf(photo.getFontType());
-        return fontIndex >= 0 ? fontIndex : PhotoViewConfig.fonts.get(PhotoViewConfig.DEFAULT_FONT_INDEX);
+        return fontIndex >= 0 ? photo.getFontType() : PhotoViewConfig.fonts.get(PhotoViewConfig.DEFAULT_FONT_INDEX);
     }
 
     public String getFontText() {
@@ -207,7 +206,7 @@ public class PhotoView {
     }
 
     public void setPhotoFont(int type, int size, int color, int location, String text) {
-        this.photo.setFontType(type >= 0 ? type : this.photo.getFontType());
+        this.photo.setFontType(type != -1 ? type : this.photo.getFontType());
         this.photo.setFontSize(size >= 0 ? size : this.photo.getFontSize());
         this.photo.setFontColor(color != -1 ? color : this.photo.getFontColor());
         this.photo.setFontLocation(location >= 0 ? location : this.photo.getFontLocation());

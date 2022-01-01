@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.widget.SeekBar;
 
 import com.jchip.album.R;
-import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 import com.jchip.album.view.PhotoViewConfig;
@@ -101,8 +100,8 @@ public class FontLayer extends AbstractLayer {
     }
 
     private void onSizeChange(int change) {
-        float fontSize = this.photo.getFontSize() + change * PhotoHelper.dpToPx(2);
-        if (fontSize > PhotoHelper.dpToPx(10) && fontSize < PhotoHelper.dpToPx(100)) {
+        float fontSize = this.photo.getFontSize() + change * PhotoViewConfig.dpToPx(2);
+        if (fontSize > PhotoViewConfig.dpToPx(10) && fontSize < PhotoViewConfig.dpToPx(100)) {
             this.photo.setPhotoFont(-1, (int) fontSize, -1, -1, null);
             this.setPhotoFont(this.getTextView(R.id.photo_label));
         }
