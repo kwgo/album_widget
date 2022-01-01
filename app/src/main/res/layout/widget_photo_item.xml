@@ -36,11 +36,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/photo_frame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:layout_height="match_parent" />
 
             <LinearLayout
                 android:id="@+id/label_container"

@@ -16,22 +16,16 @@ import java.util.List;
 public class WidgetAlbumProvider extends WidgetProvider {
 
     @Override
-    public void onUpdateAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
-            this.updateAppWidget(context, appWidgetId, -1);
+    protected void onNextAppWidget(Context context, Intent intent) {
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
+        WidgetData widgetData = (WidgetData) intent.getSerializableExtra(WIDGET_ITEM);
+        if (widgetData != null) {
+            onUpdateAppWidget(context, appWidgetId, widgetData.getPhotoId());
         }
     }
 
     @Override
-    public void onNextAppWidget(Context context, Intent intent) {
-        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-        WidgetData widgetData = (WidgetData) intent.getSerializableExtra(WIDGET_ITEM);
-        if (widgetData != null) {
-            updateAppWidget(context, appWidgetId, widgetData.getPhotoId());
-        }
-    }
-
-    protected void updateAppWidget(Context context, int appWidgetId, int photoId) {
+    protected void onUpdateAppWidget(Context context, int appWidgetId, int photoId) {
         WidgetData widgetData = DataHelper.getInstance(context).queryWidgetPhoto(appWidgetId, photoId);
         if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo_layer);

@@ -32,24 +32,40 @@ public class WidgetProvider extends AppWidgetProvider {
         }
     }
 
+//    @Override
+//    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+//        // this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
+//    }
+
+
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        // this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
+        this.onUpdateAppWidget(context, appWidgetId, -1);
+        //      RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo_layer);
+//        float width = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+//        float height = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+//        boolean landscape = width / height >= 0.85f;
+//        remoteViews.setViewVisibility(R.id.widget_image_landscape, landscape ? View.VISIBLE : View.GONE);
+//        remoteViews.setViewVisibility(R.id.widget_image_portrait, landscape ? View.GONE : View.VISIBLE);
+        //       appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
     }
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         try {
-            this.onUpdateAppWidget(context, appWidgetManager, appWidgetIds);
+            for (int appWidgetId : appWidgetIds) {
+                this.onUpdateAppWidget(context, appWidgetId, -1);
+            }
         } catch (Exception ex) {
             Log.e("widget", "widget update action error:", ex);
         }
     }
 
-    public void onUpdateAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    protected void onUpdateAppWidget(Context context, int appWidgetId, int photoId) {
     }
 
-    public void onNextAppWidget(Context context, Intent intent) {
+    protected void onNextAppWidget(Context context, Intent intent) {
 //        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 //        this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
     }

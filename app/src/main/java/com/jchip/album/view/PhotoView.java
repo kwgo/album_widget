@@ -47,10 +47,8 @@ public class PhotoView {
         return NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
     }
 
-    public Bitmap getFrameBitmap(Rect padding) {
-        // x 40 to change density
-        int densitySize = this.getFrameDensitySize();
-        return NinePatchHelper.getImageBitmap(context.getResources(), this.getFrameIndex(), densitySize, padding);
+    public Rect getFrameBorder() {
+        return NinePatchHelper.getImagePadding(context.getResources(), this.getFrameIndex(), this.getFrameDensitySize());
     }
 
     private Rect getPhotoRect() {

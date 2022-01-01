@@ -33,7 +33,7 @@ public class NinePatchHelper {
 
     }
 
-    public static Bitmap getImageBitmap(Resources resources, int imageId, int densitySize, Rect padding) {
+    public static Rect getImagePadding(Resources resources, int imageId, int densitySize) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = true;
@@ -43,17 +43,12 @@ public class NinePatchHelper {
             if (bitmap != null) {
                 final byte[] chunk = bitmap.getNinePatchChunk();
                 if (NinePatch.isNinePatchChunk(chunk)) {
-                    NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
-                    Rect ninePatchPadding = ninePatchChunk.getPadding();
-                    if (padding != null) {
-                        padding.set(ninePatchPadding);
-                    }
-                 }
+                    return new NinePatchChunk(chunk).getPadding();
+                }
             }
-            return bitmap;
         } catch (Exception ignore) {
-            return null;
         }
+        return new Rect();
     }
 
     public static NinePatchDrawable getDrawable(Resources resources, Bitmap bitmap, Rect padding) {
