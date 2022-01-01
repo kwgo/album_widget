@@ -48,7 +48,7 @@ public class PhotoView {
     }
 
     private Rect getPhotoRect() {
-        Rect photoRect = new Rect(this.frameRect);
+        Rect photoRect = new Rect(this.getFrameRect());
         photoRect.right = photoRect.right - photoRect.left;
         photoRect.bottom = photoRect.bottom - photoRect.top;
         return photoRect;
@@ -103,14 +103,6 @@ public class PhotoView {
 
     public boolean isImageOn() {
         return layer != PhotoViewConfig.LAYER_FRAME_SETTING;
-    }
-
-    public boolean isFrameOn() {
-        return true;
-    }
-
-    public boolean isFontOn() {
-        return true;
     }
 
     public int getFontIndex() {

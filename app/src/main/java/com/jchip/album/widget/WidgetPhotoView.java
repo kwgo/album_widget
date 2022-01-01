@@ -62,6 +62,8 @@ public class WidgetPhotoView {
         int frameId = this.photoView.getFrameIndex();
         this.views.setInt(R.id.photo_container, "setBackgroundResource", frameId);
         this.views.setInt(R.id.photo_frame, "setBackgroundResource", frameId);
+
+
     }
 
     private void setPhotoLabel() {

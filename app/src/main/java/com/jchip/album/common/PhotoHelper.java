@@ -15,18 +15,13 @@ import com.jchip.album.view.PhotoView;
 public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
-        //   if (photoView.isFrameOn()) {
         setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_board), view.findViewById(R.id.photo_frame));
-         setPhotoScale(photoView, view.findViewById(R.id.photo_image));
+        //setPhotoBoard(photoView, view.findViewById(R.id.photo_image));
 
-
-        //     }
         if (photoView.isImageOn()) {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
         }
-        //     if (photoView.isFontOn()) {
         setPhotoFont(photoView, view.findViewById(R.id.photo_label));
-        //     }
     }
 
     public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
@@ -36,10 +31,9 @@ public class PhotoHelper {
         }
     }
 
-    public static void setPhotoScale(PhotoView photoView, ImageView imageView) {
+    public static void setPhotoBoard(PhotoView photoView, View boardView) {
         int gap = photoView.getImageGap();
-        ((View) imageView.getParent()).setPadding(gap, gap, gap, gap);
-        // imageView.setScaleType(photoView.getPhotoScale());
+        boardView.setPadding(gap, gap, gap, gap);
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
