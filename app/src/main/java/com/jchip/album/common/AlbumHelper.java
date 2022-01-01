@@ -68,14 +68,8 @@ public class AlbumHelper {
 
     public static void exitApp(Activity activity) {
         try {
-            activity.moveTaskToBack(true);
-        } catch (Exception ignore) {
-        }
-        try {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            activity.startActivity(intent);
+            //activity.moveTaskToBack(true);
+            activity.finishAndRemoveTask();
         } catch (Exception ignore) {
         }
     }
