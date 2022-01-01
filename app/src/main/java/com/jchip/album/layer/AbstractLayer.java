@@ -20,6 +20,7 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.photo.helper.MainHandler;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.PhotoView;
 
@@ -63,6 +64,10 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     protected void initContentView() {
+        MainHandler.instances().postDelayed(() -> this.postContentView(), 100);
+    }
+
+    protected void postContentView() {
     }
 
     public void startActivity(Class<?> clazz) {

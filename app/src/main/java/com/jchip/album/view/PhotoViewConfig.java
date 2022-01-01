@@ -1,6 +1,7 @@
 package com.jchip.album.view;
 
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.view.Gravity;
 import android.widget.ImageView;
 
@@ -87,7 +88,7 @@ public class PhotoViewConfig {
         return value != null ? dpToPx(value) : 0;
     }
 
-    private static final Map<Integer, Integer> imageMaxWidths = new HashMap<Integer, Integer>() {{
+    private static final Map<Integer, Integer> imageWidths = new HashMap<Integer, Integer>() {{
         this.put(LAYER_ALBUM_PHOTO, getScreenWidth());
         this.put(LAYER_FRAME_SETTING, getScreenWidth());
         this.put(LAYER_FONT_SETTING, getScreenWidth());
@@ -96,12 +97,12 @@ public class PhotoViewConfig {
         this.put(WIDGET_PHOTO_SETTING, getScreenWidth() / 2);
     }};
 
-    public static int getImageMaxWidth(int layer) {
-        Integer value = imageMaxWidths.get(layer);
+    public static int getImageWidth(int layer) {
+        Integer value = imageWidths.get(layer);
         return value != null ? (int) (value * DEFAULT_IMAGE_ZOOM) : 0;
     }
 
-    private static final Map<Integer, Integer> imageMaxHeights = new HashMap<Integer, Integer>() {{
+    private static final Map<Integer, Integer> imageHeights = new HashMap<Integer, Integer>() {{
         this.put(LAYER_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
         this.put(LAYER_FRAME_SETTING, dpToPx(220));
         this.put(LAYER_FONT_SETTING, dpToPx(220));
@@ -110,12 +111,16 @@ public class PhotoViewConfig {
         this.put(WIDGET_PHOTO_SETTING, dpToPx(100));
     }};
 
-    public static int getImageMaxHeight(int layer) {
-        Integer value = imageMaxHeights.get(layer);
+    public static int getImageHeight(int layer) {
+        Integer value = imageHeights.get(layer);
         return value != null ? (int) (value * DEFAULT_IMAGE_ZOOM) : 0;
     }
 
-    private static final Map<Integer, Boolean> defaultImageRotations = new HashMap<Integer, Boolean>() {{
+    public static Rect getImageRect(int layer) {
+        return new Rect(0,0, getImageWidth(layer), getImageHeight(layer));
+    }
+
+    private static final Map<Integer, Boolean> imageRotations = new HashMap<Integer, Boolean>() {{
         this.put(LAYER_ALBUM_PHOTO, true);
         this.put(LAYER_FRAME_SETTING, true);
         this.put(LAYER_FONT_SETTING, true);
@@ -124,8 +129,8 @@ public class PhotoViewConfig {
         this.put(WIDGET_PHOTO_SETTING, false);
     }};
 
-    public static boolean isDefaultImageRotation(int layer) {
-        Boolean value = defaultImageRotations.get(layer);
+    public static boolean isImageRotation(int layer) {
+        Boolean value = imageRotations.get(layer);
         return value != null ? value : true;
     }
 
@@ -151,6 +156,16 @@ public class PhotoViewConfig {
 
     public static int pxToDp(int px) {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static Rect dpToPx(Rect rect) {
+        float density = getDensity();
+        return new Rect((int) (rect.left * density), (int) (rect.top * density), (int) (rect.right * density), (int) (rect.bottom * density));
+    }
+
+    public static Rect pxToDp(Rect rect) {
+        float density = getDensity();
+        return new Rect((int) (rect.left / density), (int) (rect.top / density), (int) (rect.right / density), (int) (rect.bottom / density));
     }
 
     public static float getDensity() {

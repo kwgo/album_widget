@@ -36,8 +36,8 @@ public class PhotoView {
         Log.d("", " this.getDensity()===" + PhotoViewConfig.getDensity());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
         Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
-        Log.d("", " this.getImageMaxWidth()===" + PhotoViewConfig.getImageMaxWidth(layer));
-        Log.d("", " this.getImageMaxHeight()===" + PhotoViewConfig.getImageMaxHeight(layer));
+        Log.d("", " this.getImageWidth()===" + PhotoViewConfig.getImageWidth(layer));
+        Log.d("", " this.getImageHeight()===" + PhotoViewConfig.getImageHeight(layer));
         Log.d("", " this.getScreenWidth()===" + PhotoViewConfig.getScreenWidth());
         Log.d("", " this.getScreenHeight()===" + PhotoViewConfig.getScreenHeight());
         Log.d("", " this.getFrameRect()===" + this.frameRect);
@@ -47,9 +47,7 @@ public class PhotoView {
         int densitySize = this.getFrameDensitySize();
         Rect padding = new Rect();
         Drawable drawable = NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
-        Log.d("", "after nine padding===" + padding);
-        this.frameRect.left = padding.left + padding.right;
-        this.frameRect.top = padding.top + padding.bottom;
+        this.frameRect.set(padding.left + padding.right, padding.top + padding.bottom, this.frameRect.right, this.frameRect.bottom);
         Log.d("", "after nine this.getFrame()===" + this.frameRect);
         return drawable;
     }
@@ -57,11 +55,12 @@ public class PhotoView {
     public Bitmap getPhotoImage() {
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            bitmap = decodePhotoImage(photo.getPhotoPath().trim());
+            bitmap = this.decodePhotoImage(photo.getPhotoPath().trim());
         }
         if (bitmap == null) {
-            bitmap = ImageHelper.loadBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, false);
-            if (PhotoViewConfig.isDefaultImageRotation(this.layer)) {
+            //bitmap = ImageHelper.loadBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, false);
+            bitmap = this.decodePhotoImage(PhotoViewConfig.DEFAULT_PHOTO_ID);
+            if (PhotoViewConfig.isImageRotation(this.layer)) {
                 return this.convertPhotoImage(bitmap);
             }
         } else {
@@ -73,13 +72,25 @@ public class PhotoView {
     private Bitmap decodePhotoImage(String imageUrl) {
         int width = frameRect.right > 0 ? frameRect.right : PhotoViewConfig.getScreenWidth() - frameRect.left;
         int height = frameRect.bottom > 0 ? frameRect.bottom : PhotoViewConfig.getScreenHeight() - frameRect.top;
-        return ImageHelper.decodeBitmap(imageUrl, photo.getPhotoWidth(), photo.getPhotoHeight(), width, height);
+        return ImageHelper.decodeBitmap(context.getResources(), imageUrl, photo.getPhotoWidth(), photo.getPhotoHeight(), width, height);
+    }
+
+    private Bitmap decodePhotoImage(int imageId) {
+        int width = frameRect.right > 0 ? frameRect.right : PhotoViewConfig.getScreenWidth() - frameRect.left;
+        int height = frameRect.bottom > 0 ? frameRect.bottom : PhotoViewConfig.getScreenHeight() - frameRect.top;
+        return ImageHelper.decodeBitmap(context.getResources(), imageId, photo.getPhotoWidth(), photo.getPhotoHeight(), width, height);
     }
 
     private Bitmap convertPhotoImage(Bitmap bitmap) {
-        int width = frameRect.right > 0 ? frameRect.right : PhotoViewConfig.getScreenWidth() - frameRect.left;
-        int height = frameRect.bottom > 0 ? frameRect.bottom : PhotoViewConfig.getScreenHeight() - frameRect.top;
-        return ImageHelper.convertBitmap(bitmap, 1f, photo.getScaleIndex(), photo.getRotationIndex(), photo.getFlipIndex(), width, height);
+        Rect viewRect = PhotoViewConfig.pxToDp(this.frameRect);
+        if (viewRect.right <= 0 || viewRect.bottom <= 0) {
+            viewRect = PhotoViewConfig.pxToDp(PhotoViewConfig.getImageRect(this.layer));
+        }
+//        Rect viewRect = new Rect(this.frameRect);
+//        if (viewRect.right <= 0 || viewRect.bottom <= 0) {
+//            viewRect = new Rect(PhotoViewConfig.getImageRect(this.layer));
+//        }
+        return ImageHelper.convertBitmap(bitmap, 1f, photo.getScaleIndex(), photo.getRotationIndex(), photo.getFlipIndex(), viewRect.right, viewRect.bottom);
     }
 
     public void setFrameRect(Rect frameRect) {

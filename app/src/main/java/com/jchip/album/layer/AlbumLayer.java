@@ -2,6 +2,7 @@ package com.jchip.album.layer;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 
@@ -31,8 +32,6 @@ public class AlbumLayer extends PhotoLayer {
         super.initContentView();
 
         this.albums = this.queryAlbums();
-        this.reloadAlbumList();
-        this.setAlbumPhotos(albums.get(0));
 
         this.albumNameView = findViewById(R.id.album_name_text);
         this.albumNameView.setAdapter(new AlbumNameAdapter(this, this.albums));
@@ -42,6 +41,13 @@ public class AlbumLayer extends PhotoLayer {
         this.albumNameView.setOnItemClickListener((adapterView, view, position, id) -> this.onSelectAlbum(position));
 
         this.getView(R.id.album_name_menu).setOnClickListener(this::showMenu);
+    }
+
+    @Override
+    protected void postContentView() {
+        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ postContentView ~~~~~~~~~~~~~~~~~~~");
+        this.reloadAlbumList();
+        this.setAlbumPhotos(albums.get(0));
     }
 
     protected void reloadAlbumList() {
@@ -82,7 +88,7 @@ public class AlbumLayer extends PhotoLayer {
     }
 
     private void onSelectAlbum(int position) {
-         this.setAlbumPhotos(albums.get(position));
+        this.setAlbumPhotos(albums.get(position));
     }
 
     private void removeAlbum() {

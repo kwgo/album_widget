@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import java.io.FileInputStream;
@@ -62,10 +63,6 @@ public class ImageHelper {
         try {
             Log.d("", "decode bitmap from resource imageId= " + imageId);
             Log.d("", "decode bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
-            if (!isNeedInSampleSize(imageWidth, imageHeight, width, height)) {
-                Log.d("", "decode bitmap from resource do NOT need InSampleSize.");
-                return BitmapFactory.decodeResource(resources, imageId);
-            }
             if (imageWidth <= 0 || imageHeight <= 0) {
                 Log.d("", "decode bitmap from resource we do need InSampleSize from resource.");
                 options.inJustDecodeBounds = true; // First decode with inJustDecodeBounds=true to check dimensions
@@ -83,10 +80,13 @@ public class ImageHelper {
             Log.d("", "decode bitmap from resource options.inSampleSize  ....." + options.inSampleSize);
 
             options.inScaled = false;
+            options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
+            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             options.inJustDecodeBounds = false;  // Decode bitmap with inSampleSize set
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
             if (bitmap != null) {
                 Log.d("", "decode bitmap from resource rect end .....bitmap width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
+                Log.d("", "decode bitmap from resource rect end .....bitmap density= " + bitmap.getDensity());
             }
             return bitmap;
         } catch (Exception ignored) {
@@ -95,17 +95,13 @@ public class ImageHelper {
         }
     }
 
-    public static Bitmap decodeBitmap(String imageUrl, int imageWidth, int imageHeight, int width, int height) {
+    public static Bitmap decodeBitmap(Resources resources, String imageUrl, int imageWidth, int imageHeight, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         try (FileInputStream inputStream = new FileInputStream(imageUrl)) {
             Log.d("", "decode bitmap from file url= " + imageUrl);
             Log.d("", "decode bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
-            if (!isNeedInSampleSize(imageWidth, imageHeight, width, height)) {
-                Log.d("", "decode bitmap from file url do NOT need InSampleSize.");
-                return BitmapFactory.decodeStream(inputStream);
-            }
             if (imageWidth <= 0 || imageHeight <= 0) {
-                Log.d("", "decode bitmap from resource we do need InSampleSize from resource.");
+                Log.d("", "decode bitmap from file url we do need InSampleSize from resource.");
                 options.inJustDecodeBounds = true; // First decode with inJustDecodeBounds=true to check dimensions
                 BitmapFactory.decodeStream(inputStream, null, options);
                 imageWidth = options.outWidth;
@@ -123,22 +119,19 @@ public class ImageHelper {
             Log.d("", "decode bitmap from resource options.inSampleSize  ....." + options.inSampleSize);
 
             options.inScaled = false;
+            options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
+            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             options.inJustDecodeBounds = false;  // Decode bitmap with inSampleSize set
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
             if (bitmap != null) {
-                Log.d("", "decode bitmap from resource rect end .....bitmap width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
+                Log.d("", "decode bitmap from file url end .....bitmap width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
+                Log.d("", "decode bitmap from file url end .....bitmap density= " + bitmap.getDensity());
             }
             return bitmap;
         } catch (Exception ignored) {
             ignored.printStackTrace();
             return null;
         }
-    }
-
-    public static boolean isNeedInSampleSize(int imageWidth, int imageHeight, int width, int height) {
-        return (imageWidth <= 0 && imageHeight <= 0 && width > 0 && height > 0)
-                || ((imageWidth > 0 && imageHeight > 0 && width > 0 && height > 0)
-                && (imageWidth > width && imageHeight > height));
     }
 
     public static boolean isNeedCalculateInSampleSize(int imageWidth, int imageHeight, int width, int height) {
