@@ -36,8 +36,6 @@ public class AlbumLayer extends PhotoLayer {
         this.albumNameView = findViewById(R.id.album_name_text);
         this.albumNameView.setAdapter(new AlbumNameAdapter(this, this.albums));
         this.albumNameView.setEnabled(false);
-        this.albumNameView.setText(this.album.getAlbumName(), false);
-        this.albumNameView.addTextChangedListener(this::onAlbumNameChanged);
         this.albumNameView.setOnItemClickListener((adapterView, view, position, id) -> this.onSelectAlbum(position));
 
         this.getView(R.id.album_name_menu).setOnClickListener(this::showMenu);
@@ -46,6 +44,9 @@ public class AlbumLayer extends PhotoLayer {
     @Override
     protected void postContentView() {
         Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ postContentView ~~~~~~~~~~~~~~~~~~~");
+        this.albumNameView.setText(this.album.getAlbumName(), false);
+        this.albumNameView.addTextChangedListener(this::onAlbumNameChanged);
+
         this.reloadAlbumList();
         this.setAlbumPhotos(albums.get(0));
     }

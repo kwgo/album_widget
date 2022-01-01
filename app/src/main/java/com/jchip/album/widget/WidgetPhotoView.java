@@ -49,6 +49,7 @@ public class WidgetPhotoView {
         Log.d("", "widget use ......");
         Bitmap bitmap = this.photoView.getPhotoImage();
         if (bitmap != null) {
+            Log.d("", "widget set image bitmap ......");
             this.views.setImageViewResource(R.id.photo_image, 0);
             this.views.setImageViewBitmap(R.id.photo_image, bitmap);
         } else {

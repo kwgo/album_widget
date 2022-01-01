@@ -11,6 +11,7 @@
         android:layout_height="match_parent">
 
         <FrameLayout
+            android:id="@+id/photo_board"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/photo_board">
@@ -19,8 +20,8 @@
                 android:id="@+id/photo_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:scaleType="center" />
+                android:scaleType="center"
+                android:contentDescription="@null" />
 
         </FrameLayout>
 

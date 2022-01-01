@@ -1,6 +1,7 @@
 package com.jchip.album.common;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
@@ -14,16 +15,18 @@ import com.jchip.album.view.PhotoView;
 public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
-        if (photoView.isFrameOn()) {
-            setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame));
-            setPhotoScale(photoView, view.findViewById(R.id.photo_image));
-        }
+        //   if (photoView.isFrameOn()) {
+        setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_board), view.findViewById(R.id.photo_frame));
+         setPhotoScale(photoView, view.findViewById(R.id.photo_image));
+
+
+        //     }
         if (photoView.isImageOn()) {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
         }
-        if (photoView.isFontOn()) {
-            setPhotoFont(photoView, view.findViewById(R.id.photo_label));
-        }
+        //     if (photoView.isFontOn()) {
+        setPhotoFont(photoView, view.findViewById(R.id.photo_label));
+        //     }
     }
 
     public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
@@ -52,8 +55,9 @@ public class PhotoHelper {
         }
     }
 
-    public static void setPhotoFrame(PhotoView photoView, View containerView, View frameView) {
-        Drawable drawable = photoView.getFrameDrawable();
+    public static void setPhotoFrame(PhotoView photoView, View containerView, View boardView, View frameView) {
+        Rect padding = new Rect();
+        Drawable drawable = photoView.getFrameDrawable(padding);
         if (drawable != null) {
             containerView.setBackground(drawable);
             frameView.setBackground(drawable);
@@ -62,5 +66,14 @@ public class PhotoHelper {
             containerView.setBackgroundResource(frameId);
             frameView.setBackgroundResource(frameId);
         }
+        // adjust frame content rect
+        Rect frameRect = photoView.getFrameRect();
+        frameRect.left = padding.left + padding.right;
+        frameRect.top = padding.top + padding.bottom;
+        if (frameRect.left <= 0 && frameRect.top <= 0) {
+            frameRect.left = frameRect.right - boardView.getWidth();
+            frameRect.top = frameRect.bottom - boardView.getHeight();
+        }
+        photoView.setFrameRect(frameRect);
     }
 }

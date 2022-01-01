@@ -63,7 +63,6 @@ public class FrameLayer extends RecyclerLayer {
         View view = itemView.findViewById(R.id.photo_view);
         Log.d("", "view.getWidth() ---------------------" + view.getWidth());
         Log.d("", "view.getHeight() ---------------------" + view.getHeight());
-        this.photo.setFrameRect(new Rect(0, 0, view.getWidth(), view.getHeight()));
         this.setPhotoView(view);
         view.setOnClickListener((v) -> {
             this.photoView.setPhotoFrame(frames.get(position));

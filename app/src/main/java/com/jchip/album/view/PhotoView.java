@@ -31,7 +31,7 @@ public class PhotoView {
         this.frameRect = new Rect();
     }
 
-    public Drawable getFrameDrawable() {
+    public Drawable getFrameDrawable(Rect padding) {
         Log.d("", " this.getLayer()===" + this.layer);
         Log.d("", " this.getDensity()===" + PhotoViewConfig.getDensity());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
@@ -44,36 +44,45 @@ public class PhotoView {
 
         // x 40 to change density
         int densitySize = this.getFrameDensitySize();
-        Rect padding = new Rect();
-        Drawable drawable = NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
-        this.frameRect.set(padding.left + padding.right, padding.top + padding.bottom, this.frameRect.right, this.frameRect.bottom);
-        Log.d("", "after nine this.getFrame()===" + this.frameRect);
-        return drawable;
+        return NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
+    }
+
+    private Rect getPhotoRect() {
+        Rect photoRect = new Rect(this.frameRect);
+        photoRect.right = photoRect.right - photoRect.left;
+        photoRect.bottom = photoRect.bottom - photoRect.top;
+        return photoRect;
     }
 
     public Bitmap getPhotoImage() {
-        Rect imageRect = new Rect(this.frameRect);
-        if (imageRect.right <= 0 || imageRect.bottom <= 0) {
-            imageRect = new Rect(PhotoViewConfig.getImageRect(this.layer));
-        }
+        Rect photoRect = this.getPhotoRect();
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            bitmap = ImageHelper.decodeBitmap(context.getResources(), photo.getPhotoPath(), photo.getPhotoWidth(), photo.getPhotoHeight(), imageRect.right, imageRect.bottom);
+            bitmap = ImageHelper.decodeBitmap(context.getResources(), photo.getPhotoPath(), photo.getPhotoWidth(), photo.getPhotoHeight(), photoRect.right, photoRect.bottom);
         }
         if (bitmap == null) {
-            bitmap = ImageHelper.decodeBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, photo.getPhotoWidth(), photo.getPhotoHeight(), imageRect.right, imageRect.bottom);
+            bitmap = ImageHelper.decodeBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, photo.getPhotoWidth(), photo.getPhotoHeight(), photoRect.right, photoRect.bottom);
             if (PhotoViewConfig.isImageSolid(this.layer)) {
-                return ImageHelper.convertBitmap(bitmap, 1f, 0, 0, 0, imageRect.right, imageRect.bottom);
+                return ImageHelper.convertBitmap(bitmap, 1f, 0, 0, 0, photoRect.right, photoRect.bottom);
             }
         }
         if (bitmap != null) {
-            return ImageHelper.convertBitmap(bitmap, 1f, this.getScaleIndex(), this.getRotationIndex(), this.getFlipIndex(), imageRect.right, imageRect.bottom);
+            return ImageHelper.convertBitmap(bitmap, 1f, this.getScaleIndex(), this.getRotationIndex(), this.getFlipIndex(), photoRect.right, photoRect.bottom);
         }
         return bitmap;
     }
 
     public void setFrameRect(Rect frameRect) {
         this.frameRect = frameRect;
+    }
+
+    public Rect getFrameRect() {
+        if (this.frameRect.right <= 0 || this.frameRect.bottom <= 0) {
+            Rect imageRect = PhotoViewConfig.getImageRect(this.layer);
+            this.frameRect.right = imageRect.right;
+            this.frameRect.bottom = imageRect.bottom;
+        }
+        return this.frameRect;
     }
 
     public boolean isSaved() {

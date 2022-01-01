@@ -39,7 +39,7 @@ public abstract class FlowLayer extends DataLayer {
         if (photoData != null) {
             this.photo.setPhotoView(new PhotoView(this, photoData, this.layer));
             this.updatePhoto();
-            this.setPhotoFrame(this.getView(R.id.photo_container), this.getView(R.id.photo_frame));
+            this.setPhotoFrame(this.getView(R.id.photo_container), this.getView(R.id.photo_board), this.getView(R.id.photo_frame));
         }
     }
 
