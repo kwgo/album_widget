@@ -99,7 +99,6 @@ public abstract class AbstractLayer extends AppCompatActivity {
 
     public Rect getViewRect(int sourceId) {
         View view = findViewById(sourceId);
-        //return new Rect(0, 0, PhotoViewConfig.pxToDp(view.getWidth()), PhotoViewConfig.pxToDp(view.getHeight()));
         return new Rect(0, 0, view.getWidth(), view.getHeight());
     }
 

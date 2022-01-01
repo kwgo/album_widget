@@ -194,9 +194,6 @@ public class PhotoView {
         this.photo.setPhotoWidth(width > 0 ? width : this.photo.getPhotoWidth());
         this.photo.setPhotoHeight(height > 0 ? height : this.photo.getPhotoHeight());
         this.photo.setPhotoPath(path != null ? path : this.photo.getPhotoPath());
-
-        Log.d("", "image width = " + width);
-        Log.d("", "image height = " + height);
     }
 
     public void setPhotoFrame(int frameIndex) {

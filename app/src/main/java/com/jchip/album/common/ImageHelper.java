@@ -11,13 +11,13 @@ import java.io.FileInputStream;
 public class ImageHelper {
     public static Bitmap convertBitmap(Bitmap bitmap, float scale, int fit, int rotation, int flip, int width, int height) {
         int imageWidth = bitmap.getWidth(), imageHeight = bitmap.getHeight();
-
         Log.d("", " convert bitmap fit = " + fit + " rotation = " + rotation);
         Log.d("", " convert bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
+
         int px = 0, py = 0;
         int cropWidth = imageWidth, cropHeight = imageHeight;
         float scaleWidth = scale, scaleHeight = scale;
-        if (width > 0 && height > 0) {
+        if (width > 0 && height > 0 && imageWidth > 0 && imageHeight > 0) {
             width = rotation % 2 == 0 ? width : height;
             height = rotation % 2 == 0 ? height : width;
             scaleWidth = scaleWidth * width / imageWidth;
@@ -42,21 +42,18 @@ public class ImageHelper {
             px = (imageWidth - cropWidth) / 2;
             py = (imageHeight - cropHeight) / 2;
         }
-        Matrix matrix = new Matrix();
-        matrix.postRotate(rotation * 90);
-        matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
-
         Log.d("", " convert by scaleWidth= " + scaleWidth + " scaleHeight= " + scaleHeight);
         Log.d("", " convert to cropWidth= " + cropWidth + " cropHeight= " + cropHeight);
         Log.d("", " convert from point px= " + px + " py= " + py);
-
         try {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(rotation * 90);
+            matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
             bitmap = Bitmap.createBitmap(bitmap, px, py, cropWidth, cropHeight, matrix, true);
             Log.d("", "new converted bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
-        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END " + fit);
         return bitmap;
     }
 

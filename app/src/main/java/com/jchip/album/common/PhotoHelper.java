@@ -2,7 +2,6 @@ package com.jchip.album.common;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,10 +16,9 @@ public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
         if (photoView.isFrameOn()) {
-            //setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame));
+            setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame));
         }
         if (photoView.isImageOn()) {
-            Log.d("", " **************** 1 111 ******************888");
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
         }
         if (photoView.isFontOn()) {
@@ -39,7 +37,7 @@ public class PhotoHelper {
     public static void setPhotoScale(PhotoView photoView, ImageView imageView) {
         int gap = photoView.getImageGap();
         imageView.setPadding(gap, gap, gap, gap);
-      //  imageView.setScaleType(photoView.getPhotoScale());
+        // imageView.setScaleType(photoView.getPhotoScale());
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
