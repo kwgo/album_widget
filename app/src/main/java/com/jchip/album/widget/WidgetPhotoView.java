@@ -43,29 +43,18 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoImage() {
-        int[] imageIds = {
-                R.id.photo_image_0, R.id.photo_image_1, R.id.photo_image_2, R.id.photo_image_3
-        };
-        for (int imageId : imageIds) {
-            this.views.setImageViewResource(imageId, 0);
-            this.views.setImageViewBitmap(imageId, null);
-            this.views.setViewVisibility(imageId, View.GONE);
-        }
-        this.setPhotoImage(imageIds[this.photoView.getScaleIndex()]);
-    }
-
-    private void setPhotoImage(int photoImageId) {
         int gap = this.photoView.getImageGap();
-        this.views.setViewPadding(photoImageId, gap, gap, gap, gap);
+        this.views.setViewPadding(R.id.photo_board, gap, gap, gap, gap);
 
         Log.d("", "widget use ......");
         Bitmap bitmap = this.photoView.getPhotoImage();
         if (bitmap != null) {
-            this.views.setImageViewBitmap(photoImageId, bitmap);
+            this.views.setImageViewResource(R.id.photo_image, 0);
+            this.views.setImageViewBitmap(R.id.photo_image, bitmap);
         } else {
-            this.views.setImageViewResource(photoImageId, PhotoViewConfig.DEFAULT_PHOTO_ID);
+            this.views.setImageViewBitmap(R.id.photo_image, null);
+            this.views.setImageViewResource(R.id.photo_image, PhotoViewConfig.DEFAULT_PHOTO_ID);
         }
-        this.views.setViewVisibility(photoImageId, View.VISIBLE);
     }
 
     private void setPhotoFrame() {

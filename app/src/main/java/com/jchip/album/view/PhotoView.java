@@ -74,8 +74,6 @@ public class PhotoView {
 
     public void setFrameRect(Rect frameRect) {
         this.frameRect = frameRect;
-        Log.d("", "set this.frameRectRect() object ===" + this.frameRect.hashCode());
-        Log.d("", "set this.frameRectRect()===" + this.frameRect);
     }
 
     public boolean isSaved() {

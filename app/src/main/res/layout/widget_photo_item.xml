@@ -16,37 +16,17 @@
             android:background="@drawable/frame_item_0">
 
             <FrameLayout
+                android:id="@+id/photo_board"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/photo_board">
 
                 <ImageView
-                    android:id="@+id/photo_image_0"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/photo_default" />
-
-                <ImageView
-                    android:id="@+id/photo_image_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/photo_image_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/photo_image_3"
+                    android:id="@+id/photo_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="center"
-                    android:visibility="invisible" />
+                    android:src="@drawable/photo_default" />
 
             </FrameLayout>
 
