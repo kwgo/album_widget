@@ -94,10 +94,6 @@ public abstract class AbstractLayer extends AppCompatActivity {
         PhotoHelper.setPhotoImage(this.photo, imageView);
     }
 
-    public void setPhotoScale(ImageView imageView) {
-        PhotoHelper.setPhotoScale(this.photo, imageView);
-    }
-
     public void setPhotoFont(TextView textView) {
         PhotoHelper.setPhotoFont(this.photo, textView);
     }

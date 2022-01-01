@@ -1,7 +1,6 @@
 package com.jchip.album.widget;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,8 +32,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
             this.startApp();
             this.finish();
         }
-        Log.d("", "*** start init album list size = " + this.albums.size());
-
+  
         this.initListView(R.id.album_setting_view, R.layout.widget_album_setting_item, this.albums.size());
     }
 
@@ -44,6 +42,7 @@ public class WidgetAlbumSetting extends WidgetSetting {
         TextView albumName = itemView.findViewById(R.id.album_name);
         albumName.setText(albumView.getAlbumName());
         this.photo = albumView.getPhotoView(0);
+        this.photo.setFrameRect(PhotoViewConfig.getImageRect(this.layer));
         View photoView = itemView.findViewById(R.id.photo_view);
         this.setPhotoView(photoView);
 

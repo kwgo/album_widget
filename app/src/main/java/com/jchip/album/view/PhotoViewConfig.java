@@ -2,6 +2,7 @@ package com.jchip.album.view;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PhotoViewConfig {
-    public static final float DEFAULT_IMAGE_ZOOM = 0.95f;
+    //public static final float DEFAULT_IMAGE_ZOOM = 0.95f;
 
     public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
     public static final int DEFAULT_PHOTO_ID = R.drawable.photo_default;
@@ -97,11 +98,6 @@ public class PhotoViewConfig {
         this.put(WIDGET_PHOTO_SETTING, getScreenWidth() / 2);
     }};
 
-    public static int getImageWidth(int layer) {
-        Integer value = imageWidths.get(layer);
-        return value != null ? (int) (value * DEFAULT_IMAGE_ZOOM) : 0;
-    }
-
     private static final Map<Integer, Integer> imageHeights = new HashMap<Integer, Integer>() {{
         this.put(LAYER_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
         this.put(LAYER_FRAME_SETTING, dpToPx(220));
@@ -111,13 +107,13 @@ public class PhotoViewConfig {
         this.put(WIDGET_PHOTO_SETTING, dpToPx(100));
     }};
 
-    public static int getImageHeight(int layer) {
-        Integer value = imageHeights.get(layer);
-        return value != null ? (int) (value * DEFAULT_IMAGE_ZOOM) : 0;
-    }
-
     public static Rect getImageRect(int layer) {
-        return new Rect(0,0, getImageWidth(layer), getImageHeight(layer));
+        Integer width = imageWidths.get(layer);
+        width = width != null ? width : getScreenWidth();
+        Integer height = imageHeights.get(layer);
+        height = height != null ? height : getScreenHeight();
+        Log.d("", "getImageRect layer = " + layer + " width=" + width + " height=" + height);
+        return new Rect(0, 0, width, height);
     }
 
     private static final Map<Integer, Boolean> imageSolids = new HashMap<Integer, Boolean>() {{
@@ -138,7 +134,7 @@ public class PhotoViewConfig {
         try {
             return Resources.getSystem().getDisplayMetrics().widthPixels;
         } catch (Exception ex) {
-            return 0;
+            return 600;
         }
     }
 
@@ -146,7 +142,7 @@ public class PhotoViewConfig {
         try {
             return Resources.getSystem().getDisplayMetrics().heightPixels;
         } catch (Exception ex) {
-            return 0;
+            return 800;
         }
     }
 
@@ -171,6 +167,4 @@ public class PhotoViewConfig {
     public static float getDensity() {
         return Resources.getSystem().getDisplayMetrics().density;
     }
-
-
 }

@@ -61,8 +61,8 @@ public class FrameLayer extends RecyclerLayer {
         this.photo.setPhotoFrame(frames.get(position));
 
         View view = itemView.findViewById(R.id.photo_view);
-        Log.d("","view.getWidth() ---------------------" + view.getWidth());
-        Log.d("","view.getHeight() ---------------------" + view.getHeight());
+        Log.d("", "view.getWidth() ---------------------" + view.getWidth());
+        Log.d("", "view.getHeight() ---------------------" + view.getHeight());
         this.photo.setFrameRect(new Rect(0, 0, view.getWidth(), view.getHeight()));
         this.setPhotoView(view);
         view.setOnClickListener((v) -> {
@@ -73,6 +73,5 @@ public class FrameLayer extends RecyclerLayer {
 
         ImageView imageView = itemView.findViewById(R.id.photo_image);
         imageView.setImageBitmap(this.photoImage);
-        this.setPhotoScale(imageView);
     }
 }

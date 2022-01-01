@@ -150,20 +150,10 @@ public class ImageHelper {
             Log.d("", "before ratioHeight = " + ratioHeight);
             float ratio = Math.max(ratioWidth, ratioHeight);
             Log.d("", "before ratio = " + ratio);
-            inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio + 0.5) : 1;
+            inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio + 0.0) : 1;
             Log.d("", "before inSampleSize ++ ++ ++= " + inSampleSize);
         }
         Log.d("", "calculated inSampleSize= " + inSampleSize);
         return inSampleSize;
-    }
-
-    public static Bitmap loadBitmap(Resources resources, int imageId, boolean inScaled) {
-        try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = inScaled;
-            return BitmapFactory.decodeResource(resources, imageId, options);
-        } catch (Exception ignored) {
-            return null;
-        }
     }
 }

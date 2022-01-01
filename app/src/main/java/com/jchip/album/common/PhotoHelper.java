@@ -16,6 +16,7 @@ public class PhotoHelper {
     public static void setPhotoView(PhotoView photoView, View view) {
         if (photoView.isFrameOn()) {
             setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_frame));
+            setPhotoScale(photoView, view.findViewById(R.id.photo_image));
         }
         if (photoView.isImageOn()) {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
@@ -30,7 +31,6 @@ public class PhotoHelper {
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
-        setPhotoScale(photoView, imageView);
     }
 
     public static void setPhotoScale(PhotoView photoView, ImageView imageView) {

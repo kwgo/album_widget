@@ -60,6 +60,7 @@ public class WidgetPhotoSetting extends WidgetSetting {
             itemView.findViewById(R.id.photo_right_view).setVisibility(View.INVISIBLE);
             for (int index = 0; index < albumView.getPhotoSize(); index++) {
                 this.photo = albumView.getPhotoView(index);
+                this.photo.setFrameRect(PhotoViewConfig.getImageRect(this.layer));
                 View photoView = itemView.findViewById(index % PHOTO_NUMBER == 0 ? R.id.photo_left_view : R.id.photo_right_view);
                 this.setPhotoView(photoView);
                 photoView.setVisibility(View.VISIBLE);

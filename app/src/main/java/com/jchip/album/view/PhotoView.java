@@ -36,8 +36,7 @@ public class PhotoView {
         Log.d("", " this.getDensity()===" + PhotoViewConfig.getDensity());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
         Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
-        Log.d("", " this.getImageWidth()===" + PhotoViewConfig.getImageWidth(layer));
-        Log.d("", " this.getImageHeight()===" + PhotoViewConfig.getImageHeight(layer));
+        Log.d("", " this.getImageRect()===" + PhotoViewConfig.getImageRect(layer));
         Log.d("", " this.getScreenWidth()===" + PhotoViewConfig.getScreenWidth());
         Log.d("", " this.getScreenHeight()===" + PhotoViewConfig.getScreenHeight());
         Log.d("", " this.getFrameRect()===" + this.frameRect);
