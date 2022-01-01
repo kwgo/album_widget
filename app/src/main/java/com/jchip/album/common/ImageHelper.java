@@ -148,7 +148,7 @@ public class ImageHelper {
             Log.d("", "before ratioHeight = " + ratioHeight);
             float ratio = Math.max(ratioWidth, ratioHeight);
             Log.d("", "before ratio = " + ratio);
-            inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio - 0.5) : 1;
+            inSampleSize = ratio > 0f && ratio < 1.0 ? (int) (1.0f / ratio + 0.5) : 1;
             Log.d("", "before inSampleSize ++ ++ ++= " + inSampleSize);
         }
         Log.d("", "calculated inSampleSize= " + inSampleSize);
