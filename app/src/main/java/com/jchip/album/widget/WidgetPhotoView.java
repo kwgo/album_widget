@@ -6,12 +6,9 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
-
-import androidx.core.util.Pair;
 
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
@@ -22,15 +19,12 @@ public class WidgetPhotoView {
     private final Context context;
     private final RemoteViews views;
     private final PhotoView photoView;
-    private final Pair<Integer, Integer> widgetSize;
 
     public WidgetPhotoView(Context context, RemoteViews views, int appWidgetId, PhotoData photoData) {
         this.context = context;
         this.views = views;
         this.photoView = new PhotoView(context, photoData, PhotoViewConfig.WIDGET_ALBUM_PHOTO);
-        this.widgetSize = this.getWidgetSize(appWidgetId);
-        Log.d("", "widget widgetSize=" + widgetSize);
-        this.photoView.setFrameRect(new Rect(0, 0, widgetSize.first, widgetSize.second));
+        this.photoView.setFrameRect(this.getWidgetRect(appWidgetId));
     }
 
     public void updateView() {
@@ -56,10 +50,8 @@ public class WidgetPhotoView {
         int gap = this.photoView.getImageGap();
         this.views.setViewPadding(R.id.photo_board, gap, gap, gap, gap);
 
-        Log.d("", "widget use ......");
         Bitmap bitmap = this.photoView.getPhotoImage();
         if (bitmap != null) {
-            Log.d("", "widget set image bitmap ......");
             this.views.setImageViewResource(R.id.photo_image, 0);
             this.views.setImageViewBitmap(R.id.photo_image, bitmap);
         } else {
@@ -112,14 +104,17 @@ public class WidgetPhotoView {
         this.views.setInt(R.id.label_container, "setGravity", this.photoView.getFontLocation());
     }
 
-
-    private Pair<Integer, Integer> getWidgetSize(int appWidgetId) {
-        int orientation = context.getResources().getConfiguration().orientation;
-        boolean isPortrait = orientation == Configuration.ORIENTATION_PORTRAIT;
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
-        int width = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-        int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
-        return new Pair(PhotoViewConfig.dpToPx(width), PhotoViewConfig.dpToPx(height));
+    private Rect getWidgetRect(int appWidgetId) {
+        try {
+            int orientation = context.getResources().getConfiguration().orientation;
+            boolean isPortrait = orientation == Configuration.ORIENTATION_PORTRAIT;
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+            int width = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+            int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+            return new Rect(0, 0, PhotoViewConfig.dpToPx(width), PhotoViewConfig.dpToPx(height));
+        } catch (Exception ex) {
+            return PhotoViewConfig.getImageRect(PhotoViewConfig.WIDGET_ALBUM_PHOTO);
+        }
     }
 }

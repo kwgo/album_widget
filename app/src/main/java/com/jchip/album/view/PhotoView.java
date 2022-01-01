@@ -79,7 +79,9 @@ public class PhotoView {
     }
 
     public void setFrameRect(Rect frameRect) {
-        this.frameRect = frameRect;
+        if (frameRect != null) {
+            this.frameRect = frameRect;
+        }
     }
 
     public Rect getFrameRect() {
