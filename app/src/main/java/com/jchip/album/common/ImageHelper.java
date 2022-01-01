@@ -81,7 +81,8 @@ public class ImageHelper {
 
             options.inScaled = false;
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
-            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+        //    options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            options.inDensity = resources.getDisplayMetrics().densityDpi;
             options.inJustDecodeBounds = false;  // Decode bitmap with inSampleSize set
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
             if (bitmap != null) {
@@ -120,7 +121,8 @@ public class ImageHelper {
 
             options.inScaled = false;
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
-            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+      //      options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            options.inDensity = resources.getDisplayMetrics().densityDpi;
             options.inJustDecodeBounds = false;  // Decode bitmap with inSampleSize set
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
             if (bitmap != null) {

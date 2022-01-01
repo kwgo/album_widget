@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -22,6 +23,7 @@ public class NinePatchHelper {
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
+            Log.d("", "nine patch bitmap width=" + bitmap.getWidth() + " height=" + bitmap.getHeight());
             return NinePatchHelper.getDrawable(resources, bitmap, padding);
         } catch (Exception ex) {
             return null;
