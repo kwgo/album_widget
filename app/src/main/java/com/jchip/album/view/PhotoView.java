@@ -47,10 +47,18 @@ public class PhotoView {
         return NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
     }
 
+    public Bitmap getFrameBitmap(Rect padding) {
+        // x 40 to change density
+        int densitySize = this.getFrameDensitySize();
+        return NinePatchHelper.getImageBitmap(context.getResources(), this.getFrameIndex(), densitySize, padding);
+    }
+
     private Rect getPhotoRect() {
         Rect photoRect = new Rect(this.getFrameRect());
         photoRect.right = photoRect.right - photoRect.left;
         photoRect.bottom = photoRect.bottom - photoRect.top;
+        photoRect.right = photoRect.right > 0 ? photoRect.right : PhotoViewConfig.dpToPx(10);
+        photoRect.bottom = photoRect.bottom > 0 ? photoRect.bottom : PhotoViewConfig.dpToPx(10);
         return photoRect;
     }
 

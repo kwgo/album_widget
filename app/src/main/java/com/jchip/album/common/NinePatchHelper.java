@@ -23,9 +23,35 @@ public class NinePatchHelper {
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
-            Log.d("", "nine patch bitmap width=" + bitmap.getWidth() + " height=" + bitmap.getHeight());
-            return NinePatchHelper.getDrawable(resources, bitmap, padding);
-        } catch (Exception ex) {
+            if (bitmap != null) {
+                Log.d("", "nine patch bitmap width=" + bitmap.getWidth() + " height=" + bitmap.getHeight());
+                return NinePatchHelper.getDrawable(resources, bitmap, padding);
+            }
+        } catch (Exception ignore) {
+        }
+        return null;
+
+    }
+
+    public static Bitmap getImageBitmap(Resources resources, int imageId, int densitySize, Rect padding) {
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = true;
+            options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
+            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
+            if (bitmap != null) {
+                final byte[] chunk = bitmap.getNinePatchChunk();
+                if (NinePatch.isNinePatchChunk(chunk)) {
+                    NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
+                    Rect ninePatchPadding = ninePatchChunk.getPadding();
+                    if (padding != null) {
+                        padding.set(ninePatchPadding);
+                    }
+                 }
+            }
+            return bitmap;
+        } catch (Exception ignore) {
             return null;
         }
     }

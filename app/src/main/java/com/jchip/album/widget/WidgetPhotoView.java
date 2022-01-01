@@ -1,11 +1,17 @@
 package com.jchip.album.widget;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import androidx.core.util.Pair;
 
 import com.jchip.album.R;
 import com.jchip.album.data.PhotoData;
@@ -16,11 +22,15 @@ public class WidgetPhotoView {
     private final Context context;
     private final RemoteViews views;
     private final PhotoView photoView;
+    private final Pair<Integer, Integer> widgetSize;
 
-    public WidgetPhotoView(Context context, RemoteViews views, PhotoData photoData) {
+    public WidgetPhotoView(Context context, RemoteViews views, int appWidgetId, PhotoData photoData) {
         this.context = context;
         this.views = views;
         this.photoView = new PhotoView(context, photoData, PhotoViewConfig.WIDGET_ALBUM_PHOTO);
+        this.widgetSize = this.getWidgetSize(appWidgetId);
+        Log.d("", "widget widgetSize=" + widgetSize);
+        this.photoView.setFrameRect(new Rect(0, 0, widgetSize.first, widgetSize.second));
     }
 
     public void updateView() {
@@ -61,8 +71,30 @@ public class WidgetPhotoView {
     private void setPhotoFrame() {
         int frameId = this.photoView.getFrameIndex();
         this.views.setInt(R.id.photo_container, "setBackgroundResource", frameId);
-        this.views.setInt(R.id.photo_frame, "setBackgroundResource", frameId);
 
+        Rect padding = new Rect();
+        Bitmap bitmap = this.photoView.getFrameBitmap(padding);
+        if (bitmap != null) {
+            this.views.setImageViewResource(R.id.photo_frame, 0);
+            //   this.views.setImageViewBitmap(R.id.photo_frame, bitmap);
+            Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nine patch widget bitmap is NOT empty chunk " + padding);
+            Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nine patch widget bitmap width " + bitmap.getWidth() + "  height="+bitmap.getHeight());
+            this.views.setImageViewResource(R.id.photo_frame, frameId);
+        } else {
+            this.views.setImageViewBitmap(R.id.photo_frame, null);
+            this.views.setImageViewResource(R.id.photo_frame, frameId);
+            Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nine patch widget bitmap is empty");
+            //       this.views.setInt(R.id.photo_frame, "setBackgroundResource", frameId);
+        }
+        Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nine patch widget padding=" + padding);
+
+        Rect frameRect = this.photoView.getFrameRect();
+        Log.d("", "~~~~~~~~~~~~~~~~~widget ~~~~~~~~~~~~ old frameRect=" + frameRect);
+        frameRect.left = padding.left + padding.right;
+        frameRect.top = padding.top + padding.bottom;
+        this.photoView.setFrameRect(frameRect);
+
+        Log.d("", "~~~~~~~~~~~~~~~~~widget ~~~~~~~~~~~~ frameRect=" + frameRect);
 
     }
 
@@ -96,5 +128,16 @@ public class WidgetPhotoView {
 
     private void setLabelLocation() {
         this.views.setInt(R.id.label_container, "setGravity", this.photoView.getFontLocation());
+    }
+
+
+    private Pair<Integer, Integer> getWidgetSize(int appWidgetId) {
+        int orientation = context.getResources().getConfiguration().orientation;
+        boolean isPortrait = orientation == Configuration.ORIENTATION_PORTRAIT;
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+        int width = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+        int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+        return new Pair(PhotoViewConfig.dpToPx(width), PhotoViewConfig.dpToPx(height));
     }
 }
