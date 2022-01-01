@@ -120,17 +120,17 @@ public class PhotoViewConfig {
         return new Rect(0,0, getImageWidth(layer), getImageHeight(layer));
     }
 
-    private static final Map<Integer, Boolean> imageRotations = new HashMap<Integer, Boolean>() {{
-        this.put(LAYER_ALBUM_PHOTO, true);
-        this.put(LAYER_FRAME_SETTING, true);
-        this.put(LAYER_FONT_SETTING, true);
-        this.put(WIDGET_ALBUM_PHOTO, false);
-        this.put(WIDGET_ALBUM_SETTING, false);
-        this.put(WIDGET_PHOTO_SETTING, false);
+    private static final Map<Integer, Boolean> imageSolids = new HashMap<Integer, Boolean>() {{
+        this.put(LAYER_ALBUM_PHOTO, false);
+        this.put(LAYER_FRAME_SETTING, false);
+        this.put(LAYER_FONT_SETTING, false);
+        this.put(WIDGET_ALBUM_PHOTO, true);
+        this.put(WIDGET_ALBUM_SETTING, true);
+        this.put(WIDGET_PHOTO_SETTING, true);
     }};
 
-    public static boolean isImageRotation(int layer) {
-        Boolean value = imageRotations.get(layer);
+    public static boolean isImageSolid(int layer) {
+        Boolean value = imageSolids.get(layer);
         return value != null ? value : true;
     }
 
