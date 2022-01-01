@@ -84,7 +84,7 @@ public class PhotoViewConfig {
 
     public static int getImageGap(int layer) {
         Integer value = imageGaps.get(layer);
-        return value != null ? value : 0;
+        return value != null ? dpToPx(value) : 0;
     }
 
     private static final Map<Integer, Integer> imageMaxWidths = new HashMap<Integer, Integer>() {{
