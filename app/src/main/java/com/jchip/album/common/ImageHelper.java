@@ -15,13 +15,15 @@ public class ImageHelper {
         int imageWidth = bitmap.getWidth(), imageHeight = bitmap.getHeight();
         Log.d("", " convert bitmap fit = " + fit + " rotation = " + rotation);
         Log.d("", " convert bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
-
         int px = 0, py = 0;
         int cropWidth = imageWidth, cropHeight = imageHeight;
         float scaleWidth = scale, scaleHeight = scale;
         if (width > 0 && height > 0 && imageWidth > 0 && imageHeight > 0) {
-            width = rotation % 2 == 0 ? width : height;
-            height = rotation % 2 == 0 ? height : width;
+            if (rotation % 2 != 0) {
+                int value = width;
+                width = height;
+                height = value;
+            }
             scaleWidth = scaleWidth * width / imageWidth;
             scaleHeight = scaleHeight * height / imageHeight;
             Log.d("", " convert scaleWidth= " + scaleWidth + " scaleHeight= " + scaleHeight);
@@ -49,10 +51,10 @@ public class ImageHelper {
         Log.d("", " convert from point px= " + px + " py= " + py);
         try {
             Matrix matrix = new Matrix();
-            matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
             matrix.postRotate(rotation * 90);
+            matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
             bitmap = Bitmap.createBitmap(bitmap, px, py, cropWidth, cropHeight, matrix, true);
-            Log.d("", "new converted bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
+            Log.d("", " convert new bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
