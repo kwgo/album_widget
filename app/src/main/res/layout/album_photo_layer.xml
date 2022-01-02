@@ -139,7 +139,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/photos_view"
+        android:id="@+id/photo_container_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.64"

@@ -78,13 +78,11 @@ public class PhotoLayer extends FlowLayer {
         this.photo = photo;
 
         // to set image view size
-        this.photo.setFrameRect(this.getViewRect(R.id.photos_view));
-        this.setPhotoView(this.getView(R.id.photos_view));
+        this.photo.setFrameRect(this.getViewRect(R.id.photo_container_view));
+        this.setPhotoView(this.getView(R.id.photo_view));
     }
 
     private void onSlipPhoto(int offset) {
-        Log.d("", "~~~~~~~~~~~ slip XXX  Rect ~~~~~~~~~~~~~~~~~~~" + this.getViewRect(R.id.photos_view));
-
         if (this.album.getPhotoSize() > 0) {
             List<PhotoView> photos = this.album.getPhotoViews();
             int postion = photos.indexOf(this.photo);

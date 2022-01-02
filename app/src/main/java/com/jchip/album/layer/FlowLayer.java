@@ -39,7 +39,7 @@ public abstract class FlowLayer extends DataLayer {
         if (photoData != null) {
             this.photo.setPhotoView(new PhotoView(this, photoData, this.layer));
             this.updatePhoto();
-            this.setPhotoView(this.getView(R.id.photos_view));
+            this.setPhotoView(this.getView(R.id.photo_view));
         }
     }
 
@@ -48,7 +48,7 @@ public abstract class FlowLayer extends DataLayer {
         if (photoData != null) {
             this.photo.setPhotoView(new PhotoView(this, photoData, this.layer));
             this.updatePhoto();
-            this.setPhotoView(this.getView(R.id.photos_view));
+            this.setPhotoView(this.getView(R.id.photo_view));
         }
     }
 }

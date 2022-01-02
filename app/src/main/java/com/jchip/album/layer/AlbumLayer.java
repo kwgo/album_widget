@@ -44,7 +44,7 @@ public class AlbumLayer extends PhotoLayer {
     @Override
     protected void postContentView() {
         Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ postContentView ~~~~~~~~~~~~~~~~~~~");
-        Log.d("", "~~~~~~~~~~~ init  Rect ~~~~~~~~~~~~~~~~~~~" + this.getViewRect(R.id. photo_view));
+        Log.d("", "~~~~~~~~~~~ init  Rect ~~~~~~~~~~~~~~~~~~~" + this.getViewRect(R.id.photo_container_view));
 
 
         this.albumNameView.setText(this.album.getAlbumName(), false);
