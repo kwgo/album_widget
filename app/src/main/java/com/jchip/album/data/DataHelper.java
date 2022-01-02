@@ -3,6 +3,7 @@ package com.jchip.album.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -198,6 +199,8 @@ public class DataHelper extends DataHandler {
     // update exist widget
     public WidgetData updateWidget(WidgetData widgetData) {
         if (widgetData.isSaved()) {
+            Log.d("", "db updateWidget status=" + widgetData.getStatus());
+            Log.d("", "db getWidgetContentValues=" + this.getWidgetContentValues(widgetData));
             this.update(WidgetData.tableName, this.getWidgetContentValues(widgetData));
         }
         return widgetData;
@@ -222,7 +225,8 @@ public class DataHelper extends DataHandler {
     // Read record related to a widget
     public WidgetData queryWidgetPhoto(int widgetId, int photoId) {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ");
+        sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ")
+                .append(WidgetData.tableName).append(".").append(WidgetData.fieldStatus).append(",");
         sql.append(" ( SELECT GROUP_CONCAT(").append(PhotoData.fieldPhotoId).append(")")
                 .append(" FROM ").append(PhotoData.tableName)
                 .append(" WHERE ").append(PhotoData.tableName).append(".").append(PhotoData.fieldAlbumId)
@@ -246,6 +250,7 @@ public class DataHelper extends DataHandler {
             WidgetData widgetData = new WidgetData();
             widgetData.setWidgetId(widgetId);
             widgetData.setAlbumId(photoData.getAlbumId());
+            widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
             widgetData.setPhotoIds((String) rowData.get(WidgetData.valuePhotoIds));
             widgetData.setPhoto(photoData);
             return widgetData;
@@ -256,7 +261,8 @@ public class DataHelper extends DataHandler {
     // Read record related to a widget
     public WidgetData queryWidgetPhoto(int widgetId) {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT ").append(PhotoData.tableName).append(".* ");
+        sql.append(" SELECT ").append(PhotoData.tableName).append(".*, ")
+                .append(WidgetData.tableName).append(".").append(WidgetData.fieldStatus);
         sql.append(" FROM ").append(PhotoData.tableName);
         sql.append(" INNER JOIN ").append(WidgetData.tableName)
                 .append(" ON ").append(PhotoData.tableName).append(".").append(PhotoData.fieldPhotoId)
@@ -270,6 +276,7 @@ public class DataHelper extends DataHandler {
             widgetData.setWidgetId(widgetId);
             widgetData.setAlbumId(photoData.getAlbumId());
             widgetData.setPhotoId(photoData.getPhotoId());
+            widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
             widgetData.setPhoto(photoData);
             return widgetData;
         }
@@ -378,6 +385,8 @@ public class DataHelper extends DataHandler {
         widgetData.setWidgetId((Integer) rowData.get(WidgetData.fieldWidgetId));
         widgetData.setAlbumId((Integer) rowData.get(WidgetData.fieldAlbumId));
         widgetData.setPhotoId((Integer) rowData.get(WidgetData.fieldPhotoId));
+        Log.d("", "db load rowData.get(WidgetData.fieldStatus)=" + rowData.get(WidgetData.fieldStatus));
+
         widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
         return widgetData;
     }

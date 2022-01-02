@@ -16,6 +16,7 @@ import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.common.PhotoHelper;
 import com.jchip.album.data.AlbumData;
@@ -85,18 +86,6 @@ public abstract class AbstractLayer extends AppCompatActivity {
     public void setPhotoView(View view) {
         PhotoHelper.setPhotoView(this.photo, view);
     }
-//
-//    public void setPhotoFrame(View containerView, View boardView, View frameView) {
-//        PhotoHelper.setPhotoFrame(this.photo, containerView, boardView, frameView);
-//    }
-
-//    public void setPhotoImage(ImageView imageView) {
-//        PhotoHelper.setPhotoImage(this.photo, imageView);
-//    }
-
-//    public void setPhotoFont(TextView textView) {
-//        PhotoHelper.setPhotoFont(this.photo, textView);
-//    }
 
     public Rect getViewRect(int sourceId) {
         View view = findViewById(sourceId);
@@ -128,8 +117,8 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     public void updateWidget() {
-        //AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
-        //AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
+        // AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
+        AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
     }
 
     public void setStatusBarColor(int colorId) {
