@@ -3,10 +3,8 @@ package com.jchip.album.common;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,22 +16,25 @@ public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
         setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_board), view.findViewById(R.id.photo_frame));
-
-        if (photoView.isImageOn()) {
-            setPhotoImage(photoView, view.findViewById(R.id.photo_image));
-        }
+        //   setPhotoBorder(photoView, view.findViewById(R.id.photo_image));
+        setPhotoBorder(photoView, view.findViewById(R.id.photo_board));
+        setPhotoImage(photoView, view.findViewById(R.id.photo_image));
         setPhotoFont(photoView, view.findViewById(R.id.photo_label));
     }
 
     public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
-        int gap = photoView.getImageGap();
-        ((FrameLayout.LayoutParams) imageView.getLayoutParams()).setMargins(gap, gap, gap, gap);
-
-        Bitmap bitmap = photoView.getPhotoImage();
-        if (bitmap != null) {
-            Log.d("", "final image bitmap width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
-            imageView.setImageBitmap(bitmap);
+        if (photoView.isImageOn()) {
+            Bitmap bitmap = photoView.getPhotoImage();
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
+            }
         }
+    }
+
+    public static void setPhotoBorder(PhotoView photoView, View view) {
+        int gap = photoView.getImageGap();
+        //   ((FrameLayout.LayoutParams) view.getLayoutParams()).setMargins(gap, gap, gap, gap);
+        view.setPadding(gap, gap, gap, gap);
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {

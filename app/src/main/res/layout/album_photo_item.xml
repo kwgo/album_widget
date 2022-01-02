@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
 
-                android:scaleType="centerInside" />
+                android:scaleType="center" />
 
         </FrameLayout>
 

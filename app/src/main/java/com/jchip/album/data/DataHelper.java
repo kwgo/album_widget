@@ -369,6 +369,7 @@ public class DataHelper extends DataHandler {
         }
         contentValues.put(WidgetData.fieldAlbumId, widgetData.getAlbumId());
         contentValues.put(WidgetData.fieldPhotoId, widgetData.getPhotoId());
+        contentValues.put(WidgetData.fieldStatus, widgetData.getStatus());
         return contentValues;
     }
 
@@ -377,6 +378,7 @@ public class DataHelper extends DataHandler {
         widgetData.setWidgetId((Integer) rowData.get(WidgetData.fieldWidgetId));
         widgetData.setAlbumId((Integer) rowData.get(WidgetData.fieldAlbumId));
         widgetData.setPhotoId((Integer) rowData.get(WidgetData.fieldPhotoId));
+        widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
         return widgetData;
     }
 

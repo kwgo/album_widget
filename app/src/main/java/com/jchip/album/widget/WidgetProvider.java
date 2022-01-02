@@ -73,6 +73,11 @@ public class WidgetProvider extends AppWidgetProvider {
         }
     }
 
+    public void updateWidgetStatus(Context context, WidgetData widgetData, int status) {
+        widgetData.setStatus(status);
+        DataHelper.getInstance(context).updateWidget(widgetData);
+    }
+
     private void startAppActivity(Context context, Intent intent) {
         Intent activityIntent = new Intent(context, ActivitySplash.class);
         activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

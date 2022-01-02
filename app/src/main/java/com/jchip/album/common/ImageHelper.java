@@ -108,8 +108,7 @@ public class ImageHelper {
         int width = imageRect.right, height = imageRect.bottom;
         BitmapFactory.Options options = new BitmapFactory.Options();
         try (FileInputStream inputStream = new FileInputStream(imageUrl)) {
-            Log.d("", "decode bitmap from file url= " + imageUrl);
-            Log.d("", "decode bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
+            Log.d("", "decode from file url bitmap width= " + imageWidth + " height= " + imageHeight + " to view width= " + width + " height= " + height);
             if (imageWidth <= 0 || imageHeight <= 0) {
                 Log.d("", "decode bitmap from file url we do need InSampleSize from resource.");
                 options.inJustDecodeBounds = true; // First decode with inJustDecodeBounds=true to check dimensions

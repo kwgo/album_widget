@@ -113,7 +113,7 @@
                 android:autofillHints="@string/font_sample"
                 android:background="@drawable/font_edit_text"
                 android:hint="@string/font_sample"
-                android:inputType="text"
+                android:inputType="none"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColor="#F8FFFFFF"

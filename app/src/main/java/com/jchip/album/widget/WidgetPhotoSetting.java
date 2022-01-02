@@ -1,7 +1,6 @@
 package com.jchip.album.widget;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -49,7 +48,6 @@ public class WidgetPhotoSetting extends WidgetSetting {
 
     @Override
     protected void bindItemView(View itemView, final int position) {
-        Log.d("", "-------------------showing item view position = " + position);
         AlbumView albumView = this.albums.get(position);
         if (albumView.isSaved()) {
             TextView albumName = itemView.findViewById(R.id.album_name);

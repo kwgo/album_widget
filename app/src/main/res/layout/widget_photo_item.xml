@@ -19,15 +19,21 @@
                 android:id="@+id/photo_board"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/photo_board">
+                android:background="@color/photo_board"
+                android:visibility="invisible">
 
-                <ImageView
-                    android:id="@+id/photo_image"
+                <FrameLayout
+                    android:id="@+id/photo_board1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="center"
-                    android:src="@drawable/photo_default" />
+                    android:layout_height="match_parent">
 
+                    <ImageView
+                        android:id="@+id/photo_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="center" />
+
+                </FrameLayout>
             </FrameLayout>
 
         </FrameLayout>

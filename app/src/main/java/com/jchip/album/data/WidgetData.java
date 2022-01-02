@@ -5,12 +5,14 @@ public class WidgetData extends AbstractData {
     public static final String fieldWidgetId = "id";
     public static final String fieldAlbumId = "albumId";
     public static final String fieldPhotoId = "photoId";
+    public static final String fieldStatus = "status";
     public static final String valuePhotoIds = "photoIds";
     public static final String valueTotal = "total";
 
     private int widgetId = -1;
     private int albumId = -1;
     private int photoId = -1;
+    private int status = -1;
 
     private String photoIds;
     private PhotoData photo;
@@ -43,6 +45,14 @@ public class WidgetData extends AbstractData {
         this.photoId = photoId;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getPhotoIds() {
         return photoIds;
     }
@@ -64,6 +74,7 @@ public class WidgetData extends AbstractData {
         widgetData.setWidgetId(this.getWidgetId());
         widgetData.setAlbumId(this.getAlbumId());
         widgetData.setPhotoId(this.getPhotoId());
+        widgetData.setStatus(this.getStatus());
         widgetData.setPhotoIds(this.getPhotoIds());
         widgetData.setPhoto(this.getPhoto());
         return widgetData;

@@ -40,22 +40,22 @@ public class WidgetPhotoView {
         }
     }
 
-    public void updatePhotoScale() {
-        this.photoView.setPhotoImage(-1, -1, (this.photoView.getScaleIndex() + 1) % 4);
+    public int updateScale(int scaleIndex) {
+        scaleIndex = scaleIndex < 0 ? (this.photoView.getScaleIndex() + 1) % 4 : scaleIndex;
+        this.photoView.setPhotoImage(-1, -1, scaleIndex);
         this.updateView();
+        return this.photoView.getScaleIndex();
     }
 
     private void setPhotoView() {
         this.setPhotoFrame();
+        this.setPhotoBorder();
         this.setPhotoImage();
         this.setPhotoLabel();
     }
 
-    private void setPhotoImage() {
-        int gap = this.photoView.getImageGap();
-        this.views.setViewPadding(R.id.photo_board, gap, gap, gap, gap);
-        this.views.setViewVisibility(R.id.photo_board, View.VISIBLE);
 
+    private void setPhotoImage() {
         Bitmap bitmap = this.photoView.getPhotoImage();
         if (bitmap != null) {
             this.views.setImageViewResource(R.id.photo_image, 0);
@@ -70,6 +70,12 @@ public class WidgetPhotoView {
         int frameId = this.photoView.getFrameIndex();
         this.views.setInt(R.id.photo_container, "setBackgroundResource", frameId);
         this.views.setInt(R.id.photo_frame, "setBackgroundResource", frameId);
+    }
+
+    private void setPhotoBorder() {
+        int gap = this.photoView.getImageGap();
+        this.views.setViewVisibility(R.id.photo_board, View.VISIBLE);
+        this.views.setViewPadding(R.id.photo_board, gap, gap, gap, gap);
     }
 
     private void setPhotoLabel() {
@@ -112,6 +118,11 @@ public class WidgetPhotoView {
             Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
             int width = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
             int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+
+            // patch a little image size
+            width = (int) (width * 1.2f);
+            height = (int) (height * 1.2f);
+
             return new Rect(0, 0, PhotoViewConfig.dpToPx(width), PhotoViewConfig.dpToPx(height));
         } catch (Exception ex) {
             return PhotoViewConfig.getImageRect(PhotoViewConfig.WIDGET_ALBUM_PHOTO);

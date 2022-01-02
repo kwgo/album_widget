@@ -22,6 +22,10 @@ public class FontLayer extends AbstractLayer {
         super.setContentView(PhotoViewConfig.LAYER_FONT_SETTING, R.layout.album_font_layer);
         super.setStatusBarColor(android.R.color.transparent);
     }
+    @Override
+    public void postContentView() {
+        this.setPhotoView(this.getView(R.id.photo_view));
+    }
 
     @Override
     public void initContentView() {

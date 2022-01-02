@@ -2,7 +2,6 @@ package com.jchip.album.view;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 
@@ -112,7 +111,6 @@ public class PhotoViewConfig {
         width = width != null ? width : getScreenWidth();
         Integer height = imageHeights.get(layer);
         height = height != null ? height : getScreenHeight();
-        Log.d("", "getImageRect layer = " + layer + " width=" + width + " height=" + height);
         return new Rect(0, 0, width, height);
     }
 

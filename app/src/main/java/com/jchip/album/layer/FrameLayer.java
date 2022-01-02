@@ -1,7 +1,6 @@
 package com.jchip.album.layer;
 
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +35,6 @@ public class FrameLayer extends RecyclerLayer {
         PhotoData photoData = (PhotoData) this.getIntent().getSerializableExtra(PhotoData.tableName);
         this.photoView = new PhotoView(this, photoData, this.layer);
 
-        Log.d("", "frame layer use ......");
         this.photoImage = this.photoView.getPhotoImage();
 
         this.frames = new ArrayList<>();

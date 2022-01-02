@@ -15,7 +15,7 @@ import java.util.Map;
 public abstract class DataHandler extends SQLiteOpenHelper {
 
     // database version
-    protected static final int DATABASE_VERSION = 15;
+    protected static final int DATABASE_VERSION = 16;
     // database name
     protected static final String DATABASE_NAME = "album";
 
@@ -177,6 +177,7 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         contentValues.put(WidgetData.fieldWidgetId, "INTEGER PRIMARY KEY");
         contentValues.put(WidgetData.fieldAlbumId, "INT");
         contentValues.put(WidgetData.fieldPhotoId, "INT");
+        contentValues.put(WidgetData.fieldStatus, "INT");
         this.createTable(db, WidgetData.tableName, contentValues);
     }
 
