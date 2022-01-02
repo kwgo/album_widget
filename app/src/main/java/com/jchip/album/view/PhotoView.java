@@ -44,19 +44,36 @@ public class PhotoView {
 
         // x 40 to change density
         int densitySize = this.getFrameDensitySize();
-        return NinePatchHelper.getImageDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
+        return NinePatchHelper.getDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
     }
 
-    public Rect getFrameBorder() {
-        return NinePatchHelper.getImagePadding(context.getResources(), this.getFrameIndex(), this.getFrameDensitySize());
+
+    public void setPhotoPadding(Rect padding) {
+        Log.d("", "set padding 9 patch padding = " + padding);
+        Rect frameRect = this.getFrameRect();
+        Log.d("", "set padding original frameRect = " + frameRect);
+        padding = padding != null ? padding : new Rect(0, 0, frameRect.right, frameRect.bottom);
+        float scaleWidth = 1f *  frameRect.right / padding.right ;
+        float scaleHeight = 1f * frameRect.bottom / padding.bottom ;
+        Log.d("", "set padding scaleWidth = " + scaleWidth);
+        Log.d("", "set padding scaleHeight = " + scaleHeight);
+        frameRect.left = (int) ((frameRect.right - scaleWidth * padding.left) + 0.5);
+        frameRect.top = (int) ((frameRect.bottom - scaleHeight * padding.top) + 0.5);
+        Log.d("", "set padding after padding frameRect = " + frameRect);
+        this.setFrameRect(frameRect);
     }
 
     private Rect getPhotoRect() {
+        Log.d("", "0 this.frameRect = " + this.frameRect);
         Rect photoRect = new Rect(this.getFrameRect());
-        photoRect.right = photoRect.right - photoRect.left;
-        photoRect.bottom = photoRect.bottom - photoRect.top;
-        photoRect.right = photoRect.right > 0 ? photoRect.right : PhotoViewConfig.dpToPx(10);
-        photoRect.bottom = photoRect.bottom > 0 ? photoRect.bottom : PhotoViewConfig.dpToPx(10);
+        Log.d("", "1 this.frameRect = " + this.frameRect);
+        Log.d("", "2 photoRect = " + photoRect);
+
+        photoRect.right = photoRect.right - photoRect.left > 0 ? photoRect.left : PhotoViewConfig.dpToPx(10);
+        photoRect.bottom = photoRect.bottom - photoRect.top > 0 ? photoRect.top : PhotoViewConfig.dpToPx(10);
+        photoRect.left = this.photo.getPhotoWidth();
+        photoRect.top = this.photo.getPhotoHeight();
+        Log.d("", "3 photoRect = " + photoRect);
         return photoRect;
     }
 
@@ -64,10 +81,10 @@ public class PhotoView {
         Rect photoRect = this.getPhotoRect();
         Bitmap bitmap = null;
         if (photo.getPhotoPath() != null && !photo.getPhotoPath().trim().isEmpty()) {
-            bitmap = ImageHelper.decodeBitmap(context.getResources(), photo.getPhotoPath(), photo.getPhotoWidth(), photo.getPhotoHeight(), photoRect.right, photoRect.bottom);
+            bitmap = ImageHelper.decodeBitmap(context.getResources(), photo.getPhotoPath(), photoRect);
         }
         if (bitmap == null) {
-            bitmap = ImageHelper.decodeBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, photo.getPhotoWidth(), photo.getPhotoHeight(), photoRect.right, photoRect.bottom);
+            bitmap = ImageHelper.decodeBitmap(context.getResources(), PhotoViewConfig.DEFAULT_PHOTO_ID, photoRect);
             if (PhotoViewConfig.isImageSolid(this.layer)) {
                 return ImageHelper.convertBitmap(bitmap, 1f, 0, 0, 0, photoRect.right, photoRect.bottom);
             }

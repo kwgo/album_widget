@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -19,8 +20,8 @@ public class ImageHelper {
         int cropWidth = imageWidth, cropHeight = imageHeight;
         float scaleWidth = scale, scaleHeight = scale;
         if (width > 0 && height > 0 && imageWidth > 0 && imageHeight > 0) {
-            width = rotation % 2 == 0 ? width : height;
-            height = rotation % 2 == 0 ? height : width;
+             width = rotation % 2 == 0 ? width : height;
+             height = rotation % 2 == 0 ? height : width;
             scaleWidth = scaleWidth * width / imageWidth;
             scaleHeight = scaleHeight * height / imageHeight;
             Log.d("", " convert scaleWidth= " + scaleWidth + " scaleHeight= " + scaleHeight);
@@ -48,8 +49,8 @@ public class ImageHelper {
         Log.d("", " convert from point px= " + px + " py= " + py);
         try {
             Matrix matrix = new Matrix();
+             matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
             matrix.postRotate(rotation * 90);
-            matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
             bitmap = Bitmap.createBitmap(bitmap, px, py, cropWidth, cropHeight, matrix, true);
             Log.d("", "new converted bitmap with width= " + bitmap.getWidth() + " height= " + bitmap.getHeight());
         } catch (Exception ignore) {
@@ -58,7 +59,9 @@ public class ImageHelper {
         return bitmap;
     }
 
-    public static Bitmap decodeBitmap(Resources resources, int imageId, int imageWidth, int imageHeight, int width, int height) {
+    public static Bitmap decodeBitmap(Resources resources, int imageId, Rect imageRect) {
+        int imageWidth = imageRect.left, imageHeight = imageRect.top;
+        int width = imageRect.right, height = imageRect.bottom;
         BitmapFactory.Options options = new BitmapFactory.Options();
         try {
             Log.d("", "decode bitmap from resource imageId= " + imageId);
@@ -69,6 +72,8 @@ public class ImageHelper {
                 BitmapFactory.decodeResource(resources, imageId, options);
                 imageWidth = options.outWidth;
                 imageHeight = options.outHeight;
+                imageRect.left = options.outWidth;
+                imageRect.top = options.outHeight;
             } else {
                 Log.d("", "decode bitmap as we known the bitmap info width= " + imageWidth + " height= " + imageHeight);
                 options.outWidth = imageWidth;
@@ -81,7 +86,7 @@ public class ImageHelper {
 
             options.inScaled = false;
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
-        //    options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            //    options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             options.inDensity = resources.getDisplayMetrics().densityDpi;
             options.inJustDecodeBounds = false;  // Decode bitmap with inSampleSize set
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
@@ -96,7 +101,9 @@ public class ImageHelper {
         }
     }
 
-    public static Bitmap decodeBitmap(Resources resources, String imageUrl, int imageWidth, int imageHeight, int width, int height) {
+    public static Bitmap decodeBitmap(Resources resources, String imageUrl, Rect imageRect) {
+        int imageWidth = imageRect.left, imageHeight = imageRect.top;
+        int width = imageRect.right, height = imageRect.bottom;
         BitmapFactory.Options options = new BitmapFactory.Options();
         try (FileInputStream inputStream = new FileInputStream(imageUrl)) {
             Log.d("", "decode bitmap from file url= " + imageUrl);
@@ -107,6 +114,8 @@ public class ImageHelper {
                 BitmapFactory.decodeStream(inputStream, null, options);
                 imageWidth = options.outWidth;
                 imageHeight = options.outHeight;
+                imageRect.left = options.outWidth;
+                imageRect.top = options.outHeight;
                 inputStream.getChannel().position(0);
             } else {
                 Log.d("", "decode bitmap as we known the bitmap info width= " + imageWidth + " height= " + imageHeight);
@@ -121,7 +130,7 @@ public class ImageHelper {
 
             options.inScaled = false;
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
-      //      options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            //      options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             options.inDensity = resources.getDisplayMetrics().densityDpi;
             options.inJustDecodeBounds = false;  // Decode bitmap with inSampleSize set
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);

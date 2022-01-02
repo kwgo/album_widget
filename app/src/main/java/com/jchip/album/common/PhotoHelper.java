@@ -3,6 +3,7 @@ package com.jchip.album.common;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,13 +28,14 @@ public class PhotoHelper {
     public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
         Bitmap bitmap = photoView.getPhotoImage();
         if (bitmap != null) {
+            Log.d("", "final image bitmap width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
             imageView.setImageBitmap(bitmap);
         }
     }
 
     public static void setPhotoBoard(PhotoView photoView, View boardView) {
         int gap = photoView.getImageGap();
-        boardView.setPadding(gap, gap, gap, gap);
+      //  boardView.setPadding(gap, gap, gap, gap);
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
@@ -55,19 +57,12 @@ public class PhotoHelper {
         if (drawable != null) {
             containerView.setBackground(drawable);
             frameView.setBackground(drawable);
+           photoView.setPhotoPadding(padding);
         } else {
             int frameId = photoView.getFrameIndex();
             containerView.setBackgroundResource(frameId);
             frameView.setBackgroundResource(frameId);
+           photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
         }
-        // adjust frame content rect
-        Rect frameRect = photoView.getFrameRect();
-        frameRect.left = padding.left + padding.right;
-        frameRect.top = padding.top + padding.bottom;
-        if (frameRect.left <= 0 && frameRect.top <= 0) {
-            frameRect.left = frameRect.right - boardView.getWidth();
-            frameRect.top = frameRect.bottom - boardView.getHeight();
-        }
-        photoView.setFrameRect(frameRect);
     }
 }

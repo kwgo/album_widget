@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
+import com.jchip.album.common.NinePatchHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 import com.jchip.album.view.PhotoViewConfig;
@@ -25,6 +26,10 @@ public class WidgetPhotoView {
         this.views = views;
         this.photoView = new PhotoView(context, photoData, PhotoViewConfig.WIDGET_ALBUM_PHOTO);
         this.photoView.setFrameRect(this.getWidgetRect(appWidgetId));
+
+        Rect padding = new Rect();
+        NinePatchHelper.getImagePadding(context.getResources(), this.photoView.getFrameIndex(), this.photoView.getFrameDensitySize(), padding);
+        this.photoView.setPhotoPadding(padding);
     }
 
     public void updateView() {
@@ -37,7 +42,7 @@ public class WidgetPhotoView {
 
     public void updatePhotoScale() {
         this.photoView.setPhotoImage(-1, -1, (this.photoView.getScaleIndex() + 1) % 4);
-        this.setPhotoImage();
+        this.updateView();
     }
 
     private void setPhotoView() {
@@ -64,12 +69,6 @@ public class WidgetPhotoView {
         int frameId = this.photoView.getFrameIndex();
         this.views.setInt(R.id.photo_container, "setBackgroundResource", frameId);
         this.views.setInt(R.id.photo_frame, "setBackgroundResource", frameId);
-
-        Rect padding = this.photoView.getFrameBorder();
-        Rect frameRect = this.photoView.getFrameRect();
-        frameRect.left = padding.left + padding.right;
-        frameRect.top = padding.top + padding.bottom;
-        this.photoView.setFrameRect(frameRect);
     }
 
     private void setPhotoLabel() {

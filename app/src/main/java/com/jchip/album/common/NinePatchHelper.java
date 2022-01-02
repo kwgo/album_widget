@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.NinePatch;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -16,50 +15,64 @@ import java.nio.ByteOrder;
 public class NinePatchHelper {
     private static final int SCALE_NUMBER = 40;
 
-    public static Drawable getImageDrawable(Resources resources, int imageId, int densitySize, Rect padding) {
+    public static Rect getImagePadding(Resources resources, int imageId, int densitySize, Rect padding) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = true;
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
+            Log.d("", "9 patch bitmap inDensity = " + options.inDensity + " inTargetDensity = " + options.inTargetDensity);
+            Log.d("", "9 patch bitmap width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
             if (bitmap != null) {
-                Log.d("", "nine patch bitmap width=" + bitmap.getWidth() + " height=" + bitmap.getHeight());
-                return NinePatchHelper.getDrawable(resources, bitmap, padding);
+                padding.set(getPadding(bitmap));
             }
         } catch (Exception ignore) {
         }
-        return null;
-
+        return padding;
     }
 
-    public static Rect getImagePadding(Resources resources, int imageId, int densitySize) {
+    private static Rect getPadding(Bitmap bitmap) {
+        Rect padding = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final byte[] chunk = bitmap.getNinePatchChunk();
+        if (NinePatch.isNinePatchChunk(chunk)) {
+            Log.d("", "9 patch bitmap padding = " + new NinePatchChunk(chunk).getPadding());
+            Rect ninePatchPadding = new NinePatchChunk(chunk).getPadding();
+            padding.left = ninePatchPadding.left + ninePatchPadding.right;
+            padding.top = ninePatchPadding.top + ninePatchPadding.bottom;
+        }
+        return padding;
+    }
+
+    public static Bitmap getImageBitmap(Resources resources, int imageId, int densitySize) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = true;
             options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
-            Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
+            return BitmapFactory.decodeResource(resources, imageId, options);
+        } catch (Exception ignore) {
+            return null;
+        }
+    }
+
+    public static NinePatchDrawable getDrawable(Resources resources, int imageId, int densitySize, Rect padding) {
+        try {
+            Bitmap bitmap = getImageBitmap(resources, imageId, densitySize);
             if (bitmap != null) {
                 final byte[] chunk = bitmap.getNinePatchChunk();
                 if (NinePatch.isNinePatchChunk(chunk)) {
-                    return new NinePatchChunk(chunk).getPadding();
+                    NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
+                    Rect ninePatchPadding = ninePatchChunk.getPadding();
+                    padding.left = ninePatchPadding.left + ninePatchPadding.right;
+                    padding.top = ninePatchPadding.top + ninePatchPadding.bottom;
+                    padding.right = bitmap.getWidth();
+                    padding.bottom = bitmap.getHeight();
+                    //padding.set(ninePatchPadding);
+                    return new NinePatchDrawable(resources, bitmap, chunk, ninePatchPadding, null);
                 }
             }
         } catch (Exception ignore) {
-        }
-        return new Rect();
-    }
-
-    public static NinePatchDrawable getDrawable(Resources resources, Bitmap bitmap, Rect padding) {
-        final byte[] chunk = bitmap.getNinePatchChunk();
-        if (NinePatch.isNinePatchChunk(chunk)) {
-            NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
-            Rect ninePatchPadding = ninePatchChunk.getPadding();
-            if (padding != null) {
-                padding.set(ninePatchPadding);
-            }
-            return new NinePatchDrawable(resources, bitmap, chunk, ninePatchPadding, null);
         }
         return null;
     }
