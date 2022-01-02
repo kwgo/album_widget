@@ -19,8 +19,7 @@
                 android:id="@+id/photo_board"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/photo_board"
-                android:visibility="invisible">
+                android:background="@color/photo_board">
 
                 <ImageView
                     android:id="@+id/photo_image"
