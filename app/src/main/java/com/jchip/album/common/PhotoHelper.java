@@ -17,7 +17,7 @@ public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
         setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_board), view.findViewById(R.id.photo_frame));
-        //setPhotoBoard(photoView, view.findViewById(R.id.photo_image));
+        setPhotoBorder(photoView, view.findViewById(R.id.photo_image));
 
         if (photoView.isImageOn()) {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
@@ -33,9 +33,9 @@ public class PhotoHelper {
         }
     }
 
-    public static void setPhotoBoard(PhotoView photoView, View boardView) {
+    public static void setPhotoBorder(PhotoView photoView, View imageView) {
         int gap = photoView.getImageGap();
-      //  boardView.setPadding(gap, gap, gap, gap);
+        ((View) imageView.getParent()).setPadding(gap, gap, gap, gap);
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
@@ -57,12 +57,12 @@ public class PhotoHelper {
         if (drawable != null) {
             containerView.setBackground(drawable);
             frameView.setBackground(drawable);
-           photoView.setPhotoPadding(padding);
+            // photoView.setPhotoPadding(padding);
         } else {
             int frameId = photoView.getFrameIndex();
             containerView.setBackgroundResource(frameId);
             frameView.setBackgroundResource(frameId);
-           photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
+            // photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
         }
     }
 }

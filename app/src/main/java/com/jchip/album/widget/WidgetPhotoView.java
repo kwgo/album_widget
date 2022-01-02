@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
-import com.jchip.album.common.NinePatchHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 import com.jchip.album.view.PhotoViewConfig;
@@ -28,8 +27,8 @@ public class WidgetPhotoView {
         this.photoView.setFrameRect(this.getWidgetRect(appWidgetId));
 
         Rect padding = new Rect();
-        NinePatchHelper.getImagePadding(context.getResources(), this.photoView.getFrameIndex(), this.photoView.getFrameDensitySize(), padding);
-        this.photoView.setPhotoPadding(padding);
+        // NinePatchHelper.getImagePadding(context.getResources(), this.photoView.getFrameIndex(), this.photoView.getFrameDensitySize(), padding);
+        // this.photoView.setPhotoPadding(padding);
     }
 
     public void updateView() {
