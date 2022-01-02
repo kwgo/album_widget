@@ -89,21 +89,21 @@ public class FontLayer extends AbstractLayer {
         List<Integer> fonts = PhotoViewConfig.fonts;
         int fontIndex = (this.photo.getFontIndex() + 1) % fonts.size();
         this.photo.setPhotoFont(fonts.get(fontIndex), -1, -1, -1, null);
-        this.setPhotoFont(this.getTextView(R.id.photo_label));
+        this.setPhotoView(this.getView(R.id.photo_view));
     }
 
     private void onLocationChange() {
         List<Integer> locations = PhotoViewConfig.locations;
         int locationIndex = (this.photo.getLocationIndex() + 1) % locations.size();
         this.photo.setPhotoFont(-1, -1, -1, locations.get(locationIndex), null);
-        this.setPhotoFont(this.getTextView(R.id.photo_label));
+        this.setPhotoView(this.getView(R.id.photo_view));
     }
 
     private void onSizeChange(int change) {
         float fontSize = this.photo.getFontSize() + change * PhotoViewConfig.dpToPx(2);
         if (fontSize > PhotoViewConfig.dpToPx(10) && fontSize < PhotoViewConfig.dpToPx(100)) {
             this.photo.setPhotoFont(-1, (int) fontSize, -1, -1, null);
-            this.setPhotoFont(this.getTextView(R.id.photo_label));
+            this.setPhotoView(this.getView(R.id.photo_view));
         }
     }
 
@@ -113,12 +113,12 @@ public class FontLayer extends AbstractLayer {
         int g = this.getSeekView(R.id.font_color_g).getProgress();
         int b = this.getSeekView(R.id.font_color_b).getProgress();
         this.photo.setPhotoFont(-1, -1, Color.argb(a, r, g, b), -1, null);
-        this.setPhotoFont(this.getTextView(R.id.photo_label));
+        this.setPhotoView(this.getView(R.id.photo_view));
     }
 
     private void onTextChange(String text) {
         this.photo.setPhotoFont(-1, -1, -1, -1, text);
-        this.setPhotoFont(this.getTextView(R.id.photo_label));
+        this.setPhotoView(this.getView(R.id.photo_view));
     }
 
     @Override

@@ -35,11 +35,11 @@ public abstract class FlowLayer extends DataLayer {
     }
 
     public void onFrameChange(Intent intent) {
-         PhotoData photoData = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
+        PhotoData photoData = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
         if (photoData != null) {
             this.photo.setPhotoView(new PhotoView(this, photoData, this.layer));
             this.updatePhoto();
-            this.setPhotoFrame(this.getView(R.id.photo_container), this.getView(R.id.photo_board), this.getView(R.id.photo_frame));
+            this.setPhotoView(this.getView(R.id.photos_view));
         }
     }
 
@@ -48,7 +48,7 @@ public abstract class FlowLayer extends DataLayer {
         if (photoData != null) {
             this.photo.setPhotoView(new PhotoView(this, photoData, this.layer));
             this.updatePhoto();
-            this.setPhotoFont(this.getTextView(R.id.photo_label));
+            this.setPhotoView(this.getView(R.id.photos_view));
         }
     }
 }

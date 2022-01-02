@@ -85,18 +85,18 @@ public abstract class AbstractLayer extends AppCompatActivity {
     public void setPhotoView(View view) {
         PhotoHelper.setPhotoView(this.photo, view);
     }
+//
+//    public void setPhotoFrame(View containerView, View boardView, View frameView) {
+//        PhotoHelper.setPhotoFrame(this.photo, containerView, boardView, frameView);
+//    }
 
-    public void setPhotoFrame(View containerView, View boardView, View frameView) {
-        PhotoHelper.setPhotoFrame(this.photo, containerView, boardView, frameView);
-    }
+//    public void setPhotoImage(ImageView imageView) {
+//        PhotoHelper.setPhotoImage(this.photo, imageView);
+//    }
 
-    public void setPhotoImage(ImageView imageView) {
-        PhotoHelper.setPhotoImage(this.photo, imageView);
-    }
-
-    public void setPhotoFont(TextView textView) {
-        PhotoHelper.setPhotoFont(this.photo, textView);
-    }
+//    public void setPhotoFont(TextView textView) {
+//        PhotoHelper.setPhotoFont(this.photo, textView);
+//    }
 
     public Rect getViewRect(int sourceId) {
         View view = findViewById(sourceId);

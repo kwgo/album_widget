@@ -83,6 +83,8 @@ public class PhotoLayer extends FlowLayer {
     }
 
     private void onSlipPhoto(int offset) {
+        Log.d("", "~~~~~~~~~~~ slip XXX  Rect ~~~~~~~~~~~~~~~~~~~" + this.getViewRect(R.id.photos_view));
+
         if (this.album.getPhotoSize() > 0) {
             List<PhotoView> photos = this.album.getPhotoViews();
             int postion = photos.indexOf(this.photo);
@@ -95,21 +97,19 @@ public class PhotoLayer extends FlowLayer {
 
     private void onScalePhoto(View v) {
         this.photo.setPhotoImage(-1, -1, (this.photo.getScaleIndex() + 1) % 4);
-  //      this.setPhotoScale(this.getImageView(R.id.photo_image));
-        this.setPhotoImage(this.getImageView(R.id.photo_image));
+        this.setPhotoView(this.getView(R.id.photo_view));
         this.updatePhoto();
     }
 
     private void onFlipPhoto() {
         this.photo.setPhotoImage(this.photo.getFlipIndex() == 0 ? 1 : 0, -1, -1);
-        Log.d("","-------------------------------YYYYYYYYYYYYYy-");
-        this.setPhotoImage(this.getImageView(R.id.photo_image));
+        this.setPhotoView(this.getView(R.id.photo_view));
         this.updatePhoto();
     }
 
     protected void onRotatePhoto() {
         this.photo.setPhotoImage(-1, (this.photo.getRotationIndex() + 1) % 4, -1);
-        this.setPhotoImage(this.getImageView(R.id.photo_image));
+        this.setPhotoView(this.getView(R.id.photo_view));
         this.updatePhoto();
     }
 

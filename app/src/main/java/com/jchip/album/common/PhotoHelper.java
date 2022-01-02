@@ -55,12 +55,12 @@ public class PhotoHelper {
         if (drawable != null) {
             containerView.setBackground(drawable);
             frameView.setBackground(drawable);
-            // photoView.setPhotoPadding(padding);
+             photoView.setPhotoPadding(padding);
         } else {
             int frameId = photoView.getFrameIndex();
             containerView.setBackgroundResource(frameId);
             frameView.setBackgroundResource(frameId);
-            // photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
+             photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
         }
     }
 }

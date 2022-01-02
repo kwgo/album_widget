@@ -64,6 +64,7 @@ public class NinePatchHelper {
                 if (NinePatch.isNinePatchChunk(chunk)) {
                     NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
                     Rect ninePatchPadding = ninePatchChunk.getPadding();
+                    Log.d("", "drawable 9 patch padding = " + ninePatchPadding + " image size = (" + bitmap.getWidth() + " - " + bitmap.getHeight() + ")");
                     padding.left = ninePatchPadding.left + ninePatchPadding.right;
                     padding.top = ninePatchPadding.top + ninePatchPadding.bottom;
                     padding.right = bitmap.getWidth();

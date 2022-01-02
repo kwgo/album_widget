@@ -53,12 +53,17 @@ public class PhotoView {
         Rect frameRect = this.getFrameRect();
         Log.d("", "set padding original frameRect = " + frameRect);
         padding = padding != null ? padding : new Rect(0, 0, frameRect.right, frameRect.bottom);
-        float scaleWidth = 1f *  frameRect.right / padding.right ;
-        float scaleHeight = 1f * frameRect.bottom / padding.bottom ;
+
+
+        float scaleWidth = 1f * (padding.right - padding.left) / padding.right;
+        float scaleHeight = 1f * (padding.bottom - padding.top) / padding.bottom;
         Log.d("", "set padding scaleWidth = " + scaleWidth);
         Log.d("", "set padding scaleHeight = " + scaleHeight);
-        frameRect.left = (int) (frameRect.right - scaleWidth * padding.left + 0.5);
-        frameRect.top = (int) (frameRect.bottom - scaleHeight * padding.top + 0.5);
+
+  //      frameRect.left = (int) (scaleWidth * frameRect.right + 0.5);
+  //      frameRect.top = (int) (scaleHeight * frameRect.bottom + 0.5);
+        frameRect.left = frameRect.right - padding.left;
+        frameRect.top =  frameRect.bottom  - padding.top;
         Log.d("", "set padding after padding frameRect = " + frameRect);
         this.setFrameRect(frameRect);
     }
@@ -69,8 +74,8 @@ public class PhotoView {
         Log.d("", "1 this.frameRect = " + this.frameRect);
         Log.d("", "2 photoRect = " + photoRect);
 
-        //photoRect.right = photoRect.right - photoRect.left > 0 ? photoRect.left : PhotoViewConfig.dpToPx(10);
-        //photoRect.bottom = photoRect.bottom - photoRect.top > 0 ? photoRect.top : PhotoViewConfig.dpToPx(10);
+        photoRect.right = photoRect.right - photoRect.left > 0 ? photoRect.left : PhotoViewConfig.dpToPx(10);
+        photoRect.bottom = photoRect.bottom - photoRect.top > 0 ? photoRect.top : PhotoViewConfig.dpToPx(10);
         photoRect.left = this.photo.getPhotoWidth();
         photoRect.top = this.photo.getPhotoHeight();
         Log.d("", "3 photoRect = " + photoRect);
