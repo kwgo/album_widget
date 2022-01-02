@@ -14,15 +14,16 @@
             android:id="@+id/photo_board"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/photo_board">
+            android:background="@color/photo_board"
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/photo_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
+                android:contentDescription="@null"
 
-                android:contentDescription="@null" />
+                android:scaleType="centerInside" />
 
         </FrameLayout>
 

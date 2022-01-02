@@ -46,12 +46,11 @@ public class AlbumLayer extends PhotoLayer {
         Log.d("", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ postContentView ~~~~~~~~~~~~~~~~~~~");
         Log.d("", "~~~~~~~~~~~ init  Rect ~~~~~~~~~~~~~~~~~~~" + this.getViewRect(R.id.photo_container_view));
 
+        this.reloadAlbumList();
+        this.setAlbumPhotos(albums.get(0));
 
         this.albumNameView.setText(this.album.getAlbumName(), false);
         this.albumNameView.addTextChangedListener(this::onAlbumNameChanged);
-
-        this.reloadAlbumList();
-        this.setAlbumPhotos(albums.get(0));
     }
 
     protected void reloadAlbumList() {

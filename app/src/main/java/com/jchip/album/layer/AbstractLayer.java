@@ -64,7 +64,7 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     protected void initContentView() {
-        MainHandler.instances().postDelayed(() -> this.postContentView(), 100);
+        MainHandler.instances().postDelayed(() -> this.postContentView(), 200);
     }
 
     protected void postContentView() {

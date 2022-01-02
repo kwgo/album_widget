@@ -54,6 +54,7 @@ public class WidgetPhotoView {
     private void setPhotoImage() {
         int gap = this.photoView.getImageGap();
         this.views.setViewPadding(R.id.photo_board, gap, gap, gap, gap);
+        this.views.setViewVisibility(R.id.photo_board, View.VISIBLE);
 
         Bitmap bitmap = this.photoView.getPhotoImage();
         if (bitmap != null) {
