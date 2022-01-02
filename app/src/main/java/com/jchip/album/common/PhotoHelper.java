@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
         setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_board), view.findViewById(R.id.photo_frame));
-        setPhotoBorder(photoView, view.findViewById(R.id.photo_image));
 
         if (photoView.isImageOn()) {
             setPhotoImage(photoView, view.findViewById(R.id.photo_image));
@@ -26,16 +26,14 @@ public class PhotoHelper {
     }
 
     public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
+        int gap = photoView.getImageGap();
+        ((FrameLayout.LayoutParams) imageView.getLayoutParams()).setMargins(gap, gap, gap, gap);
+
         Bitmap bitmap = photoView.getPhotoImage();
         if (bitmap != null) {
             Log.d("", "final image bitmap width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
             imageView.setImageBitmap(bitmap);
         }
-    }
-
-    public static void setPhotoBorder(PhotoView photoView, View imageView) {
-        int gap = photoView.getImageGap();
-        ((View) imageView.getParent()).setPadding(gap, gap, gap, gap);
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
