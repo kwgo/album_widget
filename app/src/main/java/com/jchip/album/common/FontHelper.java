@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -26,41 +27,25 @@ public class FontHelper {
     }
 
 
-    public static Bitmap getTextBitmap(Resources resources, String text, Layout.Alignment alignment) {
-        // prepare canvas
-     //   Resources resources = gContext.getResources();
-        float scale = resources.getDisplayMetrics().density;
-
-
-        // new antialiased Paint
+    public static Bitmap getTextBitmap(String text, Typeface font, int textSize, int color, Layout.Alignment alignment) {
+        // new anti aliased Paint
         TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        // text color - #3D3D3D
-        paint.setColor(Color.rgb(61, 61, 61));
-        // text size in pixels
-        paint.setTextSize((int) (14 * scale));
-        // text shadow
-        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+        paint.setColor(color);
+        paint.setTextSize(textSize);
+        paint.setTypeface(font);
+        // paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
 
         int textWidth = getTextWidth(paint, text);
-
         // init StaticLayout for text
-        StaticLayout textLayout = new StaticLayout(
-                text, paint, textWidth, alignment, 1.0f, 0.0f, false);
-
+        StaticLayout textLayout = new StaticLayout(text, paint, textWidth, alignment, 0.8f, 0.0f, false);
         // get height of multiline text
         int textHeight = textLayout.getHeight();
-
-
+        // init a bitmap
         Bitmap bitmap = Bitmap.createBitmap(textWidth, textHeight, Bitmap.Config.ARGB_8888);
-
         // get position of text's top left corner
-        float x = 0;
-        float y = 0;
         Canvas canvas = new Canvas(bitmap);
-
-        // draw text to the Canvas center
         canvas.save();
-        canvas.translate(x, y);
+        canvas.translate(0, 0);
         textLayout.draw(canvas);
         canvas.restore();
         return bitmap;

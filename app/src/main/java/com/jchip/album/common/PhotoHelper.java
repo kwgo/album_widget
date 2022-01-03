@@ -40,7 +40,7 @@ public class PhotoHelper {
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
         textView.setVisibility(View.GONE);
-        if (photoView.isFontEmpty()) {
+        if (!photoView.isFontEmpty()) {
             textView.setText(photoView.getFontText());
             textView.setTextColor(photoView.getFontColor());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontTextSize());

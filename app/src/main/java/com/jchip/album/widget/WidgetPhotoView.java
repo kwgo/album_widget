@@ -3,9 +3,9 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -87,12 +87,21 @@ public class WidgetPhotoView {
 //        int imageId = R.drawable.photo_default;
 //        Bitmap bitmap = FontHelper.drawMultilineTextToBitmap(context, imageId, "aaa\nbbb\nccc\nddddddd\nde", Layout.Alignment.ALIGN_OPPOSITE);
 //        this.views.setImageViewBitmap(R.id.photo_label_image, bitmap);
+        this.views.setViewVisibility(R.id.photo_label_image, this.photoView.isFontEmpty() ? View.GONE : View.VISIBLE);
+        if (!this.photoView.isFontEmpty()) {
+            String text = this.photoView.getFontText();
+            Typeface font = this.photoView.getFontFaceType();
+            int color = this.photoView.getFontColor();
+            int textSize = this.photoView.getFontTextSize();
+            Log.d("", " this.photoView.getFontLocation() = " + this.photoView.getFontLocation());
+            int location = this.photoView.getLocationIndex() % 3;
+            Layout.Alignment alignment = location == 0 ? Layout.Alignment.ALIGN_NORMAL :
+                    location == 2 ? Layout.Alignment.ALIGN_OPPOSITE : Layout.Alignment.ALIGN_CENTER;
+            Log.d("", " alignment = " + alignment);
 
-
-        Bitmap bitmap = FontHelper.getTextBitmap(context.getResources(),  "aaa\nbbb\nccc\nddddddd\nde", Layout.Alignment.ALIGN_OPPOSITE);
-        this.views.setImageViewBitmap(R.id.photo_label_image, bitmap);
-
-
+            Bitmap bitmap = FontHelper.getTextBitmap(text, font, textSize, color, alignment);
+            this.views.setImageViewBitmap(R.id.photo_label_image, bitmap);
+        }
 
         //        int[] labelIds = {
 //                R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
@@ -113,7 +122,7 @@ public class WidgetPhotoView {
     }
 
     private void setLabelFont(int photoLabelId) {
-        if (this.photoView.isFontEmpty()) {
+        if (!this.photoView.isFontEmpty()) {
             this.views.setTextViewText(photoLabelId, this.photoView.getFontText());
             this.views.setTextColor(photoLabelId, this.photoView.getFontColor());
             this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, this.photoView.getFontTextSize());

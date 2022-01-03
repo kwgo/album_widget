@@ -123,7 +123,7 @@ public class PhotoView {
     }
 
     public boolean isFontEmpty() {
-        return this.getFontText() != null && !this.getFontText().trim().isEmpty();
+        return this.getFontText() == null || this.getFontText().trim().isEmpty();
     }
 
     public boolean isImageOn() {
