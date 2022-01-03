@@ -2,7 +2,6 @@ package com.jchip.album.layer;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,9 +17,9 @@ public class FrameLayer extends RecyclerLayer {
     private static final int MAX_FRAME_NUMBER = 200;
 
     private List<Integer> frames;
-    private List<Integer> frameShells;
 
     private PhotoView photoView;
+    private int frameIndex;
     private Bitmap photoImage;
 
     @Override
@@ -36,15 +35,13 @@ public class FrameLayer extends RecyclerLayer {
         this.photoView = new PhotoView(this, photoData, this.layer);
 
         this.photoImage = this.photoView.getPhotoImage();
+        this.frameIndex = this.photoView.getFrameIndex();
 
         this.frames = new ArrayList<>();
-        this.frameShells = new ArrayList<>();
         for (int index = 0; index < MAX_FRAME_NUMBER; index++) {
             int frameId = this.getResources().getIdentifier("frame_item_" + index, "drawable", this.getPackageName());
-            int shellId = this.getResources().getIdentifier("frame_shell_" + index, "drawable", this.getPackageName());
             if (frameId > 0) {
                 this.frames.add(frameId);
-                this.frameShells.add(shellId <= 0 ? frameId : shellId);
             }
         }
 
@@ -54,13 +51,16 @@ public class FrameLayer extends RecyclerLayer {
     }
 
     @Override
+    protected int getScrollToPosition() {
+        return this.frames.indexOf(this.frameIndex);
+    }
+
+    @Override
     protected void bindItemView(View itemView, final int position) {
         this.photo = new PhotoView(this, this.photoView.getPhotoData(), this.layer);
         this.photo.setPhotoFrame(frames.get(position));
 
         View view = itemView.findViewById(R.id.photo_view);
-        Log.d("", "view.getWidth() ---------------------" + view.getWidth());
-        Log.d("", "view.getHeight() ---------------------" + view.getHeight());
         this.setPhotoView(view);
         view.setOnClickListener((v) -> {
             this.photoView.setPhotoFrame(frames.get(position));

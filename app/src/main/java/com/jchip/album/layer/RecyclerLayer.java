@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,14 +20,14 @@ public abstract class RecyclerLayer extends DataLayer {
 
     protected RecyclerView recyclerView;
 
-    private Map<Integer, View> itemViews = new HashMap<>();
+    private final Map<Integer, View> itemViews = new HashMap<>();
 
     public void initRecyclerView(int recyclerId, int itemId, int itemCount) {
         this.initRecyclerView(recyclerId, itemId, itemCount, COLUMN_NUMBER);
     }
 
     public void initRecyclerView(int recyclerId, int itemId, int itemCount, int spanCount) {
-        this.recyclerView = (RecyclerView) this.findViewById(recyclerId);
+        this.recyclerView = this.findViewById(recyclerId);
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -44,6 +45,11 @@ public abstract class RecyclerLayer extends DataLayer {
         recyclerView.addItemDecoration(dividerItemDecoration);
         RecyclerViewAdapter viewAdapter = new RecyclerViewAdapter(this, itemId, itemCount);
         recyclerView.setAdapter(viewAdapter);
+
+        int scrollToPosition = this.getScrollToPosition();
+        if (scrollToPosition >= 0 && scrollToPosition < itemCount) {
+            layoutManager.scrollToPosition(scrollToPosition);
+        }
     }
 
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -57,8 +63,10 @@ public abstract class RecyclerLayer extends DataLayer {
             this.itemCount = itemCount;
         }
 
+
+        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(this.viewId, parent, false);
             return new ViewHolder(view);
         }
@@ -69,7 +77,7 @@ public abstract class RecyclerLayer extends DataLayer {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             View itemView = itemViews.get(position);
             if (itemView == null) {
                 holder.bindView(position);
@@ -88,7 +96,7 @@ public abstract class RecyclerLayer extends DataLayer {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private View itemView;
+            private final View itemView;
 
             public void bindView(int position) {
                 bindItemView(this.itemView, position);
@@ -109,5 +117,9 @@ public abstract class RecyclerLayer extends DataLayer {
 
     protected int getSpanSize(final int position) {
         return 1;
+    }
+
+    protected int getScrollToPosition() {
+        return RecyclerView.NO_POSITION;
     }
 }
