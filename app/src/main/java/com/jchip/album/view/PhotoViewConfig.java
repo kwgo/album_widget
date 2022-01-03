@@ -93,20 +93,20 @@ public class PhotoViewConfig {
     }
 
     private static final Map<Integer, Integer> imageWidths = new HashMap<Integer, Integer>() {{
-        this.put(LAYER_ALBUM_PHOTO, getScreenWidth());
-        this.put(LAYER_FRAME_SETTING, getScreenWidth());
-        this.put(LAYER_FONT_SETTING, getScreenWidth());
+        this.put(LAYER_ALBUM_PHOTO, getScreenWidth() - dpToPx(10 * 1));
+        this.put(LAYER_FRAME_SETTING, getScreenWidth() - dpToPx(20 * 2));
+        this.put(LAYER_FONT_SETTING, getScreenWidth() - dpToPx(20 * 2) - dpToPx(40));
         // this.put(WIDGET_ALBUM_PHOTO, getScreenWidth());
-        this.put(WIDGET_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
-        this.put(WIDGET_ALBUM_SETTING, getScreenWidth() / 5);
-        this.put(WIDGET_PHOTO_SETTING, getScreenWidth() / 2);
+        this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
+        this.put(WIDGET_ALBUM_SETTING, dpToPx(64));
+        this.put(WIDGET_PHOTO_SETTING, (int) (0.9f * getScreenWidth() / 2));
     }};
 
     private static final Map<Integer, Integer> imageHeights = new HashMap<Integer, Integer>() {{
-        this.put(LAYER_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
+        this.put(LAYER_ALBUM_PHOTO, (int) (0.64f * getScreenHeight()));
         this.put(LAYER_FRAME_SETTING, dpToPx(220));
-        this.put(LAYER_FONT_SETTING, dpToPx(220));
-        this.put(WIDGET_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
+        this.put(LAYER_FONT_SETTING, dpToPx(200));
+        this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
         this.put(WIDGET_ALBUM_SETTING, dpToPx(45));
         this.put(WIDGET_PHOTO_SETTING, dpToPx(100));
     }};
