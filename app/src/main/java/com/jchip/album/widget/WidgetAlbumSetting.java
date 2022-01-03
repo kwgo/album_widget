@@ -13,7 +13,6 @@ import com.jchip.album.view.PhotoViewConfig;
 import java.util.List;
 
 public class WidgetAlbumSetting extends WidgetSetting {
-    protected static final int ALBUM_DENSITY_FACTOR = 16;
 
     private List<AlbumView> albums;
 
@@ -32,8 +31,8 @@ public class WidgetAlbumSetting extends WidgetSetting {
             this.startApp();
             this.finish();
         }
-  
-        this.initListView(R.id.album_setting_view, R.layout.widget_album_setting_item, this.albums.size());
+
+        this.initRecyclerView(R.id.album_setting_view, R.layout.widget_album_setting_item, this.albums.size());
     }
 
     @Override

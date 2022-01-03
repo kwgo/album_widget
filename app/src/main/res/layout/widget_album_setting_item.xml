@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="6dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="4dp"
     android:orientation="horizontal">
 
     <include
@@ -9,10 +13,6 @@
         android:layout_width="64dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="6dp"
         android:gravity="center" />
 
     <TextView
@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="6dp"
         android:alpha="0.90"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"

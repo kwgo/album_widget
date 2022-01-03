@@ -10,8 +10,9 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
 import com.jchip.album.layer.ListLayer;
+import com.jchip.album.layer.RecyclerLayer;
 
-public abstract class WidgetSetting extends ListLayer {
+public abstract class WidgetSetting extends RecyclerLayer {
     protected int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     protected int resultValue = RESULT_CANCELED;

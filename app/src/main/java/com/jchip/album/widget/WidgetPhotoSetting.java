@@ -43,7 +43,8 @@ public class WidgetPhotoSetting extends WidgetSetting {
             this.startApp();
             this.finish();
         }
-        this.initListView(R.id.photo_setting_view, R.layout.widget_photo_setting_item, this.albums.size());
+        //this.initListView(R.id.photo_setting_view, R.layout.widget_photo_setting_item, this.albums.size());
+        this.initRecyclerView(R.id.photo_setting_view, R.layout.widget_photo_setting_item, this.albums.size());
     }
 
     @Override

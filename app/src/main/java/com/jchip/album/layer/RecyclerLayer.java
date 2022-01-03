@@ -14,7 +14,7 @@ import com.jchip.album.R;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RecyclerLayer extends AbstractLayer {
+public abstract class RecyclerLayer extends DataLayer {
     private final static int COLUMN_NUMBER = 1;
 
     protected RecyclerView recyclerView;

@@ -61,7 +61,7 @@ public class PhotoViewConfig {
 
 
     public static float getFrameSizeFactor(int layer) {
-        return layer == WIDGET_ALBUM_PHOTO ? 1.15f : 1.0f;
+        return layer == WIDGET_ALBUM_PHOTO ? 1.5f : 1.0f;
     }
 
     private static final Map<Integer, Float> fontSizeFactors = new HashMap<Integer, Float>() {{
