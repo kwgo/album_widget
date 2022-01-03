@@ -10,17 +10,27 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 
 public class FontHelper {
-    public static int getTextWidth(Paint paint, String str) {
-        int iRet = 0;
-        if (str != null && str.length() > 0) {
-            int len = str.length();
+    private static int getTextWidth(Paint paint, String text) {
+        int textWidth = 0;
+        if (text != null && text.length() > 0) {
+            int len = text.length();
             float[] widths = new float[len];
-            paint.getTextWidths(str, widths);
-            for (int j = 0; j < len; j++) {
-                iRet += (int) Math.ceil(widths[j]);
+            paint.getTextWidths(text, widths);
+            for (int index = 0; index < len; index++) {
+                textWidth += (int) Math.ceil(widths[index]);
             }
         }
-        return iRet;
+        return textWidth;
+    }
+
+    private static int getMultipleLineWidth(Paint paint, String text) {
+        int maxTextWidth = 0;
+        if (text != null && text.length() > 0) {
+            for (String line : text.split("\n")) {
+                maxTextWidth = Math.max(maxTextWidth, getTextWidth(paint, line));
+            }
+        }
+        return maxTextWidth;
     }
 
     public static Bitmap getTextBitmap(String text, Typeface font, int textSize, int color, Layout.Alignment alignment) {
@@ -31,7 +41,7 @@ public class FontHelper {
         paint.setTypeface(font);
         // paint.setShadowLayer(1f, 0f, 1f,  color & 0xFAFFFFFF);
 
-        int textWidth = getTextWidth(paint, text);
+        int textWidth = getMultipleLineWidth(paint, text);
         // init StaticLayout for text
         StaticLayout textLayout = new StaticLayout(text, paint, textWidth, alignment, 0.8f, 0.0f, false);
         // get height of multiline text
