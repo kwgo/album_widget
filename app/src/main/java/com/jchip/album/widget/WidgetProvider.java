@@ -3,8 +3,10 @@ package com.jchip.album.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -34,6 +36,17 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+         Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+
+        Log.d("", "widget size changing is AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH = " +  options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) + " AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH = " +  options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
+        Log.d("", "widget size changing is AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT = " +  options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + " AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT = " +  options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
+
+
+        AppWidgetProviderInfo providerInfo = AppWidgetManager.getInstance(context).getAppWidgetInfo(appWidgetId);
+        Log.d("", "widget size changing is providerInfo.minWidth = " +  providerInfo.minWidth);
+        Log.d("", "widget size changing is providerInfo.minHeight = " +  providerInfo.minHeight);
+
+
         this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
     }
 

@@ -35,7 +35,7 @@ public class PhotoView {
         Log.d("", " this.getLayer()===" + this.layer);
         Log.d("", " this.getDensity()===" + PhotoViewConfig.getDensity());
         Log.d("", " this.getImageGap()===" + this.getImageGap());
-        Log.d("", " this.getImageDensitySize()===" + this.getFrameDensitySize());
+        Log.d("", " this.getDensityFactor()===" + this.getDensityFactor());
         Log.d("", " this.getImageRect()===" + PhotoViewConfig.getImageRect(layer));
         Log.d("", " this.getScreenWidth()===" + PhotoViewConfig.getScreenWidth());
         Log.d("", " this.getScreenHeight()===" + PhotoViewConfig.getScreenHeight());
@@ -43,20 +43,22 @@ public class PhotoView {
         Log.d("", " ---------");
 
         // x 40 to change density
-        int densitySize = this.getFrameDensitySize();
-        return NinePatchHelper.getDrawable(context.getResources(), this.getFrameIndex(), densitySize, padding);
+        float densityFactor = this.getDensityFactor();
+        return NinePatchHelper.getDrawable(context.getResources(), this.getFrameIndex(), densityFactor, padding);
     }
 
 
     public void setPhotoPadding(Rect padding) {
         Log.d("", "set padding 9 patch padding = " + padding);
+        Log.d("", "set padding 9 patch density = " + this.getDensityFactor());
         Rect frameRect = this.getFrameRect();
         Log.d("", "set padding original frameRect = " + frameRect);
         padding = padding != null ? padding : new Rect(0, 0, frameRect.right, frameRect.bottom);
-
-        frameRect.left = frameRect.right - padding.left;
-        frameRect.top = frameRect.bottom - padding.top;
-
+//        frameRect.left = frameRect.right - padding.left;
+//        frameRect.top = frameRect.bottom - padding.top;
+        Log.d("", "set padding before padding factor = " + PhotoViewConfig.getFrameSizeFactor(this.layer));
+        frameRect.left = frameRect.right - (int) (1f * padding.left / PhotoViewConfig.getFrameSizeFactor(this.layer));
+        frameRect.top = frameRect.bottom - (int) (1f * padding.top / PhotoViewConfig.getFrameSizeFactor(this.layer));
         Log.d("", "set padding after padding frameRect = " + frameRect);
         this.setFrameRect(frameRect);
     }
@@ -66,12 +68,9 @@ public class PhotoView {
         Rect photoRect = new Rect(this.getFrameRect());
         Log.d("", "photo rect photoRect = " + photoRect);
         if (photoRect.left > 0 && photoRect.top > 0) {
-            photoRect.right = photoRect.right - photoRect.left >= 0 ? photoRect.left : PhotoViewConfig.dpToPx(10);
-            photoRect.bottom = photoRect.bottom - photoRect.top >= 0 ? photoRect.top : PhotoViewConfig.dpToPx(10);
+            photoRect.right = photoRect.right - photoRect.left >= 0 ? photoRect.left : photoRect.right;
+            photoRect.bottom = photoRect.bottom - photoRect.top >= 0 ? photoRect.top : photoRect.bottom;
         }
-        // patch a little image size
- //       photoRect.right = (int) (photoRect.right * 1.2f);
- //       photoRect.bottom = (int) (photoRect.bottom * 1.2f);
         photoRect.left = this.photo.getPhotoWidth();
         photoRect.top = this.photo.getPhotoHeight();
         Log.d("", "photo rect final photoRect = " + photoRect);
@@ -191,8 +190,10 @@ public class PhotoView {
         return photo.getFontSize() > 0 ? photo.getFontSize() : PhotoViewConfig.DEFAULT_FONT_SIZE;
     }
 
-    public int getFrameDensitySize() {
-        return PhotoViewConfig.getDensitySizeFactor(layer);
+    public float getDensityFactor() {
+        int densitySize = PhotoViewConfig.getDensitySizeFactor(layer);
+        int densityDisplay = context.getResources().getDisplayMetrics().densityDpi;
+        return 1f * densityDisplay / densitySize;
     }
 
     public int getFontTextSize() {

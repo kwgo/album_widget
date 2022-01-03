@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -28,7 +29,8 @@ public class WidgetPhotoView {
         this.photoView.setFrameRect(this.getWidgetRect(appWidgetId));
 
         Rect padding = new Rect();
-        NinePatchHelper.getImagePadding(context.getResources(), this.photoView.getFrameIndex(), this.photoView.getFrameDensitySize(), padding);
+        NinePatchHelper.getImagePadding(context.getResources(), this.photoView.getFrameIndex(), this.photoView.getDensityFactor(), padding);
+        Log.d("", "photo widget drawable setPhotoPadding .. .. ..");
         this.photoView.setPhotoPadding(padding);
     }
 
@@ -117,12 +119,8 @@ public class WidgetPhotoView {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
             int width = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-            int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
-
-            // patch a little image size
-            width = (int) (width * 1.2f);
-            height = (int) (height * 1.2f);
-
+            int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+            Log.d("", "widget size is width = " + PhotoViewConfig.dpToPx(width) + " height = " + PhotoViewConfig.dpToPx(height));
             return new Rect(0, 0, PhotoViewConfig.dpToPx(width), PhotoViewConfig.dpToPx(height));
         } catch (Exception ex) {
             return PhotoViewConfig.getImageRect(PhotoViewConfig.WIDGET_ALBUM_PHOTO);

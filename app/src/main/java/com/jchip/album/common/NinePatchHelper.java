@@ -6,20 +6,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.NinePatch;
 import android.graphics.Rect;
 import android.graphics.drawable.NinePatchDrawable;
-import android.util.DisplayMetrics;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class NinePatchHelper {
-    private static final int SCALE_NUMBER = 40;
-
-    public static Rect getImagePadding(Resources resources, int imageId, int densitySize, Rect padding) {
+    public static Rect getImagePadding(Resources resources, int imageId, float densityFactor, Rect padding) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = true;
-            options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            options.inDensity = (int) (1f * options.inTargetDensity / densityFactor);
             Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId, options);
             if (bitmap != null) {
                 padding.set(0, 0, bitmap.getWidth(), bitmap.getHeight());
@@ -35,21 +32,21 @@ public class NinePatchHelper {
         return padding;
     }
 
-    public static Bitmap getImageBitmap(Resources resources, int imageId, int densitySize) {
+    public static Bitmap getImageBitmap(Resources resources, int imageId, float densityFactor) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = true;
-            options.inDensity = DisplayMetrics.DENSITY_DEFAULT + SCALE_NUMBER * densitySize;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            options.inDensity = (int) (1f * options.inTargetDensity / densityFactor);
             return BitmapFactory.decodeResource(resources, imageId, options);
         } catch (Exception ignore) {
             return null;
         }
     }
 
-    public static NinePatchDrawable getDrawable(Resources resources, int imageId, int densitySize, Rect padding) {
+    public static NinePatchDrawable getDrawable(Resources resources, int imageId, float densityFactor, Rect padding) {
         try {
-            Bitmap bitmap = getImageBitmap(resources, imageId, densitySize);
+            Bitmap bitmap = getImageBitmap(resources, imageId, densityFactor);
             if (bitmap != null) {
                 final byte[] chunk = bitmap.getNinePatchChunk();
                 if (NinePatch.isNinePatchChunk(chunk)) {

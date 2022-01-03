@@ -2,6 +2,7 @@ package com.jchip.album.view;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.widget.ImageView;
 
@@ -13,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PhotoViewConfig {
-    //public static final float DEFAULT_IMAGE_ZOOM = 0.95f;
-
     public static final int DEFAULT_FRAME_ID = R.drawable.frame_item_0;
     public static final int DEFAULT_PHOTO_ID = R.drawable.photo_default;
 
@@ -56,8 +55,13 @@ public class PhotoViewConfig {
     }};
 
     public static int getDensitySizeFactor(int layer) {
-        Integer value = densitySizeFactors.get(layer);
-        return value != null ? value : 0;
+        Integer density = densitySizeFactors.get(layer);
+        return (int) ((density != null ? 1f + 0.25f * density : 1.0f) * DisplayMetrics.DENSITY_DEFAULT);
+    }
+
+
+    public static float getFrameSizeFactor(int layer) {
+        return layer == WIDGET_ALBUM_PHOTO ? 1.15f : 1.0f;
     }
 
     private static final Map<Integer, Float> fontSizeFactors = new HashMap<Integer, Float>() {{
@@ -92,7 +96,8 @@ public class PhotoViewConfig {
         this.put(LAYER_ALBUM_PHOTO, getScreenWidth());
         this.put(LAYER_FRAME_SETTING, getScreenWidth());
         this.put(LAYER_FONT_SETTING, getScreenWidth());
-        this.put(WIDGET_ALBUM_PHOTO, getScreenWidth());
+        // this.put(WIDGET_ALBUM_PHOTO, getScreenWidth());
+        this.put(WIDGET_ALBUM_PHOTO, (int) (0.70 * getScreenHeight()));
         this.put(WIDGET_ALBUM_SETTING, getScreenWidth() / 5);
         this.put(WIDGET_PHOTO_SETTING, getScreenWidth() / 2);
     }};
