@@ -45,15 +45,19 @@
                 android:id="@+id/label_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="0dp"
                 android:orientation="vertical">
 
-                <include layout="@layout/widget_photo_label" />
+                <ImageView
+                    android:id="@+id/photo_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/photo_label_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
         </FrameLayout>
 

@@ -9,7 +9,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -84,54 +83,19 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoLabel() {
-//        int imageId = R.drawable.photo_default;
-//        Bitmap bitmap = FontHelper.drawMultilineTextToBitmap(context, imageId, "aaa\nbbb\nccc\nddddddd\nde", Layout.Alignment.ALIGN_OPPOSITE);
-//        this.views.setImageViewBitmap(R.id.photo_label_image, bitmap);
-        this.views.setViewVisibility(R.id.photo_label_image, this.photoView.isFontEmpty() ? View.GONE : View.VISIBLE);
+        this.views.setViewVisibility(R.id.photo_label, this.photoView.isFontEmpty() ? View.GONE : View.VISIBLE);
         if (!this.photoView.isFontEmpty()) {
             String text = this.photoView.getFontText();
             Typeface font = this.photoView.getFontFaceType();
             int color = this.photoView.getFontColor();
             int textSize = this.photoView.getFontTextSize();
-            Log.d("", " this.photoView.getFontLocation() = " + this.photoView.getFontLocation());
             int location = this.photoView.getLocationIndex() % 3;
             Layout.Alignment alignment = location == 0 ? Layout.Alignment.ALIGN_NORMAL :
                     location == 2 ? Layout.Alignment.ALIGN_OPPOSITE : Layout.Alignment.ALIGN_CENTER;
-            Log.d("", " alignment = " + alignment);
-
             Bitmap bitmap = FontHelper.getTextBitmap(text, font, textSize, color, alignment);
-            this.views.setImageViewBitmap(R.id.photo_label_image, bitmap);
+            this.views.setImageViewBitmap(R.id.photo_label, bitmap);
+            this.views.setInt(R.id.label_container, "setGravity", this.photoView.getFontLocation());
         }
-
-        //        int[] labelIds = {
-//                R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
-//                R.id.photo_label_3, R.id.photo_label_4, R.id.photo_label_5,
-//                R.id.photo_label_6, R.id.photo_label_7, R.id.photo_label_8,
-//                R.id.photo_label_9, R.id.photo_label_10, R.id.photo_label_11,
-//                R.id.photo_label_12, R.id.photo_label_13, R.id.photo_label_14,
-//                R.id.photo_label_15, R.id.photo_label_16, R.id.photo_label_17
-//        };
-//        for (int labelId : labelIds) {
-//            this.views.setViewVisibility(labelId, View.GONE);
-//        }
-//        int alignCount = 3;
-//        int fontIndex = photoView.getFontIndex();
-//        int labelIndex = fontIndex * alignCount + fontIndex % alignCount;
-//        this.setLabelFont(labelIds[labelIndex]);
-//        this.setLabelLocation();
-    }
-
-    private void setLabelFont(int photoLabelId) {
-        if (!this.photoView.isFontEmpty()) {
-            this.views.setTextViewText(photoLabelId, this.photoView.getFontText());
-            this.views.setTextColor(photoLabelId, this.photoView.getFontColor());
-            this.views.setTextViewTextSize(photoLabelId, TypedValue.COMPLEX_UNIT_PX, this.photoView.getFontTextSize());
-            this.views.setViewVisibility(photoLabelId, View.VISIBLE);
-        }
-    }
-
-    private void setLabelLocation() {
-        this.views.setInt(R.id.label_container, "setGravity", this.photoView.getFontLocation());
     }
 
     private Rect getWidgetRect(int appWidgetId) {
