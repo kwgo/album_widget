@@ -3,15 +3,18 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
+import com.jchip.album.common.FontHelper;
 import com.jchip.album.common.NinePatchHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
@@ -81,22 +84,32 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoLabel() {
-        int[] labelIds = {
-                R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
-                R.id.photo_label_3, R.id.photo_label_4, R.id.photo_label_5,
-                R.id.photo_label_6, R.id.photo_label_7, R.id.photo_label_8,
-                R.id.photo_label_9, R.id.photo_label_10, R.id.photo_label_11,
-                R.id.photo_label_12, R.id.photo_label_13, R.id.photo_label_14,
-                R.id.photo_label_15, R.id.photo_label_16, R.id.photo_label_17
-        };
-        for (int labelId : labelIds) {
-            this.views.setViewVisibility(labelId, View.GONE);
-        }
-        int alignCount = 3;
-        int fontIndex = photoView.getFontIndex();
-        int labelIndex = fontIndex * alignCount + fontIndex % alignCount;
-        this.setLabelFont(labelIds[labelIndex]);
-        this.setLabelLocation();
+//        int imageId = R.drawable.photo_default;
+//        Bitmap bitmap = FontHelper.drawMultilineTextToBitmap(context, imageId, "aaa\nbbb\nccc\nddddddd\nde", Layout.Alignment.ALIGN_OPPOSITE);
+//        this.views.setImageViewBitmap(R.id.photo_label_image, bitmap);
+
+
+        Bitmap bitmap = FontHelper.getTextBitmap(context.getResources(),  "aaa\nbbb\nccc\nddddddd\nde", Layout.Alignment.ALIGN_OPPOSITE);
+        this.views.setImageViewBitmap(R.id.photo_label_image, bitmap);
+
+
+
+        //        int[] labelIds = {
+//                R.id.photo_label_0, R.id.photo_label_1, R.id.photo_label_2,
+//                R.id.photo_label_3, R.id.photo_label_4, R.id.photo_label_5,
+//                R.id.photo_label_6, R.id.photo_label_7, R.id.photo_label_8,
+//                R.id.photo_label_9, R.id.photo_label_10, R.id.photo_label_11,
+//                R.id.photo_label_12, R.id.photo_label_13, R.id.photo_label_14,
+//                R.id.photo_label_15, R.id.photo_label_16, R.id.photo_label_17
+//        };
+//        for (int labelId : labelIds) {
+//            this.views.setViewVisibility(labelId, View.GONE);
+//        }
+//        int alignCount = 3;
+//        int fontIndex = photoView.getFontIndex();
+//        int labelIndex = fontIndex * alignCount + fontIndex % alignCount;
+//        this.setLabelFont(labelIds[labelIndex]);
+//        this.setLabelLocation();
     }
 
     private void setLabelFont(int photoLabelId) {

@@ -166,4 +166,16 @@ public class ImageHelper {
         Log.d("", "calculated inSampleSize= " + inSampleSize);
         return inSampleSize;
     }
+
+    public static Bitmap getImageBitmap(Resources resources, int imageId, float densityFactor) {
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = true;
+            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
+            options.inDensity = (int) (1f * options.inTargetDensity / densityFactor);
+            return BitmapFactory.decodeResource(resources, imageId, options);
+        } catch (Exception ignore) {
+            return null;
+        }
+    }
 }
