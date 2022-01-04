@@ -14,33 +14,29 @@ public class ImageHelper {
     public static Bitmap convertBitmap(Bitmap bitmap, float scale, int fit, int rotation, int flip, int width, int height) {
         int imageWidth = bitmap.getWidth(), imageHeight = bitmap.getHeight();
         int px = 0, py = 0;
-        int cropWidth = imageWidth, cropHeight = imageHeight;
         float scaleWidth = scale, scaleHeight = scale;
-        if (width > 0 && height > 0 && imageWidth > 0 && imageHeight > 0) {
-            if (rotation % 2 != 0) {
-                int value = width;
-                width = height;
-                height = value;
-            }
-            scaleWidth = scaleWidth * width / imageWidth;
-            scaleHeight = scaleHeight * height / imageHeight;
+        int cropWidth = imageWidth, cropHeight = imageHeight;
+        int viewWidth = rotation % 2 == 0 ? width : height;
+        int viewHeight = rotation % 2 == 0 ? height : width;
+        if (viewWidth > 0 && viewHeight > 0 && imageWidth > 0 && imageHeight > 0) {
+            scaleWidth = scale * viewWidth / imageWidth;
+            scaleHeight = scale * viewHeight / imageHeight;
             if (fit == 0) { // centerCrop
                 scaleWidth = scaleHeight = Math.max(scaleWidth, scaleHeight);
-                cropWidth = (int) (1.0f * width / scaleWidth + 0.5);
-                cropHeight = (int) (1.0f * height / scaleHeight + 0.5);
-            } else if (fit == 1) { // fitCenter
-                scaleWidth = scaleHeight = Math.min(scaleWidth, scaleHeight);
-                cropWidth = Math.min((int) (1.0f * width / scaleWidth + 0.5), imageWidth);
-                cropHeight = Math.min((int) (1.0f * height / scaleHeight + 0.5), imageHeight);
+                cropWidth = (int) (1.0f * viewWidth / scaleWidth + 0.5);
+                cropHeight = (int) (1.0f * viewHeight / scaleHeight + 0.5);
+            } else if (fit == 1) { // fitCentereHeight);
+                cropWidth = Math.min((int) (1.0f * viewWidth / scaleWidth + 0.5), imageWidth);
+                cropHeight = Math.min((int) (1.0f * viewHeight / scaleHeight + 0.5), imageHeight);
             } else if (fit == 2) { // fitXY
+                scaleWidth = rotation % 2 == 0 ? scale * viewWidth / imageWidth : scale * viewHeight / imageHeight;
+                scaleHeight = rotation % 2 == 0 ? scale * viewHeight / imageHeight : scale * viewWidth / imageWidth;
                 cropWidth = imageWidth;
                 cropHeight = imageHeight;
-
-
             } else if (fit == 3) { // center
                 scaleWidth = scaleHeight = scale;
-                cropWidth = Math.min((int) (1.0f * width / scaleWidth + 0.5), imageWidth);
-                cropHeight = Math.min((int) (1.0f * height / scaleHeight + 0.5), imageHeight);
+                cropWidth = Math.min((int) (1.0f * viewWidth / scaleWidth + 0.5), imageWidth);
+                cropHeight = Math.min((int) (1.0f * viewHeight / scaleHeight + 0.5), imageHeight);
             }
             px = (imageWidth - cropWidth) / 2;
             py = (imageHeight - cropHeight) / 2;
@@ -49,11 +45,6 @@ public class ImageHelper {
             Log.d("", "convert bitmap scaleWidth = " + scaleWidth + " scaleHeight = " + scaleHeight);
             Log.d("", "convert bitmap cropWidth = " + cropWidth + " cropHeight = " + cropHeight);
 
-            if (rotation % 2 != 0) {
-                float scaleValue = scaleWidth;
-                scaleWidth = scaleHeight;
-                scaleHeight = scaleValue;
-            }
             Matrix matrix = new Matrix();
             matrix.postRotate(rotation * 90);
             matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);

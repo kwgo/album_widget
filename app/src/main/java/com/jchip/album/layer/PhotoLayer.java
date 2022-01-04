@@ -118,7 +118,7 @@ public class PhotoLayer extends FlowLayer {
                 this.photo = new PhotoView(this, this.layer);
                 this.photo.setPhotoInfo(this.album.getAlbumId(), photoModel.getPhotoPath(), photoModel.getPhotoWidth(), photoModel.getPhotoHeight());
                 if (!this.album.isPhotoExisted(this.photo)) {
-                    this.photo.setPhotoImage(-1, photoModel.getPhotoOrientation() % 360 / 90, -1);
+                    this.photo.setPhotoImage(-1, (photoModel.getPhotoOrientation() + 360) % 360 / 90, -1);
                     this.photo.setPhotoFrame(photoView.getFrameIndex());
                     this.album.addPhotoView(this.createPhoto());
                 }
