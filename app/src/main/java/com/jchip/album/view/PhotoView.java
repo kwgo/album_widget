@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -32,16 +31,6 @@ public class PhotoView {
     }
 
     public Drawable getFrameDrawable(Rect padding) {
-        Log.d("", " this.getLayer()===" + this.layer);
-        Log.d("", " this.getDensity()===" + PhotoViewConfig.getDensity());
-        Log.d("", " this.getImageGap()===" + this.getImageGap());
-        Log.d("", " this.getDensityFactor()===" + this.getDensityFactor());
-        Log.d("", " this.getImageRect()===" + PhotoViewConfig.getImageRect(layer));
-        Log.d("", " this.getScreenWidth()===" + PhotoViewConfig.getScreenWidth());
-        Log.d("", " this.getScreenHeight()===" + PhotoViewConfig.getScreenHeight());
-        Log.d("", " this.getFrameRect()===" + this.frameRect);
-        Log.d("", " ---------");
-
         // x 40 to change density
         float densityFactor = this.getDensityFactor();
         return NinePatchHelper.getDrawable(context.getResources(), this.getFrameIndex(), densityFactor, padding);
@@ -49,31 +38,21 @@ public class PhotoView {
 
 
     public void setPhotoPadding(Rect padding) {
-        Log.d("", "set padding 9 patch padding = " + padding);
-        Log.d("", "set padding 9 patch density = " + this.getDensityFactor());
         Rect frameRect = this.getFrameRect();
-        Log.d("", "set padding original frameRect = " + frameRect);
         padding = padding != null ? padding : new Rect(0, 0, frameRect.right, frameRect.bottom);
-//        frameRect.left = frameRect.right - padding.left;
-//        frameRect.top = frameRect.bottom - padding.top;
-        Log.d("", "set padding before padding factor = " + PhotoViewConfig.getFrameSizeFactor(this.layer));
         frameRect.left = frameRect.right - (int) (1f * padding.left / PhotoViewConfig.getFrameSizeFactor(this.layer));
         frameRect.top = frameRect.bottom - (int) (1f * padding.top / PhotoViewConfig.getFrameSizeFactor(this.layer));
-        Log.d("", "set padding after padding frameRect = " + frameRect);
         this.setFrameRect(frameRect);
     }
 
     private Rect getPhotoRect() {
-        Log.d("", "photo rect this.frameRect = " + this.frameRect);
         Rect photoRect = new Rect(this.getFrameRect());
-        Log.d("", "photo rect photoRect = " + photoRect);
         if (photoRect.left > 0 && photoRect.top > 0) {
             photoRect.right = photoRect.right - photoRect.left >= 0 ? photoRect.left : photoRect.right;
             photoRect.bottom = photoRect.bottom - photoRect.top >= 0 ? photoRect.top : photoRect.bottom;
         }
         photoRect.left = this.photo.getPhotoWidth();
         photoRect.top = this.photo.getPhotoHeight();
-        Log.d("", "photo rect final photoRect = " + photoRect);
         return photoRect;
     }
 

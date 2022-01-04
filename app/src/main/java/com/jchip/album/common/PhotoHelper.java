@@ -3,7 +3,6 @@ package com.jchip.album.common;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,13 +56,11 @@ public class PhotoHelper {
         if (drawable != null) {
             containerView.setBackground(drawable);
             frameView.setBackground(drawable);
-            Log.d("","photo helper drawable setPhotoPadding .. .. ..");
             photoView.setPhotoPadding(padding);
         } else {
             int frameId = photoView.getFrameIndex();
             containerView.setBackgroundResource(frameId);
             frameView.setBackgroundResource(frameId);
-            Log.d("","photo helper resource setPhotoPadding .. .. ..");
             photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
         }
         boardView.setVisibility(View.VISIBLE);

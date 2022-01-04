@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -32,7 +31,6 @@ public class WidgetPhotoView {
 
         Rect padding = new Rect();
         NinePatchHelper.getImagePadding(context.getResources(), this.photoView.getFrameIndex(), this.photoView.getDensityFactor(), padding);
-        Log.d("", "photo widget drawable setPhotoPadding .. .. ..");
         this.photoView.setPhotoPadding(padding);
     }
 
@@ -106,7 +104,6 @@ public class WidgetPhotoView {
             Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
             int width = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
             int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-            Log.d("", "widget size is width = " + PhotoViewConfig.dpToPx(width) + " height = " + PhotoViewConfig.dpToPx(height));
             return new Rect(0, 0, PhotoViewConfig.dpToPx(width), PhotoViewConfig.dpToPx(height));
         } catch (Exception ex) {
             return PhotoViewConfig.getImageRect(PhotoViewConfig.WIDGET_ALBUM_PHOTO);

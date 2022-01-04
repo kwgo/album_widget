@@ -3,7 +3,6 @@ package com.jchip.album.data;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -199,8 +198,6 @@ public class DataHelper extends DataHandler {
     // update exist widget
     public WidgetData updateWidget(WidgetData widgetData) {
         if (widgetData.isSaved()) {
-            Log.d("", "db updateWidget status=" + widgetData.getStatus());
-            Log.d("", "db getWidgetContentValues=" + this.getWidgetContentValues(widgetData));
             this.update(WidgetData.tableName, this.getWidgetContentValues(widgetData));
         }
         return widgetData;
@@ -385,10 +382,7 @@ public class DataHelper extends DataHandler {
         widgetData.setWidgetId((Integer) rowData.get(WidgetData.fieldWidgetId));
         widgetData.setAlbumId((Integer) rowData.get(WidgetData.fieldAlbumId));
         widgetData.setPhotoId((Integer) rowData.get(WidgetData.fieldPhotoId));
-        Log.d("", "db load rowData.get(WidgetData.fieldStatus)=" + rowData.get(WidgetData.fieldStatus));
-
         widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
         return widgetData;
     }
-
 }

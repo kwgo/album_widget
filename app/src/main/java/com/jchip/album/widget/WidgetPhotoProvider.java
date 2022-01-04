@@ -3,7 +3,6 @@ package com.jchip.album.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.jchip.album.R;
@@ -21,8 +20,6 @@ public class WidgetPhotoProvider extends WidgetProvider {
             int scaleIndex = new WidgetPhotoView(context, remoteViews, appWidgetId, widgetData.getPhoto()).updateScale(-1);
             remoteViews.setOnClickPendingIntent(R.id.widget_view, this.getPendingIntent(context, appWidgetId, widgetData));
             AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
-            Log.d("", "photo widget save appWidgetId = " + appWidgetId);
-            Log.d("", "photo widget save scale type = " + scaleIndex);
             this.updateWidgetStatus(context, widgetData, scaleIndex);
         }
     }
@@ -33,9 +30,6 @@ public class WidgetPhotoProvider extends WidgetProvider {
         if (widgetData != null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_photo_layer);
             int scaleIndex = widgetData.getStatus() >= 0 ? widgetData.getStatus() : widgetData.getPhoto().getScaleIndex();
-            Log.d("", "photo widget load appWidgetId = " + appWidgetId);
-            Log.d("", "photo widget load scale type = " + scaleIndex);
-            Log.d("", "photo widget load db scale type = " +  widgetData.getStatus());
             new WidgetPhotoView(context, remoteViews, appWidgetId, widgetData.getPhoto()).updateScale(scaleIndex);
             remoteViews.setOnClickPendingIntent(R.id.widget_view, this.getPendingIntent(context, appWidgetId, widgetData));
             AppWidgetManager.getInstance(context).partiallyUpdateAppWidget(appWidgetId, remoteViews);
