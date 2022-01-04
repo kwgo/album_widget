@@ -2,6 +2,8 @@ package com.jchip.album.layer;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 
@@ -14,6 +16,7 @@ import com.jchip.album.view.AlbumNameView;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.PhotoViewConfig;
 
+import java.util.Date;
 import java.util.List;
 
 public class AlbumLayer extends PhotoLayer {
@@ -57,9 +60,18 @@ public class AlbumLayer extends PhotoLayer {
             }
         }
         if (allSaved) {
+            java.text.DateFormat dateFormat = DateFormat.getDateFormat(this);
+            String date = dateFormat.format(new Date());
             String albumName = this.getString(R.string.album_default_name);
+            albumName = albumName + (this.albums.size() + 1) + " " + date;
             AlbumView albumView = new AlbumView(this, this.layer);
-            albumView.setAlbumName(albumName + (this.albums.size() + 1));
+            albumView.setAlbumName(albumName);
+
+
+            Log.d("", "currentDateandTime === " + date);
+            Log.d("", "albumName === " + albumName);
+
+
             this.albums.add(0, albumView);
         }
     }
