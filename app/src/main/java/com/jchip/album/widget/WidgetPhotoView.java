@@ -75,9 +75,12 @@ public class WidgetPhotoView {
     }
 
     private void setPhotoBorder() {
-        int gap = this.photoView.getImageGap();
-        this.views.setViewVisibility(R.id.photo_board, View.VISIBLE);
-        this.views.setViewPadding(R.id.photo_board, gap, gap, gap, gap);
+        this.views.setViewVisibility(R.id.photo_border, this.photoView.isBorderOn() ? View.VISIBLE : View.INVISIBLE);
+        this.views.setViewVisibility(R.id.photo_border, true ? View.VISIBLE : View.INVISIBLE);
+        if (this.photoView.isBorderOn()) {
+            int gap = this.photoView.getImageBorder();
+            this.views.setViewPadding(R.id.photo_border, gap, gap, gap, gap);
+        }
     }
 
     private void setPhotoLabel() {

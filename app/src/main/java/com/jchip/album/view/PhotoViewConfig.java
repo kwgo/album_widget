@@ -78,7 +78,7 @@ public class PhotoViewConfig {
         return value != null ? value : 1.0f;
     }
 
-    private static final Map<Integer, Integer> imageGaps = new HashMap<Integer, Integer>() {{
+    private static final Map<Integer, Integer> imageBorders = new HashMap<Integer, Integer>() {{
         this.put(LAYER_ALBUM_PHOTO, 16);
         this.put(LAYER_FRAME_SETTING, 8);
         this.put(LAYER_FONT_SETTING, 8);
@@ -87,8 +87,8 @@ public class PhotoViewConfig {
         this.put(WIDGET_PHOTO_SETTING, 4);
     }};
 
-    public static int getImageGap(int layer) {
-        Integer value = imageGaps.get(layer);
+    public static int getImageBorder(int layer) {
+        Integer value = imageBorders.get(layer);
         return value != null ? dpToPx(value) : 0;
     }
 

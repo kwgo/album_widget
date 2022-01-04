@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.NinePatch;
 import android.graphics.Rect;
 import android.graphics.drawable.NinePatchDrawable;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -23,6 +24,8 @@ public class NinePatchHelper {
                 final byte[] chunk = bitmap.getNinePatchChunk();
                 if (NinePatch.isNinePatchChunk(chunk)) {
                     Rect ninePatchPadding = new NinePatchChunk(chunk).getPadding();
+                    Log.d("", "0.0 ninePatchPadding = " + ninePatchPadding);
+
                     padding.left = ninePatchPadding.left + ninePatchPadding.right;
                     padding.top = ninePatchPadding.top + ninePatchPadding.bottom;
                 }
@@ -40,6 +43,7 @@ public class NinePatchHelper {
                 if (NinePatch.isNinePatchChunk(chunk)) {
                     NinePatchChunk ninePatchChunk = new NinePatchChunk(chunk);
                     Rect ninePatchPadding = ninePatchChunk.getPadding();
+                    Log.d("", "x.x ninePatchPadding = " + ninePatchPadding);
                     padding.left = ninePatchPadding.left + ninePatchPadding.right;
                     padding.top = ninePatchPadding.top + ninePatchPadding.bottom;
                     padding.right = bitmap.getWidth();

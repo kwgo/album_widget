@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -39,9 +40,12 @@ public class PhotoView {
 
     public void setPhotoPadding(Rect padding) {
         Rect frameRect = this.getFrameRect();
+        Log.d("", "1 frameRect = " + frameRect);
         padding = padding != null ? padding : new Rect(0, 0, frameRect.right, frameRect.bottom);
+        Log.d("", "2 padding = " + padding);
         frameRect.left = frameRect.right - (int) (1f * padding.left / PhotoViewConfig.getFrameSizeFactor(this.layer));
         frameRect.top = frameRect.bottom - (int) (1f * padding.top / PhotoViewConfig.getFrameSizeFactor(this.layer));
+        Log.d("", "3 frameRect = " + frameRect);
         this.setFrameRect(frameRect);
     }
 
@@ -53,6 +57,7 @@ public class PhotoView {
         }
         photoRect.left = this.photo.getPhotoWidth();
         photoRect.top = this.photo.getPhotoHeight();
+        Log.d("", "4 photoRect = " + photoRect);
         return photoRect;
     }
 
@@ -69,7 +74,9 @@ public class PhotoView {
             }
         }
         if (bitmap != null) {
-            return ImageHelper.convertBitmap(bitmap, 1f, this.getScaleIndex(), this.getRotationIndex(), this.getFlipIndex(), photoRect.right, photoRect.bottom);
+            Log.d("", "convert bitmap with fit = " + this.getScaleIndex() + " rotation = " + this.getRotationIndex());
+            bitmap = ImageHelper.convertBitmap(bitmap, 1f, this.getScaleIndex(), this.getRotationIndex(), this.getFlipIndex(), photoRect.right, photoRect.bottom);
+            Log.d("", "convert bitmap to width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
         }
         return bitmap;
     }
@@ -179,8 +186,12 @@ public class PhotoView {
         return (int) (PhotoViewConfig.getFontSizeFactor(layer) * this.getFontSize());
     }
 
-    public int getImageGap() {
-        return ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 : PhotoViewConfig.getImageGap(layer);
+    public int getImageBorder() {
+        return ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 : PhotoViewConfig.getImageBorder(layer);
+    }
+
+    public boolean isBorderOn() {
+        return ScaleType.FIT_XY != this.getPhotoScale() && ScaleType.CENTER_CROP != this.getPhotoScale();
     }
 
     public void setPhotoInfo(int albumId, String path, int width, int height) {

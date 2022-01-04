@@ -15,9 +15,9 @@ import com.jchip.album.view.PhotoView;
 public class PhotoHelper {
 
     public static void setPhotoView(PhotoView photoView, View view) {
-        setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_board), view.findViewById(R.id.photo_frame));
+        setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_border), view.findViewById(R.id.photo_frame));
         //   setPhotoBorder(photoView, view.findViewById(R.id.photo_image));
-        setPhotoBorder(photoView, view.findViewById(R.id.photo_board));
+        setPhotoBorder(photoView, view.findViewById(R.id.photo_border));
         setPhotoImage(photoView, view.findViewById(R.id.photo_image));
         setPhotoFont(photoView, view.findViewById(R.id.photo_label));
     }
@@ -31,10 +31,13 @@ public class PhotoHelper {
         }
     }
 
-    public static void setPhotoBorder(PhotoView photoView, View view) {
-        int gap = photoView.getImageGap();
-        //   ((FrameLayout.LayoutParams) view.getLayoutParams()).setMargins(gap, gap, gap, gap);
-        view.setPadding(gap, gap, gap, gap);
+    public static void setPhotoBorder(PhotoView photoView, View borderView) {
+        borderView.setVisibility(photoView.isBorderOn() ? View.VISIBLE : View.GONE);
+        if (photoView.isBorderOn()) {
+            int gap = photoView.getImageBorder();
+            borderView.setPadding(gap, gap, gap, gap);
+            // ((FrameLayout.LayoutParams) view.getLayoutParams()).setMargins(gap, gap, gap, gap);
+        }
     }
 
     public static void setPhotoFont(PhotoView photoView, TextView textView) {
