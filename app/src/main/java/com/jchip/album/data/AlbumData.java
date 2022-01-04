@@ -40,10 +40,6 @@ public class AlbumData extends AbstractData {
         this.albumName = albumName;
     }
 
-    //    public List<PhotoData> getPhotos() {
-//        return photos == null ? new ArrayList<>() : photos;
-//    }
-//
     public void setPhotos(List<PhotoData> photos) {
         this.photos = photos;
     }
@@ -56,26 +52,9 @@ public class AlbumData extends AbstractData {
         photos.remove(photo);
     }
 
-//    public void clearPhotos() {
-//        if (photos != null) {
-//            photos.clear();
-//        }
-//    }
-
     public PhotoData getPhoto(int index) {
         return index >= 0 && index < photos.size() ? photos.get(index) : new PhotoData();
     }
-//
-//    public boolean isPhotoEmpty() {
-//        return photos == null || photos.isEmpty();
-//    }
-//
-//    public int getPhotoIndex(PhotoData photo) {
-//        if (photos != null) {
-//            return photos.indexOf(photo);
-//        }
-//        return -1;
-//    }
 
     public int getPhotoSize() {
         return photos == null ? 0 : photos.size();

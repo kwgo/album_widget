@@ -1,7 +1,6 @@
 package com.jchip.album.layer;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.jchip.album.ActivityPhotoPicker;

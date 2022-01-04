@@ -2,8 +2,6 @@ package com.jchip.album.layer;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 
@@ -16,7 +14,6 @@ import com.jchip.album.view.AlbumNameView;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.PhotoViewConfig;
 
-import java.util.Date;
 import java.util.List;
 
 public class AlbumLayer extends PhotoLayer {
@@ -39,9 +36,7 @@ public class AlbumLayer extends PhotoLayer {
     @Override
     protected void postContentView() {
         this.albums = this.queryAlbums();
-
-        this.reloadAlbumList();
-        this.setAlbumPhotos(albums.get(0));
+        this.setAlbumPhotos(this.reloadAlbumList());
 
         this.albumNameView = findViewById(R.id.album_name_text);
         this.albumNameView.setAdapter(new AlbumNameAdapter(this, this.albums));
@@ -51,7 +46,7 @@ public class AlbumLayer extends PhotoLayer {
         this.albumNameView.addTextChangedListener(this::onAlbumNameChanged);
     }
 
-    protected void reloadAlbumList() {
+    protected AlbumView reloadAlbumList() {
         boolean allSaved = true;
         for (AlbumView album : this.albums) {
             if (!album.isSaved()) {
@@ -60,20 +55,13 @@ public class AlbumLayer extends PhotoLayer {
             }
         }
         if (allSaved) {
-            java.text.DateFormat dateFormat = DateFormat.getDateFormat(this);
-            String date = dateFormat.format(new Date());
-            String albumName = this.getString(R.string.album_default_name);
-            albumName = albumName + (this.albums.size() + 1) + " " + date;
+            String albumNamePrefix = this.getString(R.string.album_default_name);
+            int number = this.albums.size() > 0 ? this.albums.get(0).getAlbumId() + 1 : 1;
             AlbumView albumView = new AlbumView(this, this.layer);
-            albumView.setAlbumName(albumName);
-
-
-            Log.d("", "currentDateandTime === " + date);
-            Log.d("", "albumName === " + albumName);
-
-
+            albumView.setAlbumName(albumNamePrefix + number);
             this.albums.add(0, albumView);
         }
+        return this.albums.size() > 0 ? this.albums.get(0) : new AlbumView(this, this.layer);
     }
 
     public void showMenu(View view) {
@@ -106,8 +94,10 @@ public class AlbumLayer extends PhotoLayer {
             this.albums.remove(this.album);
             this.deleteAlbum();
         }
-        this.reloadAlbumList();
-        this.setAlbumPhotos(albums.get(0));
+
+        AlbumView albumView = this.reloadAlbumList();
+        this.setAlbumPhotos(albumView);
+        this.albumNameView.setText(albumView.getAlbumName());
     }
 
     private void onDeleteAlbum() {
