@@ -29,12 +29,12 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.photo.adapter.common.MultiAdapter;
 import com.jchip.album.photo.adapter.common.RecycleItemDecoration;
 import com.jchip.album.photo.common.PhotoConfig;
-import com.jchip.album.photo.model.FolderModel;
-import com.jchip.album.photo.model.PhotoModel;
 import com.jchip.album.photo.helper.AnimationHelper;
 import com.jchip.album.photo.helper.MainHandler;
 import com.jchip.album.photo.helper.PhotoScanner;
 import com.jchip.album.photo.helper.PhotoUtils;
+import com.jchip.album.photo.model.FolderModel;
+import com.jchip.album.photo.model.PhotoModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +45,6 @@ public class PhotoPickerLayer extends AppCompatActivity {
     private final int PERMISSION_REQUEST_STORAGE = 6666;
     private final int ACTIVITY_REQUEST_PREVIEW = 7778;
 
-    //    private int spanCount = PhotoConfig.DEFAULT_SPAN_COUNT;
-//    private int limitCount = PhotoConfig.DEFAULT_LIMIT_COUNT;
-//    private int pickColor = PhotoConfig.DEFAULT_PICK_COLOR;
-//    private boolean showGif = PhotoConfig.DEFAULT_SHOW_GIF;
     private String folderName = "";
 
     private RecyclerView.LayoutManager layoutManager;
@@ -213,8 +209,7 @@ public class PhotoPickerLayer extends AppCompatActivity {
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(R.string.dialog_permission_ok, (dialog, which) -> {
-                    ActivityCompat.requestPermissions(PhotoPickerLayer.this,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
+                    ActivityCompat.requestPermissions(PhotoPickerLayer.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
                 })
                 .setNegativeButton(R.string.dialog_permission_cancel, (dialog, which) -> {
                     dialog.dismiss();

@@ -15,7 +15,7 @@ import java.util.Map;
 public abstract class DataHandler extends SQLiteOpenHelper {
 
     // database version
-    protected static final int DATABASE_VERSION = 16;
+    protected static final int DATABASE_VERSION = 1;
     // database name
     protected static final String DATABASE_NAME = "album";
 
@@ -49,12 +49,19 @@ public abstract class DataHandler extends SQLiteOpenHelper {
     // When upgrading the database, it will drop the current table and recreate.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        this.dropAlbumTable(db);
-        this.dropPhotoTable(db);
-        this.dropWidgetTable(db);
-        this.onCreate(db);
+//        this.dropAlbumTable(db);
+//        this.dropPhotoTable(db);
+//        this.dropWidgetTable(db);
+//        this.onCreate(db);
     }
 
+//    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+//        // throw new SQLiteException("Can't downgrade database from version " + oldVersion + " to " + newVersion);
+//        this.dropAlbumTable(db);
+//        this.dropPhotoTable(db);
+//        this.dropWidgetTable(db);
+//        db.setVersion(newVersion);
+//    }
 
     protected int insert(String tableName, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
