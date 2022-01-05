@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,7 +21,7 @@ public class PhotoViewHelper {
         setPhotoFrame(photoView, view, R.id.photo_container, R.id.photo_frame, R.id.photo_board);
         setPhotoImage(photoView, view, R.id.photo_image);
         setPhotoLabel(photoView, view, R.id.photo_label);
-    //    setPhotoBorder(photoView, view, R.id.photo_board, R.id.photo_border);
+        setPhotoBorder(photoView, view, R.id.photo_board, R.id.photo_border);
     }
 
     public static void setPhotoFrame(PhotoView photoView, View view, int containerId, int frameId, int boardId) {
@@ -46,8 +45,6 @@ public class PhotoViewHelper {
         View boardView = view.findViewById(boardId);
         View borderView = view.findViewById(borderId);
         int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
-        Log.d("", "photo full size = " + photoView.isFullSize());
-        Log.d("", "photo border = " + border);
         borderView.setPadding(border, border, border, border);
         boardView.setVisibility(photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
@@ -91,8 +88,6 @@ public class PhotoViewHelper {
 
     public static void setPhotoBorder(PhotoView photoView, RemoteViews views, int boardId, int borderId) {
         int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
-        Log.d("", "widget full size = " + photoView.isFullSize());
-        Log.d("", "widget border = " + border);
         views.setViewPadding(borderId, border, border, border, border);
         views.setViewVisibility(boardId, photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
