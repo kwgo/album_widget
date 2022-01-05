@@ -25,36 +25,30 @@ public class PhotoViewHelper {
     }
 
     public static void setPhotoFrame(PhotoView photoView, View view, int containerId, int frameId, int boardId) {
-        View containerView = view.findViewById(containerId);
-        View frameView = view.findViewById(frameId);
-        View boardView = view.findViewById(boardId);
         Rect padding = new Rect();
         Drawable drawable = photoView.getFrameDrawable(padding);
         if (drawable != null) {
-            containerView.setBackground(drawable);
-            frameView.setBackground(drawable);
+            view.findViewById(containerId).setBackground(drawable);
+            view.findViewById(frameId).setBackground(drawable);
             photoView.setPhotoPadding(padding);
         } else {
-            containerView.setBackgroundResource(photoView.getFrameIndex());
-            frameView.setBackgroundResource(photoView.getFrameIndex());
-            photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
+            view.findViewById(containerId).setBackgroundResource(photoView.getFrameIndex());
+            view.findViewById(frameId).setBackgroundResource(photoView.getFrameIndex());
+            photoView.setPhotoPadding(new Rect(0, 0, view.findViewById(boardId).getWidth(), view.findViewById(boardId).getHeight()));
         }
     }
 
     public static void setPhotoBorder(PhotoView photoView, View view, int boardId, int borderId) {
-        View boardView = view.findViewById(boardId);
-        View borderView = view.findViewById(borderId);
         int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
-        borderView.setPadding(border, border, border, border);
-        boardView.setVisibility(photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
+        view.findViewById(borderId).setPadding(border, border, border, border);
+        view.findViewById(boardId).setVisibility(photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
 
     public static void setPhotoImage(PhotoView photoView, View view, int imageId) {
-        ImageView imageView = view.findViewById(imageId);
         if (photoView.isImageOn()) {
             Bitmap bitmap = photoView.getPhotoImage();
             if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
+                ((ImageView) view.findViewById(imageId)).setImageBitmap(bitmap);
             }
         }
     }
