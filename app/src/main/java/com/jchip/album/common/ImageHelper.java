@@ -26,6 +26,7 @@ public class ImageHelper {
                 cropWidth = (int) (1.0f * viewWidth / scaleWidth + 0.5);
                 cropHeight = (int) (1.0f * viewHeight / scaleHeight + 0.5);
             } else if (fit == 1) { // fitCenter);
+                scaleWidth = scaleHeight = Math.min(scaleWidth, scaleHeight);
                 cropWidth = Math.min((int) (1.0f * viewWidth / scaleWidth + 0.5), imageWidth);
                 cropHeight = Math.min((int) (1.0f * viewHeight / scaleHeight + 0.5), imageHeight);
             } else if (fit == 2) { // fitXY

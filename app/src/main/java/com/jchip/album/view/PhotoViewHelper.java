@@ -91,6 +91,8 @@ public class PhotoViewHelper {
 
     public static void setPhotoBorder(PhotoView photoView, RemoteViews views, int boardId, int borderId) {
         int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
+        Log.d("", "widget full size = " + photoView.isFullSize());
+        Log.d("", "widget border = " + border);
         views.setViewPadding(borderId, border, border, border, border);
         views.setViewVisibility(boardId, photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
