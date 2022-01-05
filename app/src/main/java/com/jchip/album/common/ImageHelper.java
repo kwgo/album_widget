@@ -118,14 +118,10 @@ public class ImageHelper {
         }
     }
 
-    public static boolean isNeedCalculateInSampleSize(int imageWidth, int imageHeight, int width, int height) {
-        return (imageWidth > 0 && imageHeight > 0 && width > 0 && height > 0)
-                && (imageWidth > width && imageHeight > height);
-    }
-
     public static int calculateInSampleSize(int imageWidth, int imageHeight, int width, int height) {
         int inSampleSize = 1;
-        if (isNeedCalculateInSampleSize(imageWidth, imageHeight, width, height)) {
+        if ((imageWidth > 0 && imageHeight > 0 && width > 0 && height > 0)
+                && (imageWidth > width && imageHeight > height)) {
             float ratioWidth = width > 0 ? 1.0f * width / imageWidth : 1.0f;
             float ratioHeight = height > 0 ? 1.0f * height / imageHeight : 1.0f;
             float ratio = Math.max(ratioWidth, ratioHeight);
