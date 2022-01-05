@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.jchip.album.common.NinePatchHelper;
-import com.jchip.album.view.PhotoViewHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 import com.jchip.album.view.PhotoViewConfig;
+import com.jchip.album.view.PhotoViewHelper;
 
 public class WidgetPhotoView {
     private final Context context;
@@ -53,7 +53,7 @@ public class WidgetPhotoView {
             Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
             int width = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
             int height = options.getInt(isPortrait ? AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-            return new Rect(0, 0, PhotoViewConfig.dpToPx(width), PhotoViewConfig.dpToPx(height));
+            return new Rect(0, 0, PhotoViewConfig.dpToPx((int) (1.1f * width)), PhotoViewConfig.dpToPx((int) (1.1f * height)));
         } catch (Exception ex) {
             return PhotoViewConfig.getImageRect(PhotoViewConfig.WIDGET_ALBUM_PHOTO);
         }
