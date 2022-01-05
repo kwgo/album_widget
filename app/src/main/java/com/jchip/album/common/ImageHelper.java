@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import java.io.FileInputStream;
 
@@ -43,11 +42,6 @@ public class ImageHelper {
             py = (imageHeight - cropHeight) / 2;
         }
         try {
-            Log.d("", "convert bitmap imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
-            Log.d("", "convert bitmap viewWidth = " + viewWidth + " viewHeight = " + viewHeight);
-            Log.d("", "convert bitmap scaleWidth = " + scaleWidth + " scaleHeight = " + scaleHeight);
-            Log.d("", "convert bitmap cropWidth = " + cropWidth + " cropHeight = " + cropHeight);
-
             Matrix matrix = new Matrix();
             matrix.postRotate(rotation * 90);
             matrix.postScale(flip == 0 ? scaleWidth : -scaleWidth, scaleHeight);
