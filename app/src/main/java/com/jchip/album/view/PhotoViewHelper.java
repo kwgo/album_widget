@@ -21,8 +21,8 @@ public class PhotoViewHelper {
     public static void setPhotoView(PhotoView photoView, View view) {
         setPhotoFrame(photoView, view, R.id.photo_container, R.id.photo_frame, R.id.photo_board);
         setPhotoImage(photoView, view, R.id.photo_image);
-        setPhotoBorder(photoView, view, R.id.photo_board, R.id.photo_border);
         setPhotoLabel(photoView, view, R.id.photo_label);
+    //    setPhotoBorder(photoView, view, R.id.photo_board, R.id.photo_border);
     }
 
     public static void setPhotoFrame(PhotoView photoView, View view, int containerId, int frameId, int boardId) {
@@ -49,7 +49,6 @@ public class PhotoViewHelper {
         Log.d("", "photo full size = " + photoView.isFullSize());
         Log.d("", "photo border = " + border);
         borderView.setPadding(border, border, border, border);
-        // ((FrameLayout.LayoutParams) view.getLayoutParams()).setMargins(border, border, border, border);
         boardView.setVisibility(photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
 
@@ -81,8 +80,8 @@ public class PhotoViewHelper {
     public static void setPhotoView(PhotoView photoView, RemoteViews views) {
         setPhotoFrame(photoView, views, R.id.photo_container, R.id.photo_frame, R.id.photo_board);
         setPhotoImage(photoView, views, R.id.photo_image);
-        setPhotoBorder(photoView, views, R.id.photo_board, R.id.photo_border);
         setPhotoLabel(photoView, views, R.id.label_container, R.id.photo_label);
+        setPhotoBorder(photoView, views, R.id.photo_board, R.id.photo_border);
     }
 
     public static void setPhotoFrame(PhotoView photoView, RemoteViews views, int containerId, int frameId, int boardId) {
@@ -93,9 +92,6 @@ public class PhotoViewHelper {
     public static void setPhotoBorder(PhotoView photoView, RemoteViews views, int boardId, int borderId) {
         int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
         views.setViewPadding(borderId, border, border, border, border);
-        Log.d("", "widget this.border.border() = " + border);
-        Log.d("", "photo full size = " + photoView.isFullSize());
-        Log.d("", "photo border = " + border);
         views.setViewVisibility(boardId, photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
 
