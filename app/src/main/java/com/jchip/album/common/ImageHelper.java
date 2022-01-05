@@ -25,7 +25,7 @@ public class ImageHelper {
                 scaleWidth = scaleHeight = Math.max(scaleWidth, scaleHeight);
                 cropWidth = (int) (1.0f * viewWidth / scaleWidth + 0.5);
                 cropHeight = (int) (1.0f * viewHeight / scaleHeight + 0.5);
-            } else if (fit == 1) { // fitCentereHeight);
+            } else if (fit == 1) { // fitCenter);
                 cropWidth = Math.min((int) (1.0f * viewWidth / scaleWidth + 0.5), imageWidth);
                 cropHeight = Math.min((int) (1.0f * viewHeight / scaleHeight + 0.5), imageHeight);
             } else if (fit == 2) { // fitXY
@@ -42,6 +42,8 @@ public class ImageHelper {
             py = (imageHeight - cropHeight) / 2;
         }
         try {
+            Log.d("", "convert bitmap imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
+            Log.d("", "convert bitmap viewWidth = " + viewWidth + " viewHeight = " + viewHeight);
             Log.d("", "convert bitmap scaleWidth = " + scaleWidth + " scaleHeight = " + scaleHeight);
             Log.d("", "convert bitmap cropWidth = " + cropWidth + " cropHeight = " + cropHeight);
 

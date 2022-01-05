@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.jchip.album.common.NinePatchHelper;
-import com.jchip.album.common.PhotoHelper;
+import com.jchip.album.view.PhotoViewHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 import com.jchip.album.view.PhotoViewConfig;
@@ -31,7 +31,7 @@ public class WidgetPhotoView {
 
     public void updateView() {
         try {
-            PhotoHelper.setPhotoView(this.photoView, this.views);
+            PhotoViewHelper.setPhotoView(this.photoView, this.views);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

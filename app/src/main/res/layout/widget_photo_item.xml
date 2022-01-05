@@ -16,17 +16,25 @@
             android:background="@drawable/frame_item_0">
 
             <FrameLayout
-                android:id="@+id/photo_border"
+                android:id="@+id/photo_board"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/photo_board"
                 android:visibility="invisible" />
 
-            <ImageView
-                android:id="@+id/photo_image"
+            <FrameLayout
+                android:id="@+id/photo_border"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center" />
+                android:background="@color/photo_border">
+
+                <ImageView
+                    android:id="@+id/photo_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center" />
+
+            </FrameLayout>
 
         </FrameLayout>
 

@@ -1,4 +1,4 @@
-package com.jchip.album.common;
+package com.jchip.album.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -14,20 +14,21 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.jchip.album.R;
-import com.jchip.album.view.PhotoView;
-import com.jchip.album.view.PhotoViewConfig;
+import com.jchip.album.common.FontHelper;
 
-public class PhotoHelper {
+public class PhotoViewHelper {
     // for app
     public static void setPhotoView(PhotoView photoView, View view) {
-        setPhotoFrame(photoView, view.findViewById(R.id.photo_container), view.findViewById(R.id.photo_border), view.findViewById(R.id.photo_frame));
-        //   setPhotoBorder(photoView, view.findViewById(R.id.photo_image));
-        setPhotoBorder(photoView, view.findViewById(R.id.photo_border));
-        setPhotoImage(photoView, view.findViewById(R.id.photo_image));
-        setPhotoLabel(photoView, view.findViewById(R.id.photo_label));
+        setPhotoFrame(photoView, view, R.id.photo_container, R.id.photo_frame, R.id.photo_board);
+        setPhotoImage(photoView, view, R.id.photo_image);
+        setPhotoBorder(photoView, view, R.id.photo_board, R.id.photo_border);
+        setPhotoLabel(photoView, view, R.id.photo_label);
     }
 
-    public static void setPhotoFrame(PhotoView photoView, View containerView, View boardView, View frameView) {
+    public static void setPhotoFrame(PhotoView photoView, View view, int containerId, int frameId, int boardId) {
+        View containerView = view.findViewById(containerId);
+        View frameView = view.findViewById(frameId);
+        View boardView = view.findViewById(boardId);
         Rect padding = new Rect();
         Drawable drawable = photoView.getFrameDrawable(padding);
         if (drawable != null) {
@@ -35,24 +36,25 @@ public class PhotoHelper {
             frameView.setBackground(drawable);
             photoView.setPhotoPadding(padding);
         } else {
-            int frameId = photoView.getFrameIndex();
-            containerView.setBackgroundResource(frameId);
-            frameView.setBackgroundResource(frameId);
+            containerView.setBackgroundResource(photoView.getFrameIndex());
+            frameView.setBackgroundResource(photoView.getFrameIndex());
             photoView.setPhotoPadding(new Rect(0, 0, boardView.getWidth(), boardView.getHeight()));
         }
-        boardView.setVisibility(View.VISIBLE);
     }
 
-    public static void setPhotoBorder(PhotoView photoView, View borderView) {
-        borderView.setVisibility(photoView.isBorderOn() ? View.VISIBLE : View.GONE);
-        if (photoView.isBorderOn()) {
-            int border = photoView.getImageBorder();
-            borderView.setPadding(border, border, border, border);
-            // ((FrameLayout.LayoutParams) view.getLayoutParams()).setMargins(border, border, border, border);
-        }
+    public static void setPhotoBorder(PhotoView photoView, View view, int boardId, int borderId) {
+        View boardView = view.findViewById(boardId);
+        View borderView = view.findViewById(borderId);
+        int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
+        Log.d("", "photo full size = " + photoView.isFullSize());
+        Log.d("", "photo border = " + border);
+        borderView.setPadding(border, border, border, border);
+        // ((FrameLayout.LayoutParams) view.getLayoutParams()).setMargins(border, border, border, border);
+        boardView.setVisibility(photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
 
-    public static void setPhotoImage(PhotoView photoView, ImageView imageView) {
+    public static void setPhotoImage(PhotoView photoView, View view, int imageId) {
+        ImageView imageView = view.findViewById(imageId);
         if (photoView.isImageOn()) {
             Bitmap bitmap = photoView.getPhotoImage();
             if (bitmap != null) {
@@ -61,7 +63,8 @@ public class PhotoHelper {
         }
     }
 
-    public static void setPhotoLabel(PhotoView photoView, TextView labelView) {
+    public static void setPhotoLabel(PhotoView photoView, View view, int labelId) {
+        TextView labelView = view.findViewById(labelId);
         labelView.setVisibility(View.GONE);
         if (!photoView.isFontEmpty()) {
             labelView.setText(photoView.getFontText());
@@ -76,29 +79,24 @@ public class PhotoHelper {
 
     // for widget
     public static void setPhotoView(PhotoView photoView, RemoteViews views) {
-        setPhotoFrame(photoView, views, R.id.photo_container, R.id.photo_border, R.id.photo_frame);
-        setPhotoBorder(photoView, views, R.id.photo_border);
+        setPhotoFrame(photoView, views, R.id.photo_container, R.id.photo_frame, R.id.photo_board);
         setPhotoImage(photoView, views, R.id.photo_image);
+        setPhotoBorder(photoView, views, R.id.photo_board, R.id.photo_border);
         setPhotoLabel(photoView, views, R.id.label_container, R.id.photo_label);
     }
 
-    public static void setPhotoFrame(PhotoView photoView, RemoteViews views, int containerId, int boardId, int frameId) {
+    public static void setPhotoFrame(PhotoView photoView, RemoteViews views, int containerId, int frameId, int boardId) {
         views.setInt(containerId, "setBackgroundResource", photoView.getFrameIndex());
         views.setInt(frameId, "setBackgroundResource", photoView.getFrameIndex());
     }
 
-    public static void setPhotoBorder(PhotoView photoView, RemoteViews views, int borderId) {
-        Log.d("", "widget photoView.isBorderOn() = " + photoView.isBorderOn());
-        views.setViewVisibility(borderId, photoView.isBorderOn() ? View.VISIBLE : View.INVISIBLE);
-        if (photoView.isBorderOn()) {
-            int border = photoView.getImageBorder();
-            views.setViewPadding(borderId, border, border, border, border);
-        }
-        int border = photoView.getImageBorder();
-        //views.setViewPadding(R.id.photo_image, border, border, border, border);
+    public static void setPhotoBorder(PhotoView photoView, RemoteViews views, int boardId, int borderId) {
+        int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
         views.setViewPadding(borderId, border, border, border, border);
         Log.d("", "widget this.border.border() = " + border);
-
+        Log.d("", "photo full size = " + photoView.isFullSize());
+        Log.d("", "photo border = " + border);
+        views.setViewVisibility(boardId, photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
 
     public static void setPhotoImage(PhotoView photoView, RemoteViews views, int imageId) {

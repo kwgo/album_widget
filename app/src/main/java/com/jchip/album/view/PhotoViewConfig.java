@@ -45,6 +45,10 @@ public class PhotoViewConfig {
             Gravity.START | Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, Gravity.END | Gravity.BOTTOM
     );
 
+    public static final List<Integer> fullSizeFrames = Arrays.asList(
+            R.drawable.frame_item_194, R.drawable.frame_item_195, R.drawable.frame_item_196
+    );
+
     private static final Map<Integer, Integer> densitySizeFactors = new HashMap<Integer, Integer>() {{
         this.put(LAYER_ALBUM_PHOTO, 1);
         this.put(LAYER_FRAME_SETTING, 4);
@@ -90,6 +94,7 @@ public class PhotoViewConfig {
     public static int getImageBorder(int layer) {
         Integer value = imageBorders.get(layer);
         return value != null ? dpToPx(value) : 0;
+//        return 0;
     }
 
     private static final Map<Integer, Integer> imageWidths = new HashMap<Integer, Integer>() {{

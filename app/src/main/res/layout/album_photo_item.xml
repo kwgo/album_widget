@@ -1,56 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/photo_view"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/photo_container"
+        android:id="@+id/photo_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <FrameLayout
-            android:id="@+id/photo_border"
+            android:id="@+id/photo_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/photo_board"
-            android:visibility="invisible" />
+            android:background="@drawable/frame_item_0">
 
-        <ImageView
-            android:id="@+id/photo_image"
+            <FrameLayout
+                android:id="@+id/photo_board"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/photo_board"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/photo_border"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/photo_border">
+
+                <ImageView
+                    android:id="@+id/photo_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center" />
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:scaleType="center" />
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/photo_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/label_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="0dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/photo_label"
+                    style="@style/photo_label" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/photo_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:id="@+id/label_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="0dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/photo_label"
-                style="@style/photo_label" />
-
-        </LinearLayout>
-
-    </FrameLayout>
-
-</FrameLayout>
+</LinearLayout>

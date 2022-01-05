@@ -37,7 +37,6 @@ public class PhotoView {
         return NinePatchHelper.getDrawable(context.getResources(), this.getFrameIndex(), densityFactor, padding);
     }
 
-
     public void setPhotoPadding(Rect padding) {
         Rect frameRect = this.getFrameRect();
         Log.d("", "1 frameRect = " + frameRect);
@@ -76,6 +75,7 @@ public class PhotoView {
         if (bitmap != null) {
             Log.d("", "convert bitmap with fit = " + this.getScaleIndex() + " rotation = " + this.getRotationIndex());
             bitmap = ImageHelper.convertBitmap(bitmap, 1f, this.getScaleIndex(), this.getRotationIndex(), this.getFlipIndex(), photoRect.right, photoRect.bottom);
+            Log.d("", "convert view with width = " + photoRect.right + " height = " + photoRect.bottom);
             Log.d("", "convert bitmap to width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
         }
         return bitmap;
@@ -110,6 +110,10 @@ public class PhotoView {
 
     public boolean isFontEmpty() {
         return this.getFontText() == null || this.getFontText().trim().isEmpty();
+    }
+
+    public boolean isFullSize() {
+        return PhotoViewConfig.fullSizeFrames.contains(this.getFrameIndex());
     }
 
     public boolean isImageOn() {
@@ -190,10 +194,7 @@ public class PhotoView {
         return ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 : PhotoViewConfig.getImageBorder(layer);
     }
 
-    public boolean isBorderOn() {
-        return ScaleType.FIT_XY != this.getPhotoScale() && ScaleType.CENTER_CROP != this.getPhotoScale();
-    }
-
+    //
     public void setPhotoInfo(int albumId, String path, int width, int height) {
         this.photo.setAlbumId(albumId >= 0 ? albumId : this.photo.getAlbumId());
         this.photo.setPhotoWidth(width > 0 ? width : this.photo.getPhotoWidth());
