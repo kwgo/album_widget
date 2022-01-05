@@ -86,7 +86,7 @@ public class PhotoViewConfig {
         this.put(LAYER_ALBUM_PHOTO, 16);
         this.put(LAYER_FRAME_SETTING, 8);
         this.put(LAYER_FONT_SETTING, 8);
-        this.put(WIDGET_ALBUM_PHOTO, 12);
+        this.put(WIDGET_ALBUM_PHOTO, 16);
         this.put(WIDGET_ALBUM_SETTING, 2);
         this.put(WIDGET_PHOTO_SETTING, 4);
     }};
@@ -94,7 +94,6 @@ public class PhotoViewConfig {
     public static int getImageBorder(int layer) {
         Integer value = imageBorders.get(layer);
         return value != null ? dpToPx(value) : 0;
-//        return 0;
     }
 
     private static final Map<Integer, Integer> imageWidths = new HashMap<Integer, Integer>() {{
