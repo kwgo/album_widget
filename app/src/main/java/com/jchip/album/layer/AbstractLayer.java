@@ -19,12 +19,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jchip.album.ActivityAlbumSetting;
 import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.common.AlbumHelper;
-import com.jchip.album.view.PhotoViewHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.photo.helper.MainHandler;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.PhotoView;
+import com.jchip.album.view.PhotoViewHelper;
 
 public abstract class AbstractLayer extends AppCompatActivity {
     protected int layer = -1;
@@ -118,8 +118,8 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     public void updateWidget() {
-//        AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
-//        AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
+        AlbumHelper.updateWidget(this, ActivityAlbumSetting.AlbumProvider.class);
+        AlbumHelper.updateWidget(this, ActivityPhotoSetting.PhotoProvider.class);
     }
 
     public void setStatusBarColor(int colorId) {
