@@ -2,18 +2,13 @@ package com.jchip.album.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.text.Layout;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.jchip.album.R;
-import com.jchip.album.common.FontHelper;
 
 public class PhotoViewHelper {
     // for app
@@ -54,19 +49,12 @@ public class PhotoViewHelper {
     }
 
     public static void setPhotoLabel(PhotoView photoView, View view, int labelContainerId, int labelId) {
-        TextView labelView = view.findViewById(labelId);
-        labelView.setVisibility(View.GONE);
-        if (!photoView.isFontEmpty()) {
-            labelView.setText(photoView.getFontText());
-            labelView.setTextColor(photoView.getFontColor());
-            labelView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontTextSize());
-            labelView.setTypeface(photoView.getFontFaceType());
-            labelView.setGravity(photoView.getFontLocation());
-            labelView.setSelected(true);
-            labelView.setHorizontallyScrolling(true);
-            labelView.setVisibility(View.VISIBLE);
+        Bitmap bitmap = photoView.getPhotoFont();
+        if (bitmap != null) {
+            ((ImageView) view.findViewById(labelId)).setImageBitmap(bitmap);
             ((LinearLayout) view.findViewById(labelContainerId)).setGravity(photoView.getFontLocation());
         }
+        view.findViewById(labelId).setVisibility(bitmap == null ? View.GONE : View.VISIBLE);
     }
 
     // for widget
@@ -100,18 +88,11 @@ public class PhotoViewHelper {
     }
 
     public static void setPhotoLabel(PhotoView photoView, RemoteViews views, int labelContainerId, int labelId) {
-        views.setViewVisibility(R.id.photo_label, photoView.isFontEmpty() ? View.GONE : View.VISIBLE);
-        if (!photoView.isFontEmpty()) {
-            String text = photoView.getFontText();
-            Typeface font = photoView.getFontFaceType();
-            int color = photoView.getFontColor();
-            int textSize = photoView.getFontTextSize();
-            int location = photoView.getLocationIndex() % 3;
-            Layout.Alignment alignment = location == 0 ? Layout.Alignment.ALIGN_NORMAL :
-                    location == 2 ? Layout.Alignment.ALIGN_OPPOSITE : Layout.Alignment.ALIGN_CENTER;
-            Bitmap bitmap = FontHelper.getTextBitmap(text, font, textSize, color, alignment);
+        Bitmap bitmap = photoView.getPhotoFont();
+        if (bitmap != null) {
             views.setImageViewBitmap(labelId, bitmap);
             views.setInt(labelContainerId, "setGravity", photoView.getFontLocation());
         }
+        views.setViewVisibility(R.id.photo_label, bitmap == null ? View.GONE : View.VISIBLE);
     }
 }

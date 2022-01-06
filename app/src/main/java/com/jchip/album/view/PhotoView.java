@@ -5,10 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
 import android.widget.ImageView.ScaleType;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import com.jchip.album.common.FontHelper;
 import com.jchip.album.common.ImageHelper;
 import com.jchip.album.common.NinePatchHelper;
 import com.jchip.album.data.PhotoData;
@@ -73,6 +75,21 @@ public class PhotoView {
 //            Log.d("", "convert bitmap to width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
         }
         return bitmap;
+    }
+
+    public Bitmap getPhotoFont() {
+        if (!this.isFontEmpty()) {
+            String text = this.getFontText();
+            Typeface font = this.getFontFaceType();
+            int color = this.getFontColor();
+            int textSize = this.getFontTextSize();
+            int location = this.getLocationIndex() % 3;
+            Layout.Alignment alignment = location == 0 ? Layout.Alignment.ALIGN_NORMAL :
+                    location == 2 ? Layout.Alignment.ALIGN_OPPOSITE : Layout.Alignment.ALIGN_CENTER;
+            Rect fontRect = new Rect(this.getFrameRect());
+            return FontHelper.getTextBitmap(text, font, textSize, color, alignment, fontRect.right, fontRect.bottom);
+        }
+        return null;
     }
 
     public void setFrameRect(Rect frameRect) {

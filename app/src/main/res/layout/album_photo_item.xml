@@ -57,9 +57,10 @@
                 android:layout_marginBottom="0dp"
                 android:orientation="vertical">
 
-                <TextView
+                <ImageView
                     android:id="@+id/photo_label"
-                    style="@style/photo_label" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

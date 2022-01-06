@@ -23,17 +23,17 @@ public class FontHelper {
         return textWidth;
     }
 
-    private static int getMultipleLineWidth(Paint paint, String text) {
+    private static int getMultipleLineWidth(Paint paint, String text, int width) {
         int maxTextWidth = 0;
         if (text != null && text.length() > 0) {
             for (String line : text.split("\n")) {
                 maxTextWidth = Math.max(maxTextWidth, getTextWidth(paint, line));
             }
         }
-        return maxTextWidth;
+        return Math.min(maxTextWidth, width);
     }
 
-    public static Bitmap getTextBitmap(String text, Typeface font, int textSize, int color, Layout.Alignment alignment) {
+    public static Bitmap getTextBitmap(String text, Typeface font, int textSize, int color, Layout.Alignment alignment, int width, int height) {
         try {
             // new anti aliased Paint
             TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -42,11 +42,11 @@ public class FontHelper {
             paint.setTypeface(font);
             // paint.setShadowLayer(1f, 0f, 1f,  color & 0xFAFFFFFF);
 
-            int textWidth = getMultipleLineWidth(paint, text);
+            int textWidth = getMultipleLineWidth(paint, text, width);
             // init StaticLayout for text
             StaticLayout textLayout = new StaticLayout(text, paint, textWidth, alignment, 0.8f, 0.0f, false);
             // get height of multiline text
-            int textHeight = textLayout.getHeight();
+            int textHeight = Math.min(textLayout.getHeight(), height);
             // init a bitmap
             Bitmap bitmap = Bitmap.createBitmap(textWidth, textHeight, Bitmap.Config.ARGB_8888);
             // get position of text's top left corner
