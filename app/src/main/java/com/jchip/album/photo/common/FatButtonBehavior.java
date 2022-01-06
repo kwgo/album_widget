@@ -16,14 +16,14 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 /**
  * FatButtonScrollHideBehavior
  */
-public class FatButtonHideBehavior extends CoordinatorLayout.Behavior<View> {
-    private static final String TAG = FatButtonHideBehavior.class.getSimpleName();
+public class FatButtonBehavior extends CoordinatorLayout.Behavior<View> {
+    private static final String TAG = FatButtonBehavior.class.getSimpleName();
     private static final Interpolator INTERPOLATOR = new FastOutLinearInInterpolator();
 
     private boolean isAnimate;
     private boolean isShow = true;
 
-    public FatButtonHideBehavior(Context context, AttributeSet attrs) {
+    public FatButtonBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
