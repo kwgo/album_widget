@@ -205,7 +205,6 @@ public class PhotoView {
         return ScaleType.FIT_CENTER != this.getPhotoScale() ? 0 : PhotoViewConfig.getImageBorder(layer);
     }
 
-    //
     public void setPhotoInfo(int albumId, String path, int width, int height) {
         this.photo.setAlbumId(albumId >= 0 ? albumId : this.photo.getAlbumId());
         this.photo.setPhotoWidth(width > 0 ? width : this.photo.getPhotoWidth());

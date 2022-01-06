@@ -19,7 +19,7 @@ public class PhotoViewHelper {
         setPhotoBorder(photoView, view, R.id.photo_board, R.id.photo_border);
     }
 
-    public static void setPhotoFrame(PhotoView photoView, View view, int containerId, int frameId, int boardId) {
+    private static void setPhotoFrame(PhotoView photoView, View view, int containerId, int frameId, int boardId) {
         Rect padding = new Rect();
         Drawable drawable = photoView.getFrameDrawable(padding);
         if (drawable != null) {
@@ -33,13 +33,13 @@ public class PhotoViewHelper {
         }
     }
 
-    public static void setPhotoBorder(PhotoView photoView, View view, int boardId, int borderId) {
+    private static void setPhotoBorder(PhotoView photoView, View view, int boardId, int borderId) {
         int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
         view.findViewById(borderId).setPadding(border, border, border, border);
         view.findViewById(boardId).setVisibility(photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
 
-    public static void setPhotoImage(PhotoView photoView, View view, int imageId) {
+    private static void setPhotoImage(PhotoView photoView, View view, int imageId) {
         if (photoView.isImageOn()) {
             Bitmap bitmap = photoView.getPhotoImage();
             if (bitmap != null) {
@@ -48,7 +48,7 @@ public class PhotoViewHelper {
         }
     }
 
-    public static void setPhotoLabel(PhotoView photoView, View view, int labelContainerId, int labelId) {
+    private static void setPhotoLabel(PhotoView photoView, View view, int labelContainerId, int labelId) {
         Bitmap bitmap = photoView.getPhotoFont();
         if (bitmap != null) {
             ((ImageView) view.findViewById(labelId)).setImageBitmap(bitmap);
@@ -65,18 +65,18 @@ public class PhotoViewHelper {
         setPhotoBorder(photoView, views, R.id.photo_board, R.id.photo_border);
     }
 
-    public static void setPhotoFrame(PhotoView photoView, RemoteViews views, int containerId, int frameId, int boardId) {
+    private static void setPhotoFrame(PhotoView photoView, RemoteViews views, int containerId, int frameId, int boardId) {
         views.setInt(containerId, "setBackgroundResource", photoView.getFrameIndex());
         views.setInt(frameId, "setBackgroundResource", photoView.getFrameIndex());
     }
 
-    public static void setPhotoBorder(PhotoView photoView, RemoteViews views, int boardId, int borderId) {
+    private static void setPhotoBorder(PhotoView photoView, RemoteViews views, int boardId, int borderId) {
         int border = photoView.isFullSize() ? 0 : photoView.getImageBorder();
         views.setViewPadding(borderId, border, border, border, border);
         views.setViewVisibility(boardId, photoView.isFullSize() ? View.INVISIBLE : View.VISIBLE);
     }
 
-    public static void setPhotoImage(PhotoView photoView, RemoteViews views, int imageId) {
+    private static void setPhotoImage(PhotoView photoView, RemoteViews views, int imageId) {
         Bitmap bitmap = photoView.getPhotoImage();
         if (bitmap != null) {
             views.setImageViewResource(imageId, 0);
@@ -87,7 +87,7 @@ public class PhotoViewHelper {
         }
     }
 
-    public static void setPhotoLabel(PhotoView photoView, RemoteViews views, int labelContainerId, int labelId) {
+    private static void setPhotoLabel(PhotoView photoView, RemoteViews views, int labelContainerId, int labelId) {
         Bitmap bitmap = photoView.getPhotoFont();
         if (bitmap != null) {
             views.setImageViewBitmap(labelId, bitmap);
