@@ -10,6 +10,7 @@
     <string name="album_alert_link">There are widgets link to it, are you sure you want to delete?</string>
 
     <string name="font_sample">Input text</string>
+    <string name="font_support">Font might not be displaying properly</string>
 
     <string name="about_name">App name</string>
     <string name="about_version">Version</string>

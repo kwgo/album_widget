@@ -20,7 +20,7 @@ public class PhotoViewHelper {
     public static void setPhotoView(PhotoView photoView, View view) {
         setPhotoFrame(photoView, view, R.id.photo_container, R.id.photo_frame, R.id.photo_board);
         setPhotoImage(photoView, view, R.id.photo_image);
-        setPhotoLabel(photoView, view, R.id.photo_label);
+        setPhotoLabel(photoView, view, R.id.label_container, R.id.photo_label);
         setPhotoBorder(photoView, view, R.id.photo_board, R.id.photo_border);
     }
 
@@ -53,7 +53,7 @@ public class PhotoViewHelper {
         }
     }
 
-    public static void setPhotoLabel(PhotoView photoView, View view, int labelId) {
+    public static void setPhotoLabel(PhotoView photoView, View view, int labelContainerId, int labelId) {
         TextView labelView = view.findViewById(labelId);
         labelView.setVisibility(View.GONE);
         if (!photoView.isFontEmpty()) {
@@ -62,8 +62,10 @@ public class PhotoViewHelper {
             labelView.setTextSize(TypedValue.COMPLEX_UNIT_PX, photoView.getFontTextSize());
             labelView.setTypeface(photoView.getFontFaceType());
             labelView.setGravity(photoView.getFontLocation());
-            ((LinearLayout) labelView.getParent()).setGravity(photoView.getFontLocation());
+            labelView.setSelected(true);
+            labelView.setHorizontallyScrolling(true);
             labelView.setVisibility(View.VISIBLE);
+            ((LinearLayout) view.findViewById(labelContainerId)).setGravity(photoView.getFontLocation());
         }
     }
 

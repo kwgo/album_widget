@@ -46,7 +46,7 @@ public class PhotoViewConfig {
     );
 
     public static final List<Integer> fullSizeFrames = Arrays.asList(
-            R.drawable.frame_item_194, R.drawable.frame_item_195, R.drawable.frame_item_196
+            R.drawable.frame_item_197, R.drawable.frame_item_198, R.drawable.frame_item_199
     );
 
     private static final Map<Integer, Integer> densitySizeFactors = new HashMap<Integer, Integer>() {{

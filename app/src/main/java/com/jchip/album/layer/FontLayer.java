@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.widget.SeekBar;
 
 import com.jchip.album.R;
+import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 import com.jchip.album.view.PhotoViewConfig;
@@ -22,6 +23,7 @@ public class FontLayer extends AbstractLayer {
         super.setContentView(PhotoViewConfig.LAYER_FONT_SETTING, R.layout.album_font_layer);
         super.setStatusBarColor(android.R.color.transparent);
     }
+
     @Override
     public void postContentView() {
         this.setPhotoView(this.getView(R.id.photo_view));
@@ -43,13 +45,12 @@ public class FontLayer extends AbstractLayer {
         this.getSeekView(R.id.font_color_g).setProgress((this.photo.getFontColor() >> 8) & 0xFF);
         this.getSeekView(R.id.font_color_b).setProgress((this.photo.getFontColor()) & 0xFF);
 
-        // events
         this.getButtonView(R.id.font_type).setOnClickListener((v) -> this.onFontTypeChange());
         this.getButtonView(R.id.font_location).setOnClickListener((v) -> this.onLocationChange());
         this.getButtonView(R.id.font_size_plus).setOnClickListener((v) -> this.onSizeChange(+1));
         this.getButtonView(R.id.font_size_minus).setOnClickListener((v) -> this.onSizeChange(-1));
 
-        TextWatcher textWatcher = new TextWatcher() {
+        this.getEditView(R.id.photo_text).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -62,8 +63,7 @@ public class FontLayer extends AbstractLayer {
             @Override
             public void afterTextChanged(Editable s) {
             }
-        };
-        this.getEditView(R.id.photo_text).addTextChangedListener(textWatcher);
+        });
 
         SeekBar.OnSeekBarChangeListener seekListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -94,6 +94,10 @@ public class FontLayer extends AbstractLayer {
         int fontIndex = (this.photo.getFontIndex() + 1) % fonts.size();
         this.photo.setPhotoFont(fonts.get(fontIndex), -1, -1, -1, null);
         this.setPhotoView(this.getView(R.id.photo_view));
+
+        if (!AlbumHelper.isLetterIncluded(this.getEditView(R.id.photo_text).getText().toString())) {
+            AlbumHelper.toast(this, R.string.font_support);
+        }
     }
 
     private void onLocationChange() {

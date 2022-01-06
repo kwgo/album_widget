@@ -7,6 +7,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -45,6 +48,32 @@ public class AlbumHelper {
             work.run();
             dialog.dismiss();
         }).show();
+    }
+
+    public static boolean isLetterIncluded(String text) {
+        boolean letter = false;
+        boolean special = false;
+        if (text != null) {
+            for (char ch : text.toCharArray()) {
+                if (ch >= 'a' && ch <= 'z' && ch >= 'A' && ch <= 'Z') {
+                    letter = true;
+                }
+                if (((int) ch) > 127) {
+                    special = true;
+                }
+            }
+        }
+        return letter || !special;
+    }
+
+    public static void toast(Context context, int textId) {
+        Toast toast = Toast.makeText(context, textId, Toast.LENGTH_LONG);
+        // toast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+        messageTextView.setTextSize(14);
+        toast.show();
     }
 
     public static void updateWidget(Context context, Class<?> widgetProvider) {
