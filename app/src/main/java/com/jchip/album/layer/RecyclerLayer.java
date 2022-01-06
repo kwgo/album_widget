@@ -37,7 +37,7 @@ public abstract class RecyclerLayer extends DataLayer {
         });
 
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        // recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);

@@ -91,7 +91,7 @@ public class PhotoPickerLayer extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.photo_grid_view);
         layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        // recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
 
         int gapSize = PhotoConfig.PHOTO_VIEW_GAP;
@@ -128,7 +128,7 @@ public class PhotoPickerLayer extends AppCompatActivity {
         RecyclerView bottomRecyclerView = folderView.findViewById(R.id.photo_picker_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         bottomRecyclerView.setLayoutManager(layoutManager);
-        bottomRecyclerView.setHasFixedSize(true);
+        // bottomRecyclerView.setHasFixedSize(true);
         bottomRecyclerView.addItemDecoration(new RecycleItemDecoration(1, Color.LTGRAY));
         folderAdapter = new MultiAdapter<>(null);
         bottomRecyclerView.setAdapter(folderAdapter);
