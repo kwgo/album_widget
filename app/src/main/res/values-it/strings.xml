@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Album fotografico</string>
+    <string name="app_author">JChip Game</string>
+
+    <string name="album_title">Album</string>
+    <string name="photo_title">Foto</string>
+
+    <string name="album_default_name">Album di foto #</string>
+    <string name="album_alert_delete">Sei sicuro di voler eliminare?</string>
+    <string name="album_alert_link">Ci sono widget che linkano ad esso, sei sicuro di volerlo eliminare?</string>
+
+    <string name="font_sample">Inserisci testo</string>
+    <string name="font_support">Il carattere potrebbe non essere visualizzato correttamente</string>
+
+    <string name="about_name">Nome app</string>
+    <string name="about_version">Versione</string>
+    <string name="about_author">Autore</string>
+    <string name="about_contact">Contatto</string>
+    <string name="about_email">jchipgame@gmail.com</string>
+    <string name="about_source">Altre app</string>
+    <string name="about_store">play.google.com/store/search?q=jchip</string>
+    <string name="about_owned">Sokoban (Boxman) Classic di proprietà</string>
+    <string name="about_play">fai clic sull\'immagine per riprodurre</string>
+
+    <string name="dialog_permission_title">Seleziona foto</string>
+    <string name="dialog_permission_description">Accetta l\'accesso allo spazio di archiviazione</string>
+    <string name="dialog_permission_ok">OK</string>
+    <string name="dialog_permission_cancel">Annulla</string>
+
+    <string name="dialog_deny_title">La selezione delle foto è stata negata</string>
+    <string name="dialog_deny_description">Vai alle impostazioni del telefono -> App -> %1$s -> Autorizzazione -> Memoria -> Consenti</string>
+    <string name="dialog_deny_go_setting">Vai alle impostazioni</string>
+
+    <string name="photo_all_folder">Tutte le foto</string>
+    <string name="photo_type_gif">GIF</string>
+    <string name="photo_folder_count">%1$s (%2$d)</string>
+    <string name="photo_limit_count">Seleziona al massimo %d fogli</string>
+
+</resources>

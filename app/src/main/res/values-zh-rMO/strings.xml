@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">相冊</string>
+    <string name="app_author">JChip Game</string>
+
+    <string name="album_title">相冊</string>
+    <string name="photo_title">照片</string>
+
+    <string name="album_default_name">相冊 #</string>
+    <string name="album_alert_delete">確定要刪除嗎？ </string>
+    <string name="album_alert_link">有小部件鏈接，確定要刪除嗎？ </string>
+
+    <string name="font_sample">輸入文本</string>
+    <string name="font_support">字體可能無法正常顯示</string>
+
+    <string name="about_name">應用名稱</string>
+    <string name="about_version">版本</string>
+    <string name="about_author">作者</string>
+    <string name="about_contact">聯繫方式</string>
+    <string name="about_email">jchipgame@gmail.com</string>
+    <string name="about_source">其他應用</string>
+    <string name="about_store">play.google.com/store/search?q=jchip</string>
+    <string name="about_owned">特別推薦 Sokoban (Boxman) Class</string>
+    <string name="about_play">(點擊圖片進入)</string>
+
+    <string name="dialog_permission_title">選擇照片</string>
+    <string name="dialog_permission_description">請允許訪問存儲</string>
+    <string name="dialog_permission_ok">確定</string>
+    <string name="dialog_permission_cancel">取消</string>
+
+    <string name="dialog_deny_title">選擇照片功能已被拒絕</string>
+    <string name="dialog_deny_description">請至手機設置 -> 應用程式 -> %1$s -> 權限 -> 儲存 -> 開啟</string>
+    <string name="dialog_deny_go_setting">前往設定</string>
+
+    <string name="photo_all_folder">所有照片</string>
+    <string name="photo_type_gif">GIF</string>
+    <string name="photo_folder_count">%1$s (%2$d)</string>
+    <string name="photo_limit_count">最多選擇%d張</string>
+
+</resources>

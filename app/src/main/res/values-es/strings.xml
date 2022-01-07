@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Álbum de fotos</string>
+    <string name="app_author">JChip Game</string>
+
+    <string name="album_title">Álbum</string>
+    <string name="photo_title">Foto</string>
+
+    <string name="album_default_name">Álbum de fotos #</string>
+    <string name="album_alert_delete">¿Está seguro de que desea eliminar?</string>
+    <string name="album_alert_link">Hay un enlace de widgets, ¿está seguro de que desea eliminarlo?</string>
+
+    <string name="font_sample">Introducir texto</string>
+    <string name="font_support">Es posible que la fuente no se muestre correctamente</string>
+
+    <string name="about_name">App Nombre</string>
+    <string name="about_version">Versión</string>
+    <string name="about_author">Autor</string>
+    <string name="about_contact">Contacto</string>
+    <string name="about_email">jchipgame@gmail.com</string>
+    <string name="about_source">Otras aplicaciones</string>
+    <string name="about_store">play.google.com/store/search?q=jchip</string>
+    <string name="about_owned">Propiedad de Sokoban (Boxman) Classic</string>
+    <string name="about_play">haz clic en la imagen para reproducir</string>
+
+    <string name="dialog_permission_title">Seleccionar fotos</string>
+    <string name="dialog_permission_description">Otorgue acceso al almacenamiento</string>
+    <string name="dialog_permission_ok">Aceptar</string>
+    <string name="dialog_permission_cancel">Cancelar</string>
+
+    <string name="dialog_deny_title">Se ha denegado la selección de fotos</string>
+    <string name="dialog_deny_description">Vaya a la configuración del teléfono -> Aplicaciones -> %1$s -> Permiso -> Almacenamiento -> Permitir</string>
+    <string name="dialog_deny_go_setting">Ir a configuración</string>
+
+    <string name="photo_all_folder">Todas las fotos</string>
+    <string name="photo_type_gif">GIF</string>
+    <string name="photo_folder_count">%1$s (%2$d)</string>
+    <string name="photo_limit_count">Seleccionar como máximo %d hojas</string>
+
+</resources>

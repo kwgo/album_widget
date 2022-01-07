@@ -22,7 +22,7 @@
     <string name="about_owned">Owned Sokoban (Boxman) Classic</string>
     <string name="about_play">click image to play</string>
 
-    <string name="dialog_permission_title">Photo Album</string>
+    <string name="dialog_permission_title">Select Photos</string>
     <string name="dialog_permission_description">Please grant to access the storage</string>
     <string name="dialog_permission_ok">OK</string>
     <string name="dialog_permission_cancel">Cancel</string>

@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">フォトアルバム</string>
+    <string name="app_author">JChip Game</string>
+
+    <string name="album_title">アルバム</string>
+    <string name="photo_title">写真</string>
+
+    <string name="album_default_name">フォトアルバム＃</string>
+    <string name="album_alert_delete">本当に削除しますか？</string>
+    <string name="album_alert_link">ウィジェットへのリンクがありますが、削除してもよろしいですか？</string>
+
+    <string name="font_sample">入力テキスト</string>
+    <string name="font_support">フォントが正しく表示されない可能性があります</string>
+
+    <string name="about_name">アプリ名</string>
+    <string name="about_version">バージョン</string>
+    <string name="about_author">作成者</string>
+    <string name="about_contact">連絡先</string>
+    <string name="about_email">jchipgame@gmail.com</string>
+    <string name="about_source">その他のアプリ</string>
+    <string name="about_store">play.google.com/store/search?q=jchip</string>
+    <string name="about_owned">所有する Sokoban (Boxman) Classic</string>
+    <string name="about_play">再生するには画像をクリックしてください</string>
+
+    <string name="dialog_permission_title">写真を選択</string>
+    <string name="dialog_permission_description">ストレージへのアクセスを許可してください</string>
+    <string name="dialog_permission_ok">OK</string>
+    <string name="dialog_permission_cancel">キャンセル</string>
+
+    <string name="dialog_deny_title">写真の選択が拒否されました</string>
+    <string name="dialog_deny_description">電話の設定->アプリ -> %1$s -> 権限 -> 保存 -> 許可</string>に移動してください
+    <string name="dialog_deny_go_setting">設定に移動</string>
+
+    <string name="photo_all_folder">すべての写真</string>
+    <string name="photo_type_gif">GIF</string>
+    <string name="photo_folder_count">%1$s (%2$d)</string>
+    <string name="photo_limit_count">最大%d枚のシートを選択</string>
+
+</resources>

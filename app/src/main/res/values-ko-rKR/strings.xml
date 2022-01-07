@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">사진 앨범</string>
+    <string name="app_author">JChip Game</string>
+
+    <string name="album_title">앨범</string>
+    <string name="photo_title">사진</string>
+
+    <string name="album_default_name">사진 앨범 번호</string>
+    <string name="album_alert_delete">정말 삭제하시겠습니까?</string>
+    <string name="album_alert_link">위젯 링크가 있습니다. 삭제하시겠습니까?</string>
+
+    <string name="font_sample">입력 텍스트</string>
+    <string name="font_support">글꼴이 제대로 표시되지 않을 수 있음</string>
+
+    <string name="about_name">앱 이름</string>
+    <string name="about_version">버전</string>
+    <string name="about_author">저자</string>
+    <string name="about_contact">연락처</string>
+    <string name="about_email">jchipgame@gmail.com</string>
+    <string name="about_source">기타 앱</string>
+    <string name="about_store">play.google.com/store/search?q=jchip</string>
+    <string name="about_owned">Sokoban (Boxman) Classic 소유</string>
+    <string name="about_play">재생하려면 이미지를 클릭하세요.</string>
+
+    <string name="dialog_permission_title">사진 선택</string>
+    <string name="dialog_permission_description">저장소 액세스 권한을 부여하십시오.</string>
+    <string name="dialog_permission_ok">확인</string>
+    <string name="dialog_permission_cancel">취소</string>
+
+    <string name="dialog_deny_title">사진 선택이 거부되었습니다</string>
+    <string name="dialog_deny_description">휴대전화 설정 -> 앱 -> %1$s -> 권한 -> 저장용량 -> 허용으로 이동하세요.</string>
+    <string name="dialog_deny_go_setting">설정으로 이동</string>
+
+    <string name="photo_all_folder">모든 사진</string>
+    <string name="photo_type_gif">GIF</string>
+    <string name="photo_folder_count">%1$s (%2$d)</string>
+    <string name="photo_limit_count">최대 %d개 시트 선택</string>
+
+</resources>

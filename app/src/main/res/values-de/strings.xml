@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Fotoalbum</string>
+    <string name="app_author">JChip Game</string>
+
+    <string name="album_title">Album</string>
+    <string name="photo_title">Foto</string>
+
+    <string name="album_default_name">Fotoalbum #</string>
+    <string name="album_alert_delete">Möchtest du wirklich löschen?</string>
+    <string name="album_alert_link">Es gibt einen Link zu Widgets, möchtest du ihn wirklich löschen?</string>
+
+    <string name="font_sample">Text eingeben</string>
+    <string name="font_support">Font wird möglicherweise nicht richtig angezeigt</string>
+
+    <string name="about_name">App Name</string>
+    <string name="about_version">Version</string>
+    <string name="about_author">Autor</string>
+    <string name="about_contact">Kontakt</string>
+    <string name="about_email">jchipgame@gmail.com</string>
+    <string name="about_source">Andere Apps</string>
+    <string name="about_store">play.google.com/store/search?q=jchip</string>
+    <string name="about_owned">Besessener Sokoban (Boxman) Classic</string>
+    <string name="about_play">zum Abspielen auf das Bild klicken</string>
+
+    <string name="dialog_permission_title">Fotos auswählen</string>
+    <string name="dialog_permission_description">Bitte gestatten Sie den Zugriff auf den Speicher</string>
+    <string name="dialog_permission_ok">OK</string>
+    <string name="dialog_permission_cancel">Abbrechen</string>
+
+    <string name="dialog_deny_title">Fotoauswahl wurde verweigert</string>
+    <string name="dialog_deny_description">Gehe zu den Telefoneinstellungen -> Apps -> %1$s -> Berechtigung -> Speicher -> Zulassen</string>
+    <string name="dialog_deny_go_setting">Zu den Einstellungen gehen</string>
+
+    <string name="photo_all_folder">Alle Fotos</string>
+    <string name="photo_type_gif">GIF</string>
+    <string name="photo_folder_count">%1$s (%2$d)</string>
+    <string name="photo_limit_count">Wählen Sie höchstens %d Blätter aus</string>
+
+</resources>
