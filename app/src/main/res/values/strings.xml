@@ -27,8 +27,8 @@
     <string name="dialog_permission_ok">OK</string>
     <string name="dialog_permission_cancel">Cancel</string>
 
-    <string name="dialog_deny_title">Select photo function has been rejected</string>
-    <string name="dialog_deny_description">Please go to phone settings → Application → %1$s → Permission, turn on Storage</string>
+    <string name="dialog_deny_title">Photo selection has been denied</string>
+    <string name="dialog_deny_description">Please go to phone settings -> Apps -> %1$s -> Permission -> Storage -> Allow</string>
     <string name="dialog_deny_go_setting">Go to settings</string>
 
     <string name="photo_all_folder">All Photos</string>

@@ -45,12 +45,11 @@ public class PhotoPickerLayer extends AppCompatActivity {
     private final int PERMISSION_REQUEST_STORAGE = 6666;
     private final int ACTIVITY_REQUEST_PREVIEW = 7778;
 
-    private String folderName = "";
-
     private RecyclerView.LayoutManager layoutManager;
     private MultiAdapter<PhotoModel> photoAdapter;
     private FloatingActionButton functionButton, folderButton, doneButton;
 
+    private String folderName = "";
     private Dialog folderDialog;
     private View folderView;
     private MultiAdapter<FolderModel> folderAdapter;
@@ -80,10 +79,11 @@ public class PhotoPickerLayer extends AppCompatActivity {
 
         PhotoUtils.instance(this.getApplicationContext());
 
-        singleExecutor = Executors.newSingleThreadExecutor();
-        selectedPhotos = new ArrayList<>();
-        setupView();
-        requestScanPhotos();
+        this.singleExecutor = Executors.newSingleThreadExecutor();
+        this.selectedPhotos = new ArrayList<>();
+
+        this.setupView();
+        this.requestScanPhotos();
     }
 
     private void setupView() {
@@ -224,8 +224,9 @@ public class PhotoPickerLayer extends AppCompatActivity {
     }
 
     private void showDeniedDialog(final int type) {
+        String appName = this.getString(R.string.app_name);
         String title = getResources().getString(R.string.dialog_deny_title);
-        String description = getResources().getString(R.string.dialog_deny_description);
+        String description = getResources().getString(R.string.dialog_deny_description, appName);
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setTitle(title)

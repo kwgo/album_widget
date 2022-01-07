@@ -30,16 +30,15 @@ public final class PhotoUtils {
             screenDpi = metric.densityDpi;
             density = metric.density;
         }
-
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
-        }
-
-        resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            navigationBarHeight = context.getResources().getDimensionPixelSize(resourceId);
-        }
+//        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+//        if (resourceId > 0) {
+//            statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
+//        }
+//
+//        resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+//        if (resourceId > 0) {
+//            navigationBarHeight = context.getResources().getDimensionPixelSize(resourceId);
+//        }
     }
 
     public static int px2dp(float pxValue) {

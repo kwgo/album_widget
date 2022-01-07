@@ -83,10 +83,10 @@ public class ZoomImageView extends AppCompatImageView implements ViewTreeObserve
         manager.getDefaultDisplay().getMetrics(metrics);
         density = (int) metrics.density;
         statusBarHeight = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        }
+//        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+//        if (resourceId > 0) {
+//            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+//        }
 
         scaleMatrix = new Matrix();
         // scale by matrix
