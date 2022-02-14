@@ -32,22 +32,34 @@
             android:theme="@style/app_theme" />
         <activity
             android:name=".ActivityFrame"
+            android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivityFont"
+            android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivityAbout"
+            android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
-
         <activity
             android:name=".ActivitySetting"
+            android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
-
         <activity
             android:name=".ActivitySlideshow"
             android:screenOrientation="user"
             android:theme="@style/layer_fullscreen" />
+
+        <activity
+            android:name=".ActivityPhotoPicker"
+            android:screenOrientation="portrait"
+            android:theme="@style/layer_theme" />
+
+        <activity
+            android:name=".ActivityPhotoPreview"
+            android:screenOrientation="portrait"
+            android:theme="@style/layer_theme" />
 
         <activity
             android:name=".ActivityAlbumSetting"
@@ -59,7 +71,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ActivityPhotoSetting"
             android:icon="@drawable/widget_icon"
@@ -70,14 +81,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ActivityPhotoPicker"
-            android:theme="@style/layer_theme" />
-
-        <activity
-            android:name=".ActivityPhotoPreview"
-            android:theme="@style/layer_theme" />
 
         <receiver
             android:name=".ActivityAlbumSetting$AlbumProvider"
