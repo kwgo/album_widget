@@ -250,6 +250,7 @@ public class DataHelper extends DataHandler {
             widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
             widgetData.setPhotoIds((String) rowData.get(WidgetData.valuePhotoIds));
             widgetData.setPhoto(photoData);
+            widgetData.setAlbum(true);
             return widgetData;
         }
         return new WidgetData();
@@ -275,6 +276,7 @@ public class DataHelper extends DataHandler {
             widgetData.setPhotoId(photoData.getPhotoId());
             widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
             widgetData.setPhoto(photoData);
+            widgetData.setAlbum(false);
             return widgetData;
         }
         return new WidgetData();
@@ -384,5 +386,45 @@ public class DataHelper extends DataHandler {
         widgetData.setPhotoId((Integer) rowData.get(WidgetData.fieldPhotoId));
         widgetData.setStatus((Integer) rowData.get(WidgetData.fieldStatus));
         return widgetData;
+    }
+
+    // query setting
+    public SettingData querySetting() {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT * FROM ").append(SettingData.tableName);
+        for (Map<String, Object> rowData : this.query(sql.toString())) {
+            return this.getSettingData(rowData);
+        }
+        return new SettingData();
+    }
+
+    private SettingData getSettingData(Map<String, Object> rowData) {
+        SettingData settingData = new SettingData();
+        settingData.setSettingId((Integer) rowData.get(SettingData.fieldSettingId));
+        settingData.setSlideSpeed((Integer) rowData.get(SettingData.fieldSlideSpeed));
+        settingData.setBackgroundColor((Integer) rowData.get(SettingData.fieldBackgroundColor));
+        settingData.setNameBackground((Integer) rowData.get(SettingData.fieldNameBackground));
+        settingData.setFrameIndex((Integer) rowData.get(SettingData.fieldFrameIndex));
+        settingData.setAutoRefresh((Integer) rowData.get(SettingData.fieldAutoRefresh));
+        return settingData;
+    }
+
+    // save setting
+    public SettingData saveSetting(SettingData settingData) {
+        settingData.setSettingId(this.replace(SettingData.tableName, this.getSettingContentValues(settingData)));
+        return settingData;
+    }
+
+    private ContentValues getSettingContentValues(SettingData settingData) {
+        ContentValues contentValues = new ContentValues();
+        if (settingData.getSettingId() >= 0) {
+            contentValues.put(WidgetData.fieldWidgetId, settingData.getSettingId());
+        }
+        contentValues.put(SettingData.fieldSlideSpeed, settingData.getSlideSpeed());
+        contentValues.put(SettingData.fieldBackgroundColor, settingData.getBackgroundColor());
+        contentValues.put(SettingData.fieldNameBackground, settingData.getNameBackground());
+        contentValues.put(SettingData.fieldFrameIndex, settingData.getFrameIndex());
+        contentValues.put(SettingData.fieldAutoRefresh, settingData.getAutoRefresh());
+        return contentValues;
     }
 }

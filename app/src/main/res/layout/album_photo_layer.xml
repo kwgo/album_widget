@@ -169,7 +169,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/album_help"
+                android:id="@+id/album_setting"
                 style="@style/normal_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:layout_margin="16dp"
                 android:contentDescription="@null"
                 android:gravity="start|top"
-                android:src="@drawable/photo_help" />
+                android:src="@drawable/photo_setting" />
         </LinearLayout>
 
         <LinearLayout

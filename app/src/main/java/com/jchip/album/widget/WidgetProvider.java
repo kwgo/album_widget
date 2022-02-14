@@ -6,11 +6,17 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
-import com.jchip.album.ActivitySplash;
+import com.jchip.album.ActivitySlideshow;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class WidgetProvider extends AppWidgetProvider {
     public static final String ACTION_APP = "actionApp";
@@ -23,7 +29,10 @@ public class WidgetProvider extends AppWidgetProvider {
             if (ACTION_APP.equals(intent.getAction())) {
                 this.startAppActivity(context, intent);
             } else if (ACTION_NEXT.equals(intent.getAction())) {
-                this.onNextAppWidget(context, intent);
+                this.onItemTap(-1, true,
+                        () -> this.onNextAppWidget(context, intent),
+                        () -> this.onJumpAppWidget(context, intent)
+                );
             } else {
                 super.onReceive(context, intent);
             }
@@ -52,8 +61,10 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     protected void onNextAppWidget(Context context, Intent intent) {
-//        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-//        this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{appWidgetId});
+    }
+
+    protected void onJumpAppWidget(Context context, Intent intent) {
+        this.startAppActivity(context, intent);
     }
 
     protected PendingIntent getPendingIntent(Context context, int appWidgetId, WidgetData widgetData) {
@@ -79,9 +90,48 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     private void startAppActivity(Context context, Intent intent) {
-        Intent activityIntent = new Intent(context, ActivitySplash.class);
+        Intent activityIntent = new Intent(context, ActivitySlideshow.class);
         activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         activityIntent.putExtra(WidgetProvider.WIDGET_ITEM, intent.getSerializableExtra(WidgetProvider.WIDGET_ITEM));
         context.startActivity(activityIntent);
+    }
+
+    private static final long DOUBLE_CLICK_PERIOD = 250;
+    private static Map<Integer, Integer> itemTapCounts;
+
+    private void onItemTap(int itemId, boolean doubleTap, Runnable onSingleTap, Runnable onDoubleTap) {
+        if (doubleTap) {
+            if (itemTapCounts == null) {
+                itemTapCounts = new HashMap<>();
+            }
+            int itemTapCount = itemTapCounts.get(itemId) == null ? 0 : itemTapCounts.get(itemId);
+            itemTapCounts.put(itemId, ++itemTapCount);
+
+            final Handler handler = new Handler(Looper.getMainLooper()) {
+                public void handleMessage(Message message) {
+                    int itemTapCount = itemTapCounts.get(itemId) == null ? 0 : itemTapCounts.get(itemId);
+                    if (itemTapCount > 1) {
+                        onDoubleTap.run();
+                    } else {
+                        onSingleTap.run();
+                    }
+                    itemTapCounts.put(itemId, 0);
+                }
+            };
+
+            if (itemTapCount == 1) {
+                new Thread(() -> {
+                    try {
+                        synchronized (this) {
+                            wait(DOUBLE_CLICK_PERIOD);
+                        }
+                        handler.sendEmptyMessage(0);
+                    } catch (InterruptedException ignore) {
+                    }
+                }).start();
+            }
+        } else {
+            onSingleTap.run();
+        }
     }
 }

@@ -41,6 +41,15 @@
             android:theme="@style/layer_theme" />
 
         <activity
+            android:name=".ActivitySetting"
+            android:theme="@style/layer_theme" />
+
+        <activity
+            android:name=".ActivitySlideshow"
+            android:screenOrientation="user"
+            android:theme="@style/layer_fullscreen" />
+
+        <activity
             android:name=".ActivityAlbumSetting"
             android:icon="@drawable/widget_icon"
             android:roundIcon="@drawable/widget_icon"

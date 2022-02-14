@@ -21,6 +21,7 @@ import com.jchip.album.ActivityPhotoSetting;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.data.SettingData;
 import com.jchip.album.photo.helper.MainHandler;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.PhotoView;
@@ -28,6 +29,8 @@ import com.jchip.album.view.PhotoViewHelper;
 
 public abstract class AbstractLayer extends AppCompatActivity {
     protected int layer = -1;
+
+    protected SettingData settingData;
 
     protected AlbumView album;
     protected PhotoView photo;

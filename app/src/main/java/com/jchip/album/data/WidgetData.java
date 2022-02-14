@@ -13,12 +13,21 @@ public class WidgetData extends AbstractData {
     private int albumId = -1;
     private int photoId = -1;
     private int status = -1;
+    private boolean isAlbum = false;
 
     private String photoIds;
     private PhotoData photo;
 
     public boolean isSaved() {
         return widgetId >= 0;
+    }
+
+    public boolean isAlbum() {
+        return isAlbum;
+    }
+
+    public void setAlbum(boolean album) {
+        isAlbum = album;
     }
 
     public int getWidgetId() {
@@ -77,6 +86,7 @@ public class WidgetData extends AbstractData {
         widgetData.setStatus(this.getStatus());
         widgetData.setPhotoIds(this.getPhotoIds());
         widgetData.setPhoto(this.getPhoto());
+        widgetData.setAlbum(this.isAlbum());
         return widgetData;
     }
 }

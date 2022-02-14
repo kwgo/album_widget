@@ -8,7 +8,10 @@ import android.view.View;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
+import com.jchip.album.ActivityAbout;
+import com.jchip.album.ActivitySlideshow;
 import com.jchip.album.R;
+import com.jchip.album.data.AlbumData;
 import com.jchip.album.view.AlbumNameAdapter;
 import com.jchip.album.view.AlbumNameView;
 import com.jchip.album.view.AlbumView;
@@ -29,6 +32,19 @@ public class AlbumLayer extends PhotoLayer {
     @Override
     public void initContentView() {
         super.initContentView();
+
+        this.settingData = this.querySetting();
+        if (!this.settingData.isSaved()) {
+            int backgroundColor = this.getResources().getColor(R.color.background);
+            this.settingData.setBackgroundColor(backgroundColor);
+            this.settingData.setSlideSpeed(PhotoViewConfig.DEFAULT_SLIDESHOW_SPEED);
+            this.settingData.setFrameIndex(PhotoViewConfig.DEFAULT_FRAME_ID);
+            this.saveSetting();
+        } else {
+            this.getView(R.id.album_setting_view).setBackgroundColor(this.settingData.getBackgroundColor());
+        }
+
+        this.setAlbumPhotos(new AlbumView(this, new AlbumData(), this.layer));
 
         this.getView(R.id.album_name_menu).setOnClickListener(this::showMenu);
     }
@@ -71,7 +87,11 @@ public class AlbumLayer extends PhotoLayer {
             if (item.getItemId() == R.id.album_name_edit) {
                 albumNameView.setEnabled(true);
             } else if (item.getItemId() == R.id.album_name_delete) {
-                onDeleteAlbum();
+                this.onDeleteAlbum();
+            } else if (item.getItemId() == R.id.album_slideshow) {
+                this.onSlideshow();
+            } else if (item.getItemId() == R.id.album_about) {
+                this.onAlbumAbout();
             }
             return true;
         });
@@ -111,4 +131,13 @@ public class AlbumLayer extends PhotoLayer {
             });
         }
     }
+
+    private void onSlideshow() {
+        this.startActivity(ActivitySlideshow.class, null);
+    }
+
+    private void onAlbumAbout() {
+        this.startActivity(ActivityAbout.class);
+    }
+
 }

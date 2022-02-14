@@ -3,6 +3,7 @@ package com.jchip.album.layer;
 import com.jchip.album.data.AlbumData;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.PhotoData;
+import com.jchip.album.data.SettingData;
 import com.jchip.album.view.AlbumView;
 import com.jchip.album.view.PhotoView;
 
@@ -86,5 +87,13 @@ public class DataLayer extends AbstractLayer {
             albumViews.add(albumView);
         }
         return albumViews;
+    }
+
+    protected SettingData querySetting() {
+        return DataHelper.getInstance(this).querySetting();
+    }
+
+    protected SettingData saveSetting() {
+        return DataHelper.getInstance(this).saveSetting(this.settingData);
     }
 }

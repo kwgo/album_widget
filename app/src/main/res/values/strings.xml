@@ -5,6 +5,47 @@
     <string name="album_title">Album</string>
     <string name="photo_title">Photo</string>
 
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_about">About</string>
+
+    <string name="setting_slideshow_period">Slideshow period</string>
+    <string name="setting_background_color">Background color</string>
+    <string name="setting_default_frame">Default frame</string>
+
+    <string-array name="setting_slide_period">
+        <item>No slide</item>
+        <item>1 second</item>
+        <item>2 seconds</item>
+        <item>3 seconds</item>
+        <item>4 seconds</item>
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+        <item>30 seconds</item>
+        <item>40 seconds</item>
+        <item>50 seconds</item>
+        <item>1 minute</item>
+        <item>2 minutes</item>
+        <item>3 minutes</item>
+        <item>4 minutes</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>20 minutes</item>
+        <item>30 minutes</item>
+        <item>40 minutes</item>
+        <item>50 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>4 hours</item>
+        <item>5 hours</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+        <item>24 hours</item>
+    </string-array>
+
     <string name="album_default_name">Photo album #</string>
     <string name="album_alert_delete">Are you sure you want to delete?</string>
     <string name="album_alert_link">There are widgets link to it, are you sure you want to delete?</string>

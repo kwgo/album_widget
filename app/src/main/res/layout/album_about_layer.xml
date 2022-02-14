@@ -193,8 +193,8 @@
 
         <ImageView
             android:id="@+id/about_image"
-            android:layout_width="300dp"
-            android:layout_height="134dp"
+            android:layout_width="260dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_horizontal|bottom"
             android:adjustViewBounds="true"
             android:alpha="0.95"

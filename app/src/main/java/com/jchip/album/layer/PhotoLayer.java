@@ -75,6 +75,9 @@ public class PhotoLayer extends FlowLayer {
 
     public void setAlbumPhoto(PhotoView photo) {
         this.photo = photo;
+        if (!photo.isSaved()) {
+            this.photo.setPhotoFrame(this.settingData.getFrameIndex());
+        }
 
         // to set image view size
         this.photo.setFrameRect(this.getViewRect(R.id.photo_container_view));
@@ -119,7 +122,7 @@ public class PhotoLayer extends FlowLayer {
                 this.photo.setPhotoInfo(this.album.getAlbumId(), photoModel.getPhotoPath(), photoModel.getPhotoWidth(), photoModel.getPhotoHeight());
                 if (!this.album.isPhotoExisted(this.photo)) {
                     this.photo.setPhotoImage(-1, (photoModel.getPhotoOrientation() + 360) % 360 / 90, -1);
-                    this.photo.setPhotoFrame(photoView.getFrameIndex());
+                    this.photo.setPhotoFrame(this.settingData.getFrameIndex());
                     this.album.addPhotoView(this.createPhoto());
                 }
             }

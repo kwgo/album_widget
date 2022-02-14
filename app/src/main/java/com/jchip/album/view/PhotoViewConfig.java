@@ -21,9 +21,13 @@ public class PhotoViewConfig {
     public static final int DEFAULT_FONT_LOCATION = 4;
     public static final int DEFAULT_FONT_SIZE = 120;
 
+    public static final int DEFAULT_SLIDESHOW_SPEED = 5;
+
     public static final int LAYER_ALBUM_PHOTO = 0;
     public static final int LAYER_FRAME_SETTING = 1;
     public static final int LAYER_FONT_SETTING = 2;
+    public static final int LAYER_PHOTO_SLIDESHOW = 6;
+    public static final int LAYER_ALBUM_SETTING = 7;
 
     public static final int WIDGET_ALBUM_PHOTO = 3;
     public static final int WIDGET_ALBUM_SETTING = 4;
@@ -53,6 +57,8 @@ public class PhotoViewConfig {
         this.put(LAYER_ALBUM_PHOTO, 1);
         this.put(LAYER_FRAME_SETTING, 4);
         this.put(LAYER_FONT_SETTING, 4);
+        this.put(LAYER_ALBUM_SETTING, 4);
+        this.put(LAYER_PHOTO_SLIDESHOW, 0);
         this.put(WIDGET_ALBUM_PHOTO, 0);
         this.put(WIDGET_ALBUM_SETTING, 25);
         this.put(WIDGET_PHOTO_SETTING, 12);
@@ -72,6 +78,8 @@ public class PhotoViewConfig {
         this.put(LAYER_ALBUM_PHOTO, 0.70f);
         this.put(LAYER_FRAME_SETTING, 0.45f);
         this.put(LAYER_FONT_SETTING, 0.45f);
+        this.put(LAYER_ALBUM_SETTING, 0.45f);
+        this.put(LAYER_PHOTO_SLIDESHOW, 0.85f);
         this.put(WIDGET_ALBUM_PHOTO, 0.85f);
         this.put(WIDGET_ALBUM_SETTING, 0.1f);
         this.put(WIDGET_PHOTO_SETTING, 0.21f);
@@ -86,6 +94,8 @@ public class PhotoViewConfig {
         this.put(LAYER_ALBUM_PHOTO, 16);
         this.put(LAYER_FRAME_SETTING, 8);
         this.put(LAYER_FONT_SETTING, 8);
+        this.put(LAYER_ALBUM_SETTING, 8);
+        this.put(LAYER_PHOTO_SLIDESHOW, 16);
         this.put(WIDGET_ALBUM_PHOTO, 16);
         this.put(WIDGET_ALBUM_SETTING, 2);
         this.put(WIDGET_PHOTO_SETTING, 4);
@@ -96,26 +106,53 @@ public class PhotoViewConfig {
         return value != null ? dpToPx(value) : 0;
     }
 
-    private static final Map<Integer, Integer> imageWidths = new HashMap<Integer, Integer>() {{
-        this.put(LAYER_ALBUM_PHOTO, getScreenWidth() - dpToPx(10 * 1));
-        this.put(LAYER_FRAME_SETTING, getScreenWidth() - dpToPx(20 * 2));
-        this.put(LAYER_FONT_SETTING, getScreenWidth() - dpToPx(20 * 2) - dpToPx(40));
-        // this.put(WIDGET_ALBUM_PHOTO, getScreenWidth());
-        this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
-        this.put(WIDGET_ALBUM_SETTING, dpToPx(64));
-        this.put(WIDGET_PHOTO_SETTING, (int) (0.9f * getScreenWidth() / 2));
-    }};
+    private static Map<Integer, Integer> imageWidths;
+//    = new HashMap<Integer, Integer>() {{
+//        this.put(LAYER_ALBUM_PHOTO, getScreenWidth() - dpToPx(10 * 1));
+//        this.put(LAYER_FRAME_SETTING, getScreenWidth() - dpToPx(20 * 2));
+//        this.put(LAYER_FONT_SETTING, getScreenWidth() - dpToPx(20 * 2) - dpToPx(40));
+//        this.put(LAYER_ALBUM_SETTING, getScreenWidth() - dpToPx(20 * 2) - dpToPx(32));
+//        this.put(LAYER_PHOTO_SLIDESHOW, getScreenWidth());
+//        this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
+//        this.put(WIDGET_ALBUM_SETTING, dpToPx(64));
+//        this.put(WIDGET_PHOTO_SETTING, (int) (0.9f * getScreenWidth() / 2));
+//    }};
 
-    private static final Map<Integer, Integer> imageHeights = new HashMap<Integer, Integer>() {{
-        this.put(LAYER_ALBUM_PHOTO, (int) (0.64f * getScreenHeight()));
-        this.put(LAYER_FRAME_SETTING, dpToPx(220));
-        this.put(LAYER_FONT_SETTING, dpToPx(200));
-        this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
-        this.put(WIDGET_ALBUM_SETTING, dpToPx(45));
-        this.put(WIDGET_PHOTO_SETTING, dpToPx(100));
-    }};
+    private static Map<Integer, Integer> imageHeights;
+//    = new HashMap<Integer, Integer>() {{
+//        this.put(LAYER_ALBUM_PHOTO, (int) (0.64f * getScreenHeight()));
+//        this.put(LAYER_FRAME_SETTING, dpToPx(220));
+//        this.put(LAYER_FONT_SETTING, dpToPx(200));
+//        this.put(LAYER_ALBUM_SETTING, dpToPx(200));
+//        this.put(LAYER_PHOTO_SLIDESHOW, getScreenHeight());
+//        this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
+//        this.put(WIDGET_ALBUM_SETTING, dpToPx(45));
+//        this.put(WIDGET_PHOTO_SETTING, dpToPx(100));
+//    }};
 
     public static Rect getImageRect(int layer) {
+        imageWidths = new HashMap<Integer, Integer>() {{
+            this.put(LAYER_ALBUM_PHOTO, getScreenWidth() - dpToPx(10 * 1));
+            this.put(LAYER_FRAME_SETTING, getScreenWidth() - dpToPx(20 * 2));
+            this.put(LAYER_FONT_SETTING, getScreenWidth() - dpToPx(20 * 2) - dpToPx(40));
+            this.put(LAYER_ALBUM_SETTING, getScreenWidth() - dpToPx(20 * 2) - dpToPx(32));
+            this.put(LAYER_PHOTO_SLIDESHOW, getScreenWidth());
+            this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
+            this.put(WIDGET_ALBUM_SETTING, dpToPx(64));
+            this.put(WIDGET_PHOTO_SETTING, (int) (0.9f * getScreenWidth() / 2));
+        }};
+
+        imageHeights = new HashMap<Integer, Integer>() {{
+            this.put(LAYER_ALBUM_PHOTO, (int) (0.64f * getScreenHeight()));
+            this.put(LAYER_FRAME_SETTING, dpToPx(220));
+            this.put(LAYER_FONT_SETTING, dpToPx(200));
+            this.put(LAYER_ALBUM_SETTING, dpToPx(200));
+            this.put(LAYER_PHOTO_SLIDESHOW, getScreenHeight());
+            this.put(WIDGET_ALBUM_PHOTO, (int) (0.66f * getScreenHeight()));
+            this.put(WIDGET_ALBUM_SETTING, dpToPx(45));
+            this.put(WIDGET_PHOTO_SETTING, dpToPx(100));
+        }};
+
         Integer width = imageWidths.get(layer);
         width = width != null ? width : getScreenWidth();
         Integer height = imageHeights.get(layer);
@@ -127,6 +164,7 @@ public class PhotoViewConfig {
         this.put(LAYER_ALBUM_PHOTO, false);
         this.put(LAYER_FRAME_SETTING, false);
         this.put(LAYER_FONT_SETTING, false);
+        this.put(LAYER_PHOTO_SLIDESHOW, false);
         this.put(WIDGET_ALBUM_PHOTO, true);
         this.put(WIDGET_ALBUM_SETTING, true);
         this.put(WIDGET_PHOTO_SETTING, true);

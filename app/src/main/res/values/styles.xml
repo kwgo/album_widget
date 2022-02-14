@@ -1,15 +1,26 @@
 <resources>
 
     <style name="app_theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:colorBackground">@color/window_background</item>
-        <item name="colorPrimary">@color/window_background</item>
-        <item name="colorPrimaryDark">@color/window_background</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorPrimary">@color/background</item>
+        <item name="colorPrimaryDark">@color/background</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="layer_theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="layer_fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/background</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>

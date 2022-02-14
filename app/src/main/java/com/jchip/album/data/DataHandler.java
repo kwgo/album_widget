@@ -44,6 +44,7 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         this.createAlbumTable(db);
         this.createPhotoTable(db);
         this.createWidgetTable(db);
+        this.createSettingTable(db);
     }
 
     // When upgrading the database, it will drop the current table and recreate.
@@ -52,14 +53,13 @@ public abstract class DataHandler extends SQLiteOpenHelper {
 //        this.dropAlbumTable(db);
 //        this.dropPhotoTable(db);
 //        this.dropWidgetTable(db);
+//        this.dropSettingTable(db);
 //        this.onCreate(db);
     }
 
 //    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 //        // throw new SQLiteException("Can't downgrade database from version " + oldVersion + " to " + newVersion);
-//        this.dropAlbumTable(db);
-//        this.dropPhotoTable(db);
-//        this.dropWidgetTable(db);
+//        this.onUpgrade(db, oldVersion, newVersion);
 //        db.setVersion(newVersion);
 //    }
 
@@ -188,6 +188,17 @@ public abstract class DataHandler extends SQLiteOpenHelper {
         this.createTable(db, WidgetData.tableName, contentValues);
     }
 
+    public void createSettingTable(SQLiteDatabase db) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SettingData.fieldSettingId, "INTEGER PRIMARY KEY");
+        contentValues.put(SettingData.fieldSlideSpeed, "INT");
+        contentValues.put(SettingData.fieldBackgroundColor, "INT");
+        contentValues.put(SettingData.fieldNameBackground, "INT");
+        contentValues.put(SettingData.fieldFrameIndex, "INT");
+        contentValues.put(SettingData.fieldAutoRefresh, "INT");
+        this.createTable(db, SettingData.tableName, contentValues);
+    }
+
     protected void dropAlbumTable(SQLiteDatabase db) {
         this.dropTable(db, AlbumData.tableName);
     }
@@ -198,6 +209,10 @@ public abstract class DataHandler extends SQLiteOpenHelper {
 
     protected void dropWidgetTable(SQLiteDatabase db) {
         this.dropTable(db, WidgetData.tableName);
+    }
+
+    protected void dropSettingTable(SQLiteDatabase db) {
+        this.dropTable(db, SettingData.tableName);
     }
 
     protected void dropTable(SQLiteDatabase db, String tableName) {

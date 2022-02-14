@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/album_name_edit"
-        android:title="Edit" />
+        android:title="@string/menu_edit" />
     <item
         android:id="@+id/album_name_delete"
-        android:title="Delete" />
+        android:title="@string/menu_delete" />
+    <item
+        android:id="@+id/album_slideshow"
+        android:title="@string/menu_slideshow" />
+    <item
+        android:id="@+id/album_about"
+        android:title="@string/menu_about" />
 </menu>
