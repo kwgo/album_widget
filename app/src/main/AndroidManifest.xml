@@ -18,6 +18,7 @@
 
         <activity
             android:name=".ActivitySplash"
+            android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,41 +29,48 @@
         <activity
             android:name=".ActivityAlbum"
             android:configChanges="orientation"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/app_theme" />
         <activity
             android:name=".ActivityFrame"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivityFont"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivityAbout"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivitySetting"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
         <activity
             android:name=".ActivitySlideshow"
+            android:exported="true"
             android:screenOrientation="user"
             android:theme="@style/layer_fullscreen" />
-
         <activity
             android:name=".ActivityPhotoPicker"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
-
         <activity
             android:name=".ActivityPhotoPreview"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/layer_theme" />
 
         <activity
             android:name=".ActivityAlbumSetting"
+            android:exported="true"
             android:icon="@drawable/widget_icon"
             android:roundIcon="@drawable/widget_icon"
             android:screenOrientation="portrait"
@@ -73,6 +81,7 @@
         </activity>
         <activity
             android:name=".ActivityPhotoSetting"
+            android:exported="true"
             android:icon="@drawable/widget_icon"
             android:roundIcon="@drawable/widget_icon"
             android:screenOrientation="portrait"
@@ -84,6 +93,7 @@
 
         <receiver
             android:name=".ActivityAlbumSetting$AlbumProvider"
+            android:exported="true"
             android:label="@string/album_title">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -94,6 +104,7 @@
         </receiver>
         <receiver
             android:name=".ActivityPhotoSetting$PhotoProvider"
+            android:exported="true"
             android:label="@string/photo_title">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
