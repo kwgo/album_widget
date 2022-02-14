@@ -36,4 +36,46 @@
     <string name="photo_folder_count">%1$s (%2$d)</string>
     <string name="photo_limit_count">Seleccionar como máximo %d hojas</string>
 
+    <string name="menu_edit">Editar</string>
+    <string name="menu_delete">Eliminar</string>
+    <string name="menu_slideshow">Presentación de diapositivas</string>
+    <string name="menu_about">Acerca de</string>
+
+    <string name="setting_slideshow_period">Período de presentación de diapositivas</string>
+    <string name="setting_background_color">Color de fondo</string>
+    <string name="setting_default_frame">Marco predeterminado</string>
+
+    <string name="widget_prompt_message">Toque o toque dos veces el widget.</string>
+
+    <string-array name="setting_slide_period">
+        <item>Sin diapositiva</item>
+        <item>1 segundo</item>
+        <item>2 segundos</item>
+        <item>3 segundos</item>
+        <item>4 segundos</item>
+        <item>5 segundos</item>
+        <item>10 segundos</item>
+        <item>20 segundos</item>
+        <item>30 segundos</item>
+        <item>40 segundos</item>
+        <item>50 segundos</item>
+        <item>1 minuto</item>
+        <item>2 minutos</item>
+        <item>3 minutos</item>
+        <item>4 minutos</item>
+        <item>5 minutos</item>
+        <item>10 minutos</item>
+        <item>20 minutos</item>
+        <item>30 minutos</item>
+        <item>40 minutos</item>
+        <item>50 minutos</item>
+        <item>1 hora</item>
+        <item>2 horas</item>
+        <item>3 horas</item>
+        <item>4 horas</item>
+        <item>5 horas</item>
+        <item>6 horas</item>
+        <item>12 horas</item>
+        <item>24 horas</item>
+    </string-array>
 </resources>

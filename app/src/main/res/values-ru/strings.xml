@@ -36,4 +36,46 @@
     <string name="photo_folder_count">%1$s (%2$d)</string>
     <string name="photo_limit_count">Выберите не более %d листов</string>
 
+    <string name="menu_edit">Изменить</string>
+    <string name="menu_delete">Удалить</string>
+    <string name="menu_slideshow">Слайд-шоу</string>
+    <string name="menu_about">О</string>
+
+    <string name="setting_slideshow_period">Период показа слайдов</string>
+    <string name="setting_background_color">Цвет фона</string>
+    <string name="setting_default_frame">Фрейм по умолчанию</string>
+
+    <string name="widget_prompt_message">Нажмите или дважды нажмите на виджет.</string>
+
+    <string-array name="setting_slide_period">
+        <item>Нет слайда</item>
+        <item>1 секунда</item>
+        <item>2 секунды</item>
+        <item>3 секунды</item>
+        <item>4 секунды</item>
+        <item>5 секунд</item>
+        <item>10 секунд</item>
+        <item>20 секунд</item>
+        <item>30 секунд</item>
+        <item>40 секунд</item>
+        <item>50 секунд</item>
+        <item>1 минута</item>
+        <item>2 минуты</item>
+        <item>3 минуты</item>
+        <item>4 минуты</item>
+        <item>5 минут</item>
+        <item>10 минут</item>
+        <item>20 минут</item>
+        <item>30 минут</item>
+        <item>40 минут</item>
+        <item>50 минут</item>
+        <item>1 час</item>
+        <item>2 часа</item>
+        <item>3 часа</item>
+        <item>4 часа</item>
+        <item>5 часов</item>
+        <item>6 часов</item>
+        <item>12 часов</item>
+        <item>24 часа</item>
+    </string-array>
 </resources>

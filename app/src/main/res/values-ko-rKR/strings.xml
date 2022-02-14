@@ -36,4 +36,46 @@
     <string name="photo_folder_count">%1$s (%2$d)</string>
     <string name="photo_limit_count">최대 %d개 시트 선택</string>
 
+    <string name="menu_edit">수정</string>
+    <string name="menu_delete">삭제</string>
+    <string name="menu_slideshow">슬라이드쇼</string>
+    <string name="menu_about">정보</string>
+
+    <string name="setting_slideshow_period">슬라이드쇼 기간</string>
+    <string name="setting_background_color">배경색</string>
+    <string name="setting_default_frame">기본 프레임</string>
+
+    <string name="widget_prompt_message">위젯을 탭하거나 두 번 탭하세요.</string>
+
+    <string-array name="setting_slide_period">
+        <item>슬라이드 없음</item>
+        <item>1 초</item>
+        <item>2 초</item>
+        <item>3 초</item>
+        <item>4 초</item>
+        <item>5 초</item>
+        <item>10 초</item>
+        <item>20 초</item>
+        <item>30 초</item>
+        <item>40 초</item>
+        <item>50 초</item>
+        <item>1 분</item>
+        <item>2 분</item>
+        <item>3 분</item>
+        <item>4 분</item>
+        <item>5 분</item>
+        <item>10 분</item>
+        <item>20 분</item>
+        <item>30 분</item>
+        <item>40 분</item>
+        <item>50 분</item>
+        <item>1 시간</item>
+        <item>2 시간</item>
+        <item>3 시간</item>
+        <item>4 시간</item>
+        <item>5 시간</item>
+        <item>6 시간</item>
+        <item>12 시간</item>
+        <item>24 시간</item>
+    </string-array>
 </resources>

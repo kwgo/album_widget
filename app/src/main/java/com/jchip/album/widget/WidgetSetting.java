@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.jchip.album.ActivityAlbum;
+import com.jchip.album.R;
 import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.DataHelper;
 import com.jchip.album.data.WidgetData;
-import com.jchip.album.layer.ListLayer;
 import com.jchip.album.layer.RecyclerLayer;
 
 public abstract class WidgetSetting extends RecyclerLayer {
@@ -78,6 +78,8 @@ public abstract class WidgetSetting extends RecyclerLayer {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, this.appWidgetId);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{this.appWidgetId});
         this.sendBroadcast(intent);
+
+        AlbumHelper.toast(this, R.string.widget_prompt_message);
     }
 
     protected void saveWidget(WidgetData widgetData) {

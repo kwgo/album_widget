@@ -68,11 +68,14 @@ public class AlbumHelper {
 
     public static void toast(Context context, int textId) {
         Toast toast = Toast.makeText(context, textId, Toast.LENGTH_LONG);
-        // toast.setGravity(Gravity.CENTER, 0, 0);
-        ViewGroup group = (ViewGroup) toast.getView();
-        TextView messageTextView = (TextView) group.getChildAt(0);
-        messageTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-        messageTextView.setTextSize(14);
+        try {
+            ViewGroup group = (ViewGroup) toast.getView();
+            TextView messageTextView = (TextView) group.getChildAt(0);
+            messageTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+            messageTextView.setTextSize(14);
+            // toast.setGravity(Gravity.CENTER, 0, 0);
+        } catch (Exception ignore) {
+        }
         toast.show();
     }
 

@@ -36,4 +36,46 @@
     <string name="photo_folder_count">%1$s (%2$d)</string>
     <string name="photo_limit_count">最大%d枚のシートを選択</string>
 
+    <string name="menu_edit">編集</string>
+    <string name="menu_delete">削除</string>
+    <string name="menu_slideshow">スライドショー</string>
+    <string name="menu_about">概要</string>
+
+    <string name="setting_slideshow_period">スライドショー期間</string>
+    <string name="setting_background_color">背景色</string>
+    <string name="setting_default_frame">デフォルトのフレーム</string>
+
+    <string name="widget_prompt_message">ウィジェットをタップまたはダブルタップしてください。</string>
+
+    <string-array name="setting_slide_period">
+        <item>スライドなし</item>
+        <item>1 秒</item>
+        <item>2 秒</item>
+        <item>3 秒</item>
+        <item>4 秒</item>
+        <item>5 秒</item>
+        <item>10 秒</item>
+        <item>20 秒</item>
+        <item>30 秒</item>
+        <item>40 秒</item>
+        <item>50 秒</item>
+        <item>1 分</item>
+        <item>2 分</item>
+        <item>3 分</item>
+        <item>4 分</item>
+        <item>5 分</item>
+        <item>10 分</item>
+        <item>20 分</item>
+        <item>30 分</item>
+        <item>40 分</item>
+        <item>50 分</item>
+        <item>1 時間</item>
+        <item>2 時間</item>
+        <item>3 時間</item>
+        <item>4 時間</item>
+        <item>5 時間</item>
+        <item>6 時間</item>
+        <item>12 時間</item>
+        <item>24 時間</item>
+    </string-array>
 </resources>

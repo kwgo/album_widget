@@ -36,4 +36,46 @@
     <string name="photo_folder_count">%1$s (%2$d)</string>
     <string name="photo_limit_count">最多选择%d张</string>
 
+    <string name="menu_edit">编辑</string>
+    <string name="menu_delete">删除</string>
+    <string name="menu_slideshow">播放照片</string>
+    <string name="menu_about">关于</string>
+
+    <string name="setting_slideshow_period">单一照片播放时间</string>
+    <string name="setting_background_color">背景颜色</string>
+    <string name="setting_default_frame">默认相框</string>
+
+    <string name="widget_prompt_message">请点击或双击小部件。</string>
+
+    <string-array name="setting_slide_period">
+        <item>不播放</item>
+        <item>1 秒</item>
+        <item>2 秒</item>
+        <item>3 秒</item>
+        <item>4 秒</item>
+        <item>5 秒</item>
+        <item>10 秒</item>
+        <item>20 秒</item>
+        <item>30 秒</item>
+        <item>40 秒</item>
+        <item>50 秒</item>
+        <item>1 分钟</item>
+        <item>2 分钟</item>
+        <item>3 分钟</item>
+        <item>4 分钟</item>
+        <item>5 分钟</item>
+        <item>10 分钟</item>
+        <item>20 分钟</item>
+        <item>30 分钟</item>
+        <item>40 分钟</item>
+        <item>50 分钟</item>
+        <item>1 小时</item>
+        <item>2 小时</item>
+        <item>3 小时</item>
+        <item>4 小时</item>
+        <item>5 小时</item>
+        <item>6 小时</item>
+        <item>12 小时</item>
+        <item>24 小时</item>
+    </string-array>
 </resources>
