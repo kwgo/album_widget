@@ -41,7 +41,7 @@ public class AlbumLayer extends PhotoLayer {
             this.settingData.setFrameIndex(PhotoViewConfig.DEFAULT_FRAME_ID);
             this.saveSetting();
         } else {
-            this.getView(R.id.album_setting_view).setBackgroundColor(this.settingData.getBackgroundColor());
+            this.getView(R.id.album_photo_view).setBackgroundColor(this.settingData.getBackgroundColor());
         }
 
         this.setAlbumPhotos(new AlbumView(this, new AlbumData(), this.layer));
@@ -139,5 +139,4 @@ public class AlbumLayer extends PhotoLayer {
     private void onAlbumAbout() {
         this.startActivity(ActivityAbout.class);
     }
-
 }

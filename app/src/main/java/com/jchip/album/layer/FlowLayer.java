@@ -1,8 +1,11 @@
 package com.jchip.album.layer;
 
 import android.content.Intent;
+import android.graphics.Rect;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
-import com.jchip.album.ActivityAbout;
 import com.jchip.album.ActivityFont;
 import com.jchip.album.ActivityFrame;
 import com.jchip.album.ActivitySetting;
@@ -11,7 +14,7 @@ import com.jchip.album.data.PhotoData;
 import com.jchip.album.data.SettingData;
 import com.jchip.album.view.PhotoView;
 
-public abstract class FlowLayer extends DataLayer {
+public abstract class FlowLayer extends OrientationLayer {
 
     @Override
     public void initContentView() {
@@ -66,5 +69,37 @@ public abstract class FlowLayer extends DataLayer {
                 this.setPhotoView(this.getView(R.id.photo_view));
             }
         }
+    }
+
+    @Override
+    protected void onOrientationChanged(int orientation) {
+        long angle = orientation * -90L;
+
+        View view = this.getView(R.id.photo_view);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+        view.setRotation(angle);
+        if (orientation == 0 || orientation == 2) {
+            layoutParams.width = ((ViewGroup) view.getParent()).getWidth();
+            layoutParams.height = ((ViewGroup) view.getParent()).getHeight();
+        } else {
+            layoutParams.width = ((ViewGroup) view.getParent()).getHeight();
+            layoutParams.height = ((ViewGroup) view.getParent()).getWidth();
+        }
+        view.setLayoutParams(layoutParams);
+
+        this.photo.setFrameRect(new Rect(0, 0, layoutParams.width, layoutParams.height));
+        this.setPhotoView(view);
+
+        this.getView(R.id.photo_left).setRotation(angle);
+        this.getView(R.id.photo_right).setRotation(angle);
+        this.getView(R.id.photo_delete).setRotation(angle);
+        this.getView(R.id.photo_flip).setRotation(angle);
+        this.getView(R.id.photo_rotation).setRotation(angle);
+        this.getView(R.id.photo_scale).setRotation(angle);
+
+        this.getView(R.id.font_setting).setRotation(angle);
+        this.getView(R.id.frame_select).setRotation(angle);
+        this.getView(R.id.photo_add).setRotation(angle);
+        this.getView(R.id.album_setting).setRotation(angle);
     }
 }

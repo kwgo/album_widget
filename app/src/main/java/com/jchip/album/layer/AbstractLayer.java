@@ -54,16 +54,18 @@ public abstract class AbstractLayer extends AppCompatActivity {
         this.album = new AlbumView(this, this.layer);
         this.photo = new PhotoView(this, this.layer);
 
-        this.activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        if (activityCallBack != null) {
-                            activityCallBack.call(result.getData());
-                            activityCallBack = null;
+        if (this.activityResultLauncher == null) {
+            this.activityResultLauncher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(), result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            if (activityCallBack != null) {
+                                activityCallBack.call(result.getData());
+                                activityCallBack = null;
+                            }
                         }
                     }
-                }
-        );
+            );
+        }
 
         this.initContentView();
     }
@@ -73,6 +75,9 @@ public abstract class AbstractLayer extends AppCompatActivity {
     }
 
     protected void postContentView() {
+    }
+
+    protected void onOrientationChanged(int orientation) {
     }
 
     public void startActivity(Class<?> clazz) {
