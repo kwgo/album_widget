@@ -23,7 +23,7 @@ public class SlideshowLayer extends DataLayer {
 
     private static int photoIndex = 0;
     private boolean isAlbum = true;
-    private CountDownTimer albumTimer;
+    private CountDownTimer slideTimer;
     private int slideSpeed = PhotoViewConfig.DEFAULT_SLIDESHOW_SPEED;
 
     @Override
@@ -74,12 +74,12 @@ public class SlideshowLayer extends DataLayer {
             if (this.settingData.isSaved()) {
                 this.slideSpeed = this.settingData.getSlideSpeed();
             }
-            if (this.albumTimer != null) {
-                this.albumTimer.cancel();
+            if (this.slideTimer != null) {
+                this.slideTimer.cancel();
             }
             if (this.slideSpeed > 0) {
-                int slidePeriod = slidePeriods[this.slideSpeed];
-                this.albumTimer = new CountDownTimer(slidePeriod * 1000L, 1000) {
+                long slidePeriod = slidePeriods[this.slideSpeed] * 1000L;
+                this.slideTimer = new CountDownTimer(slidePeriod, slidePeriod) {
                     public void onTick(long millisUntilFinished) {
                     }
 
@@ -129,8 +129,8 @@ public class SlideshowLayer extends DataLayer {
 
     @Override
     protected void onDestroy() {
-        if (this.albumTimer != null) {
-            this.albumTimer.cancel();
+        if (this.slideTimer != null) {
+            this.slideTimer.cancel();
         }
         super.onDestroy();
     }

@@ -1,15 +1,28 @@
 package com.jchip.album.layer;
 
 import android.graphics.Rect;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 
 public abstract class OrientationLayer extends AbstractLayer {
+    private static final int ROTATION_DELAY = 500;
+
     protected int orientation = 0;
+    private CountDownTimer rotationTimer;
     private OrientationEventListener orientationEventListener;
 
     public void enableOrientation() {
+        this.rotationTimer = new CountDownTimer(ROTATION_DELAY, ROTATION_DELAY) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                onOrientationChanged(orientation);
+            }
+        };
+
         this.orientationEventListener = new OrientationEventListener(this) {
             @Override
             public void onOrientationChanged(int rotation) {
@@ -24,13 +37,18 @@ public abstract class OrientationLayer extends AbstractLayer {
                     orientation = Surface.ROTATION_270;
                 }
                 if (orientation != OrientationLayer.this.orientation) {
+                    // if (!isRotationLocked()) {
                     OrientationLayer.this.orientation = orientation;
-                    if (!isRotationLocked()) {
-                        OrientationLayer.this.onOrientationChanged(orientation);
+                    if (rotationTimer != null) {
+                        rotationTimer.cancel();
+                        rotationTimer.start();
                     }
+                    //OrientationLayer.this.onOrientationChanged(orientation);
+                    // }
                 }
             }
         };
+
     }
 
     @Override
@@ -64,5 +82,13 @@ public abstract class OrientationLayer extends AbstractLayer {
         if (this.orientationEventListener != null) {
             this.orientationEventListener.disable();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (this.rotationTimer != null) {
+            this.rotationTimer.cancel();
+        }
+        super.onDestroy();
     }
 }
