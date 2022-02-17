@@ -1,17 +1,15 @@
 package com.jchip.album.layer;
 
 import android.graphics.Rect;
+import android.provider.Settings;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 
-public abstract class OrientationLayer extends DataLayer {
+public abstract class OrientationLayer extends AbstractLayer {
     protected int orientation = 0;
     private OrientationEventListener orientationEventListener;
 
-    @Override
-    public void initContentView() {
-        super.initContentView();
-
+    public void enableOrientation() {
         this.orientationEventListener = new OrientationEventListener(this) {
             @Override
             public void onOrientationChanged(int rotation) {
@@ -27,7 +25,9 @@ public abstract class OrientationLayer extends DataLayer {
                 }
                 if (orientation != OrientationLayer.this.orientation) {
                     OrientationLayer.this.orientation = orientation;
-                    OrientationLayer.this.onOrientationChanged(orientation);
+                    if (!isRotationLocked()) {
+                        OrientationLayer.this.onOrientationChanged(orientation);
+                    }
                 }
             }
         };
@@ -42,15 +42,27 @@ public abstract class OrientationLayer extends DataLayer {
         return rect;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        this.orientationEventListener.enable();
+    protected boolean isRotationLocked() {
+        try {
+            return Settings.System.getInt(getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0) != 1;
+        } catch (Exception ignore) {
+            return false;
+        }
     }
 
     @Override
-    protected void onStop() {
-        this.orientationEventListener.disable();
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
+        if (this.orientationEventListener != null) {
+            this.orientationEventListener.enable();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (this.orientationEventListener != null) {
+            this.orientationEventListener.disable();
+        }
     }
 }

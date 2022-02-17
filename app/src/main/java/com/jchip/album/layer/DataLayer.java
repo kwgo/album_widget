@@ -10,7 +10,7 @@ import com.jchip.album.view.PhotoView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataLayer extends AbstractLayer {
+public class DataLayer extends OrientationLayer {
 
     protected List<AlbumView> queryAlbums() {
         List<AlbumView> albumViews = new ArrayList<>();

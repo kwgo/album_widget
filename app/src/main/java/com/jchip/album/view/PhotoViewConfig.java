@@ -58,7 +58,7 @@ public class PhotoViewConfig {
         this.put(LAYER_FRAME_SETTING, 4);
         this.put(LAYER_FONT_SETTING, 4);
         this.put(LAYER_ALBUM_SETTING, 4);
-        this.put(LAYER_PHOTO_SLIDESHOW, 0);
+        this.put(LAYER_PHOTO_SLIDESHOW, 1);
         this.put(WIDGET_ALBUM_PHOTO, 0);
         this.put(WIDGET_ALBUM_SETTING, 25);
         this.put(WIDGET_PHOTO_SETTING, 12);

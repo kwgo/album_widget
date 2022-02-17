@@ -101,6 +101,12 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/font_panel_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
             <EditText
                 android:id="@+id/photo_text"
                 android:layout_width="match_parent"
@@ -118,11 +124,6 @@
                 android:paddingEnd="10dp"
                 android:textColor="#F8FFFFFF"
                 android:textColorHint="#60FFFFFF" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
                 <SeekBar
                     android:id="@+id/font_color_r"

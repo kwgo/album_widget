@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
@@ -55,6 +56,24 @@ public class PhotoViewHelper {
             ((LinearLayout) view.findViewById(labelContainerId)).setGravity(photoView.getFontLocation());
         }
         view.findViewById(labelId).setVisibility(bitmap == null ? View.GONE : View.VISIBLE);
+    }
+
+    public static void rotatePhotoView(PhotoView photoView, View view, int orientation) {
+        long angle = orientation * -90L;
+
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        view.setRotation(angle);
+        if (orientation == 0 || orientation == 2) {
+            layoutParams.width = ((ViewGroup) view.getParent()).getWidth();
+            layoutParams.height = ((ViewGroup) view.getParent()).getHeight();
+        } else {
+            layoutParams.width = ((ViewGroup) view.getParent()).getHeight();
+            layoutParams.height = ((ViewGroup) view.getParent()).getWidth();
+        }
+        view.setLayoutParams(layoutParams);
+
+        photoView.setFrameRect(new Rect(0, 0, layoutParams.width, layoutParams.height));
+        setPhotoView(photoView, view);
     }
 
     // for widget

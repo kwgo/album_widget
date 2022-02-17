@@ -12,10 +12,11 @@ import com.jchip.album.common.AlbumHelper;
 import com.jchip.album.data.PhotoData;
 import com.jchip.album.view.PhotoView;
 import com.jchip.album.view.PhotoViewConfig;
+import com.jchip.album.view.PhotoViewHelper;
 
 import java.util.List;
 
-public class FontLayer extends AbstractLayer {
+public class FontLayer extends OrientationLayer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class FontLayer extends AbstractLayer {
     public void initContentView() {
         Intent intent = this.getIntent();
         this.setResult(RESULT_OK, intent);
+
+        this.enableOrientation();
 
         PhotoData photoData = (PhotoData) intent.getSerializableExtra(PhotoData.tableName);
         this.photo = new PhotoView(this, photoData, this.layer);
@@ -130,7 +133,13 @@ public class FontLayer extends AbstractLayer {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    protected void onOrientationChanged(int orientation) {
+        long angle = orientation * -90L;
+        this.getView(R.id.font_type).setRotation(angle);
+        this.getView(R.id.font_location).setRotation(angle);
+        this.getView(R.id.font_size_plus).setRotation(angle);
+        this.getView(R.id.font_size_minus).setRotation(angle);
+
+        PhotoViewHelper.rotatePhotoView(this.photo, this.getView(R.id.photo_view), orientation);
     }
 }

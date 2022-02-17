@@ -28,7 +28,6 @@
 
         <activity
             android:name=".ActivityAlbum"
-            android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/app_theme" />
@@ -55,7 +54,7 @@
         <activity
             android:name=".ActivitySlideshow"
             android:exported="true"
-            android:screenOrientation="user"
+            android:screenOrientation="sensor"
             android:theme="@style/layer_fullscreen" />
         <activity
             android:name=".ActivityPhotoPicker"

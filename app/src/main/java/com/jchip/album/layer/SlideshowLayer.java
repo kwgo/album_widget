@@ -21,7 +21,7 @@ public class SlideshowLayer extends DataLayer {
             1 * 360, 2 * 360, 3 * 360, 4 * 360, 5 * 360, 6 * 360, 12 * 360, 24 * 360
     };
 
-    private int photoIndex = 0;
+    private static int photoIndex = 0;
     private boolean isAlbum = true;
     private CountDownTimer albumTimer;
     private int slideSpeed = PhotoViewConfig.DEFAULT_SLIDESHOW_SPEED;
@@ -44,6 +44,7 @@ public class SlideshowLayer extends DataLayer {
                 albumData.setAlbumId(widgetData.getAlbumId());
                 this.album = new AlbumView(this, albumData, this.layer);
                 this.album.setPhotoViews(this.queryPhotos());
+                this.photoIndex = this.album.getPhotoSize() > 0 ? this.photoIndex % this.album.getPhotoSize() : 0;
                 this.photo = this.album.getPhotoView(this.photoIndex);
             } else {
                 AlbumData albumData = new AlbumData();
@@ -56,6 +57,7 @@ public class SlideshowLayer extends DataLayer {
             AlbumData albumData = (AlbumData) intent.getSerializableExtra(AlbumData.tableName);
             this.album = new AlbumView(this, albumData, this.layer);
             this.album.setPhotoViews(this.queryPhotos());
+            this.photoIndex = this.album.getPhotoSize() > 0 ? this.photoIndex % this.album.getPhotoSize() : 0;
             this.photo = this.album.getPhotoView(this.photoIndex);
         }
 
@@ -114,14 +116,14 @@ public class SlideshowLayer extends DataLayer {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         this.setKeepScreenOn(true);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         this.setKeepScreenOn(false);
     }
 
