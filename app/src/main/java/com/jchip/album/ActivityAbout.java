@@ -24,7 +24,7 @@ public class ActivityAbout extends AbstractLayer {
         super.initContentView();
 
         Uri storeUri = Uri.parse("market://search?q=pub:JChip+Games");
-        Uri gameUri = Uri.parse("market://details?id=com.jchip.boxman");
+        Uri gameUri = Uri.parse("market://details?id=com.jchip.sokomon");
         TextView textView = this.getTextView(R.id.store_link);
         textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         textView.setOnClickListener((e) -> this.startActivity(new Intent(Intent.ACTION_VIEW, storeUri)));
