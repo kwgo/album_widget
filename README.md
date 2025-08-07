@@ -1,2 +1,2 @@
 # album_widget
-Photo Album Widget
+Photo Album Widget App on Android
